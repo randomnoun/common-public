@@ -1,0 +1,43 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.randomnoun</groupId>
+  <artifactId>common-public</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>jar</packaging>
+  <name>randomnoun common classes</name>
+  <description>reusable code for public use</description>
+  <url>http://code.randomnoun.com</url>
+  <inceptionYear>2013</inceptionYear>
+  <organization>
+    <name>randomnoun</name>
+    <url>http://www.randomnoun.com</url>
+  </organization>
+  <licenses>
+    <license>
+      <name>Creative Commons Attribution 3.0 Unported License</name>
+      <url>http://creativecommons.org/licenses/by/3.0/</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+  <scm>
+    <url>http://cvs.randomnoun.com/viewcvs.cgi/maven</url>
+    <connection>cvs:something:somethingelse</connection>
+  </scm>
+  <developers>
+    <developer>
+      <id>knoxg</id>
+      <name>Greg Knox</name>
+      <email>knoxg@randomnoun.com</email>
+      <timezone>Australia/Brisbane</timezone>
+    </developer>
+  </developers>
+  <dependencies>
+  <!-- 
+    <dependency>
+      <groupId>...</groupId>
+      <artifactId>...</artifactId>
+      <version>...</version>
+    </dependency>
+   -->  
+  </dependencies>
+</project>
