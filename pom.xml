@@ -20,8 +20,9 @@
     </license>
   </licenses>
   <scm>
-    <url>http://cvs.randomnoun.com/viewcvs.cgi/maven</url>
-    <connection>cvs:something:somethingelse</connection>
+	<url>scm:cvs:pserver:vmaint:vmaint@cvs.dev.randomnoun:/randomnoun:common-public</url>
+	<connection>scm:cvs:pserver:vmaint:vmaint@cvs.dev.randomnoun:/randomnoun:common-public</connection>
+	<developerConnection>scm:cvs:pserver:vmaint:vmaint@cvs.dev.randomnoun:/randomnoun:common-public</developerConnection>
   </scm>
   <developers>
     <developer>
@@ -32,7 +33,7 @@
     </developer>
   </developers>
   <dependencies>
-  <dependency>
+      <dependency>
         <groupId>junit</groupId>
         <artifactId>junit</artifactId>
         <version>3.8.1</version>
@@ -109,6 +110,19 @@
         <artifactId>platform</artifactId>
         <version>3.5.1</version>
       </dependency>
-
   </dependencies>
+  
+  <distributionManagement>
+        <repository>
+            <id>releases</id>
+            <name>randomnoun releases</name>
+            <url>http://nexus.dev.randomnoun:8082/nexus/content/repositories/releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>snapshots</id>
+            <name>randomnoun snapshots</name>
+            <url>http://nexus.dev.randomnoun:8082/nexus/content/repositories/snapshots/</url>
+            <uniqueVersion>false</uniqueVersion>
+        </snapshotRepository>
+    </distributionManagement>
 </project>
