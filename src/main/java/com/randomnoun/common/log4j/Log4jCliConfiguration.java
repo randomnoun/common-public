@@ -33,7 +33,7 @@ log4j.logger.org.springframework=INFO
  * 
  * <p>TODO: Support XML-based configurators
  * 
- * @blog
+ * @blog http://www.randomnoun.com/wp/2013/01/13/logging/
  * @author knoxg
  * @version $Id$
  */

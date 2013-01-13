@@ -33,7 +33,7 @@ import com.randomnoun.common.log4j.Log4jCliConfiguration;
  * <P>Source control statistics are retrieved from Jan 2012 until Sep 2012
  * 
  * @author knoxg
- * @blog http://www.randomnoun.com/wp/?p=5
+ * @blog http://www.randomnoun.com/wp/2012/09/23/sourceforge-omphaloskepsis/
  * @version $Id$
  *
  */

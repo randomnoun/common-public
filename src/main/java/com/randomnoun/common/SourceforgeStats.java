@@ -63,7 +63,7 @@ ENGINE = InnoDB;
  *   <code>DELETE FROM `stats`.`daily` WHERE date_format(`date`, '%H:%i') <> '00:00'</code>
  * 
  * @author knoxg
- * @blog http://www.randomnoun.com/wp/?p=5
+ * @blog http://www.randomnoun.com/wp/2012/09/23/sourceforge-omphaloskepsis/
  * @version $Id$
  * */
 public class SourceforgeStats {

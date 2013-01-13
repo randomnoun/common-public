@@ -17,7 +17,7 @@ import junit.framework.TestCase;
 /**
  * Unit test for Log4jCliConfigurationTest
  *
- * @blog
+ * @blog http://www.randomnoun.com/wp/2013/01/13/logging/
  * @version $Id$
  * @author knoxg
  */

@@ -40,7 +40,7 @@ import org.apache.log4j.spi.LoggingEvent;
  * List events = memoryAppender.getEvents();
  * </pre>
  *
- * @blog
+ * @blog http://www.randomnoun.com/wp/2013/01/13/logging/
  * @version $Id$
  * @author knoxg
  */
