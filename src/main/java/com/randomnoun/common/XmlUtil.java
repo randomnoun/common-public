@@ -47,13 +47,13 @@ public class XmlUtil {
     public static final String _revision = "$Id$";
 
 
-	/** Clean a HTML through the tagsoup filter. The returned string is guaranteed to be 
+	/** Clean some HTML text through the tagsoup filter. The returned string is guaranteed to be 
 	 * well-formed XML (and can therefore be used by other tools that expect valid XML). 
 	 * 
 	 * @param inputXml input XML document
 	 * @param isHtml if true, uses the HTML schema, omits the XML declaration, and uses the html method
 	 * 
-	 * @throws SAXException if the tagsoup library could not parsed the input string
+	 * @throws SAXException if the tagsoup library could not parse the input string
 	 * @throws IllegalStateException if an error occurred reading from a string (should never occur)
 	 */ 
 	public static String getCleanXml(String inputXml, boolean isHtml) throws SAXException {
