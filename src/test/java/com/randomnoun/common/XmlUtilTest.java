@@ -164,16 +164,16 @@ public class XmlUtilTest extends TestCase {
 
 	public void testCompact() throws ParserConfigurationException, SAXException, TransformerException {
 		String input =
-			"<body>\r\n" +
-		    "  <el>  This is an element\r\n" +
-			"    <el2> This is another one</el2>\r\n" +
-		    "    <el3>and another <!-- with some comments --></el3>\r\n" +
-			"  </el>\r\n" +
+			"<body>\n" +
+		    "  <el>  This is an element\n" +
+			"    <el2> This is another one</el2>\n" +
+		    "    <el3>and another <!-- with some comments --></el3>\n" +
+			"  </el>\n" +
 		    "</body>";
 		Document d = XmlUtil.toDocument(input);
 		NodeList nodes = d.getDocumentElement().getChildNodes();
 		String output = XmlUtil.getXmlString(d.getDocumentElement(), true);
-		assertEquals(input, output); 
+		assertEquals(input.replaceAll("\n", System.getProperty("line.separator")), output); 
 		XmlUtil.compact(nodes);
 		output = XmlUtil.getXmlString(d.getDocumentElement(), true);
 		assertEquals("<body><el>This is an element<el2>This is another one</el2>" +
