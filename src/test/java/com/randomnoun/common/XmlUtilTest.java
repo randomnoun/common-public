@@ -38,8 +38,13 @@ public class XmlUtilTest extends TestCase {
 
 	private String getResourceAsString(String name) throws IOException {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		InputStream is = XmlUtilTest.class.getResourceAsStream(name);
-		if (is==null) { throw new IllegalStateException("Missing resource"); }
+		InputStream is = XmlUtilTest.class.getResourceAsStream("./" + name);
+		if (is==null) { 
+			is = XmlUtilTest.class.getResourceAsStream(name);
+			if (is==null) {
+				throw new IllegalStateException("Missing resource"); 
+			}
+		}
 		int ch = is.read(); while (ch!=-1) { baos.write(ch); ch=is.read(); }
 		is.close();
 		return baos.toString();
@@ -155,6 +160,7 @@ public class XmlUtilTest extends TestCase {
 		assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + input, output);
 		
 	}
+	
 
 	public void testCompact() throws ParserConfigurationException, SAXException, TransformerException {
 		String input =
