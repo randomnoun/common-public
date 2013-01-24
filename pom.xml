@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.randomnoun</groupId>
   <artifactId>common-public</artifactId>
-  <version>0.0.3</version>
+  <version>0.0.4-SNAPSHOT</version>
   <packaging>jar</packaging>
   <name>randomnoun common classes</name>
   <description>reusable code for public use</description>
@@ -23,7 +23,6 @@
 	<url>scm:cvs:pserver:vmaint:vmaint@cvs.dev.randomnoun:/randomnoun:common-public</url>
 	<connection>scm:cvs:pserver:vmaint:vmaint@cvs.dev.randomnoun:/randomnoun:common-public</connection>
 	<developerConnection>scm:cvs:pserver:vmaint:vmaint@cvs.dev.randomnoun:/randomnoun:common-public</developerConnection>
-    <tag>common-public-0_0_3</tag>
   </scm>
   <developers>
     <developer>
