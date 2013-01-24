@@ -33,16 +33,15 @@ import org.w3c.dom.Element;
 import org.xml.sax.*;
 
 import org.apache.log4j.Logger;
-import org.apache.xml.serialize.OutputFormat;
-import org.apache.xml.serialize.XMLSerializer;
 
 /** XML utility functions
  *
- * @blog eventually
  * @author knoxg
+ * @blog http://www.randomnoun.com/wp/2013/01/24/exciting-things-with-xml/
  * @version $Id$
  */
 public class XmlUtil {
+	
     /** A revision marker to be used in exception stack traces. */
     public static final String _revision = "$Id$";
 
@@ -114,7 +113,12 @@ public class XmlUtil {
 	 * Iterates through the child nodes of the specified element, and returns the contents
 	 * of all Text and CDATA elements among those nodes, concatenated into a string. 
 	 * Any elements with tagNames that are included in the tagNames parameter of this
-	 * method are also included. Attributes of these tags are also returned.
+	 * method are also included. 
+	 * 
+	 * <p>Attributes of these tags are also included in the result, but may be reordered.
+	 * 
+	 * <p>Self-closing elements (e.g. <code>&lt;br/&gt;</code>)
+	 * are expanded into opening and closing elements (e.g. <code>&lt;br&gt;&lt;/br&gt;</code>)
 	 *
 	 * <p>Elements are recursed into.
 	 *
@@ -123,7 +127,7 @@ public class XmlUtil {
 	 */
 	public static String getTextPreserveElements(Element element, String[] tagNames) {
 		if (element == null) { throw new NullPointerException("null element"); }
-		Set tagNamesSet = new HashSet(Arrays.asList(tagNames));
+		Set<String> tagNamesSet = new HashSet<String>(Arrays.asList(tagNames));
 		StringBuffer buf = new StringBuffer();
 		NodeList children = element.getChildNodes();
 		for (int i = 0; i < children.getLength(); ++i) {
@@ -193,51 +197,18 @@ public class XmlUtil {
 	 * @param text the string representation of the XML to parse 
 	 */
 	public static Document toDocument(String text) throws SAXException {
-		try {
-			DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
-			DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
-			Document doc = docBuilder.parse(new ByteArrayInputStream(text.getBytes()));
-			doc.getDocumentElement().normalize(); // Collapses adjacent text nodes into one node.
-			return doc;
-		} catch (ParserConfigurationException pce) {
-			// this can never happen 
-			throw (IllegalStateException) new IllegalStateException("Error creating DOM parser").initCause(pce);
-		} catch (IOException ioe) {
-			// this can also never happen
-			throw (IllegalStateException) new IllegalStateException("Error retrieving information").initCause(ioe);
-		} 
-	}	
+		return toDocument(new ByteArrayInputStream(text.getBytes()));
+	}
 	
 	/** Return a DOM document object from an InputStream
 	 * 
-	 * @param inputStream an inputStream containing the XML to parse 
-	 * @param validating specifies that the parser used to parse this XML will validate 
-	 *   the document
+	 * @param is the InputStream containing the XML to parse 
 	 */
-	public static Document toDocument(InputStream inputStream, boolean validating, boolean namespaceAware) throws SAXException {
+	public static Document toDocument(InputStream is) throws SAXException {
 		try {
 			DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
-			// this needs to be a org.apache.xerces.jaxp.DocumentBuilderFactoryImpl; should probably assert this
-			// see http://xerces.apache.org/xerces-j/features.html
-			
-			// this is called setFeature(String, boolean) in the JDK1.5 docs...
-			docBuilderFactory.setValidating(validating);
-			
-			// turn off external DTD/schema resolution
-			docBuilderFactory.setAttribute("http://apache.org/xml/features/validation/schema", Boolean.valueOf(validating));
-			docBuilderFactory.setAttribute("http://xml.org/sax/features/external-general-entities", Boolean.FALSE);
-			docBuilderFactory.setAttribute("http://xml.org/sax/features/external-parameter-entities", Boolean.FALSE);
-			docBuilderFactory.setAttribute("http://xml.org/sax/features/validation", Boolean.FALSE);
-			docBuilderFactory.setAttribute("http://apache.org/xml/features/nonvalidating/load-dtd-grammar", Boolean.FALSE);
-			docBuilderFactory.setAttribute("http://apache.org/xml/features/nonvalidating/load-external-dtd", Boolean.FALSE);
-			
-			// required for earlier attributes to take effect. crikey.
-			docBuilderFactory.setAttribute("http://apache.org/xml/features/validation/dynamic", Boolean.FALSE); 
-
-			docBuilderFactory.setAttribute("http://xml.org/sax/features/namespaces", Boolean.valueOf(namespaceAware));
-
 			DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
-			Document doc = docBuilder.parse(inputStream);
+			Document doc = docBuilder.parse(is);
 			doc.getDocumentElement().normalize(); // Collapses adjacent text nodes into one node.
 			return doc;
 		} catch (ParserConfigurationException pce) {
@@ -249,20 +220,19 @@ public class XmlUtil {
 		} 
 	}
 	
-	
 	/** Converts a document node subtree back into an XML string 
 	 * 
 	 * @param node a DOM node 
+	 * @param omitXmlDeclaration if true, omits the XML declaration from the returned result
 	 * 
 	 * @return the XML for this node
 	 * 
 	 * @throws TransformerException if the transformation to XML failed
 	 * @throws IllegalStateException if the transformer could not be initialised 
 	 */
-	public static String writeXml(Node node, boolean omitXmlDeclaration) 
+	public static String getXmlString(Node node, boolean omitXmlDeclaration) 
 		throws TransformerException 
 	{
-		// Use a Transformer for output
 		try {
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
@@ -277,28 +247,6 @@ public class XmlUtil {
 		}
 	}
 
-    /**
-     * Format XML into an indented, human-readable form
-     *
-     * @param doc The top-level XML Document node
-     * @return A string representation of the XML document
-     * 
-     * @throws IOException An IO Exception occurred formatting the document
-     *
-     */
-    public static String formatXml(Document doc)
-        throws IOException
-    {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        OutputFormat format = new OutputFormat(doc);
-        format.setLineWidth(65);
-        format.setIndenting(true);
-        format.setIndent(2);
-        XMLSerializer serializer = new XMLSerializer(baos, format);
-        serializer.serialize(doc);
-        return baos.toString();
-    }
-	
 	/** Remove leading/trailing whitespace from all text nodes in this nodeList.
 	 * Will iterate through subnodes recursively.
 	 * 
@@ -340,7 +288,7 @@ public class XmlUtil {
 		 try {
 			 // Parse the input
 			 SAXParser saxParser = factory.newSAXParser();
-			 XMLReader xmlReader = saxParser.getXMLReader(); // seems pointless
+			 XMLReader xmlReader = saxParser.getXMLReader();
 			 xmlReader.setContentHandler(contentHandler);
 			 xmlReader.parse(new InputSource(new ByteArrayInputStream(xmlText.getBytes())));
 		 } catch (IOException ioe) {
@@ -351,10 +299,10 @@ public class XmlUtil {
 	}
 	
 	/** Convert a table into a List of Lists (each top-level list represents a table row,
-	 * each second-level list represents a table cell. Only contents are returned; attributes
+	 * each second-level list represents a table cell). Only contents are returned; attributes
 	 * and formatting are ignored.
 	 * 
-	 * <p>This method may not work when tables are embedded within other tables
+	 * <p>This class will probably not work when tables are embedded within other tables
 	 */
 	public static class SimpleTableContentHandler
 		implements ContentHandler 
@@ -362,20 +310,26 @@ public class XmlUtil {
 		/** Logger instance for this class */
 		public static final Logger logger = Logger.getLogger(SimpleTableContentHandler.class);
 
-		// list of RSS items
-		List thisTable = null;
-		List thisRow = null;
+		/** Current table */
+		List<List<String>> thisTable = null;
+		/** Current row in table */
+		List<String> thisRow = null;
+		/** Current cell in row */
 		String thisCell = "";
 
-		// parse state;
-		// 0=start of doc, expecting 'table'
-		// 1=in table element, expecting 'tr'
-		// 2=in tr element, expecting 'td' (or other ignored elements)
-		// 3=in td element, capturing to closing tag
-		int state = 0;
-		String closingTag = null; // when state==4, tag to parse to
-		String text = null;       // when state==4, text captured so far
-		String captureId = null;  // key to capture text to
+		/** The state of this parser */
+		private enum State {
+			/** start of doc, expecting 'table' */
+			START,
+			/** in table element, expecting 'tr' */
+			IN_TABLE,
+			/** in tr element, expecting 'td' (or other ignored elements) */
+			IN_TR,
+			/** in td element, capturing to closing tag */
+			IN_TD
+		}
+
+		State state = State.START;
 		
 		// unused interface methods
 		public void setDocumentLocator(Locator locator) { }
@@ -391,48 +345,43 @@ public class XmlUtil {
 		public void startElement(String uri, String localName, String qName, Attributes atts)
 			throws SAXException 
 		{
-			// System.out.println(state + ": <" + qName + ">");
 			switch (state) {
-				case 0: 
+				case START: 
 					if (qName.equals("table")) {
-						thisTable = new ArrayList(); 
-						state = 1; 
+						thisTable = new ArrayList<List<String>>(); 
+						state = State.IN_TABLE; 
 					} else {
 						logger.warn("Warning: top-level element '" + qName + "' found (expected 'table')");
 					}
 					break;
 				
-				case 1:
+				case IN_TABLE:
 					if (qName.equals("tr")) {
-						thisRow = new ArrayList();
+						thisRow = new ArrayList<String>();
 						thisTable.add(thisRow);
-						state = 2;
+						state = State.IN_TR;
 					}
 					break;
 					
-				case 2: 
+				case IN_TR: 
 					if (qName.equals("td")) {
 						thisCell = "";
-						state = 3;
+						state = State.IN_TD;
 					}
 					break;
 					
-				case 3:
+				case IN_TD:
 					break;
 					
-				case 4:
-					// should probably record opening tags in this state
-					break;
-				
 				default:
-					throw new IllegalStateException("Illegal state " + state + " in RssWebDataSource");
+					throw new IllegalStateException("Illegal state " + state + " in SimpleTableContentHandler");
 				
 			}
 		}
 
 		public void characters(char[] ch, int start, int length)
 			throws SAXException {
-			if (state==3) {
+			if (state==State.IN_TD) {
 				thisCell += new String(ch, start, length);
 			}
 		}
@@ -440,20 +389,67 @@ public class XmlUtil {
 		public void endElement(String uri, String localName, String qName)
 			throws SAXException 
 		{
-			// System.out.println(state + ":  </" + qName + "> ");
-			if (state == 3 && qName.equals("td")) {
+			if (state == State.IN_TD && qName.equals("td")) {
 				thisRow.add(thisCell);
-				state = 2;
-			} else if (state == 2 && qName.equals("tr")) {
-				state = 1;
+				state = State.IN_TR;
+			} else if (state == State.IN_TR && qName.equals("tr")) {
+				state = State.IN_TABLE;
 			}
 		}
 	
-		public List getTable() {
-			// System.out.println("Returning " + result.size() + " items");
+		public List<List<String>> getTable() {
 			return thisTable;
 		}
 	}
+	
+	/** An abstract stack-based XML parser. Similar to the apache digester, but without
+	 * the dozen or so dependent JARs.
+	 * 
+	 * <p>Only element text is captured 
+	 * <p>Element attributes are not parsed by this class.
+	 * <p>Mixed text/element nodes are not parsed by this class.
+	 * 
+	 */
+	public abstract static class AbstractStackContentHandler implements ContentHandler 
+	{
+		/** Logger instance for this class */
+		public static final Logger logger = Logger.getLogger(AbstractStackContentHandler.class);
+
+		/** Location in stack */
+		private String stack = "";
+		private String text = null;     // text captured so far
+		
+		// unused interface methods
+		public void setDocumentLocator(Locator locator) { }
+		public void startDocument() throws SAXException { }
+		public void endDocument() throws SAXException { }
+		public void startPrefixMapping(String prefix, String uri) throws SAXException { }
+		public void endPrefixMapping(String prefix) throws SAXException { }
+		public void ignorableWhitespace(char[] ch, int start, int length) throws SAXException { }
+		public void processingInstruction(String target, String data) throws SAXException { }
+		public void skippedEntity(String name) throws SAXException { }
+
+		public void startElement(String uri, String localName, String qName, Attributes atts)
+			throws SAXException 
+		{
+			stack = stack.equals("") ? qName : stack + "/" + qName;
+			text = "";
+			element(stack);
+		}
+		public void characters(char[] ch, int start, int length) throws SAXException {
+			text += new String(ch, start, length);
+		}
+		public void endElement(String uri, String localName, String qName)
+			throws SAXException 
+		{
+			elementText(stack, text);
+			text = ""; // probably not necessary
+			stack = stack.contains("/") ? stack.substring(0, stack.lastIndexOf("/")) : "";
+		}
+		public abstract void element(String path) throws SAXException;
+		public abstract void elementText(String path, String content) throws SAXException;
+	}
+	
 
 	/** Convert a NodeList into something that Java1.5 can treat as Iterable,
 	 * so that it can be used in <tt>for (Node node : nodeList) { ... }</tt> style

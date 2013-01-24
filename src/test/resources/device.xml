@@ -1,0 +1,104 @@
+<devices>
+
+    <device>
+        <name>DMXKing USB</name>
+        <className>com.randomnoun.dmx.dmxDevice.usbPro.UsbProWidget</className>
+        <type>D</type>
+        <active>Y</active>
+        <universeNumber>1</universeNumber>
+        <deviceProperties>
+            <deviceProperty>
+                <key>portName</key>
+                <value>COM8</value>
+            </deviceProperty>
+        </deviceProperties>
+    </device>
+
+    <device>
+        <name>Art-Net</name>
+        <className>com.randomnoun.dmx.dmxDevice.artNet.ArtNet</className>
+        <type>D</type>
+        <active></active>
+        <universeNumber>1</universeNumber>
+        <deviceProperties>
+            <deviceProperty>
+                <key>artNetSubnetId</key>
+                <value>0</value>
+            </deviceProperty>
+            <deviceProperty>
+                <key>artNetUniverseId</key>
+                <value>0</value>
+            </deviceProperty>
+            <deviceProperty>
+                <key>broadcastAddress</key>
+                <value>192.168.0.62</value>
+            </deviceProperty>
+            <deviceProperty>
+                <key>udpRecvPort</key>
+                <value>6454</value>
+            </deviceProperty>
+            <deviceProperty>
+                <key>udpSendPort</key>
+                <value>6454</value>
+            </deviceProperty>
+            <deviceProperty>
+                <key>unicastAddress</key>
+                <value>192.168.0.62</value>
+            </deviceProperty>
+        </deviceProperties>
+    </device>
+
+    <device>
+        <name>WinAMP Controller</name>
+        <className>com.randomnoun.dmx.audioController.winampNg.WinampAudioController</className>
+        <type>C</type>
+        <active></active>
+        <universeNumber>null</universeNumber>
+        <deviceProperties>
+            <deviceProperty>
+                <key>defaultPath</key>
+                <value>C:\DCB\audio</value>
+            </deviceProperty>
+            <deviceProperty>
+                <key>host</key>
+                <value>localhost</value>
+            </deviceProperty>
+            <deviceProperty>
+                <key>password</key>
+                <value>abc123</value>
+            </deviceProperty>
+            <deviceProperty>
+                <key>port</key>
+                <value>18443</value>
+            </deviceProperty>
+            <deviceProperty>
+                <key>timeout</key>
+                <value>3000</value>
+            </deviceProperty>
+        </deviceProperties>
+    </device>
+
+    <device>
+        <name>Ye olde dmxy plugigne</name>
+        <className>com.randomnoun.dmx.audioSource.winamp.WinampAudioSource</className>
+        <type>S</type>
+        <active>Y</active>
+        <universeNumber>null</universeNumber>
+        <deviceProperties>
+            <deviceProperty>
+                <key>host</key>
+                <value>localhost</value>
+            </deviceProperty>
+            <deviceProperty>
+                <key>port</key>
+                <value>58273</value>
+            </deviceProperty>
+            <deviceProperty>
+                <key>timeout</key>
+                <value>1000</value>
+            </deviceProperty>
+        </deviceProperties>
+    </device>
+
+</devices>
+
