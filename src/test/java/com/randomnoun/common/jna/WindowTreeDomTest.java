@@ -29,7 +29,7 @@ public class WindowTreeDomTest extends TestCase {
 		if (System.getProperty("os.name").startsWith("Windows")) {
 			WindowTreeDom wtd = new WindowTreeDom();
 			Document d = wtd.getDom();
-			logger.info(XmlUtil.formatXml(d));
+			logger.info(XmlUtil.getFormattedXmlString(d));
 		} else {
 			logger.info("Not running tests on operating sytem '" + System.getProperty("os.name") + "'");
 		}

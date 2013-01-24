@@ -142,7 +142,7 @@ public class WindowTreeDom {
 					// have seen VMDragDetectWndClass'es here, presumably a vmware thing
 					// (note that this window won't be in the parent callback's hwndMap)
 					try {
-						logger.warn("Toplevel child window found: " + XmlUtil.writeXml(el, true));
+						logger.warn("Toplevel child window found: " + XmlUtil.getXmlString(el, true));
 					} catch (TransformerException e) {
 						logger.error("Toplevel child window found, problem serialising toplevel windows to XML", e);
 					}
@@ -174,7 +174,7 @@ public class WindowTreeDom {
 			for (Element e : hwndMap.values()) {
 				if (!e.getAttribute("pwindow").equals("")) {
 					// the desktop window isn't in the enumeration
-					logger.warn("Parent window found that was not in enumeration: " + XmlUtil.writeXml(e, true));
+					logger.warn("Parent window found that was not in enumeration: " + XmlUtil.getXmlString(e, true));
 					// throw new IllegalStateException("Window found without parent window");
 				}
 			}
