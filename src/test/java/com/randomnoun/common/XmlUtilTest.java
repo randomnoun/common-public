@@ -172,7 +172,6 @@ public class XmlUtilTest extends TestCase {
 		Document d = XmlUtil.toDocument(input);
 		String output = XmlUtil.getXmlString(d.getDocumentElement(), true);
 		assertEquals(input.replaceAll("\n", System.getProperty("line.separator")), output);
-		assertEquals(input, output); 
 		XmlUtil.compact(d.getDocumentElement());
 		output = XmlUtil.getXmlString(d.getDocumentElement(), true);
 		assertEquals("<body><el>This is an element<el2>This is another one</el2>" +
