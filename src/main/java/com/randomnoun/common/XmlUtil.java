@@ -246,26 +246,26 @@ public class XmlUtil {
 			throw (IllegalStateException) new IllegalStateException("Could not initialise transfoermer").initCause(tce);
 		}
 	}
+	
 
 	/** Remove leading/trailing whitespace from all text nodes in this nodeList.
 	 * Will iterate through subnodes recursively.
 	 * 
 	 * @param nodeList
 	 */
-	public static void compact(NodeList nodeList) {
-		int len = nodeList.getLength();
-		for (int i=0; i<len; i++) {
-			Node node = nodeList.item(i);
-			
-			if (node.getNodeType()==Node.TEXT_NODE) {
-				org.w3c.dom.Text el = (org.w3c.dom.Text) node;
-				if (el.getNodeValue()!=null) {
-					el.setNodeValue(el.getNodeValue().trim());
-				}
-			} else {
-				NodeList childNodes = node.getChildNodes();
-				if (childNodes != null && childNodes.getLength() > 0) {
-					compact(childNodes);
+	public static void compact(Node node) {
+		if (node.getNodeType()==Node.TEXT_NODE) {
+			org.w3c.dom.Text el = (org.w3c.dom.Text) node;
+			if (el.getNodeValue()!=null) {
+				el.setNodeValue(el.getNodeValue().trim());
+			}
+		} else if (node.getNodeType()==Node.ELEMENT_NODE) {
+			NodeList childNodes = node.getChildNodes();
+			if (childNodes != null && childNodes.getLength() > 0) {
+				int len = childNodes.getLength();
+				for (int i=0; i<len; i++) {
+					Node childNode = childNodes.item(i);
+				    compact(childNode);
 				}
 			}
 		}
