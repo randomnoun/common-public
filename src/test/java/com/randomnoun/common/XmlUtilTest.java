@@ -20,7 +20,6 @@ import javax.xml.transform.TransformerException;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import com.randomnoun.common.XmlUtil.SimpleTableContentHandler;
@@ -172,6 +171,7 @@ public class XmlUtilTest extends TestCase {
 		    "</body>";
 		Document d = XmlUtil.toDocument(input);
 		String output = XmlUtil.getXmlString(d.getDocumentElement(), true);
+		assertEquals(input.replaceAll("\n", System.getProperty("line.separator")), output);
 		assertEquals(input, output); 
 		XmlUtil.compact(d.getDocumentElement());
 		output = XmlUtil.getXmlString(d.getDocumentElement(), true);
