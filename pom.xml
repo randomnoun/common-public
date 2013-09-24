@@ -1,9 +1,8 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.randomnoun.common</groupId>
 	<artifactId>common-public</artifactId>
-	<version>0.0.5-SNAPSHOT</version>
+	<version>0.1.0</version>
 	<packaging>jar</packaging>
 	<name>randomnoun common classes</name>
 	<description>Common utility classes</description>
@@ -101,7 +100,8 @@
 		<connection>scm:cvs:pserver:anonymous@cvs.randomnoun.com:/randomnoun:common-public</connection>
 		<developerConnection>scm:cvs:pserver:vmaint@cvs.randomnoun.com:/randomnoun:common-public</developerConnection>
 		<url>http://cvs.randomnoun.com/cvsweb/cvsweb.cgi/common-public</url>
-	</scm>
+	  <tag>common-public-0_1_0</tag>
+  </scm>
 	<issueManagement>
 		<system>jira</system>
 		<url>http://jira.dev.randomnoun/BANDCAMPAPICLIENT</url>
