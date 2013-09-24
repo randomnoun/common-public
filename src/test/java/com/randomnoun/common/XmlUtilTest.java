@@ -1,7 +1,7 @@
 package com.randomnoun.common;
 
-/* (c) 2013 randomnoun. All Rights Reserved. This work is licensed under a 
- * <a rel="license" href="http://creativecommons.org/licenses/by/3.0/">Creative Commons Attribution 3.0 Unported License</a>.
+/* (c) 2013 randomnoun. All Rights Reserved. This work is licensed under a
+ * BSD Simplified License. (http://www.randomnoun.com/bsd-simplified.html)
  */
 
 import java.io.ByteArrayInputStream;
@@ -29,7 +29,7 @@ import junit.framework.TestCase;
 /** Test the XmlUtil class.
  * 
  * @author knoxg
- * @blog http://www.randomnoun.com/wp/2013/01/24/exciting-things-with-xml/
+ * @blog http://www.randomnoun.com/wp/2013/01/25/exciting-things-with-xml/
  * @version $Id$
  *
  */

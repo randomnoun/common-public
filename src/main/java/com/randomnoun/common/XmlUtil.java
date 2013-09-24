@@ -1,7 +1,7 @@
 package com.randomnoun.common;
 
 /* (c) 2013 randomnoun. All Rights Reserved. This work is licensed under a
- * Creative Commons Attribution 3.0 Unported License. (http://creativecommons.org/licenses/by/3.0/)
+ * BSD Simplified License. (http://www.randomnoun.com/bsd-simplified.html)
  */
 
 import java.io.*;
@@ -37,7 +37,7 @@ import org.apache.log4j.Logger;
 /** XML utility functions
  *
  * @author knoxg
- * @blog http://www.randomnoun.com/wp/2013/01/24/exciting-things-with-xml/
+ * @blog http://www.randomnoun.com/wp/2013/01/25/exciting-things-with-xml/
  * @version $Id$
  */
 public class XmlUtil {
@@ -56,11 +56,24 @@ public class XmlUtil {
 	 * @throws IllegalStateException if an error occurred reading from a string (should never occur)
 	 */ 
 	public static String getCleanXml(String inputXml, boolean isHtml) throws SAXException {
+		return getCleanXml(new ByteArrayInputStream(inputXml.getBytes()), isHtml);
+	}
+	
+	/** Clean a HTML inputStream through the tagsoup filter. The returned string is guaranteed to be 
+	 * well-formed XML (and can therefore be used by other tools that expect valid XML). 
+	 * 
+	 * @param is input XML stream
+	 * @param isHtml if true, uses the HTML schema, omits the XML declaration, and uses the html method
+	 * 
+	 * @throws SAXException if the tagsoup library could not parse the input string
+	 * @throws IllegalStateException if an error occurred reading from a string (should never occur)
+	 */ 
+	public static String getCleanXml(InputStream inputStream, boolean isHtml) throws SAXException {
 		try {
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			InputSource is = new InputSource();
-			is.setByteStream(new ByteArrayInputStream(inputXml.getBytes())); // could use raw inputstream here later
-	
+			is.setByteStream(inputStream); // could use raw inputstream here later
+
 			XMLReader xmlReader = new Parser();
 			Writer w = new OutputStreamWriter(baos);
 			XMLWriter tagsoupXMLWriter = new XMLWriter(w);
@@ -80,6 +93,7 @@ public class XmlUtil {
 			throw (IllegalStateException) new IllegalStateException("IO Exception reading from string").initCause(ioe);		
 		}
 	}
+
 
 	/**
 	 * Iterates through the child nodes of the specified element, and returns the contents

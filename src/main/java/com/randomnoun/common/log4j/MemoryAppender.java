@@ -1,7 +1,7 @@
 package com.randomnoun.common.log4j;
 
 /* (c) 2013 randomnoun. All Rights Reserved. This work is licensed under a
- * Creative Commons Attribution 3.0 Unported License. (http://creativecommons.org/licenses/by/3.0/)
+ * BSD Simplified License. (http://www.randomnoun.com/bsd-simplified.html)
  */
 
 import java.util.*;
