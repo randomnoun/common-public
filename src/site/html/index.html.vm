@@ -1,0 +1,76 @@
+<!-- this HTML file will be preprocessed by the Velocity template engine, which should replace
+     the project.groupId strings below
+-->
+#set( $repos = "http://central.maven.org/maven2/" )
+#set( $jarBasename = ${project.artifactId} + "-" + ${project.version} + ".jar" )
+#set( $srcBasename = ${project.artifactId} + "-" + ${project.version} + "-sources.jar" )
+#set( $url = ${project.groupId} )
+#set( $url = $url.replace(".", "/") )
+#set( $jarUrl = $repos + $url + "/" + ${project.artifactId} + "/" + ${project.version} + "/" + $jarBasename )
+#set( $srcUrl = $repos + $url + "/" + ${project.artifactId} + "/" + ${project.version} + "/" + $srcBasename )
+
+<h2>Usage</h2>
+
+<p>To use this Maven project, include it in your <a href="http://maven.apache.org/pom.html">project model</a>
+
+<pre>
+&lt;project&gt;
+  ...
+  &lt;dependencies&gt;
+    ...
+    &lt;dependency&gt;
+      &lt;groupId&gt;${project.groupId}&lt;/groupId&gt;
+      &lt;artifactId&gt;${project.artifactId}&lt;/artifactId&gt;
+      &lt;version&gt;${project.version}&lt;/version&gt;
+    &lt;/dependency&gt;
+    ...    
+  &lt;/dependencies&gt;
+  ...
+&lt;/project&gt;
+</pre>
+
+<h2>Download</h2>
+
+<p>If you're not using maven, you can download the binary and source JARs using these links:</p>
+
+<!-- 
+  Using P element's here because doxia doesn't work well with DIVs. 
+  Can't nest P elements, unfortunately, hence the weird sup/sub element formatting here. 
+-->
+<p class="download-button"><a href="${jarUrl}"><img width="41" height="40" style="margin: 5px; float:left;" src="images/download-arrow.png"></img></a>
+<sup class="big"><a href="${jarUrl}">Download compiled JAR</a></sup>
+<sub class="small"><a href="${jarUrl}">${jarBasename}</a></sub>
+</p>
+
+<p class="download-button"><a href="${srcUrl}"><img width="41" height="40" style="margin: 5px; float:left;" src="images/download-arrow.png"></img></a>
+<sup class="big"><a href="${srcUrl}">Download source JAR</a></sup>
+<sub class="small"><a href="${srcUrl}">${srcBasename}</a></sub>
+</p>
+
+<p>The links above are contained within the <a href="${repos}">maven central repository</a>
+
+<hr/>
+
+<h2>Code Examples</h2>
+
+The classes in this project have descriptions of their usage in both the
+<a href="apidocs/index.html">Javadoc overview</a> and on the 
+<a href="http://www.randomnoun.com/wp">randomnoun blog</a>. 
+
+These are:
+<table>
+<tr><th>Class</th><th>Blog URL</th></tr>
+<tr><td><a href="apidocs/com/randomnoun/common/ExceptionUtils">ExceptionUtils</a></td><td><a href="http://www.randomnoun.com/wp/2012/12/17/marginally-better-stack-traces/">Marginally better stack traces</a></td></tr>
+<tr><td><a href="apidocs/com/randomnoun/common/Keyboard">Keyboard</a></td><td></td></tr>
+<tr><td><a href="apidocs/com/randomnoun/common/SourceforgeStats">SourceforgeStats</a></td><td><a href="http://www.randomnoun.com/wp/2012/09/23/sourceforge-omphaloskepsis/">Sourceforge Omphalskepsis</a></td></tr>
+<tr><td><a href="apidocs/com/randomnoun/common/XmlUtil">XmlUtil</a></td><td><a href="http://www.randomnoun.com/wp/2013/01/25/exciting-things-with-xml/">Exciting things with XML</a></td></tr>
+<tr><td><a href="apidocs/com/randomnoun/common/jna/WindowTreeDom">WindowTreeDom</a></td><td><a href="http://www.randomnoun.com/wp/2012/12/26/automating-windows-from-java-and-windowtreedom/">Automating Windows from Java and WindowTreeDom</a></td></tr>
+<tr><td><a href="apidocs/com/randomnoun/common/log4j/Log4jCliConfiguration">Log4jCliConfiguration</a></td><td><a href="http://www.randomnoun.com/wp/2013/01/13/logging/">Logging</a></td></tr>
+<tr><td><a href="apidocs/com/randomnoun/common/log4j/MemoryAppender">MemoryAppender</a></td><td><a href="http://www.randomnoun.com/wp/2013/01/13/logging/">Logging</a></td></tr>
+<tr><td><a href="apidocs/com/randomnoun/common/servlet/VersionServlet">VersionServlet</a></td><td><a href="http://www.randomnoun.com/wp/2013/09/24/webapp-versions-v1-0/">Webapp versions v1.0</a></td></tr>
+</table>
+
+
+<!--
+Kind of hoping that this works
+-->
