@@ -103,11 +103,11 @@
   </scm>
 	<issueManagement>
 		<system>jira</system>
-		<url>http://jira.dev.randomnoun/BANDCAMPAPICLIENT</url>
+		<url>http://jira.dev.randomnoun/COMMONPUBLIC</url>
 	</issueManagement>
 	<ciManagement>
 		<system>Bamboo</system>
-		<url>http://bamboo.dev.randomnoun:8085/bamboo/browse/MOBAPP-BANDCAMPAPICLIENT</url>
+		<url>http://bamboo.dev.randomnoun:8085/bamboo/browse/RANDOMNOUN-COMMONPUBLIC</url>
 	</ciManagement>
 	<licenses>
 		<license>
@@ -119,11 +119,11 @@
 	</licenses>
 	<mailingLists>
 		<mailingList>
-			<name>Bandcamp-api-client Mailing List</name>
-			<subscribe>bandcamp-api-client-subscribe@lists.randomnoun.com</subscribe>
-			<unsubscribe>bandcamp-api-client-unsubscribe@lists.randomnoun.com</unsubscribe>
-			<post>bandcamp-api-client@lists.randomnoun.com</post>
-			<archive>http://lists.randomnoun.com/pipermail/bandcamp-api-client/</archive>
+			<name>common-public Mailing List</name>
+			<subscribe>common-public-subscribe@lists.randomnoun.com</subscribe>
+			<unsubscribe>common-public-unsubscribe@lists.randomnoun.com</unsubscribe>
+			<post>common-public@lists.randomnoun.com</post>
+			<archive>http://lists.randomnoun.com/pipermail/common-public/</archive>
 		</mailingList>
 		<!-- TODO: a generic announcements / notifications list -->
 	</mailingLists>
@@ -303,9 +303,9 @@
 		</snapshotRepository>
 		<site>
 			<id>site</id>
-			<name>bandcamp-api-client Website</name>
-			<!-- this will be externally visible at http://code.randomnoun.com/bandcamp-api-client -->
-			<url>scp://code.randomnoun.com/var/www/code.randomnoun.com/bandcamp-api-client/</url>
+			<name>common-public Website</name>
+			<!-- this will be externally visible at http://code.randomnoun.com/common-public -->
+			<url>scp://code.randomnoun.com/var/www/code.randomnoun.com/common-public/</url>
 		</site>
 	</distributionManagement>
 
