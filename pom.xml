@@ -1,155 +1,156 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>com.randomnoun</groupId>
-  <artifactId>common-public</artifactId>
-  <version>0.0.5-SNAPSHOT</version>
-  <packaging>jar</packaging>
-  <name>randomnoun common classes</name>
-  <description>reusable code for public use</description>
-  <url>http://code.randomnoun.com</url>
-  <inceptionYear>2013</inceptionYear>
-  <organization>
-    <name>randomnoun</name>
-    <url>http://www.randomnoun.com</url>
-  </organization>
-  <licenses>
-    <license>
-      <name>Creative Commons Attribution 3.0 Unported License</name>
-      <url>http://creativecommons.org/licenses/by/3.0/</url>
-      <distribution>repo</distribution>
-    </license>
-  </licenses>
-  <scm>
-	<url>scm:cvs:pserver:vmaint:vmaint@cvs.dev.randomnoun:/randomnoun:common-public</url>
-	<connection>scm:cvs:pserver:vmaint:vmaint@cvs.dev.randomnoun:/randomnoun:common-public</connection>
-	<developerConnection>scm:cvs:pserver:vmaint:vmaint@cvs.dev.randomnoun:/randomnoun:common-public</developerConnection>
-  </scm>
-  <developers>
-    <developer>
-      <id>knoxg</id>
-      <name>Greg Knox</name>
-      <email>knoxg@randomnoun.com</email>
-      <timezone>Australia/Brisbane</timezone>
-    </developer>
-  </developers>
-  <dependencies>
-      <dependency>
-        <groupId>junit</groupId>
-        <artifactId>junit</artifactId>
-        <version>3.8.1</version>
-      </dependency>
-      <dependency>
-        <groupId>log4j</groupId>
-        <artifactId>log4j</artifactId>
-        <version>1.2.15</version>
-        <exclusions>
-          <exclusion>
-            <artifactId>jms</artifactId>
-            <groupId>javax.jms</groupId>
-          </exclusion>
-          <exclusion>
-            <artifactId>jmxtools</artifactId>
-            <groupId>com.sun.jdmk</groupId>
-          </exclusion>
-          <exclusion>
-            <artifactId>jmxri</artifactId>
-            <groupId>com.sun.jmx</groupId>
-          </exclusion>
-        </exclusions>
-      </dependency>
-      
-      <dependency>
-        <groupId>org.springframework</groupId>
-        <artifactId>spring</artifactId>
-        <version>2.5.6</version>
-      </dependency>
-      
-      <dependency>
-        <groupId>commons-httpclient</groupId>
-        <artifactId>commons-httpclient</artifactId>
-        <version>3.1</version>
-        <exclusions>
-          <exclusion>
-            <artifactId>junit</artifactId>
-            <groupId>junit</groupId>
-          </exclusion>
-        </exclusions>
-      </dependency>
-      
-      <dependency>
-        <groupId>org.json</groupId>
-        <artifactId>json</artifactId>
-        <version>20090211</version>
-        <scope>compile</scope>
-        <optional>true</optional>
-      </dependency>
-    
-      <dependency>
-        <groupId>org.ccil.cowan.tagsoup</groupId>
-        <artifactId>tagsoup</artifactId>
-        <version>1.2</version>
-      </dependency>
-      <dependency>
-        <groupId>xalan</groupId>
-        <artifactId>xalan</artifactId>
-        <version>2.7.1</version>
-      </dependency>
-      <dependency>
-        <groupId>xerces</groupId>
-        <artifactId>xercesImpl</artifactId>
-        <version>2.8.1</version>
-      </dependency>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.randomnoun</groupId>
+	<artifactId>common-public</artifactId>
+	<version>0.0.5-SNAPSHOT</version>
+	<packaging>jar</packaging>
+	<name>randomnoun common classes</name>
+	<description>reusable code for public use</description>
+	<url>http://code.randomnoun.com</url>
+	<inceptionYear>2013</inceptionYear>
+	<organization>
+		<name>randomnoun</name>
+		<url>http://www.randomnoun.com</url>
+	</organization>
+	<licenses>
+		<license>
+			<name>Creative Commons Attribution 3.0 Unported License</name>
+			<url>http://creativecommons.org/licenses/by/3.0/</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+	<scm>
+		<url>scm:cvs:pserver:vmaint:vmaint@cvs.dev.randomnoun:/randomnoun:common-public</url>
+		<connection>scm:cvs:pserver:vmaint:vmaint@cvs.dev.randomnoun:/randomnoun:common-public</connection>
+		<developerConnection>scm:cvs:pserver:vmaint:vmaint@cvs.dev.randomnoun:/randomnoun:common-public</developerConnection>
+	</scm>
+	<developers>
+		<developer>
+			<id>knoxg</id>
+			<name>Greg Knox</name>
+			<email>knoxg@randomnoun.com</email>
+			<timezone>Australia/Brisbane</timezone>
+		</developer>
+	</developers>
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>3.8.1</version>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.15</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>jms</artifactId>
+					<groupId>javax.jms</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>jmxtools</artifactId>
+					<groupId>com.sun.jdmk</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>jmxri</artifactId>
+					<groupId>com.sun.jmx</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
 
-      <dependency>
-        <groupId>net.java.dev.jna</groupId>
-        <artifactId>jna</artifactId>
-        <version>3.5.1</version>
-      </dependency>
-      <dependency>
-        <groupId>net.java.dev.jna</groupId>
-        <artifactId>platform</artifactId>
-        <version>3.5.1</version>
-      </dependency>
-      
-       <dependency>
-           <groupId>javax.servlet</groupId>
-           <artifactId>servlet-api</artifactId>
-           <version>2.5</version>
-           <scope>provided</scope>
-       </dependency>
-       
-  </dependencies>
-  
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>2.3.2</version>
-        <configuration>
-          <source>${jdk.version}</source>
-          <target>${jdk.version}</target>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>    
-  <distributionManagement>
-        <repository>
-            <id>releases</id>
-            <name>randomnoun releases</name>
-            <url>http://nexus.dev.randomnoun:8082/nexus/content/repositories/releases/</url>
-        </repository>
-        <snapshotRepository>
-            <id>snapshots</id>
-            <name>randomnoun snapshots</name>
-            <url>http://nexus.dev.randomnoun:8082/nexus/content/repositories/snapshots/</url>
-            <uniqueVersion>false</uniqueVersion>
-        </snapshotRepository>
-    </distributionManagement>
-    
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <jdk.version>1.6</jdk.version>
-        <targetJdk>1.6</targetJdk>
-    </properties>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring</artifactId>
+			<version>2.5.6</version>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-httpclient</groupId>
+			<artifactId>commons-httpclient</artifactId>
+			<version>3.1</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>junit</artifactId>
+					<groupId>junit</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20090211</version>
+			<scope>compile</scope>
+			<optional>true</optional>
+		</dependency>
+
+		<dependency>
+			<groupId>org.ccil.cowan.tagsoup</groupId>
+			<artifactId>tagsoup</artifactId>
+			<version>1.2</version>
+		</dependency>
+		<dependency>
+			<groupId>xalan</groupId>
+			<artifactId>xalan</artifactId>
+			<version>2.7.1</version>
+		</dependency>
+		<dependency>
+			<groupId>xerces</groupId>
+			<artifactId>xercesImpl</artifactId>
+			<version>2.8.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>net.java.dev.jna</groupId>
+			<artifactId>jna</artifactId>
+			<version>3.5.1</version>
+		</dependency>
+		<dependency>
+			<groupId>net.java.dev.jna</groupId>
+			<artifactId>platform</artifactId>
+			<version>3.5.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>2.5</version>
+			<scope>provided</scope>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.3.2</version>
+				<configuration>
+					<source>${jdk.version}</source>
+					<target>${jdk.version}</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	<distributionManagement>
+		<repository>
+			<id>releases</id>
+			<name>randomnoun releases</name>
+			<url>http://nexus.dev.randomnoun:8082/nexus/content/repositories/releases/</url>
+		</repository>
+		<snapshotRepository>
+			<id>snapshots</id>
+			<name>randomnoun snapshots</name>
+			<url>http://nexus.dev.randomnoun:8082/nexus/content/repositories/snapshots/</url>
+			<uniqueVersion>false</uniqueVersion>
+		</snapshotRepository>
+	</distributionManagement>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<jdk.version>1.6</jdk.version>
+		<targetJdk>1.6</targetJdk>
+	</properties>
 </project>
