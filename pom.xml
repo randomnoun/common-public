@@ -113,6 +113,7 @@
 		<license>
 			<name>Simplified BSD License</name>
 			<url>http://www.randomnoun.com/licences/bsd-simplified.txt</url>
+			<!-- <url>http://opensource.org/licenses/BSD-2-Clause</url> -->
 			<distribution>repo</distribution>
 			<comments>Simplified BSD License (BSD 2-clause license).</comments>
 		</license>
