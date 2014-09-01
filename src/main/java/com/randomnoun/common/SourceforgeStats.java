@@ -43,7 +43,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
   UNIQUE INDEX `IDX_DAILY_PROJECT_DATE_TYPE`(`projectId`, `date`, `statType`);
 )
 ENGINE = InnoDB;
- * < /pre>
+ * </pre>
  *
  * <h2>Limitations</h2>
  * 
