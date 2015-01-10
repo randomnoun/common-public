@@ -1,0 +1,6 @@
+this is the content of b/c.txt
+which has a few lines
+of text in it
+so as to make it slightly
+more
+interesting
