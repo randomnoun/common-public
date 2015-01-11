@@ -9,6 +9,7 @@ import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -458,8 +459,35 @@ public class ResourceFinder {
 					System.out.println("[" + resourceIndex + "] " + resourceName + " " + (filesize==-1 ? "(unknown)" : String.valueOf(filesize)) + " " + sdf.format(new Date(timestamp)));
 				} else if (searchContents == null) {
 					System.out.println("[" + resourceIndex + "] " + resourceName);
+				} else if (searchContents != null) {
+					int pos = -1;
+					// @TODO this assumes we never search for strings containing newlines
+					LineNumberReader lnr = new LineNumberReader(new InputStreamReader(inputStream));
+					if (searchContentsIgnoreCase) {
+						searchContents = searchContents.toLowerCase();
+						String line = lnr.readLine();
+						if (line!=null) {
+							pos = line.toString().toLowerCase().indexOf(searchContents.toLowerCase());
+							while (line!=null && pos==-1) {
+								line = lnr.readLine();
+								pos = line==null ? -1 : line.toString().toLowerCase().indexOf(searchContents.toLowerCase());
+							}
+						}
+					} else {
+						String line = lnr.readLine();
+						if (line!=null) {
+							pos = line.toString().indexOf(searchContents);
+							while (line!=null && pos==-1) {
+								line = lnr.readLine();
+								pos = line==null ? -1 :  line.toString().indexOf(searchContents);
+							}
+						}
+					}
+					if (pos!=-1) {
+						System.out.print("[" + resourceIndex + "] [line " + lnr.getLineNumber() + ", col " + pos + "] " + resourceName);
+					}
 				}
-			} 
+			}  
 			if ((dumpType == DUMP_NAMES_AND_RESOURCES || dumpType == DUMP_RESOURCES) &&
 				(dumpResourceNumbers==null || dumpResourceNumbers.contains(new Integer(resourceIndex)))
 				) {
@@ -479,7 +507,7 @@ public class ResourceFinder {
 				} else if (decompile) {
 					// hopefully this is deleted when the VM exits
 					// @TODO: we need to grab all inner classes for this class as well
-					throw new UnsupportedOperationException("Disabled until I bring 'ProcessUtil' into this package. jad hasn't worked in years, anyway.");
+					throw new UnsupportedOperationException("Decompilation is disabled until I bring 'ProcessUtil' into this package. jad hasn't worked in years, anyway.");
 					/*
 					File tmpFile = File.createTempFile("resourceFinder", ".class");
 					FileOutputStream fos = new FileOutputStream(tmpFile); 
@@ -492,30 +520,6 @@ public class ResourceFinder {
 						throw (IOException) new IOException("Problem executing jad").initCause(pe);
 					}
 					*/
-					
-				} else if (searchContents != null) {
-					int pos = -1;
-					// @TODO this assumes we never search for strings containing newlines
-					LineNumberReader lnr = new LineNumberReader(new InputStreamReader(inputStream));
-					if (searchContentsIgnoreCase) {
-						searchContents = searchContents.toLowerCase();
-						String line = lnr.readLine();
-						pos = line.toString().toLowerCase().indexOf(searchContents.toLowerCase());
-						while (line!=null && pos==-1) {
-							line = lnr.readLine();
-							pos = line==null ? -1 : line.toString().toLowerCase().indexOf(searchContents.toLowerCase());
-						}
-					} else {
-						String line = lnr.readLine();
-						pos = line.toString().indexOf(searchContents);
-						while (line!=null && pos==-1) {
-							line = lnr.readLine();
-							pos = line==null ? -1 :  line.toString().indexOf(searchContents);
-						}
-					}
-					if (pos!=-1) {
-						System.out.print("[" + resourceIndex + "] [line " + lnr.getLineNumber() + ", col " + pos + "] " + resourceName);
-					}
 					
 				} else {
 					StreamUtil.copyStream(inputStream, System.out, 1024);
@@ -781,7 +785,7 @@ public class ResourceFinder {
 		if (maxArchiveDepth!=-1 && currentArchiveDepth>=maxArchiveDepth) {
 			return;
 		}
-		System.err.println("findResourceInFolder(" + prefix + "):" + currentArchiveDepth);
+		// System.err.println("findResourceInFolder(" + prefix + "):" + currentArchiveDepth);
 		currentArchiveDepth++;
 		
 		File[] folderContents = folder.listFiles();
@@ -867,7 +871,7 @@ public class ResourceFinder {
 		if (maxArchiveDepth!=-1 && currentArchiveDepth>=maxArchiveDepth) {
 			return;
 		}
-		System.err.println("findResourceInZip(" + prefix + "):" + currentArchiveDepth);
+		// System.err.println("findResourceInZip(" + prefix + "):" + currentArchiveDepth);
 		currentArchiveDepth++;
 		
 		// System.out.println("Searching in " + prefix);
