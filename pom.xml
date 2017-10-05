@@ -97,9 +97,10 @@
 	</dependencies>
 
 	<scm>
-		<connection>scm:cvs:pserver:anonymous@cvs.randomnoun.com:/randomnoun:common-public</connection>
-		<developerConnection>scm:cvs:pserver:vmaint@cvs.randomnoun.com:/randomnoun:common-public</developerConnection>
-		<url>http://cvs.randomnoun.com/cvsweb/cvsweb.cgi/common-public</url>
+		<connection>scm:git:ssh://git@gitlab.dev.randomnoun:2222/randomnoun/common-public.git</connection>
+		<developerConnection>scm:git:ssh://git@gitlab.dev.randomnoun:2222/randomnoun/common-public.git</developerConnection>
+
+		<url>http://gitlab.dev.randomonun/randomnoun/common-public</url>		
   </scm>
 	<issueManagement>
 		<system>jira</system>
@@ -291,17 +292,17 @@
 
 
 	<distributionManagement>
-		<repository>
-			<id>releases</id>
-			<name>randomnoun releases</name>
-			<url>http://nexus.dev.randomnoun:8082/nexus/content/repositories/releases/</url>
-		</repository>
-		<snapshotRepository>
-			<id>snapshots</id>
-			<name>randomnoun snapshots</name>
-			<url>http://nexus.dev.randomnoun:8082/nexus/content/repositories/snapshots/</url>
-			<uniqueVersion>false</uniqueVersion>
-		</snapshotRepository>
+	    <repository>
+	        <id>releases</id>
+	        <name>randomnoun releases</name>
+	        <url>http://nexus2.nexus2.dev.rcr.randomnoun:8082/nexus/content/repositories/releases/</url>
+	    </repository>
+	    <snapshotRepository>
+	        <id>snapshots</id>
+	        <name>randomnoun snapshots</name>
+	        <url>http://nexus2.nexus2.dev.rcr.randomnoun:8082/nexus/content/repositories/snapshots/</url>
+	        <uniqueVersion>false</uniqueVersion>
+	    </snapshotRepository>
 		<site>
 			<id>site</id>
 			<name>common-public Website</name>
