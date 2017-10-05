@@ -1,5 +1,7 @@
 package com.randomnoun.common;
 
+import com.randomnoun.common.Junk.InnerClassB1.InnerClassB2;
+
 /* (c) 2013 randomnoun. All Rights Reserved. This work is licensed under a
  * BSD Simplified License. (http://www.randomnoun.com/bsd-simplified.html)
  */
@@ -11,11 +13,11 @@ package com.randomnoun.common;
  * @author knoxg
  * @blog http://www.randomnoun.com/wp/2012/12/17/marginally-better-stack-traces/
  * @version $Id$
- * 
  */
 public class Junk {
     /** A revision marker to be used in exception stack traces. */
-    public static final String _revision = "$Id$";
+	// fake CVS revision id
+    public static final String _revision = "$Id: Junk.java,v 1.0 2017/10/06 00:00:00 knoxg Exp $";
 	
     static void a() throws HighLevelException {
         try {
