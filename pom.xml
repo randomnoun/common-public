@@ -295,12 +295,12 @@
 	    <repository>
 	        <id>releases</id>
 	        <name>randomnoun releases</name>
-	        <url>http://nexus2.nexus2.dev.rcr.randomnoun:8082/nexus/content/repositories/releases/</url>
+	        <url>http://nexus2.dev.randomnoun:8082/nexus/content/repositories/releases/</url>
 	    </repository>
 	    <snapshotRepository>
 	        <id>snapshots</id>
 	        <name>randomnoun snapshots</name>
-	        <url>http://nexus2.nexus2.dev.rcr.randomnoun:8082/nexus/content/repositories/snapshots/</url>
+	        <url>http://nexus2.dev.randomnoun:8082/nexus/content/repositories/snapshots/</url>
 	        <uniqueVersion>false</uniqueVersion>
 	    </snapshotRepository>
 		<site>
