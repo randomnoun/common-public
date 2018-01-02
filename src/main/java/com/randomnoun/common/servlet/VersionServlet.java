@@ -1,9 +1,11 @@
 package com.randomnoun.common.servlet;
 
-/* (c) 2013 randomnoun. All Rights Reserved. This work is licensed under a
+/* (c) 2013-2016 randomnoun. All Rights Reserved. This work is licensed under a
  * BSD Simplified License. (http://www.randomnoun.com/bsd-simplified.html)
  */
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -57,6 +59,13 @@ import org.json.JSONObject;
     "-DbambooCustomCvsLastUpdateTimeLabel=${bamboo.custom.cvs.last.update.time.label}" 
     -DuniqueVersion=false 
  * </pre>
+ *
+ * <hr/>
+ * 
+ * This script will also look for a build.properties file in /etc/build.properties; 
+ * this should exist on docker containers built by bamboo. If this exists, it is also 
+ * included in the JSON output under the "/etc/build.properties" key.
+ * 
  * 
  * @author knoxg
  * @blog http://www.randomnoun.com/wp/2013/09/24/webapp-versions-v1-0/
@@ -93,6 +102,38 @@ public class VersionServlet extends HttpServlet {
 		}
 	}
 	
+	/** Removes build properties that were not set during the build process
+	 *  (i.e. are still set to '${xxx}' placeholders).
+	 *   
+	 * @param props Properties object
+	 */
+	private void removeDefaultProperties(Properties props) {
+		// projects not built in bamboo won't set these
+    	removeDefaultProperty(props, "bamboo.buildKey", "bambooBuildKey");
+    	removeDefaultProperty(props, "bamboo.buildNumber", "bambooBuildNumber");
+    	removeDefaultProperty(props, "bamboo.buildPlanName", "bambooBuildPlanName");
+    	removeDefaultProperty(props, "bamboo.buildTimeStamp", "bambooBuildTimeStamp");
+    	removeDefaultProperty(props, "bamboo.buildForceCleanCheckout", "bambooForceCleanCheckout");
+    	// bamboo.custom.cvs.last.update.time == "${bambooCustomCvsLastUpdateTime}" 
+    	// if there is no -Dbamboo.custom.cvs.last.update.time property on mvn build cmdline
+    	removeDefaultProperty(props, "bamboo.custom.cvs.last.update.time", "bambooCustomCvsLastUpdateTime");
+    	removeDefaultProperty(props, "bamboo.custom.cvs.last.update.time.label", "bambooCustomCvsLastUpdateTimeLabel");
+        // bamboo.custom.cvs.last.update.time == "${bamboo.custom.cvs.last.update.time}"
+    	// if there IS a -Dbamboo.custom.cvs.last.update.time property on mvn build cmdline
+    	// but it's not set by bamboo (because it's now a git project, but the mvn cmdline hasn't been changed)  
+    	removeDefaultProperty(props, "bamboo.custom.cvs.last.update.time", "bamboo.custom.cvs.last.update.time");
+    	removeDefaultProperty(props, "bamboo.custom.cvs.last.update.time.label", "bamboo.custom.cvs.last.update.time.label");
+    	
+    	
+    	// bamboo git projects have some extra properties we could include here; 
+    	//   bamboo.repository.git.branch
+    	//   bamboo.repository.git.repositoryUrl
+    	// see https://confluence.atlassian.com/bamboo/bamboo-variables-289277087.html
+    	
+    	// projects in cvs repositories won't set this
+    	removeDefaultProperty(props, "git.buildNumber", "buildNumber");
+	}
+	
 	/** See class documentation
 	 * 
 	 * @see javax.servlet.http.HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -108,13 +149,16 @@ public class VersionServlet extends HttpServlet {
 	    	is.close();
     	}
     	
-    	removeDefaultProperty(props, "bamboo.buildKey", "bambooBuildKey");
-    	removeDefaultProperty(props, "bamboo.buildNumber", "bambooBuildNumber");
-    	removeDefaultProperty(props, "bamboo.buildPlanName", "bambooBuildPlanName");
-    	removeDefaultProperty(props, "bamboo.buildTimeStamp", "bambooBuildTimeStamp");
-    	removeDefaultProperty(props, "bamboo.buildForceCleanCheckout", "bambooForceCleanCheckout");
-    	removeDefaultProperty(props, "bamboo.custom.cvs.last.update.time", "bambooCustomCvsLastUpdateTime");
-    	removeDefaultProperty(props, "bamboo.custom.cvs.last.update.time.label", "bambooCustomCvsLastUpdateTimeLabel");
+    	removeDefaultProperties(props);
+    	File etcPropsFile = new File("/etc/build.properties");
+    	if (etcPropsFile.exists()) {
+    		Properties etcProps = new Properties();
+    		is = new FileInputStream(etcPropsFile);
+    		etcProps.load(is);
+    		is.close();
+    		removeDefaultProperties(etcProps);
+    		props.put("/etc/build.properties", etcProps);
+    	}
     	
     	response.setHeader("Content-Type", "application/json");
     	response.setStatus(HttpServletResponse.SC_OK);

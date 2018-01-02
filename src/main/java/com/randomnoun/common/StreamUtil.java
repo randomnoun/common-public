@@ -195,14 +195,4 @@ public class StreamUtil {
     
     
     
-    public static void main(String args[]) throws Exception {
-        String revisionId = "-Id: StreamUtils.java,v 1.3 2005/07/18 17:02:14 knoxg Exp -";
-        ByteArrayInputStream bais = new ByteArrayInputStream(revisionId.getBytes());
-        if (indexOf(bais, "-Id: ")!=-1) {
-            String s = readUntil(bais, "-");
-            System.out.println(s);
-        }
-        
-    }
-    
 }

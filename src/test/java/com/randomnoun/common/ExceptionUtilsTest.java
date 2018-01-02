@@ -21,7 +21,7 @@ import junit.framework.TestCase;
 public class ExceptionUtilsTest extends TestCase {
     /** A revision marker to be used in exception stack traces. */
 	// fake cvs revision Id
-    public static final String _revision = "$Id: ExceptionUtilsTest.java,v 1.0 2017/10/06 00:00:00 knoxg Exp $";
+    public static final String _revision = "$Id$";
 
 	public void testGetStackTrace() {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -349,7 +349,7 @@ public class ExceptionUtilsTest extends TestCase {
 		expectedRegex = expectedRegex.replaceAll("\\(",  "\\\\("); // regex-escape grouping operators 
 		expectedRegex = expectedRegex.replaceAll("\\)",  "\\\\)");
 		expectedPattern = Pattern.compile(expectedRegex, Pattern.DOTALL);
-		System.out.println(highlightedStackTrace);
+		// System.out.println(highlightedStackTrace);
 		assertTrue("Incorrect stacktrace:\n" + highlightedStackTrace, expectedPattern.matcher(highlightedStackTrace).find());
 		
 		

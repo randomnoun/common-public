@@ -143,7 +143,7 @@ public class MemoryAppenderTest
 			logger.info("message number " + i);
 		}
 		loggingEvents = memoryAppender.getLoggingEvents();
-		System.out.println(loggingEvents.size());
+		//System.out.println(loggingEvents.size());
 		assertTrue("10 info messages in memoryAppender", loggingEvents.size()==10);
 		for (int i=0; i<10; i++) {
 			assertEquals("message number " + (15 - i), loggingEvents.get(i).getRenderedMessage());

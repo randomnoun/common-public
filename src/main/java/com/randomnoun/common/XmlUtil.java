@@ -430,8 +430,8 @@ public class XmlUtil {
 		public static final Logger logger = Logger.getLogger(AbstractStackContentHandler.class);
 
 		/** Location in stack */
-		private String stack = "";
-		private String text = null;     // text captured so far
+		protected String stack = "";
+		protected String text = null;     // text captured so far
 		
 		// unused interface methods
 		public void setDocumentLocator(Locator locator) { }
@@ -460,6 +460,8 @@ public class XmlUtil {
 			text = ""; // probably not necessary
 			stack = stack.contains("/") ? stack.substring(0, stack.lastIndexOf("/")) : "";
 		}
+
+		// abstract methods to be implemented by subclasses
 		public abstract void element(String path) throws SAXException;
 		public abstract void elementText(String path, String content) throws SAXException;
 	}

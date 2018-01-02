@@ -9,12 +9,10 @@ import java.util.*;
 import org.apache.log4j.*;
 import org.apache.log4j.spi.LoggingEvent;
 
-
 /**
- * Log4j appender to capture logging events in an in-memory List. I'm amazed
- * this isn't in the log4j package.
+ * Log4j appender to capture logging events in an in-memory List. 
  *
- * <p>The code in this class is roughly based on the WriterAppender class
+ * <p>The code in this class is based on the WriterAppender class
  * in the log4j source code.
  * 
  * <p>This appender can be configured using the property "maximumLogSize" 

@@ -6,8 +6,17 @@ package com.randomnoun.common;
 
 import java.io.*;
 import java.lang.reflect.*;
+import java.net.URLDecoder;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
+
+import org.apache.log4j.Logger;
 
 /**
  * Exception utilities class.
@@ -40,6 +49,14 @@ public class ExceptionUtils {
     /** Allow stack trace elements to be highlighted, as bold HTML */
     public static final int HIGHLIGHT_HTML = 2;
 
+    /** Allow stack trace elements to be highlighted, with span'ed CSS elements */
+    public static final int HIGHLIGHT_HTML_WITH_CSS = 3;
+
+    /** The number of characters of the git revision to include in non-CSS stack traces (from the left side of the String) */
+    public static final int NUM_CHARACTERS_GIT_REVISION = 8;
+    
+    static Logger logger = Logger.getLogger(ExceptionUtils.class);
+    
     /**
      * Private constructor to prevent instantiation of this class
      */
@@ -89,13 +106,19 @@ public class ExceptionUtils {
             return "(null)";
         }
         StringBuffer sb = new StringBuffer();
+        String additionalMessageSource = null;
+        String additionalMessage = null; // because some Exceptions are <strike>retarded</strike> of questionable quality
 
-        // using reflection to remove runtime dependency on beanshell package
+        // was replacing 'e' here with e.getTarget() if e was a bsh.TargetError, 
+        // but should probably just tack this onto the .getCause() chain stead
+		
         try {
-	        if (e.getClass().getName().equals("bsh.TargetError")) {
+	        if (e.getClass().getName().equals("com.spotify.docker.client.exceptions.DockerRequestException")) {
 	        	Method m;
-				m = e.getClass().getMethod("getTarget");
-				e = (Throwable) m.invoke(e);
+				m = e.getClass().getMethod("message");
+				additionalMessageSource = "DockerRequestException.message()=";
+				additionalMessage = (String) m.invoke(e);
+				if (additionalMessage!=null) { additionalMessage = additionalMessage.trim(); }
 	        }
 		} catch (SecurityException e1) {
 			// ignore - just use original exception
@@ -108,31 +131,39 @@ public class ExceptionUtils {
 		} catch (InvocationTargetException e1) {
 			// ignore - just use original exception
 		}
-		
-        /*
-        if (e instanceof bsh.TargetError) {
-        	e = ((bsh.TargetError)e).getTarget();
-        }
-        */
-
+        
         String s = e.getClass().getName();
         String message = e.getLocalizedMessage();
-        if (highlight==HIGHLIGHT_HTML) {
+        if (highlight==HIGHLIGHT_HTML || highlight==HIGHLIGHT_HTML_WITH_CSS) {
         	sb.append(escapeHtml((message != null) ? (s + ": " + message) : s ));
         } else {
         	sb.append((message != null) ? (s + ": " + message) : s );
+        }
+        
+        if (additionalMessage!=null) {
+        	sb.append('\n');
+            if (highlight==HIGHLIGHT_HTML || highlight==HIGHLIGHT_HTML_WITH_CSS) {
+            	sb.append(escapeHtml(additionalMessageSource));
+            	sb.append(escapeHtml(additionalMessage));
+            } else {
+            	sb.append(additionalMessageSource);
+            	sb.append(additionalMessage);
+            }
         }
         sb.append('\n');
         
         // dump the stack trace for the top-level exception
         StackTraceElement[] trace = null;
         trace = e.getStackTrace();
+        
+        Map<String, JarMetadata> jarMetadataCache = new HashMap<String, JarMetadata>();
+        
         for (int i=0; i < trace.length; i++) {
-            sb.append(getStackTraceElementWithRevision(trace[i], loader, highlight, highlightPrefix) + "\n");
+            sb.append(getStackTraceElementWithRevision(jarMetadataCache, trace[i], loader, highlight, highlightPrefix) + "\n");
         }
         Throwable cause = getCause(e);
         if (cause != null) {
-            sb.append(getStackTraceWithRevisionsAsCause(cause, trace, loader, highlight, highlightPrefix));
+            sb.append(getStackTraceWithRevisionsAsCause(jarMetadataCache, cause, trace, loader, highlight, highlightPrefix));
         }
         return sb.toString();
     }
@@ -154,7 +185,7 @@ public class ExceptionUtils {
      *   
      * @return the 'caused by' component of a stack trace
      */
-    private static String getStackTraceWithRevisionsAsCause(Throwable e, StackTraceElement[] causedTrace, ClassLoader loader, int highlight, String highlightPrefix) {
+    private static String getStackTraceWithRevisionsAsCause(Map<String, JarMetadata> jarMetadataCache, Throwable e, StackTraceElement[] causedTrace, ClassLoader loader, int highlight, String highlightPrefix) {
         
         StringBuffer sb = new StringBuffer();
         
@@ -169,8 +200,12 @@ public class ExceptionUtils {
 
         String s = e.getClass().getName();
         String message = e.getLocalizedMessage();
+        if (message==null) {  // org.json.simple.parser.ParseException doesn't set message 
+        	message = e.toString(); 
+        	if (s.equals(message)) { message = null; }
+        } 
         sb.append("Caused by: ");
-        if (highlight==HIGHLIGHT_HTML) {
+        if (highlight==HIGHLIGHT_HTML || highlight==HIGHLIGHT_HTML_WITH_CSS) {
         	sb.append(escapeHtml((message != null) ? (s + ": " + message) : s ));
         } else {
         	sb.append((message != null) ? (s + ": " + message) : s );
@@ -178,7 +213,7 @@ public class ExceptionUtils {
         sb.append("\n");
         
         for (int i=0; i <= m; i++) {
-            sb.append(getStackTraceElementWithRevision(trace[i], loader, highlight, highlightPrefix) + "\n");
+            sb.append(getStackTraceElementWithRevision(jarMetadataCache, trace[i], loader, highlight, highlightPrefix) + "\n");
         }
         if (framesInCommon != 0)
             sb.append("\t... " + framesInCommon + " more\n");
@@ -186,53 +221,87 @@ public class ExceptionUtils {
         // Recurse if we have a cause
         Throwable ourCause = getCause(e);
         if (ourCause != null) {
-            sb.append(getStackTraceWithRevisionsAsCause(ourCause, trace, loader, highlight, highlightPrefix));
+            sb.append(getStackTraceWithRevisionsAsCause(jarMetadataCache, ourCause, trace, loader, highlight, highlightPrefix));
         }
         return sb.toString();
     }
     
     /** Returns a single stack trace element as a String, with highlighting
      * 
+     * @param jarMetadataCache jar-level metadata cached during the traversal of the stackTraceElements.
      * @param ste the StackTraceElement
      * @param loader ClassLoader used to read stack trace element revision information
      * @param highlight One of the HIGHLIGHT_* constants in this class
      * @param highlightPrefix A prefix used to determine which stack trace elements are
      *   rendered as being 'important'. (e.g. "<tt>com.randomnoun.common.</tt>"). Multiple
-     *   prefixes can be specified, if separated by commas.
+     *   prefixes can be specified, separated by commas.
      *   
      * @return the stack trace element as a String, with highlighting
      */
-    private static String getStackTraceElementWithRevision(StackTraceElement ste, ClassLoader loader,
+    private static String getStackTraceElementWithRevision(Map<String, JarMetadata> jarMetadataCache, 
+    	StackTraceElement ste, ClassLoader loader,
         int highlight, String highlightPrefix) 
     {
         // s should be something like:
-        // javax.servlet.http.HttpServlet.service(HttpServlet.java:740)
+        // javax.servlet.http.HttpServlet.service(HttpServlet.java:740) or
+    	// java.net.Socket.<init>(Socket.java:425), which should be HTML escaped
         String s;
         if (highlightPrefix==null || highlight==HIGHLIGHT_NONE) {
         	s = "    at " + ste.toString();
         } else {
 	        boolean isHighlighted = (highlight!=HIGHLIGHT_NONE && isHighlighted(ste.getClassName(), highlightPrefix));
-	        if (isHighlighted && highlight==HIGHLIGHT_HTML) {
-	            s = "    at <b>" + ste.toString() + "</b>";
-	        } else if (isHighlighted && highlight==HIGHLIGHT_TEXT) {
-	            s = " => at " + ste.toString();
-	        } else if (!isHighlighted) {
-	        	s = "    at " + ste.toString();
-	        } else { 
-	            throw new IllegalArgumentException("Unknown highlight " + highlight);
-	        }
+	        if (isHighlighted) {
+	        	if (highlight==HIGHLIGHT_HTML) {
+		            s = "    at <b>" + escapeHtml(ste.toString()) + "</b>";  
+		        } else if (isHighlighted && highlight==HIGHLIGHT_HTML_WITH_CSS) {
+			        s = "    at <span class=\"stackTrace-highlight\">" + escapeHtml(ste.toString()) + "</span>";
+		        } else if (isHighlighted && highlight==HIGHLIGHT_TEXT) {
+		            s = " => at " + ste.toString();
+		        } else { 
+		            throw new IllegalArgumentException("Unknown highlight " + highlight);
+		        }
+	        } else { // !isHighlighted
+	        	if (highlight==HIGHLIGHT_HTML || highlight==HIGHLIGHT_HTML_WITH_CSS) {
+	        		s = "    at " + escapeHtml(ste.toString());
+	        	} else {
+	        		s = "    at " + ste.toString();
+	        	}
+	        } 
         }
         
-        int endLocation = s.lastIndexOf(")");
-        if (endLocation!=-1) {
+        int openBracketPos = s.lastIndexOf("(");
+        int closeBracketPos = s.lastIndexOf(")");
+        if (openBracketPos!=-1 && closeBracketPos!=-1) {
             try {
-                // remove inner class info
+                // add maven, git and cvs revision info
                 String className = ste.getClassName();
-                String revision = getClassRevision(loader, className); 
-    
-                //System.out.println("Class=" + className + ", revision='" + revision + "'");
-                s = s.substring(0, endLocation) + ", " + revision + s.substring(endLocation); 
+                JarMetadata jarMetadata = getJarMetadata(jarMetadataCache, loader, className);
+                String revision = getClassRevision(loader, className);
+                if (revision != null) {
+                	if (highlight==HIGHLIGHT_HTML_WITH_CSS) {
+                		s = s.substring(0, closeBracketPos) + "<span class=\"stackTrace-revision\">" + revision + "</span> " + s.substring(closeBracketPos);
+                	} else {
+                		s = s.substring(0, closeBracketPos) + ", " + revision + s.substring(closeBracketPos);
+                	}
+                }
+                if (jarMetadata != null) {
+                	if (jarMetadata.groupId!=null && jarMetadata.artifactId!=null) {
+                		if (highlight==HIGHLIGHT_HTML_WITH_CSS) {
+                			s = s.substring(0, openBracketPos + 1) + "<span class=\"stackTrace-maven\">" + jarMetadata.groupId + ":" + jarMetadata.artifactId + ":" + jarMetadata.version + "</span> " + s.substring(openBracketPos + 1);
+                		} else {
+                			s = s.substring(0, openBracketPos + 1) + jarMetadata.groupId + ":" + jarMetadata.artifactId + ":" + jarMetadata.version + ", " + s.substring(openBracketPos + 1);
+                		}
+                	}
+                	if (jarMetadata.gitRevision!=null) {
+                		if (highlight==HIGHLIGHT_HTML_WITH_CSS) {
+                			s = s.substring(0, openBracketPos + 1) + "<span class=\"stackTrace-git\">" + jarMetadata.gitRevision + "</span> " + s.substring(openBracketPos + 1);
+                		} else {
+                			s = s.substring(0, openBracketPos + 1) + jarMetadata.gitRevision.substring(0, NUM_CHARACTERS_GIT_REVISION) + ", " + s.substring(openBracketPos + 1);
+                		}
+                	}
+                }
             } catch (Exception e2) {
+            	// logger.error(e2);
             } catch (NoClassDefFoundError ncdfe) {
             }
         }
@@ -245,7 +314,7 @@ public class ExceptionUtils {
      * @param className The name of a class (i.e. the class contained in a stack trace element)
      * @param highlightPrefix A prefix used to determine which stack trace elements are
      *   rendered as being 'important'. (e.g. "<tt>com.randomnoun.common.</tt>"). Multiple
-     *   prefixes can be specified, if separated by commas.
+     *   prefixes can be specified, separated by commas.
      *   
      * @return true if the provided className matches the highlightPrefix pattern supplied, 
      *   false otherwise
@@ -273,40 +342,182 @@ public class ExceptionUtils {
         return t.getStackTrace().length;
     }
     
-    /** Returns a string describing the CVS revision number of a class. The class
-     * is initialised as part of this process, which may cause a number of 
-     * exceptions to be thrown. 
+    /** Jar-level metadata is cached for the duration of a single ExceptionUtils method call */
+    private static class JarMetadata {
+    	String gitRevision;
+    	String groupId;
+    	String artifactId;
+    	String version;
+    }
+    
+    
+    /** Returns the JAR metadata (including the git revision and mvn groupId:artifactId co-ordinates) of the JAR containing a class. 
      * 
      * @param loader The classLoader to use
      * @param className The class we wish to retrieve
      * 
-     * @return The CVS revision string, in the form "ver 1.234".
+     * @return A JarMetadata class, or null
      * 
      * @throws ClassNotFoundException
      * @throws SecurityException
      * @throws NoSuchFieldException
      * @throws IllegalArgumentException
      * @throws IllegalAccessException
-     */
-    public static String getClassRevision(ClassLoader loader, String className) 
-    	throws ClassNotFoundException, SecurityException, NoSuchFieldException, 
-    	IllegalArgumentException, IllegalAccessException 
+     */    
+    private static JarMetadata getJarMetadata(Map<String, JarMetadata> jarMetadataCache, ClassLoader loader, String className) 
+        	throws ClassNotFoundException, SecurityException, NoSuchFieldException, 
+        	IllegalArgumentException, IllegalAccessException 
     {
         if (className.indexOf('$')!=-1) {
             className = className.substring(0, className.indexOf('$'));
         }
+        
         Class clazz = Class.forName(className, true, loader);
-        Field field = clazz.getField("_revision");
-        String revision = (String) field.get(null);
-    
-        // remove rest of $Id$ text 
-        int pos = revision.indexOf(",v ");
-        if (pos != -1) {
-            revision = revision.substring(pos + 3);
-            pos = revision.indexOf(' ');
-            revision = "ver " + revision.substring(0, pos);
+        
+        // this is stored in the build.properties file, which we'll have to get from the JAR containing the class
+        // see http://stackoverflow.com/questions/1983839/determine-which-jar-file-a-class-is-from
+        int revisionMethod = 0;
+        
+        String uri = clazz.getResource('/' + clazz.getName().replace('.', '/') + ".class").toString();
+        if (uri.startsWith("file:")) {
+        	// this happens in eclipse; e.g. 
+        	//   uri=file:/C:/Users/knoxg/workspace-4.4.1-sts-3.6.2/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/jacobi-web/WEB-INF/classes/com/jacobistrategies/web/struts/Struts1Shim.class
+        	// use the current class loader's build.properties if available
+        	revisionMethod = 1;
+        } else if (uri.startsWith("jar:file:")) {
+        	revisionMethod = 2;
+        } else {
+            int idx = uri.indexOf(':');
+            String protocol = idx == -1 ? "(unknown)" : uri.substring(0, idx);
+            // logger.warn("unknown protocol " + protocol + " in classpath uri '" + uri + "'");
+            revisionMethod = -1;
         }
-        return revision;
+
+        JarMetadata md = null;
+        if (revisionMethod == 1) {
+        	// get the revision from the supplied class loader's build.properties, if there is one
+        	md = new JarMetadata();
+        	InputStream is = loader.getResourceAsStream("/build.properties");
+        	if (is==null) {
+        		// logger.warn("missing build.properties");
+        		return null;
+        	} else {
+        		Properties props = new Properties();
+        		try {
+        			props.load(is);
+        			md.gitRevision = props.getProperty("git.buildNumber");
+        			if ("${buildNumber}".equals(md.gitRevision)) { md.gitRevision = null; }
+	        	} catch (IOException ioe) {
+	 	        	// ignore;
+	 	        }
+        	}
+        	
+        } else if (revisionMethod == 2) {
+        	// get the revision from the containing JAR
+        	
+	        int idx = uri.indexOf('!');
+	        //As far as I know, the if statement below can't ever trigger, so it's more of a sanity check thing.
+	        if (idx == -1) {
+	        	// logger.warn("unparseable classpath uri '" + uri + "'");
+	        	return null;
+	        }
+	        String fileName;
+	        try {
+	            fileName = URLDecoder.decode(uri.substring("jar:file:".length(), idx), Charset.defaultCharset().name());
+	        } catch (UnsupportedEncodingException e) {
+	            throw new IllegalStateException("default charset doesn't exist. Your VM is borked.");
+	        }
+	        
+        	// use the cache if it exists
+        	if (jarMetadataCache!=null) {
+        		md = jarMetadataCache.get(fileName);
+        	}
+        	if (md==null) {
+        		md = new JarMetadata();
+        		jarMetadataCache.put(fileName, md);
+        		File f = new File(fileName); // .getAbsolutePath();
+		        
+		        // get the build.properties from this JAR
+		        // logger.debug("Getting build.properties for " + className + " from " + f.getPath());
+		        try {
+			        ZipInputStream zis = new ZipInputStream(new FileInputStream(f));
+			        try {
+				        ZipEntry ze = zis.getNextEntry();
+				        while (ze!=null && (md.gitRevision==null || md.version==null)) {
+				        	// logger.debug(ze.getName());
+				        	if (ze.getName().equals("build.properties") || ze.getName().equals("/build.properties")) {
+				        		// logger.debug(ze.getName());
+				        		Properties props = new Properties();
+				        		props.load(zis);
+				        		md.gitRevision = props.getProperty("git.buildNumber");
+				        	}
+				        	if (ze.getName().endsWith("/pom.properties")) { 
+				        		// e.g. META-INF/maven/edu.ucla.cs.compilers/jtb/pom.xml, pom.properties
+				        		// should probably check full path to prevent false positives
+				        		Properties props = new Properties();
+				        		props.load(zis);
+				        		md.groupId = props.getProperty("groupId");
+				        		md.artifactId = props.getProperty("artifactId");
+				        		md.version = props.getProperty("version");
+				        	}
+				        	ze = zis.getNextEntry();
+				        }
+			        } finally {
+			        	zis.close();
+			        }
+		        } catch (IOException ioe) {
+		        	// ignore;
+		        }
+        	}
+        }
+        return md;
+    }
+    
+    /** Returns a string describing the CVS revision number of a class. 
+     * 
+     * <p>The class is initialised as part of this process, which may cause a number of 
+     * exceptions to be thrown. 
+     * 
+     * @param loader The classLoader to use
+     * @param className The class we wish to retrieve
+     * 
+     * @return The CVS revision string, in the form "ver 1.234"
+     * 
+     * @throws ClassNotFoundException
+     * @throws SecurityException
+     * @throws NoSuchFieldException
+     * @throws IllegalArgumentException
+     * @throws IllegalAccessException
+     */    
+    private static String getClassRevision(ClassLoader loader, String className) 
+        	throws ClassNotFoundException, SecurityException, NoSuchFieldException, 
+        	IllegalArgumentException, IllegalAccessException 
+    {
+        if (className.indexOf('$')!=-1) {
+            className = className.substring(0, className.indexOf('$'));
+        }
+        
+        // if this is in a CVS repository, each class has it's own _revision public final static String variable
+        Class clazz = Class.forName(className, true, loader);
+        Field field = null;
+        try {
+        	field = clazz.getField("_revision");
+        } catch (NoSuchFieldException nsfe) {
+        	
+        }
+        String classRevision = null;
+        if (field!=null) {
+	        classRevision = (String) field.get(null);
+	    
+	        // remove rest of $Id$ text 
+	        int pos = classRevision.indexOf(",v ");
+	        if (pos != -1) {
+	            classRevision = classRevision.substring(pos + 3);
+	            pos = classRevision.indexOf(' ');
+	            classRevision = "ver " + classRevision.substring(0, pos);
+	        }
+        }
+        return classRevision;
     }
 
 

@@ -10,7 +10,7 @@ import org.apache.log4j.PropertyConfigurator;
 
 /** Configures log4j for command-line interface programs.
  * 
- * <p>By default, everything's sent to stdout, using the following log4j initilisation properties:
+ * <p>By default, everything's sent to stdout, using the following log4j initialisation properties:
  * 
  * <pre>
 log4j.rootCategory=DEBUG, CONSOLE
@@ -21,7 +21,7 @@ log4j.appender.CONSOLE.layout.ConversionPattern=%d{ABSOLUTE} %-5p %c - %m %n
 log4j.logger.org.springframework=INFO
 
 # log4j.appender.FILE=com.randomnoun.common.log4j.CustomRollingFileAppender
-# log4j.appender.FILE.File=c:\\eomail.log
+# log4j.appender.FILE.File=c:\\another.log
 # log4j.appender.FILE.MaxBackupIndex=100
 # log4j.appender.FILE.layout=org.apache.log4j.PatternLayout
 # log4j.appender.FILE.layout.ConversionPattern=%d{dd/MM/yy HH:mm:ss.SSS} %-5p %c - %m %n
@@ -71,7 +71,7 @@ public class Log4jCliConfiguration {
 		
 		/*
 		lp.put("log4j.appender.FILE", "com.randomnoun.common.log4j.CustomRollingFileAppender");
-		lp.put("log4j.appender.FILE.File", "c:\\eomail.log");
+		lp.put("log4j.appender.FILE.File", "c:\\another.log");
 		lp.put("log4j.appender.FILE.MaxBackupIndex", "100");
 		lp.put("log4j.appender.FILE.layout", "org.apache.log4j.PatternLayout");
 		lp.put("log4j.appender.FILE.layout.ConversionPattern", "%d{dd/MM/yy HH:mm:ss.SSS} %-5p %c - %m %n");

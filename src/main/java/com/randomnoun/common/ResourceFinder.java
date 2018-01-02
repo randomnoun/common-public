@@ -484,7 +484,7 @@ public class ResourceFinder {
 						}
 					}
 					if (pos!=-1) {
-						System.out.print("[" + resourceIndex + "] [line " + lnr.getLineNumber() + ", col " + pos + "] " + resourceName);
+						System.out.println("[" + resourceIndex + "] [line " + lnr.getLineNumber() + ", col " + pos + "] " + resourceName);
 					}
 				}
 			}  
