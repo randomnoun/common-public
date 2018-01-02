@@ -96,12 +96,12 @@
 		</dependency>
 	</dependencies>
 
+	
 	<scm>
 		<connection>scm:git:ssh://git@gitlab.dev.randomnoun:2222/randomnoun/common-public.git</connection>
 		<developerConnection>scm:git:ssh://git@gitlab.dev.randomnoun:2222/randomnoun/common-public.git</developerConnection>
-
-		<url>http://gitlab.dev.randomonun/randomnoun/common-public</url>		
-  </scm>
+		<url>http://gitlab.dev.randomnoun/randomnoun/common-public</url>
+	</scm>
 	<issueManagement>
 		<system>jira</system>
 		<url>http://jira.dev.randomnoun/COMMONPUBLIC</url>
