@@ -38,7 +38,7 @@ log4j.logger.org.springframework=INFO
  * 
  * @blog http://www.randomnoun.com/wp/2013/01/13/logging/
  * @author knoxg
- * @version $Id$
+ * 
  */
 public class Log4jCliConfiguration {
     

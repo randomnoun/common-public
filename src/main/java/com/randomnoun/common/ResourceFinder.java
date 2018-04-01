@@ -71,7 +71,7 @@ import org.apache.log4j.Logger;
  * @TODO -cs switches to change search behaviour within content
  * 
  * @author knoxg
- * @version $Id$
+ * 
  */
 public class ResourceFinder {
 

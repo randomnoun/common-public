@@ -46,7 +46,7 @@ import com.randomnoun.common.Text;
  * return values from a database, so it is useful to have some generic functions
  * that operate on them.
  *
- * @version $Id$
+ * 
  * @author knoxg
  */
 public class Struct {

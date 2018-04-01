@@ -31,7 +31,7 @@ import com.randomnoun.common.XmlUtil;
  * 
  * @blog http://www.randomnoun.com/wp/2012/12/26/automating-windows-from-java-and-windowtreedom/
  * @author knoxg
- * @version $Id$
+ * 
  */
 public class WindowTreeDom {
 

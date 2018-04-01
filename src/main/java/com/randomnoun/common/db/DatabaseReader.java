@@ -26,7 +26,6 @@ import com.randomnoun.common.db.to.TableTO;
  *  
  *  NB: does not set default values for oracle
  *  
- * @version $Id$
  */
 public abstract class DatabaseReader {
 

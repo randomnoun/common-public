@@ -69,7 +69,7 @@ import org.json.JSONObject;
  * 
  * @author knoxg
  * @blog http://www.randomnoun.com/wp/2013/09/24/webapp-versions-v1-0/
- * @version $Id$
+ * 
  */
 @SuppressWarnings("serial")
 public class VersionServlet extends HttpServlet {

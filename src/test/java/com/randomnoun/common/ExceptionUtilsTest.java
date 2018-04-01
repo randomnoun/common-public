@@ -16,11 +16,11 @@ import junit.framework.TestCase;
  * 
  * @author knoxg
  * @blog http://www.randomnoun.com/wp/2012/12/17/marginally-better-stack-traces/
- * @version $Id$
+ * 
  */
 public class ExceptionUtilsTest extends TestCase {
     
-	// fake cvs revision Id. Even though we're on git, don't remove this or the unit tests will fail.
+	// fake cvs revision Id
     public static final String _revision = "$Id: ExceptionUtilsTest.java,v 1.0 2017/10/06 00:00:00 knoxg Exp $";
 
 	public void testGetStackTrace() {

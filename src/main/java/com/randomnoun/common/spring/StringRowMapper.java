@@ -37,7 +37,7 @@ import com.randomnoun.common.StreamUtil;
  * </pre>
  *
  *
- * @version $Id$
+ * 
  * @author knoxg
  */
 public class StringRowMapper

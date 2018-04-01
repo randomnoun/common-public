@@ -33,7 +33,6 @@ import com.randomnoun.common.email.EmailWrapper;
  * with attachments sourced from the file system, byte arrays or the classpath,
  * or to modify the email headers.
  *
- * @version $Id$
  * @author knoxg
  */
 public class EmailWrapper {

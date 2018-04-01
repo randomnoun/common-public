@@ -24,7 +24,7 @@ import com.randomnoun.common.Struct;
  * because that'd be GOLD.
  *
  * @author knoxg
- * @version $Id$
+ * 
  */
 public class Text {
     

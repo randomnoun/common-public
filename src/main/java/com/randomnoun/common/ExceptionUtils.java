@@ -34,7 +34,7 @@ import org.apache.log4j.Logger;
  * </ul>
  * 
  * @blog http://www.randomnoun.com/wp/2012/12/17/marginally-better-stack-traces/
- * @version $Id$
+ * 
  * @author knoxg
  */
 public class ExceptionUtils {

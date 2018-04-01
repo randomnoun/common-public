@@ -14,7 +14,7 @@ import java.awt.Robot;
  * 
  * @blog sometime
  * @author knoxg
- * @version $Id$
+ * 
  */
 public class Keyboard {
     

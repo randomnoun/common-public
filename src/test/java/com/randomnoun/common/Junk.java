@@ -10,7 +10,7 @@ package com.randomnoun.common;
  * 
  * @author knoxg
  * @blog http://www.randomnoun.com/wp/2012/12/17/marginally-better-stack-traces/
- * @version $Id$
+ * 
  */
 public class Junk {
     

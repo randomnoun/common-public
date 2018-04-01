@@ -55,7 +55,6 @@ public class CustomMimeMessage extends MimeMessage {
     	else {
     	    suffix = "javamailuser@localhost"; // worst-case default
     	}
- * @version $Id$
     	*/
 
     	StringBuffer s = new StringBuffer();

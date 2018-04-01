@@ -38,7 +38,7 @@ import org.apache.log4j.Logger;
  *
  * @author knoxg
  * @blog http://www.randomnoun.com/wp/2013/01/25/exciting-things-with-xml/
- * @version $Id$
+ * 
  */
 public class XmlUtil {
 	

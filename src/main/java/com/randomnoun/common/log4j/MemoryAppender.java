@@ -39,7 +39,7 @@ import org.apache.log4j.spi.LoggingEvent;
  * </pre>
  *
  * @blog http://www.randomnoun.com/wp/2013/01/13/logging/
- * @version $Id$
+ * 
  * @author knoxg
  */
 public class MemoryAppender

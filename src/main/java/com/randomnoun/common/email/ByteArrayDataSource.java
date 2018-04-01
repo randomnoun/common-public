@@ -11,7 +11,6 @@ import javax.activation.*;
 /** A DataSource generated from an array of bytes
  *  Used to send arbitrary data through the JavaMail API
  *
- * @version $Id$
  * @author knoxg
  */
 public class ByteArrayDataSource

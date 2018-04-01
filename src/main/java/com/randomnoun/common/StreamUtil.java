@@ -10,7 +10,7 @@ import java.io.*;
 /**
  * Utility class to copy streams synchronously and asynchronously.
  *
- * @version $Id$
+ * 
  * @author knoxg
  */
 public class StreamUtil {
