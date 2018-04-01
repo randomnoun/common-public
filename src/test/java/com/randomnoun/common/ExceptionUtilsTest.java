@@ -19,9 +19,9 @@ import junit.framework.TestCase;
  * @version $Id$
  */
 public class ExceptionUtilsTest extends TestCase {
-    /** A revision marker to be used in exception stack traces. */
-	// fake cvs revision Id
-    public static final String _revision = "$Id$";
+    
+	// fake cvs revision Id. Even though we're on git, don't remove this or the unit tests will fail.
+    public static final String _revision = "$Id: ExceptionUtilsTest.java,v 1.0 2017/10/06 00:00:00 knoxg Exp $";
 
 	public void testGetStackTrace() {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
