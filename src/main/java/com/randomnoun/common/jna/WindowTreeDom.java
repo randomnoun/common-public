@@ -35,9 +35,6 @@ import com.randomnoun.common.XmlUtil;
  */
 public class WindowTreeDom {
 
-    /** A revision marker to be used in exception stack traces. */
-    public static final String _revision = "$Id$";
-	
 	// the User32 functions we invoke from this class
 	public interface User32 extends StdCallLibrary {
       User32 INSTANCE = (User32) Native.loadLibrary("user32", User32.class, 
