@@ -13,9 +13,9 @@ package com.randomnoun.common;
  * @version $Id$
  */
 public class Junk {
-    /** A revision marker to be used in exception stack traces. */
-	// fake CVS revision id
-    public static final String _revision = "$Id$";
+    
+	// fake CVS revision id. Even though we're on git, don't remove this or the unit tests will fail
+    public static final String _revision = "$Id: Junk.java,v 1.0 2017/10/06 00:00:00 knoxg Exp $";
 	
     static void a() throws HighLevelException {
         try {
