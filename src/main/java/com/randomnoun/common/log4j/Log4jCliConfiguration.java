@@ -6,7 +6,10 @@ package com.randomnoun.common.log4j;
 
 import java.util.Properties;
 
+import org.apache.log4j.LogManager;
 import org.apache.log4j.PropertyConfigurator;
+import org.apache.log4j.spi.LoggerRepository;
+import org.apache.log4j.spi.ThrowableRendererSupport;
 
 /** Configures log4j for command-line interface programs.
  * 
@@ -31,15 +34,15 @@ log4j.logger.org.springframework=INFO
  * 
  * @see http://logging.apache.org/log4j/1.2/manual.html
  * 
- * <p>TODO: Support XML-based configurators
+ * @TODO Support XML-based configurators
  * 
  * @blog http://www.randomnoun.com/wp/2013/01/13/logging/
  * @author knoxg
  * @version $Id$
  */
 public class Log4jCliConfiguration {
-    /** A revision marker to be used in exception stack traces. */
-    public static final String _revision = "$Id$";
+    
+    
 
 	/** Create a new Log4jCliConfiguration instance */
 	public Log4jCliConfiguration() {
@@ -61,25 +64,26 @@ public class Log4jCliConfiguration {
 			logFormatPrefix += " ";
 		}
 		
-		Properties lp = new Properties();
-		lp.put("log4j.rootCategory", "DEBUG, CONSOLE");
-		lp.put("log4j.appender.CONSOLE", "org.apache.log4j.ConsoleAppender");
-		lp.put("log4j.appender.CONSOLE.layout", "org.apache.log4j.PatternLayout");
-		lp.put("log4j.appender.CONSOLE.layout.ConversionPattern", logFormatPrefix + "%d{ABSOLUTE} %-5p %c - %m%n");
+		Properties props = new Properties();
+		props.put("log4j.rootCategory", "DEBUG, CONSOLE");
+		props.put("log4j.appender.CONSOLE", "org.apache.log4j.ConsoleAppender");
+		props.put("log4j.appender.CONSOLE.layout", "org.apache.log4j.PatternLayout");
+		props.put("log4j.appender.CONSOLE.layout.ConversionPattern", logFormatPrefix + "%d{ABSOLUTE} %-5p %c - %m%n");
+		props.put("log4j.logger.org.springframework", "INFO"); // since Spring is a bit too verbose for my liking at DEBUG level
+		if (override!=null) { 
+			props.putAll(override);
+		}
+		String highlightPrefix = props.getProperty("log4j.revisionedThrowableRenderer.highlightPrefix");
+		if (highlightPrefix != null) {
+			LoggerRepository repo = LogManager.getLoggerRepository();
+			if (repo instanceof ThrowableRendererSupport) {
+	            // if null, log4j will use a DefaultThrowableRenderer
+	            // ThrowableRenderer renderer = ((ThrowableRendererSupport) repo).getThrowableRenderer();
+	            ((ThrowableRendererSupport) repo).setThrowableRenderer(new RevisionedThrowableRenderer(highlightPrefix));
+	        }
+		}
 		
-		lp.put("log4j.logger.org.springframework", "INFO"); // since Spring is a bit too verbose for my liking at DEBUG level
-		
-		/*
-		lp.put("log4j.appender.FILE", "com.randomnoun.common.log4j.CustomRollingFileAppender");
-		lp.put("log4j.appender.FILE.File", "c:\\another.log");
-		lp.put("log4j.appender.FILE.MaxBackupIndex", "100");
-		lp.put("log4j.appender.FILE.layout", "org.apache.log4j.PatternLayout");
-		lp.put("log4j.appender.FILE.layout.ConversionPattern", "%d{dd/MM/yy HH:mm:ss.SSS} %-5p %c - %m %n");
-		*/
-		
-		
-		if (override!=null) { lp.putAll(override); }
-		PropertyConfigurator.configure(lp);
+		PropertyConfigurator.configure(props);
 	}
 }
 
