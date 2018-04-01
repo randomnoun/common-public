@@ -27,8 +27,8 @@ import com.randomnoun.common.Struct;
  * @version $Id$
  */
 public class Text {
-    /** A revision marker to be used in exception stack traces. */
-    public static final String _revision = "$Id$";
+    
+    
 
     /** Used to prevent massive debug dumps. See {@link #getDisplayString(String, String)} */
     private static final int MAX_STRING_OUTPUT_CHARS = 300;
@@ -704,7 +704,9 @@ public class Text {
            if (isQuoted) { sb.append("'"); }
            if (i == len - 2) { sb.append(lastDelimiter); } else { sb.append(delimiter); }
        }
+       if (isQuoted) { sb.append("'"); }
        sb.append(elements[len - 1]);
+       if (isQuoted) { sb.append("'"); }
        return sb.toString();
    }
 
