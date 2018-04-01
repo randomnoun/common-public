@@ -38,7 +38,7 @@ import org.apache.log4j.Logger;
  * @author knoxg
  */
 public class ExceptionUtils {
-    public static final String _revision = "$Id$";
+    
 
     /** Perform no stack trace element highlighting */
     public static final int HIGHLIGHT_NONE = 0;

@@ -52,8 +52,8 @@ import javax.servlet.http.HttpServletRequest;
 public class ErrorList extends ArrayList<ErrorList.ErrorData>
     implements java.io.Serializable
 {
-    /** A revision marker to be used in exception stack traces. */
-    public static final String _revision = "$Id$";
+    
+    
 
     /** Severity level indicating 'not an error' (e.g. informational only) */
     public static final int SEVERITY_OK = 0; // Not an error

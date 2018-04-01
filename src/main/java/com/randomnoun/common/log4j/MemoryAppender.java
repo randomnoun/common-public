@@ -20,7 +20,7 @@ import org.apache.log4j.spi.LoggingEvent;
  * are popped off the list when the list becomes full).
  * 
  * <p>Use the {@link #getLoggingEvents()} to return the List of events written
- * to this class. This list is a *copy* of the list contained within this class,
+ * to this class. This list is a <b>copy</b> of the list contained within this class,
  * so it can safely be iterated over even if logging events are still
  * occurring in an application.
  * 
@@ -45,8 +45,8 @@ import org.apache.log4j.spi.LoggingEvent;
 public class MemoryAppender
     extends AppenderSkeleton
 {
-    /** A revision marker to be used in exception stack traces. */
-    public static final String _revision = "$Id$";
+    
+    
     
     public final static long DEFAULT_LOG_SIZE = 1000;
     private long maximumLogSize = DEFAULT_LOG_SIZE;

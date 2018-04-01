@@ -42,8 +42,8 @@ import org.apache.log4j.Logger;
  */
 public class XmlUtil {
 	
-    /** A revision marker to be used in exception stack traces. */
-    public static final String _revision = "$Id$";
+    
+    
 
 
 	/** Clean some HTML text through the tagsoup filter. The returned string is guaranteed to be 

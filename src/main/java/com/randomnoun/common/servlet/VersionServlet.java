@@ -74,8 +74,8 @@ import org.json.JSONObject;
 @SuppressWarnings("serial")
 public class VersionServlet extends HttpServlet {
     
-	/** A revision marker to be used in exception stack traces. */
-    public static final String _revision = "$Id$";
+	
+    
 
 	/** Logger for this class */
     public static final Logger logger = Logger.getLogger(VersionServlet.class);

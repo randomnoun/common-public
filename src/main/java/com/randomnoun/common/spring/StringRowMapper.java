@@ -43,8 +43,8 @@ import com.randomnoun.common.StreamUtil;
 public class StringRowMapper
     implements RowMapper
 {
-    /** A revision marker to be used in exception stack traces. */
-    public static final String _revision = "$Id$";
+    
+    
 
     /** Oracle Large OBject handler. */
     final LobHandler lobHandler; // could make this static if it's threadsafe

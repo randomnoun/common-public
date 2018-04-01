@@ -14,7 +14,7 @@ import java.io.*;
  * @author knoxg
  */
 public class StreamUtil {
-    public static final String _revision = "$Id$";
+    
 
     /**
      * Creates a new StreamUtils object.

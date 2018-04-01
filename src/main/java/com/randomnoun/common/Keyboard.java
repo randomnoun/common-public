@@ -17,8 +17,8 @@ import java.awt.Robot;
  * @version $Id$
  */
 public class Keyboard {
-    /** A revision marker to be used in exception stack traces. */
-    public static final String _revision = "$Id$";
+    
+    
 
     /** Robot class responsible for creating virtual keystrokes */
     private Robot robot;

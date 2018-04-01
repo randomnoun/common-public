@@ -155,8 +155,8 @@ package com.randomnoun.common;
  */
 public class Base64
 {
-    /** A revision marker to be used in exception stack traces. */
-    public static final String _revision = "$Id$";
+    
+    
 
     
 /* ********  P U B L I C   F I E L D S  ******** */   

@@ -50,8 +50,8 @@ import com.randomnoun.common.Text;
  * @author knoxg
  */
 public class Struct {
-    /** A revision marker to be used in exception stack traces. */
-    public static final String _revision = "$Id$";
+    
+    
 
 
     /** A ConcurrentReaderHashMap that maps Class objects to Maps, each of which

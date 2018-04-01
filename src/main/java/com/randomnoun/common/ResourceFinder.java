@@ -76,7 +76,7 @@ import org.apache.log4j.Logger;
 public class ResourceFinder {
 
 	/** CVS revision identifier */
-	public static final String _revision = "$Id$";
+	
 
 	/** Logger instance for this class */
 	Logger logger = Logger.getLogger(ResourceFinder.class);
@@ -507,8 +507,6 @@ public class ResourceFinder {
 				} else if (decompile) {
 					// hopefully this is deleted when the VM exits
 					// @TODO: we need to grab all inner classes for this class as well
-					throw new UnsupportedOperationException("Decompilation is disabled until I bring 'ProcessUtil' into this package. jad hasn't worked in years, anyway.");
-					/*
 					File tmpFile = File.createTempFile("resourceFinder", ".class");
 					FileOutputStream fos = new FileOutputStream(tmpFile); 
 					StreamUtil.copyStream(inputStream, fos, 1024);
@@ -519,7 +517,6 @@ public class ResourceFinder {
 					} catch (ProcessUtil.ProcessException pe) {
 						throw (IOException) new IOException("Problem executing jad").initCause(pe);
 					}
-					*/
 					
 				} else {
 					StreamUtil.copyStream(inputStream, System.out, 1024);
