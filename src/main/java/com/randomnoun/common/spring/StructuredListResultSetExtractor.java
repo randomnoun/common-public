@@ -14,7 +14,6 @@ import org.springframework.jdbc.core.*;
 import org.apache.log4j.Logger;
 
 import com.randomnoun.common.Struct;
-import com.randomnoun.common.spring.ClobRowMapper;
 
 // this could probably delegate to StructuredMapCallbackHandlerResultSetExtractor these days
 // 
@@ -187,7 +186,7 @@ public class StructuredListResultSetExtractor
      * @param rowMapper the RowMapper which creates an object for each row
      */
     public StructuredListResultSetExtractor(JdbcTemplate jt, String mappings) {
-        this(new ClobRowMapper(jt), mappings, 0);
+        this(new ColumnMapRowMapper(), mappings, 0);
     }
 
     /**

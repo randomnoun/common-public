@@ -6,13 +6,9 @@ package com.randomnoun.common.spring;
 
 import java.io.*;
 import java.sql.*;
-import java.util.*;
-
 
 import org.springframework.dao.TypeMismatchDataAccessException;
 import org.springframework.jdbc.core.*;
-import org.springframework.jdbc.support.lob.LobHandler;
-import org.springframework.jdbc.support.lob.OracleLobHandler;
 
 import com.randomnoun.common.StreamUtil;
 
@@ -40,26 +36,8 @@ import com.randomnoun.common.StreamUtil;
  * 
  * @author knoxg
  */
-public class StringRowMapper
-    implements RowMapper
+public class StringRowMapper implements RowMapper<String>
 {
-    
-    
-
-    /** Oracle Large OBject handler. */
-    final LobHandler lobHandler; // could make this static if it's threadsafe
-
-    /**
-     * Creates a new ClobRowMapper object.
-     */
-    public StringRowMapper()
-    {
-        try {
-            lobHandler = new OracleLobHandler();
-        } catch (Exception e) {
-            throw new RuntimeException("Could not instantiate lobHandler");
-        }
-    }
 
     /**
      * Returns a single object representing this row.
@@ -72,11 +50,9 @@ public class StringRowMapper
      * @throws TypeMismatchDataAccessException if the first column of the restset is not
      *   a String or CLOB.
      */
-    public Object mapRow(ResultSet resultSet, int rowNumber)
+    public String mapRow(ResultSet resultSet, int rowNumber)
         throws SQLException
     {
-        Map row = new HashMap();
-        String key;
         Object value;
 
         value = resultSet.getObject(1);
@@ -85,7 +61,8 @@ public class StringRowMapper
             // just keep it as a null
         } else if (value.getClass().getName().equals("oracle.sql.CLOB")) {
         	// need to do text comparison rather than instanceof to get around classloading issues
-            value = lobHandler.getClobAsString(resultSet, 1);
+            // value = lobHandler.getClobAsString(resultSet, 1);
+        	throw new UnsupportedOperationException("Unexpected CLOB");
         } else if (value instanceof java.sql.Clob) {
 			Clob clob = (Clob) value;
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();

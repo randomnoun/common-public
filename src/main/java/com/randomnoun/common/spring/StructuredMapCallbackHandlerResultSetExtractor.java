@@ -13,8 +13,6 @@ import org.springframework.jdbc.core.*;
 import org.apache.log4j.Logger;
 
 import com.randomnoun.common.Struct;
-import com.randomnoun.common.spring.ClobRowMapper;
-
 
 /** A bit like a StructuredListResultSetExtractor, but executes a callback on each object, rather than returning List of them.
  *
@@ -57,8 +55,7 @@ public class StructuredMapCallbackHandlerResultSetExtractor
      * @param jt jdbcTemplate for some reason
      */
     public StructuredMapCallbackHandlerResultSetExtractor(JdbcTemplate jt, String mappings, StructuredMapCallbackHandler smch) {
-        // tempted to use a vanilla ColumnMapRowMapper here. Yeah, let's do that. maybe. later.
-        this(new ClobRowMapper(jt), mappings, smch);
+        this(new ColumnMapRowMapper(), mappings, smch);
     }
     
 
