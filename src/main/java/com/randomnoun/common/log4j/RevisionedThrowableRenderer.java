@@ -2,7 +2,7 @@ package com.randomnoun.common.log4j;
 
 import org.apache.log4j.spi.ThrowableRenderer;
 
-import com.randomnoun.common.ExceptionUtils;
+import com.randomnoun.common.ExceptionUtil;
 
 /** Based on the DefaultThrowableRenderer in log4j 1.x 
  * 
@@ -37,9 +37,9 @@ public class RevisionedThrowableRenderer implements ThrowableRenderer {
      * @return string representation.
      */
     public static String[] render(final Throwable throwable) {
-    	String s = ExceptionUtils.getStackTraceWithRevisions(throwable, 
+    	String s = ExceptionUtil.getStackTraceWithRevisions(throwable, 
     		RevisionedThrowableRenderer.class.getClassLoader(),
-    		ExceptionUtils.HIGHLIGHT_TEXT,
+    		ExceptionUtil.HIGHLIGHT_TEXT,
     		highlightPrefix);
     	// could just return 's' here, but the DefaultThrowableRenderer returns each line separately
     	return s.split("\n"); 
