@@ -21,7 +21,7 @@ import junit.framework.TestCase;
 public class ExceptionUtilTest extends TestCase {
     
 	// fake cvs revision Id
-    public static final String _revision = "$Id: ExceptionUtilsTest.java,v 1.0 2017/10/06 00:00:00 knoxg Exp $";
+    public static final String _revision = "$Id: ExceptionUtilTest.java,v 1.0 2017/10/06 00:00:00 knoxg Exp $";
 
 	public void testGetStackTrace() {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -88,7 +88,7 @@ public class ExceptionUtilTest extends TestCase {
 		String expected = 
 			"com.randomnoun.common.HighLevelException: com.randomnoun.common.MidLevelException: <middle>\n" + 
 			"    at com.randomnoun.common.Junk.a(Junk.java:24, ver 1.12)\n" + 
-			"    at com.randomnoun.common.ExceptionUtilsTest.testGetStackTraceWithRevisionsNoHighlight(ExceptionUtilsTest.java:55, ver 1.12)\n" + 
+			"    at com.randomnoun.common.ExceptionUtilTest.testGetStackTraceWithRevisionsNoHighlight(ExceptionUtilTest.java:55, ver 1.12)\n" + 
 			"    at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n" + 
 			"    at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)\n" + 
 			"    at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\n" + 
@@ -122,7 +122,7 @@ public class ExceptionUtilTest extends TestCase {
 		expectedRegex =  
 			"com.randomnoun.common.HighLevelException: com.randomnoun.common.MidLevelException: <middle>\n" + 
 			"    at com.randomnoun.common.Junk.a(Junk.java:[0-9]+, ver [0-9.]+)\n" + 
-			"    at com.randomnoun.common.ExceptionUtilsTest.testGetStackTraceWithRevisionsNoHighlight(ExceptionUtilsTest.java:[0-9]+, ver [0-9.]+)\n" +
+			"    at com.randomnoun.common.ExceptionUtilTest.testGetStackTraceWithRevisionsNoHighlight(ExceptionUtilTest.java:[0-9]+, ver [0-9.]+)\n" +
 			".*" +
 			"    at junit.framework.TestCase.run(TestCase.java:[0-9]+)\n" +
 			".*" +
@@ -154,7 +154,7 @@ public class ExceptionUtilTest extends TestCase {
 			"com.randomnoun.common.MidLevelException: <middle>\n" + 
 			"    at com.randomnoun.common.Junk.c(Junk.java:[0-9]+, ver [0-9.]+)\n" + 
 			"    at com.randomnoun.common.Junk.b(Junk.java:[0-9]+, ver [0-9.]+)\n" +
-			"    at com.randomnoun.common.ExceptionUtilsTest.testGetStackTraceWithRevisionsNoHighlight(ExceptionUtilsTest.java:[0-9]+, ver [0-9.]+)\n" +
+			"    at com.randomnoun.common.ExceptionUtilTest.testGetStackTraceWithRevisionsNoHighlight(ExceptionUtilTest.java:[0-9]+, ver [0-9.]+)\n" +
 			".*" +
 			"    at junit.framework.TestCase.run(TestCase.java:[0-9]+)\n" + 
 			".*" + 
@@ -181,7 +181,7 @@ public class ExceptionUtilTest extends TestCase {
 			"com.randomnoun.common.LowLevelException\n" + 
 			"    at com.randomnoun.common.Junk.e(Junk.java:[0-9]+, ver [0-9.]+)\n" + 
 			"    at com.randomnoun.common.Junk.d(Junk.java:[0-9]+, ver [0-9.]+)\n" + 
-			"    at com.randomnoun.common.ExceptionUtilsTest.testGetStackTraceWithRevisionsNoHighlight(ExceptionUtilsTest.java:[0-9]+, ver [0-9.]+)\n" + 
+			"    at com.randomnoun.common.ExceptionUtilTest.testGetStackTraceWithRevisionsNoHighlight(ExceptionUtilTest.java:[0-9]+, ver [0-9.]+)\n" + 
 			".*";
 		expectedRegex = expectedRegex.replaceAll("\\(",  "\\\\("); // regex-escape grouping operators 
 		expectedRegex = expectedRegex.replaceAll("\\)",  "\\\\)");
@@ -199,7 +199,7 @@ public class ExceptionUtilTest extends TestCase {
 		expectedRegex = 
 			"com.randomnoun.common.LowLevelException\n" + 
 			"    at com.randomnoun.common.Junk.e(Junk.java:[0-9]+, ver [0-9.]+)\n" + 
-			"    at com.randomnoun.common.ExceptionUtilsTest.testGetStackTraceWithRevisionsNoHighlight(ExceptionUtilsTest.java:[0-9]+, ver [0-9.]+)\n" + 
+			"    at com.randomnoun.common.ExceptionUtilTest.testGetStackTraceWithRevisionsNoHighlight(ExceptionUtilTest.java:[0-9]+, ver [0-9.]+)\n" + 
 			".*";
 		expectedRegex = expectedRegex.replaceAll("\\(",  "\\\\("); // regex-escape grouping operators 
 		expectedRegex = expectedRegex.replaceAll("\\)",  "\\\\)");
@@ -227,7 +227,7 @@ public class ExceptionUtilTest extends TestCase {
 		expectedRegex =  
 			"com.randomnoun.common.HighLevelException: com.randomnoun.common.MidLevelException: <middle>\n" + 
 			" => at com.randomnoun.common.Junk.a(Junk.java:[0-9]+, ver [0-9.]+)\n" + 
-			" => at com.randomnoun.common.ExceptionUtilsTest.testGetStackTraceWithRevisionsText(ExceptionUtilsTest.java:[0-9]+, ver [0-9.]+)\n" +
+			" => at com.randomnoun.common.ExceptionUtilTest.testGetStackTraceWithRevisionsText(ExceptionUtilTest.java:[0-9]+, ver [0-9.]+)\n" +
 			".*" +
 			"    at junit.framework.TestCase.run(TestCase.java:[0-9]+)\n" +
 			".*" +
@@ -259,7 +259,7 @@ public class ExceptionUtilTest extends TestCase {
 			"com.randomnoun.common.MidLevelException: <middle>\n" + 
 			" => at com.randomnoun.common.Junk.c(Junk.java:[0-9]+, ver [0-9.]+)\n" + 
 			" => at com.randomnoun.common.Junk.b(Junk.java:[0-9]+, ver [0-9.]+)\n" +
-			" => at com.randomnoun.common.ExceptionUtilsTest.testGetStackTraceWithRevisionsText(ExceptionUtilsTest.java:[0-9]+, ver [0-9.]+)\n" +
+			" => at com.randomnoun.common.ExceptionUtilTest.testGetStackTraceWithRevisionsText(ExceptionUtilTest.java:[0-9]+, ver [0-9.]+)\n" +
 			".*" +
 			"    at junit.framework.TestCase.run(TestCase.java:[0-9]+)\n" + 
 			".*" + 
@@ -286,7 +286,7 @@ public class ExceptionUtilTest extends TestCase {
 			"com.randomnoun.common.LowLevelException\n" + 
 			" => at com.randomnoun.common.Junk.e(Junk.java:[0-9]+, ver [0-9.]+)\n" + 
 			" => at com.randomnoun.common.Junk.d(Junk.java:[0-9]+, ver [0-9.]+)\n" + 
-			" => at com.randomnoun.common.ExceptionUtilsTest.testGetStackTraceWithRevisionsText(ExceptionUtilsTest.java:[0-9]+, ver [0-9.]+)\n" + 
+			" => at com.randomnoun.common.ExceptionUtilTest.testGetStackTraceWithRevisionsText(ExceptionUtilTest.java:[0-9]+, ver [0-9.]+)\n" + 
 			".*";
 		expectedRegex = expectedRegex.replaceAll("\\(",  "\\\\("); // regex-escape grouping operators 
 		expectedRegex = expectedRegex.replaceAll("\\)",  "\\\\)");
@@ -304,7 +304,7 @@ public class ExceptionUtilTest extends TestCase {
 		expectedRegex = 
 			"com.randomnoun.common.LowLevelException\n" + 
 			" => at com.randomnoun.common.Junk.e(Junk.java:[0-9]+, ver [0-9.]+)\n" + 
-			" => at com.randomnoun.common.ExceptionUtilsTest.testGetStackTraceWithRevisionsText(ExceptionUtilsTest.java:[0-9]+, ver [0-9.]+)\n" + 
+			" => at com.randomnoun.common.ExceptionUtilTest.testGetStackTraceWithRevisionsText(ExceptionUtilTest.java:[0-9]+, ver [0-9.]+)\n" + 
 			".*";
 		expectedRegex = expectedRegex.replaceAll("\\(",  "\\\\("); // regex-escape grouping operators 
 		expectedRegex = expectedRegex.replaceAll("\\)",  "\\\\)");
@@ -332,7 +332,7 @@ public class ExceptionUtilTest extends TestCase {
 		expectedRegex =  
 			"com.randomnoun.common.HighLevelException: com.randomnoun.common.MidLevelException: &lt;middle&gt;\n" + 
 			"    at <b>com.randomnoun.common.Junk.a(Junk.java:[0-9]+, ver [0-9.]+)</b>\n" + 
-			"    at <b>com.randomnoun.common.ExceptionUtilsTest.testGetStackTraceWithRevisionsHtml(ExceptionUtilsTest.java:[0-9]+, ver [0-9.]+)</b>\n" +
+			"    at <b>com.randomnoun.common.ExceptionUtilTest.testGetStackTraceWithRevisionsHtml(ExceptionUtilTest.java:[0-9]+, ver [0-9.]+)</b>\n" +
 			".*" +
 			"    at junit.framework.TestCase.run(TestCase.java:[0-9]+)\n" +
 			".*" +
@@ -365,7 +365,7 @@ public class ExceptionUtilTest extends TestCase {
 			"com.randomnoun.common.MidLevelException: &lt;middle&gt;\n" + 
 			"    at <b>com.randomnoun.common.Junk.c(Junk.java:[0-9]+, ver [0-9.]+)</b>\n" + 
 			"    at <b>com.randomnoun.common.Junk.b(Junk.java:[0-9]+, ver [0-9.]+)</b>\n" +
-			"    at <b>com.randomnoun.common.ExceptionUtilsTest.testGetStackTraceWithRevisionsHtml(ExceptionUtilsTest.java:[0-9]+, ver [0-9.]+)</b>\n" +
+			"    at <b>com.randomnoun.common.ExceptionUtilTest.testGetStackTraceWithRevisionsHtml(ExceptionUtilTest.java:[0-9]+, ver [0-9.]+)</b>\n" +
 			".*" +
 			"    at junit.framework.TestCase.run(TestCase.java:[0-9]+)\n" + 
 			".*" + 
@@ -392,7 +392,7 @@ public class ExceptionUtilTest extends TestCase {
 			"com.randomnoun.common.LowLevelException\n" + 
 			"    at <b>com.randomnoun.common.Junk.e(Junk.java:[0-9]+, ver [0-9.]+)</b>\n" + 
 			"    at <b>com.randomnoun.common.Junk.d(Junk.java:[0-9]+, ver [0-9.]+)</b>\n" + 
-			"    at <b>com.randomnoun.common.ExceptionUtilsTest.testGetStackTraceWithRevisionsHtml(ExceptionUtilsTest.java:[0-9]+, ver [0-9.]+)</b>\n" + 
+			"    at <b>com.randomnoun.common.ExceptionUtilTest.testGetStackTraceWithRevisionsHtml(ExceptionUtilTest.java:[0-9]+, ver [0-9.]+)</b>\n" + 
 			".*";
 		expectedRegex = expectedRegex.replaceAll("\\(",  "\\\\("); // regex-escape grouping operators 
 		expectedRegex = expectedRegex.replaceAll("\\)",  "\\\\)");
@@ -410,7 +410,7 @@ public class ExceptionUtilTest extends TestCase {
 		expectedRegex = 
 			"com.randomnoun.common.LowLevelException\n" + 
 			"    at <b>com.randomnoun.common.Junk.e(Junk.java:[0-9]+, ver [0-9.]+)</b>\n" + 
-			"    at <b>com.randomnoun.common.ExceptionUtilsTest.testGetStackTraceWithRevisionsHtml(ExceptionUtilsTest.java:[0-9]+, ver [0-9.]+)</b>\n" + 
+			"    at <b>com.randomnoun.common.ExceptionUtilTest.testGetStackTraceWithRevisionsHtml(ExceptionUtilTest.java:[0-9]+, ver [0-9.]+)</b>\n" + 
 			".*";
 		expectedRegex = expectedRegex.replaceAll("\\(",  "\\\\("); // regex-escape grouping operators 
 		expectedRegex = expectedRegex.replaceAll("\\)",  "\\\\)");
@@ -440,7 +440,7 @@ public class ExceptionUtilTest extends TestCase {
 			"com.randomnoun.common.LowLevelException\n" + 
 			" => at com.randomnoun.common.Junk\\$InnerClassB1\\$InnerClassB2.g(Junk.java:[0-9]+, ver [0-9.]+)\n" + 
 			" => at com.randomnoun.common.Junk\\$InnerClassB1.f(Junk.java:[0-9]+, ver [0-9.]+)\n" + 
-			" => at com.randomnoun.common.ExceptionUtilsTest.testGetStackTraceWithRevisionsTextInnerClass(ExceptionUtilsTest.java:[0-9]+, ver [0-9.]+)\n" + 
+			" => at com.randomnoun.common.ExceptionUtilTest.testGetStackTraceWithRevisionsTextInnerClass(ExceptionUtilTest.java:[0-9]+, ver [0-9.]+)\n" + 
 			".*" +
 			"    at junit.framework.TestCase.run(TestCase.java:[0-9]+)\n" + 
 			".*";
@@ -461,7 +461,7 @@ public class ExceptionUtilTest extends TestCase {
 		expectedRegex = 
 				"com.randomnoun.common.LowLevelException\n" + 
 				" => at com.randomnoun.common.Junk\\$InnerClassB1\\$InnerClassB2.g(Junk.java:[0-9]+, ver [0-9.]+)\n" + 
-				" => at com.randomnoun.common.ExceptionUtilsTest.testGetStackTraceWithRevisionsTextInnerClass(ExceptionUtilsTest.java:[0-9]+, ver [0-9.]+)\n" + 
+				" => at com.randomnoun.common.ExceptionUtilTest.testGetStackTraceWithRevisionsTextInnerClass(ExceptionUtilTest.java:[0-9]+, ver [0-9.]+)\n" + 
 				".*" +
 				"    at junit.framework.TestCase.run(TestCase.java:[0-9]+)\n" + 
 				".*";
