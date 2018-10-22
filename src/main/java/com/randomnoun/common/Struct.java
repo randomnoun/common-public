@@ -1562,11 +1562,11 @@ public class Struct {
        for (Iterator i = list.iterator(); i.hasNext();) {
            key = (Object) i.next();
            if (key instanceof String) {
-           	keyJson = "\"" + key + "\"";
+        	   keyJson = "\"" + key + "\"";
            } else if (key instanceof Number) {
-           	keyJson = String.valueOf(key);
+        	   keyJson = "\"" + String.valueOf(key) + "\""; // coerce numeric keys to strings
            } else {
-           	throw new IllegalArgumentException("Cannot convert key type " + key.getClass().getName() + " to javascript value");
+        	   throw new IllegalArgumentException("Cannot convert key type " + key.getClass().getName() + " to javascript value");
            }
            value = map.get(key);
            if (key == null || key.equals("")) {
