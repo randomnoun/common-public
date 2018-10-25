@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.randomnoun.common</groupId>
 	<artifactId>common-public</artifactId>
-	<version>0.2.4-SNAPSHOT</version>
+	<version>0.2.7-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>randomnoun common classes</name>
 	<description>Common utility classes</description>
@@ -11,7 +11,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<org.springframework.version>4.3.2.RELEASE</org.springframework.version>
+		<org.springframework.version>4.3.20.RELEASE</org.springframework.version>
 	</properties>
 
 	<dependencies>
