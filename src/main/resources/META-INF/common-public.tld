@@ -177,7 +177,13 @@
       <name>format</name> <!-- 'numeric' (d.getTime()), 'microsoft' (http://weblogs.asp.net/bleroy/dates-and-json)-->
       <required>false</required>
       <rtexprvalue>true</rtexprvalue>
-  </attribute>
+    </attribute>
+    <attribute>
+      <name>dateFormat</name> <!--  for backwards-compatibility; is the same field as 'format' -->
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+
 </tag>
 
 </taglib>
