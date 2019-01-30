@@ -72,15 +72,17 @@ public class SqlParser {
 		// @TODO some error handling
 		// List allSql = new ArrayList<String>();
 		
-		int state = 0; // command parsing [to states 0, 1, 2, 4, 7]
-		// 1 // parsed double quote, in double quotes [to states 0, 1]
+		int state = 0; // command parsing [to states 0, 1, 2, 4, 7, 8]
+		// 1 // parsed double quote, in double quotes [to states 0, 1, 9]
 		// 2 // parsed - [to states 0, 3]
 		// 3 // parsed -- [ to states 0, 3]
 		// 4 // parsed /  [ to states 0, 5]
 		// 5 // parsed /* [ to states 6, 5]
 		// 6 // parsed * from state 5  [ to states 0, 5]
-		// 7 // parse single quote, in single quotes [to states 0, 1]
-		// 8 // parsed delimiter character [to states 0, 7]
+		// 7 // parse single quote, in single quotes [to states 0, 7, 10]
+		// 8 // parsed backslash in SQL, next character will be emitted without changing state [then to state 0]
+		// 9 // parsed backslash in double quote, next char emitted without changing state [then to state 1]
+		// 10 // parsed backslash in single quote, next char emitted without changing state [then to state 7]
 
 		String s = ""; // current statement
 		String c = ""; // current comment
@@ -108,7 +110,7 @@ public class SqlParser {
 						state = 0; 
 					}
 				} else {
-					if (delimIdx>0) {
+					if (delimIdx > 0) {
 						// could push these back onto the inputStream in case the delimiter startsWith a " or -, but that seems a bit fiddly
 						s = s + delimiter.substring(0, delimIdx); delimIdx = 0; 
 					}
@@ -128,6 +130,7 @@ public class SqlParser {
 								s = s + ch;
 							}
 							break;
+						case '\\': state = 8; s = s + ch; break;							
 						default: s = s + ch;
 					}
 				}
@@ -135,6 +138,7 @@ public class SqlParser {
 			} else if (state==1) {
 				switch(ch) {
 					case '"' : state = 0; s = s + ch; break;
+					case '\\': state = 9; s = s + ch; break;
 					default: s = s + ch;
 				}
 			} else if (state==2) {
@@ -173,9 +177,20 @@ public class SqlParser {
 			} else if (state==7) {
 				switch(ch) {
 					case '\'' : state = 0; s = s + ch; break;
+					case '\\' : state = 10; s = s + ch; break;
 					default: s = s + ch;
 				}
-			} 
+			} else if (state==8) {
+				// could check ch is printable here, but probably ok
+				s = s + ch;
+				state = 0;
+			} else if (state==9) {
+				s = s + ch;
+				state = 1;
+			} else if (state==10) {
+				s = s + ch;
+				state = 7;
+			}
 			
 			intch = is.read();
 		}
