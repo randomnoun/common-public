@@ -1519,6 +1519,21 @@ public class Struct {
             	// MS-compatible JSON encoding of Dates:
             	// see http://weblogs.asp.net/bleroy/archive/2008/01/18/dates-and-json.aspx
                 s.append(toDate((java.util.Date)value, jsonFormat));
+            } else if (value.getClass().isArray()) {
+           	  	if (value instanceof Object[]) {
+           	  		List arrayList = Arrays.asList((Object[])value);
+           	  		structuredListToJson(s, (List)arrayList, jsonFormat);
+           	  	} else if (value instanceof double[]) {
+	              	// @TODO other primitive array types
+	           		// @TODO convert directly probably
+	           		double[] daSrc = (double[]) value;
+	           		Double[] daTgt = new Double[daSrc.length];
+	           		for (int j=0; j<daSrc.length; j++) { daTgt[j]=daSrc[j]; }
+	           		List arrayList = Arrays.asList((Object[])daTgt);
+	           		structuredListToJson(s, (List) arrayList, jsonFormat);
+           	  	} else {
+           	  		throw new UnsupportedOperationException("Cannot convert primitive array to JSON");
+           	  	}
             } else {
                 throw new RuntimeException("Cannot translate Java object " +
                     value.getClass().getName() + " to javascript value");
