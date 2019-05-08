@@ -77,7 +77,7 @@ public class ErrorList extends ArrayList<ErrorList.ErrorData>
     /** information message; can be used in addition to SEVERITY_OK for additional text */
     public static final int SEVERITY_INFO = 5;
 
-    /** possibly incorrect user-supplied data; operation still succeeds but may be  */
+    /** possibly incorrect user-supplied data; operation still succeeds but may return incorrect results */
     public static final int SEVERITY_WARNING = 6;
 
     
