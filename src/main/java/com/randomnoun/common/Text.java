@@ -20,16 +20,10 @@ import com.randomnoun.common.Struct;
 
 /** Text utility functions
  *
- * when i blog up this class, don't forget to put the phrase 'textual healing' somewhere in the article.
- * because that'd be GOLD.
- *
  * @author knoxg
- * 
  */
 public class Text {
     
-    
-
     /** Used to prevent massive debug dumps. See {@link #getDisplayString(String, String)} */
     private static final int MAX_STRING_OUTPUT_CHARS = 300;
 
@@ -42,6 +36,7 @@ public class Text {
 	/** Right-justification constant for use in the {@link #pad(String, int, int)} method */
 	public static final int JUSTIFICATION_RIGHT = 2;
 	
+	public static Pattern scriptPattern = Pattern.compile("<(/script)", Pattern.CASE_INSENSITIVE);
 
     /** Returns true if the supplied string is null or the empty string, false otherwise
      *
@@ -155,13 +150,10 @@ public class Text {
         if (string == null) {
             return "";
         }
-
         char c;
         StringBuilder sb = new StringBuilder(string.length());
-
         for (int i = 0; i < string.length(); i++) {
             c = string.charAt(i);
-
             switch (c) {
                 case '&':
                     sb.append("&amp;");
@@ -496,7 +488,6 @@ public class Text {
         //string = Text.replaceString(string, "\"", "\\u0022");
         //string = Text.replaceString(string, "'", "\\u0027");
 		//string = Text.replaceString(string, "\n", "\\n");
-        
     	StringBuilder sb = new StringBuilder(string.length());
 		for (int i = 0; i<string.length(); i++) {
 			char ch = string.charAt(i);
@@ -509,7 +500,8 @@ public class Text {
 				sb.append(ch);
 			}
 		}
-        return sb.toString();
+		return scriptPattern.matcher(sb.toString()).replaceAll("\\\\u003C$1");
+        // return sb.toString();
     }
 
 
