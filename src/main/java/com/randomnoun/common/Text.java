@@ -270,7 +270,7 @@ public class Text {
         // From https://www.contextis.com/en/blog/comma-separated-vulnerabilities
         // At present, the best defence strategy we are aware of is prefixing cells that start with ‘=’ , '@', '+' or '-' with an apostrophe. 
         // This will ensure that the cell isn’t interpreted as a formula, and as a bonus in Microsoft Excel the apostrophe itself will not be displayed.
-        if(string.startsWith("=") || string.startsWith("+") || string.startsWith("-") || string.startsWith("@")){
+        if(string.startsWith("=") || string.startsWith("+") || string.startsWith("-") || string.startsWith("@") || string.indexOf('%')!=-1){
             // prefix the string with an a single quote charsto escape it
             string = "'" + string;
             quotable = true;
