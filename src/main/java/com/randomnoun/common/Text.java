@@ -268,16 +268,16 @@ public class Text {
         }
         boolean quotable=false;
         // From https://www.contextis.com/en/blog/comma-separated-vulnerabilities
-        // At present, the best defence strategy we are aware of is prefixing cells that start with ‘=’ , '+' or '-' with an apostrophe. 
+        // At present, the best defence strategy we are aware of is prefixing cells that start with ‘=’ , '@', '+' or '-' with an apostrophe. 
         // This will ensure that the cell isn’t interpreted as a formula, and as a bonus in Microsoft Excel the apostrophe itself will not be displayed.
-        if(string.startsWith("=") || string.startsWith("+") || string.startsWith("-")){
-            // prefix the string with an single quote to escape it
+        if(string.startsWith("=") || string.startsWith("+") || string.startsWith("-") || string.startsWith("@")){
+            // prefix the string with an a single quote charsto escape it
             string = "'" + string;
             // the problematic char is '|' which tells excel to execute the command. So, escape it.
             string = Text.replaceString(string, "|", "\\|");
             quotable = true;
         }
-        if (!quotable && string.indexOf(',') == -1 && string.indexOf('"') == -1 && string.indexOf('\n') == -1 && !string.startsWith("=")) {
+        if (!quotable && string.indexOf(',') == -1 && string.indexOf('"') == -1 && string.indexOf('\n') == -1) {
             return string;
         }
         string = Text.replaceString(string, "\"", "\"\"");
