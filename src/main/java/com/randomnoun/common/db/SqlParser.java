@@ -2,6 +2,8 @@ package com.randomnoun.common.db;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +41,11 @@ public class SqlParser {
 	 * @throws IOException 
 	 * @throws ParseException unclosed /*-style comment or single/double-quoted string
 	 */
-	public List<String> parseStatements(InputStream is, boolean includeComments) 
+	public List<String> parseStatements(InputStream is, boolean includeComments) throws IOException, ParseException {
+		return parseStatements(new InputStreamReader(is), includeComments);
+	}
+	
+	public List<String> parseStatements(Reader is, boolean includeComments) 
 		throws IOException, ParseException 
 	{
 		final List<String> allSql = new ArrayList<String>();
@@ -67,6 +73,11 @@ public class SqlParser {
 	 * @throws ParseException unclosed /*-style comment or single/double-quoted string
 	 */
 	public void consumeStatements(InputStream is, boolean includeComments, Consumer<String> consumer) 
+			throws IOException, ParseException {
+		consumeStatements(new InputStreamReader(is), includeComments, consumer);
+	}
+	
+	public void consumeStatements(Reader is, boolean includeComments, Consumer<String> consumer) 
 		throws IOException, ParseException 
 	{
 		// @TODO some error handling
@@ -87,6 +98,7 @@ public class SqlParser {
 		String s = ""; // current statement
 		String c = ""; // current comment
 		String delimiter = ";"; // default delimiter
+
 		int intch = is.read();
 		int delimIdx = 0; // number of delimiter characters read
 		while (intch!=-1) {

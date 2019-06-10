@@ -55,7 +55,7 @@ public class ErrorList extends ArrayList<ErrorList.ErrorData>
     
     
 
-    /** Severity level indicating 'not an error' (e.g. informational only) */
+    /** Severity level indicating 'not an error' (e.g. informational only). Used to indicate successful operations */
     public static final int SEVERITY_OK = 0; // Not an error
 
     /** invalid user-supplied data; end-user can fix situation */
@@ -70,6 +70,17 @@ public class ErrorList extends ArrayList<ErrorList.ErrorData>
     /** unrecoverable internal error (can't think of anything here, but the world ending could be one */
     public static final int SEVERITY_PANIC = 4;
 
+    // these were created after the 5 above, which is why they have higher ID numbers
+    // at a later stage will renumber these so that
+    // OK < INFO < WARNING < INVALID < ERROR < FATAL < PANIC
+    
+    /** information message; can be used in addition to SEVERITY_OK for additional text */
+    public static final int SEVERITY_INFO = 5;
+
+    /** possibly incorrect user-supplied data; operation still succeeds but may return incorrect results */
+    public static final int SEVERITY_WARNING = 6;
+
+    
     // the thing we're validating
     private transient Object attachedObject;
 

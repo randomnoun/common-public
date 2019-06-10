@@ -174,16 +174,16 @@
       <rtexprvalue>true</rtexprvalue>
     </attribute>
     <attribute>
-      <name>format</name> <!-- 'numeric' (d.getTime()), 'microsoft' (http://weblogs.asp.net/bleroy/dates-and-json)-->
+      <name>dateFormat</name> <!--  for backwards-compatibility; is the same field as 'jsonFormat' -->
       <required>false</required>
       <rtexprvalue>true</rtexprvalue>
     </attribute>
     <attribute>
-      <name>dateFormat</name> <!--  for backwards-compatibility; is the same field as 'format' -->
+      <name>jsonFormat</name> <!-- 'numeric' (d.getTime()), 'microsoft' (http://weblogs.asp.net/bleroy/dates-and-json)-->
       <required>false</required>
       <rtexprvalue>true</rtexprvalue>
-    </attribute>
-
+  </attribute>
+    
 </tag>
 
 </taglib>
