@@ -249,7 +249,7 @@ public class Text {
      * (derived from experimentation) are:
      *
      * <ul>
-     * <li>Strings without commas (,) inverted commas ("), or newlines (\n) are returned as-is.</li>
+     * <li>Strings without commas (,) inverted commas ("), or newlines (\n) are returned as-is. </li>
      * <li>Strings starting with (=) or (=CMD) will be escaped with a single quote (')  </li>
      * <li>Otherwise, the string is surrounded by inverted commas, and any
      *   inverted commas within the string are doubled-up (i.e. '"' becomes '""').</li>
