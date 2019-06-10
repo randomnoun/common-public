@@ -249,9 +249,10 @@ public class Text {
      * (derived from experimentation) are:
      *
      * <ul>
-     * <li>Strings without commas (,) inverted commas ("), or newlines (\n) are returned as-is.
+     * <li>Strings without commas (,) inverted commas ("), or newlines (\n) are returned as-is. </li>
+     * <li>Strings starting with (=) or (=CMD) will be escaped with a single quote (')  </li>
      * <li>Otherwise, the string is surrounded by inverted commas, and any
-     *   inverted commas within the string are doubled-up (i.e. '"' becomes '""').
+     *   inverted commas within the string are doubled-up (i.e. '"' becomes '""').</li>
      * </ul>
      *
      * <p>Embedded newlines are inserted as-is, as per Excel. This will require
@@ -265,11 +266,18 @@ public class Text {
         if (string == null) {
             return "";
         }
-
-        if (string.indexOf(',') == -1 && string.indexOf('"') == -1 && string.indexOf('\n') == -1) {
+        boolean quotable=false;
+        // From https://www.contextis.com/en/blog/comma-separated-vulnerabilities
+        // At present, the best defence strategy we are aware of is prefixing cells that start with ‘=’ , '@', '+' or '-' with an apostrophe. 
+        // This will ensure that the cell isn’t interpreted as a formula, and as a bonus in Microsoft Excel the apostrophe itself will not be displayed.
+        if(string.startsWith("=") || string.startsWith("+") || string.startsWith("-") || string.startsWith("@") || string.indexOf('%')!=-1){
+            // prefix the string with an a single quote char to escape it
+            string = "'" + string;
+            quotable = true;
+        }
+        if (!quotable && string.indexOf(',') == -1 && string.indexOf('"') == -1 && string.indexOf('\n') == -1) {
             return string;
         }
-
         string = Text.replaceString(string, "\"", "\"\"");
         string = "\"" + string + "\"";
 
