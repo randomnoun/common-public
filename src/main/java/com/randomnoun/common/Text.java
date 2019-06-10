@@ -249,9 +249,10 @@ public class Text {
      * (derived from experimentation) are:
      *
      * <ul>
-     * <li>Strings without commas (,) inverted commas ("), or newlines (\n) are returned as-is.
+     * <li>Strings without commas (,) inverted commas ("), or newlines (\n) are returned as-is.</li>
+     * <li>Strings starting with (=) or (=CMD) will be escaped with a single quote (')  </li>
      * <li>Otherwise, the string is surrounded by inverted commas, and any
-     *   inverted commas within the string are doubled-up (i.e. '"' becomes '""').
+     *   inverted commas within the string are doubled-up (i.e. '"' becomes '""').</li>
      * </ul>
      *
      * <p>Embedded newlines are inserted as-is, as per Excel. This will require
@@ -266,10 +267,13 @@ public class Text {
             return "";
         }
 
-        if (string.indexOf(',') == -1 && string.indexOf('"') == -1 && string.indexOf('\n') == -1) {
+        if (string.indexOf(',') == -1 && string.indexOf('"') == -1 && string.indexOf('\n') == -1 && !string.startsWith("=")) {
             return string;
         }
-
+        if(string.startsWith("=")){
+            // prefix the string with an single quote to escape it
+            string = "'" + string;
+        }
         string = Text.replaceString(string, "\"", "\"\"");
         string = "\"" + string + "\"";
 
