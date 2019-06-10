@@ -273,8 +273,6 @@ public class Text {
         if(string.startsWith("=") || string.startsWith("+") || string.startsWith("-") || string.startsWith("@")){
             // prefix the string with an a single quote charsto escape it
             string = "'" + string;
-            // the problematic char is '|' which tells excel to execute the command. So, escape it.
-            string = Text.replaceString(string, "|", "\\|");
             quotable = true;
         }
         if (!quotable && string.indexOf(',') == -1 && string.indexOf('"') == -1 && string.indexOf('\n') == -1) {
