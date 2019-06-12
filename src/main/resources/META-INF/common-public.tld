@@ -174,7 +174,7 @@
       <rtexprvalue>true</rtexprvalue>
     </attribute>
     <attribute>
-      <name>dateFormat</name> <!--  for backwards-compatibility; is the same field as 'jsonFormat' -->
+      <name>dateFormat</name> <!-- 'numeric' (d.getTime()), 'microsoft' (http://weblogs.asp.net/bleroy/dates-and-json)-->
       <required>false</required>
       <rtexprvalue>true</rtexprvalue>
     </attribute>
