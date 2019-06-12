@@ -93,6 +93,41 @@ public class Text {
        return true;
    }
 
+     /** Returns true if the supplied string is non-null and only contains numeric characters
+     * or a single decimal point. The value can have a leading negative ('-') symbol.
+     * 
+     * This version allows exponents ("E+nn" or "E-nn") to the end of the value.
+     * 
+     * @param text The string to test
+     * @return true if the supplied string is non-null and only contains numeric characters,
+     *  which may contain a '.' character in there somewhere.
+     */
+    public static boolean isNumericDecimalExp(String text) {
+        if (text == null) {
+          return false;
+        }
+	    boolean seenPoint = false; // existential quandary there for you
+	    int expPos = -1;           // position of the 'E' character
+	    char ch;
+	    for (int i = 0; i < text.length(); i++) {
+	    	ch = text.charAt(i);
+	    	if (ch=='E') {
+	    		if (expPos != -1) { return false; }
+	    		expPos = i;
+	    	} else if (ch=='.' && expPos == -1) {
+            	if (seenPoint) { return false; }
+            	seenPoint = true;
+	    	} else if ((ch == '+' || ch == '-') && i == expPos + 1) {
+	    		// + or - directly after 'E' OK
+            } else if (ch == '-' && i == 0) {
+            	// leading negative symbol OK
+            } else if (ch < '0' || ch > '9') {
+            	return false;
+            }
+	    }
+	    return true;
+    }
+
 
     /** Ensures that a string returned from a browser (on any platform) conforms
      * to unix line-EOF conventions. Any instances of consecutive CRs (<tt>0xD</tt>) 
@@ -141,6 +176,9 @@ public class Text {
      * <tt>&lt;</tt>, <tt>&gt;</tt>, and <tt>"</tt> characters are converted to
      * <tt>&amp;amp;</tt>, <tt>&amp;lt;<tt>, <tt>&amp;gt;<tt>, and
      * <tt>&amp;quot;</tt> respectively.
+     * 
+     * <p>Characters in the unicode control code blocks ( apart from \t, \n and \r ) are converted to &xfffd;
+     * <p>Characters outside of the ASCII printable range are converted into &xnnnn; form
      *
      * @param string the string to convert
      *
@@ -151,9 +189,11 @@ public class Text {
             return "";
         }
         char c;
+        String hex;
         StringBuilder sb = new StringBuilder(string.length());
         for (int i = 0; i < string.length(); i++) {
             c = string.charAt(i);
+            // check for illegal characters
             switch (c) {
                 case '&':
                     sb.append("&amp;");
@@ -170,7 +210,18 @@ public class Text {
                     sb.append("&quot;");
                     break;
                 default:
-                    sb.append(c);
+                	// 'illegal characters' according to ESAPI. 7f to 9f are control characters in unicode 
+            		if ( ( c <= 0x1f && c != '\t' && c != '\n' && c != '\r' ) || ( c >= 0x7f && c <= 0x9f ) ) {
+            			sb.append("&#xfffd;"); // REPLACEMENT_HEX in ESAPI's HtmlEntityCodec
+            		} else if ( c > 0x1f && c <= 0x7f ) {
+            			// safe printable
+            			sb.append(c);
+            		} else {
+            			// ESAPI didn't have the else block above, which was causing it escape everything 
+            			hex = getHexForNonAlphanumeric(c);
+            			sb.append("&#x" + hex + ";");
+            		}
+                	
             }
         }
 
@@ -252,6 +303,10 @@ public class Text {
      * <li>Strings without commas (,) inverted commas ("), or newlines (\n) are returned as-is.
      * <li>Otherwise, the string is surrounded by inverted commas, and any
      *   inverted commas within the string are doubled-up (i.e. '"' becomes '""').
+     * <li>A value that starts with any of "=", "@", "+" or "-" has a leading single apostrophe added
+     *   to prevent the value being evaluated in Excel. The leading quote is visible to the user when the
+     *   csv is opened, which may mean that it will have to be removed when roundtripping data.
+     *   This may complicate things if the user actually wants a leading single quote in their CSV value.   
      * </ul>
      *
      * <p>Embedded newlines are inserted as-is, as per Excel. This will require
@@ -266,10 +321,27 @@ public class Text {
             return "";
         }
 
-        if (string.indexOf(',') == -1 && string.indexOf('"') == -1 && string.indexOf('\n') == -1) {
-            return string;
+        boolean quoted = false;
+        // from https://www.contextis.com/en/blog/comma-separated-vulnerabilities
+        // prefix cells that start with ‘=’ , '@', '+' or '-' with an apostrophe 
+        // This will ensure that the cell isn’t interpreted as a formula, and as a bonus in Microsoft Excel the apostrophe itself will not be displayed.
+        if (string.startsWith("=") || 
+          string.startsWith("@") || 
+          string.indexOf('%')!=-1) {
+            // prefix the string with an a single quote char to escape it
+            string = "'" + string;
+            quoted = true; // not sure need to quote here, but doesn't hurt
+        } else if ((string.startsWith("+") || string.startsWith("-")) && 
+        	(string.length() == 1 || !Text.isNumericDecimalExp(string))) {
+        	// numbers can legitimately start with '+' or '-' but anything else should be escaped
+        	string = "'" + string;
+            quoted = true; 
         }
 
+        
+        if (string.indexOf(',') == -1 && string.indexOf('"') == -1 && string.indexOf('\n') == -1 && !quoted) {
+        	return string;
+        }
         string = Text.replaceString(string, "\"", "\"\"");
         string = "\"" + string + "\"";
 
@@ -567,8 +639,52 @@ public class Text {
         return sb.toString();
         // return string;
     }
+    
+    // escapeCss from ESAPI 2.0.1
+    private static final String[] esapi_hex = new String[256];
+	static {
+		for ( char c = 0; c < 0xFF; c++ ) {
+			if ( c >= 0x30 && c <= 0x39 || c >= 0x41 && c <= 0x5A || c >= 0x61 && c <= 0x7A ) {
+				esapi_hex[c] = null;
+			} else {
+				esapi_hex[c] = toHex(c).intern();
+			}
+		}
+	}
+	private  static String toHex(char c) {
+		return Integer.toHexString(c);
+	}
+	private static String getHexForNonAlphanumeric(char c) {
+		if(c<0xFF) {return esapi_hex[c]; }
+		return toHex(c);
+	}
+    private static String encodeCssCharacter(Character c) {
+		String hex = getHexForNonAlphanumeric(c);
+		if ( hex == null ) { return "" + c; }
+        return "\\" + hex + " ";
+    }
+
+    /**
+     * Returns the CSS-escaped form of a string. 
+     * 
+     * <p>Characters outside of the printable ASCII range are converted to \nnnn form
+     *
+     * @param string the string to convert
+     *
+     * @return the HTML-escaped form of the string
+     */
+    public static String escapeCss(String input) {
+    	if (input == null) { return ""; }
+    	StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < input.length(); i++) {
+			char c = input.charAt(i);
+			sb.append(encodeCssCharacter(c));
+		}
+		return sb.toString();    	
+    }
 
 
+    
     
     /** Returns the given string; but will truncate it to MAX_STRING_OUTPUT_CHARS.
      *  If it exceeds this length, a message is appended expressing how many
