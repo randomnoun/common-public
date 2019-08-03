@@ -82,8 +82,12 @@ public class DatabaseReaderTest extends TestCase {
 	*/
 	
 	
-	public void testMysql() throws SQLException {
+	public void testMysql() throws SQLException, UnknownHostException {
 
+		String hostname = InetAddress.getLocalHost().getHostName();
+		if ((hostname.equals("yttrium") || hostname.equals("halogen") || hostname.equals("bnedev11"))) { return; } // for now
+
+		
 		// String connString  = "jdbc:mysql://localhost/jacobi-web-int?zeroDateTimeBehavior=convertToNull&autoReconnect=true&useSSL=false";
 		String connString  = "jdbc:mysql://mysql.dev.randomnoun/common?zeroDateTimeBehavior=convertToNull&autoReconnect=true&useSSL=false";
 		String username = "common";
