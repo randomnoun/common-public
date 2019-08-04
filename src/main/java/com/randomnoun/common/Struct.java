@@ -1,5 +1,8 @@
 package com.randomnoun.common;
 
+import java.io.IOException;
+import java.io.Writer;
+
 /* (c) 2013 randomnoun. All Rights Reserved. This work is licensed under a
  * BSD Simplified License. (http://www.randomnoun.com/bsd-simplified.html)
  */
@@ -27,6 +30,7 @@ import org.apache.commons.beanutils.PropertyUtils;
 
 import com.randomnoun.common.Struct;
 import com.randomnoun.common.Text;
+import com.randomnoun.common.io.StringBuilderWriter;
 
 /**
  * Encoder/decoder of JavaBeans and 'structured' maps and lists. A structured
@@ -50,9 +54,6 @@ import com.randomnoun.common.Text;
  * @author knoxg
  */
 public class Struct {
-    
-    
-
 
     /** A ConcurrentReaderHashMap that maps Class objects to Maps, each of which
      *  maps getter method names (e.g. getabcd) to Method objects. Method names should be
@@ -1493,43 +1494,47 @@ public class Struct {
      */
     public static String structuredListToJson(List list, String jsonFormat)
     {
-        StringBuilder s = new StringBuilder(list.size() * 2);
-        structuredListToJson(s, list, jsonFormat);
-        return s.toString();
+        StringBuilderWriter w = new StringBuilderWriter(list.size() * 2);
+        try {
+        	structuredListToJson(w, list, jsonFormat);
+		} catch (IOException e) {
+			throw new IllegalStateException("IOException in StringBuilderWriter", e);
+		}
+        return w.toString();
     }
     
-    private static void structuredListToJson(StringBuilder s, List list, String jsonFormat) {
+    public static void structuredListToJson(Writer w, List list, String jsonFormat) throws IOException {
         Object value;
         int index = 0;
-        s.append('[');
+        w.append('[');
         for (Iterator i = list.iterator(); i.hasNext(); ) {
             value = i.next();
             if (value == null) {
-                s.append("null");
+                w.append("null");
             } else if (value instanceof String) {
-                s.append('\"').append(Text.escapeJavascript((String) value)).append('\"'); 
+                w.append('\"').append(Text.escapeJavascript((String) value)).append('\"'); 
             } else if (value instanceof ToJsonFormat) {
-            	s.append(((ToJsonFormat)value).toJson(jsonFormat));
+            	w.append(((ToJsonFormat)value).toJson(jsonFormat));
             } else if (value instanceof ToJson) {
-            	s.append(((ToJson)value).toJson());
+            	w.append(((ToJson)value).toJson());
             } else if (value instanceof ToStringReturnsJson) {
-            	s.append(value.toString());
+            	w.append(value.toString());
             } else if (value instanceof Map) {
-                structuredMapToJson(s, (Map) value, jsonFormat); // @TODO pass in stringbuffer to pvt method
+                structuredMapToJson(w, (Map) value, jsonFormat); // @TODO pass in stringbuffer to pvt method
             } else if (value instanceof List) {
-                structuredListToJson(s, (List)value, jsonFormat);
+                structuredListToJson(w, (List)value, jsonFormat);
             } else if (value instanceof Number) {
-                s.append(value);
+                w.append(value.toString());
             } else if (value instanceof Boolean) {
-                s.append(value);
+                w.append(value.toString());
             } else if (value instanceof java.util.Date) {
             	// MS-compatible JSON encoding of Dates:
             	// see http://weblogs.asp.net/bleroy/archive/2008/01/18/dates-and-json.aspx
-                s.append(toDate((java.util.Date)value, jsonFormat));
+                w.append(toDate((java.util.Date)value, jsonFormat));
             } else if (value.getClass().isArray()) {
            	  	if (value instanceof Object[]) {
            	  		List arrayList = Arrays.asList((Object[])value);
-           	  		structuredListToJson(s, (List)arrayList, jsonFormat);
+           	  		structuredListToJson(w, (List)arrayList, jsonFormat);
            	  	} else if (value instanceof double[]) {
 	              	// @TODO other primitive array types
 	           		// @TODO convert directly probably
@@ -1537,13 +1542,13 @@ public class Struct {
 	           		Double[] daTgt = new Double[daSrc.length];
 	           		for (int j=0; j<daSrc.length; j++) { daTgt[j]=daSrc[j]; }
 	           		List arrayList = Arrays.asList((Object[])daTgt);
-	           		structuredListToJson(s, (List) arrayList, jsonFormat);
+	           		structuredListToJson(w, (List) arrayList, jsonFormat);
            	  	} else if (value instanceof int[]) {
 	           		int[] daSrc = (int[]) value;
 	           		Integer[] daTgt = new Integer[daSrc.length];
 	           		for (int j=0; j<daSrc.length; j++) { daTgt[j]=daSrc[j]; }
 	           		List arrayList = Arrays.asList((Object[])daTgt);
-	           		structuredListToJson(s, (List) arrayList, jsonFormat);
+	           		structuredListToJson(w, (List) arrayList, jsonFormat);
            	  	} else {
            	  		throw new UnsupportedOperationException("Cannot convert primitive array to JSON");
            	  	}
@@ -1553,28 +1558,32 @@ public class Struct {
             }
             index = index + 1;
             if (i.hasNext()) {
-                s.append(',');
+                w.append(',');
             }
         }
-        s.append("]\n");
+        w.append("]\n");
         // return s.toString();
     }
 
-   /** Converts a java map into javascript  
-    *
-    * @param map the Map to convert into javascript
-    *
-    * @return a javascript version of this Map
-    */
-   public static String structuredMapToJson(Map map, String jsonFormat) {
-	   StringBuilder sb = new StringBuilder();
-	   structuredMapToJson(sb, map, jsonFormat);
-	   return sb.toString();
-   }
+    /** Converts a java map into javascript  
+     *
+     * @param map the Map to convert into javascript
+     *
+     * @return a javascript version of this Map
+     */
+    public static String structuredMapToJson(Map map, String jsonFormat) {
+	    StringBuilderWriter w = new StringBuilderWriter();
+	    try {
+			structuredMapToJson(w, map, jsonFormat);
+		} catch (IOException e) {
+			throw new IllegalStateException("IOException in StringBuilderWriter", e);
+		}
+	    return w.toString();
+    }
    
    // private methods that uses StringBuilders, which is hopefully a bit more efficient
    // than using Strings
-   private static void structuredMapToJson(StringBuilder sb, Map map, String jsonFormat) {
+   private static void structuredMapToJson(Writer w, Map map, String jsonFormat) throws IOException {
        Map.Entry entry;
        // String s;
        Object key;
@@ -1585,7 +1594,7 @@ public class Struct {
        Collections.sort(list, new ListComparator());
        boolean isFirst = true;
 
-       sb.append("{");
+       w.append("{");
 
        for (Iterator i = list.iterator(); i.hasNext();) {
            key = (Object) i.next();
@@ -1602,61 +1611,61 @@ public class Struct {
            } else if (value == null) {
                continue; // don't bother transferring null values to javascript
            } else if (value instanceof String) {
-        	   if (!isFirst) { sb.append(","); }
-        	   sb.append(keyJson);
-        	   sb.append( ": \"");
-        	   sb.append(Text.escapeJavascript((String) value));
-        	   sb.append("\"");
+        	   if (!isFirst) { w.append(","); }
+        	   w.append(keyJson);
+        	   w.append( ": \"");
+        	   w.append(Text.escapeJavascript((String) value));
+        	   w.append("\"");
            } else if (value instanceof ToJsonFormat) {
-        	   if (!isFirst) { sb.append(","); }
-        	   sb.append(keyJson);
-        	   sb.append(": ");
-        	   sb.append(((ToJsonFormat)value).toJson(jsonFormat));
+        	   if (!isFirst) { w.append(","); }
+        	   w.append(keyJson);
+        	   w.append(": ");
+        	   w.append(((ToJsonFormat)value).toJson(jsonFormat));
            } else if (value instanceof ToJson) {
-        	   if (!isFirst) { sb.append(","); }
-        	   sb.append(keyJson);
-        	   sb.append(": ");
-        	   sb.append(((ToJson)value).toJson());
+        	   if (!isFirst) { w.append(","); }
+        	   w.append(keyJson);
+        	   w.append(": ");
+        	   w.append(((ToJson)value).toJson());
            } else if (value instanceof ToStringReturnsJson) {
-        	   if (!isFirst) { sb.append(","); }
-        	   sb.append(keyJson);
-        	   sb.append(": ");
-        	   sb.append(value.toString());
+        	   if (!isFirst) { w.append(","); }
+        	   w.append(keyJson);
+        	   w.append(": ");
+        	   w.append(value.toString());
            } else if (value instanceof Map) {
-        	   if (!isFirst) { sb.append(","); }
-               sb.append(keyJson);
-               sb.append(": ");
-               structuredMapToJson(sb, (Map)value, jsonFormat);
+        	   if (!isFirst) { w.append(","); }
+               w.append(keyJson);
+               w.append(": ");
+               structuredMapToJson(w, (Map)value, jsonFormat);
            } else if (value instanceof List) {
-        	   if (!isFirst) { sb.append(","); }
-        	   sb.append(keyJson);
-        	   sb.append(": ");
-        	   structuredListToJson(sb, (List)value, jsonFormat);
+        	   if (!isFirst) { w.append(","); }
+        	   w.append(keyJson);
+        	   w.append(": ");
+        	   structuredListToJson(w, (List)value, jsonFormat);
            } else if (value instanceof Number) {
-        	   if (!isFirst) { sb.append(","); }
-               sb.append(keyJson);
-               sb.append(": ");
-               sb.append(value);
+        	   if (!isFirst) { w.append(","); }
+               w.append(keyJson);
+               w.append(": ");
+               w.append(value.toString());
            } else if (value instanceof Boolean) {
-        	   if (!isFirst) { sb.append(","); }
-        	   sb.append(keyJson);
-        	   sb.append(": ");
-        	   sb.append(value);
+        	   if (!isFirst) { w.append(","); }
+        	   w.append(keyJson);
+        	   w.append(": ");
+        	   w.append(value.toString());
            } else if (value instanceof java.util.Date) {
            	// MS-compatible JSON encoding of Dates:
            	// see http://weblogs.asp.net/bleroy/archive/2008/01/18/dates-and-json.aspx
-        	   if (!isFirst) { sb.append(","); }
-               sb.append(keyJson);
-               sb.append(": ");
-               sb.append(toDate((java.util.Date)value, jsonFormat));
+        	   if (!isFirst) { w.append(","); }
+               w.append(keyJson);
+               w.append(": ");
+               w.append(toDate((java.util.Date)value, jsonFormat));
            } else if (value.getClass().isArray()) {
         	   
            	  if (value instanceof Object[]) {
 	              List arrayList = Arrays.asList((Object[])value);
-	              if (!isFirst) { sb.append(","); }
-	              sb.append(keyJson);
-	              sb.append(": ");
-	              structuredListToJson(sb, (List)arrayList, jsonFormat);
+	              if (!isFirst) { w.append(","); }
+	              w.append(keyJson);
+	              w.append(": ");
+	              structuredListToJson(w, (List)arrayList, jsonFormat);
            	  } else if (value instanceof double[]) {
               	  // @TODO other primitive array types
             	  // @TODO convert directly probably
@@ -1664,10 +1673,10 @@ public class Struct {
            		  Double[] daTgt = new Double[daSrc.length];
            		  for (int j=0; j<daSrc.length; j++) { daTgt[j]=daSrc[j]; }
            		  List arrayList = Arrays.asList((Object[])daTgt);
-           		  if (!isFirst) { sb.append(","); }
-           		  sb.append(keyJson);
-           		  sb.append(": ");
-           		  structuredListToJson(sb, (List)arrayList, jsonFormat);
+           		  if (!isFirst) { w.append(","); }
+           		  w.append(keyJson);
+           		  w.append(": ");
+           		  structuredListToJson(w, (List)arrayList, jsonFormat);
            	  } else if (value instanceof int[]) {
               	  // @TODO other primitive array types
             	  // @TODO convert directly probably
@@ -1675,10 +1684,10 @@ public class Struct {
            		  Integer[] daTgt = new Integer[daSrc.length];
            		  for (int j=0; j<daSrc.length; j++) { daTgt[j]=daSrc[j]; }
            		  List arrayList = Arrays.asList((Object[])daTgt);
-           		  if (!isFirst) { sb.append(","); }
-           		  sb.append(keyJson);
-           		  sb.append(": ");
-           		  structuredListToJson(sb, (List)arrayList, jsonFormat);
+           		  if (!isFirst) { w.append(","); }
+           		  w.append(keyJson);
+           		  w.append(": ");
+           		  structuredListToJson(w, (List)arrayList, jsonFormat);
            	  } else {
            		  throw new UnsupportedOperationException("Cannot convert primitive array to JSON");
            	  }
@@ -1688,7 +1697,7 @@ public class Struct {
            isFirst = false;
        }
 
-       sb.append("}\n");
+       w.append("}\n");
        // return s;
    }
 	
