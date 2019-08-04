@@ -1983,7 +1983,7 @@ public class Text {
 	 */
 	public static String substitutePlaceholders(Map variables, String text) {
 		// escaped version of (\$\{.*?\}|[^$]+|\$.)
-		Pattern p = Pattern.compile("(\\$\\{.*?\\}|[^$]+|\\$.)");
+		Pattern p = Pattern.compile("(\\$\\{.*?\\}|[^$]+|\\$)"); // modified regex
 		Matcher m = p.matcher(text);
 		String result = "";
 		while (m.find()) {

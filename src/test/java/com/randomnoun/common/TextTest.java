@@ -1,5 +1,7 @@
 package com.randomnoun.common;
 
+import java.util.Properties;
+
 import com.randomnoun.common.Text;
 
 import junit.framework.TestCase;
@@ -312,5 +314,19 @@ public class TextTest
 		assertEquals("   1234   ", Text.pad(source, 10, Text.JUSTIFICATION_CENTER));
     }
     
+
+    public void testSubstitutePlaceholders() {
+		Properties v = new Properties();
+		assertEquals("${var}", Text.substitutePlaceholders(v, "${var}"));
+		v.put("var",  "test");
+		assertEquals("test", Text.substitutePlaceholders(v, "${var}"));
+		
+		
+		v.put("prop:varname",  "asdf");
+		assertEquals("z${env:missing}x", Text.substitutePlaceholders(v, "z${env:missing}x"));
+		assertEquals("zasdfx", Text.substitutePlaceholders(v, "z${prop:varname}x"));
+		assertEquals("dollarAtEnd$", Text.substitutePlaceholders(v, "dollarAtEnd$"));
+		assertEquals("^[a-zA-Z0-9:/\\\\!@#$%^&{}\\[\\]()_+\\-=,.~'` ]{1,255}$", Text.substitutePlaceholders(v, "^[a-zA-Z0-9:/\\\\!@#$%^&{}\\[\\]()_+\\-=,.~'` ]{1,255}$"));
+    }
     
 }
