@@ -1581,9 +1581,7 @@ public class Struct {
 	    return w.toString();
     }
    
-   // private methods that uses StringBuilders, which is hopefully a bit more efficient
-   // than using Strings
-   private static void structuredMapToJson(Writer w, Map map, String jsonFormat) throws IOException {
+   public static void structuredMapToJson(Writer w, Map map, String jsonFormat) throws IOException {
        Map.Entry entry;
        // String s;
        Object key;
