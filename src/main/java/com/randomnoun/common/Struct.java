@@ -61,7 +61,7 @@ public class Struct {
      *  case-insensitivity.
      */
     private static Map<Class<?>, Map<String,Method>> gettersCache;
-
+ 
     /** A ConcurrentReaderHashMap that maps Class objects to Maps, each of which
      *  maps setter method names (e.g. setabcd) to Method objects. Method names should be
      *  lower-cased when elements are added or looked up in this map, to provide
@@ -69,13 +69,14 @@ public class Struct {
      */
     private static Map<Class<?>, Map<String,Method>> settersCache;
 
-    /** Serialise Date objects using the Microsoft convention for Dates.*/
+    /** Serialise Date objects using the Microsoft convention for Dates, 
+     * which is a String in the form <tt>"/Date(millisSinceEpoch)/"</tt>
+     */
 	public static final String DATE_FORMAT_MICROSOFT = "microsoft";
 	
 	/** Serialise Date objects as milliseconds since the epoch */
 	public static final String DATE_FORMAT_NUMERIC = "numeric";
 
-	/* which you'd probably mark as a method annotation instead */
 	/** This class can be serialised as a JSON value by calling it's toString() method */ 
 	public static interface ToStringReturnsJson { }
 	
@@ -83,6 +84,7 @@ public class Struct {
 	public static interface ToJson { 
 		public String toJson(); 
 	}
+	
 	/** This class can be serialised as a JSON value by calling it's toJson(String) method. 
      * Multiple json formats are supported by supplying a jsonFormat string; e.g. 'simple'. 
      * Passing null or an empty string should be equivalent to calling toJson() if the class also implements he Struct.ToJson interface.
@@ -90,13 +92,43 @@ public class Struct {
 	public static interface ToJsonFormat { 
 		public String toJson(String jsonFormat); 
 	}
+	
+	/** This class can be serialised as a JSON value by calling it's writeJsonFormat() method 
+     * Multiple json formats are supported by supplying a jsonFormat string; e.g. 'simple'. 
+     * Passing null or an empty string should be equivalent to calling toJson() if the class also implements he Struct.ToJson interface.
+	 */
+	public static interface WriteJsonFormat { 
+		public String writeJsonFormat(Writer w, String jsonFormat); 
+	}
+	
+	// @TODO when we move to jdk 11 layer extend these interfaces over each other with default implementations, + filteredJson interface
+	
+	/** A comparator that allows elements within lists to be sorted, allowing
+	 * nulls (in order to sort map keys)
+	 */
+    static class ListComparator implements Comparator
+    {
+        public int compare(Object o1, Object o2) {
+            if (o1 == null && o2 == null) {
+                return 0;
+            } else if (o1 == null) {
+                return -1;
+            } else if (o2 == null) {
+                return 1;
+            }
+            return ((Comparable)o1).compareTo(o2);
+        }
+    }
+    
+    /** Backwards compatible class until this is removed */
+    public static class ListContainingNullComparator extends ListComparator { };
+    
     
     /** A Comparator which performs comparisons between two rows in a structured list (used
      *  in sorting). This comparator is equivalent to an 'ORDER BY' on a single field
      *  returned by the Spring JdbcTemplate method.
      */
-    public static class StructuredListComparator
-        implements Comparator {
+    public static class StructuredListComparator implements Comparator {
         /** The key field to sort on */
         private String fieldName;
 
@@ -139,27 +171,12 @@ public class Struct {
         }
     }
 
-    /** A comparator that can deal with nulls (unlike the one in TreeSet) */
-    public static class ListContainingNullComparator
-        implements Comparator {
-        public int compare(Object o1, Object o2) {
-            if (o1 == null && o2 == null) {
-                return 0;
-            } else if (o1 == null) {
-                return -1;
-            } else if (o2 == null) {
-                return 1;
-            }
-            return ((Comparable) o1).compareTo(o2);
-        }
-    }
 
     /** A Comparator which performs comparisons between two rows in a structured list (used
      *  in sorting), keyed on a case-insensitive String value. This comparator is similar to an 
      * 'ORDER BY' on a single field returned by the Spring JdbcTemplate method.
      */
-    public static class StructuredListComparatorIgnoreCase
-        implements Comparator {
+    public static class StructuredListComparatorIgnoreCase implements Comparator {
 
         /** The key field to sort on */
         private String fieldName;
@@ -1485,6 +1502,19 @@ public class Struct {
 		return structuredListToString(topLevelName + "[]", wrapper); 
 	}
 
+	
+    /**
+     * Converts a java List into javascript
+     *
+     * @param list the list to convert into javascript
+     *
+     * @return the javascript version of this list.
+     */
+    static public String structuredListToJson(List list)
+    {
+    	return structuredListToJson(list, "microsoft");
+    }
+    
 	/**
      * Converts a java List into javascript
      *
@@ -1513,16 +1543,18 @@ public class Struct {
                 w.append("null");
             } else if (value instanceof String) {
                 w.append('\"').append(Text.escapeJavascript((String) value)).append('\"'); 
+            } else if (value instanceof WriteJsonFormat) {
+            	((WriteJsonFormat) value).writeJsonFormat(w,  jsonFormat);
             } else if (value instanceof ToJsonFormat) {
-            	w.append(((ToJsonFormat)value).toJson(jsonFormat));
+            	w.append(((ToJsonFormat) value).toJson(jsonFormat));
             } else if (value instanceof ToJson) {
-            	w.append(((ToJson)value).toJson());
+            	w.append(((ToJson) value).toJson());
             } else if (value instanceof ToStringReturnsJson) {
             	w.append(value.toString());
             } else if (value instanceof Map) {
                 structuredMapToJson(w, (Map) value, jsonFormat); // @TODO pass in stringbuffer to pvt method
             } else if (value instanceof List) {
-                structuredListToJson(w, (List)value, jsonFormat);
+                structuredListToJson(w, (List) value, jsonFormat);
             } else if (value instanceof Number) {
                 w.append(value.toString());
             } else if (value instanceof Boolean) {
@@ -1565,6 +1597,18 @@ public class Struct {
         // return s.toString();
     }
 
+     /** Converts a java map into javascript  
+     *
+     * @param map the Map to convert into javascript
+     *
+     * @return a javascript version of this Map
+     */
+    static public String structuredMapToJson(Map map)
+    {
+   		return structuredMapToJson(map, DATE_FORMAT_MICROSOFT);
+    }
+
+    
     /** Converts a java map into javascript  
      *
      * @param map the Map to convert into javascript
@@ -1581,7 +1625,7 @@ public class Struct {
 	    return w.toString();
     }
    
-   public static void structuredMapToJson(Writer w, Map map, String jsonFormat) throws IOException {
+    public static void structuredMapToJson(Writer w, Map map, String jsonFormat) throws IOException {
        Map.Entry entry;
        // String s;
        Object key;
@@ -1614,16 +1658,20 @@ public class Struct {
         	   w.append( ": \"");
         	   w.append(Text.escapeJavascript((String) value));
         	   w.append("\"");
+           } else if (value instanceof WriteJsonFormat) {
+        	   w.append(keyJson);
+        	   w.append( ": \"");
+        	   ((WriteJsonFormat) value).writeJsonFormat(w,  jsonFormat);
            } else if (value instanceof ToJsonFormat) {
         	   if (!isFirst) { w.append(","); }
         	   w.append(keyJson);
         	   w.append(": ");
-        	   w.append(((ToJsonFormat)value).toJson(jsonFormat));
+        	   w.append(((ToJsonFormat) value).toJson(jsonFormat));
            } else if (value instanceof ToJson) {
         	   if (!isFirst) { w.append(","); }
         	   w.append(keyJson);
         	   w.append(": ");
-        	   w.append(((ToJson)value).toJson());
+        	   w.append(((ToJson) value).toJson());
            } else if (value instanceof ToStringReturnsJson) {
         	   if (!isFirst) { w.append(","); }
         	   w.append(keyJson);
@@ -1633,12 +1681,12 @@ public class Struct {
         	   if (!isFirst) { w.append(","); }
                w.append(keyJson);
                w.append(": ");
-               structuredMapToJson(w, (Map)value, jsonFormat);
+               structuredMapToJson(w, (Map) value, jsonFormat);
            } else if (value instanceof List) {
         	   if (!isFirst) { w.append(","); }
         	   w.append(keyJson);
         	   w.append(": ");
-        	   structuredListToJson(w, (List)value, jsonFormat);
+        	   structuredListToJson(w, (List) value, jsonFormat);
            } else if (value instanceof Number) {
         	   if (!isFirst) { w.append(","); }
                w.append(keyJson);
@@ -1700,17 +1748,224 @@ public class Struct {
    }
 	
 	
-    /**
-     * Converts a java List into javascript
+	/**
+     * Converts a java List into javascript, whilst filtering the keys of any Maps to only those in validKeys
      *
      * @param list the list to convert into javascript
+     * @param jsonFormat the jsonFormat
+     * @param validKeys 
      *
      * @return the javascript version of this list.
      */
-    static public String structuredListToJson(List list)
-    {
-    	return structuredListToJson(list, "microsoft");
+    public static String structuredListToFilteredJson(List list, String jsonFormat, String...validKeys) {
+        StringBuilderWriter w = new StringBuilderWriter(list.size() * 2);
+        try {
+        	structuredListToFilteredJson(w, list, jsonFormat, validKeys);
+		} catch (IOException e) {
+			throw new IllegalStateException("IOException in StringBuilderWriter", e);
+		}
+        return w.toString();
     }
+
+	/**
+     * Converts a java List into javascript, whilst filtering the keys of any Maps to only those in validKeys
+     *
+     * @param list the list to convert into javascript
+     * @param jsonFormat the jsonFormat
+     * @param validKeys 
+     *
+     * @return the javascript version of this list.
+     */
+    public static String structuredMapToFilteredJson(Map map, String jsonFormat, String...validKeys) {
+        StringBuilderWriter w = new StringBuilderWriter();
+        try {
+        	structuredMapToFilteredJson(w, map, jsonFormat, validKeys);
+		} catch (IOException e) {
+			throw new IllegalStateException("IOException in StringBuilderWriter", e);
+		}
+        return w.toString();
+    }
+
+    
+    public static void structuredListToFilteredJson(Writer w, List list, String jsonFormat, String... validKeys) throws IOException {
+        Object value;
+        int index = 0;
+        w.append('[');
+        for (Iterator i = list.iterator(); i.hasNext(); ) {
+            value = i.next();
+            if (value == null) {
+                w.append("null");
+            } else if (value instanceof String) {
+                w.append('\"').append(Text.escapeJavascript((String) value)).append('\"'); 
+            } else if (value instanceof ToJsonFormat) {
+            	w.append(((ToJsonFormat) value).toJson(jsonFormat));
+            } else if (value instanceof ToJson) {
+            	w.append(((ToJson) value).toJson());
+            } else if (value instanceof ToStringReturnsJson) {
+            	w.append(value.toString());
+            } else if (value instanceof Map) {
+                structuredMapToFilteredJson(w, (Map) value, jsonFormat, validKeys); // @TODO pass in stringbuffer to pvt method
+            } else if (value instanceof List) {
+                structuredListToFilteredJson(w, (List) value, jsonFormat, validKeys);
+            } else if (value instanceof Number) {
+                w.append(value.toString());
+            } else if (value instanceof Boolean) {
+                w.append(value.toString());
+            } else if (value instanceof java.util.Date) {
+            	// MS-compatible JSON encoding of Dates:
+            	// see http://weblogs.asp.net/bleroy/archive/2008/01/18/dates-and-json.aspx
+                w.append(Struct.toDate((java.util.Date)value, jsonFormat));
+            } else if (value.getClass().isArray()) {
+           	  	if (value instanceof Object[]) {
+           	  		List arrayList = Arrays.asList((Object[])value);
+           	  		structuredListToFilteredJson(w, (List)arrayList, jsonFormat, validKeys);
+           	  	} else if (value instanceof double[]) {
+	              	// @TODO other primitive array types
+	           		// @TODO convert directly probably
+	           		double[] daSrc = (double[]) value;
+	           		Double[] daTgt = new Double[daSrc.length];
+	           		for (int j=0; j<daSrc.length; j++) { daTgt[j]=daSrc[j]; }
+	           		List arrayList = Arrays.asList((Object[])daTgt);
+	           		structuredListToFilteredJson(w, (List) arrayList, jsonFormat, validKeys);
+           	  	} else if (value instanceof int[]) {
+	           		int[] daSrc = (int[]) value;
+	           		Integer[] daTgt = new Integer[daSrc.length];
+	           		for (int j=0; j<daSrc.length; j++) { daTgt[j]=daSrc[j]; }
+	           		List arrayList = Arrays.asList((Object[])daTgt);
+	           		structuredListToFilteredJson(w, (List) arrayList, jsonFormat, validKeys);
+           	  	} else {
+           	  		throw new UnsupportedOperationException("Cannot convert primitive array to JSON");
+           	  	}
+            } else {
+                throw new RuntimeException("Cannot translate Java object " +
+                    value.getClass().getName() + " to javascript value");
+            }
+            index = index + 1;
+            if (i.hasNext()) {
+                w.append(',');
+            }
+        }
+        w.append("]");  // removed \n
+    }
+
+   public static void structuredMapToFilteredJson(Writer w, Map map, String jsonFormat, String... validKeys) throws IOException {
+       // String s;
+       String keyJson = null;
+       Object value;
+       
+       /* List list = new ArrayList(map.keySet());
+       Collections.sort(list, new ListComparator());
+       */
+       
+       boolean isFirst = true;
+
+       w.append("{");
+
+       for (String key : validKeys) {
+           // key = (Object) i.next();
+    	   value = map.get(key);
+    	   if (value != null) {
+	           if (key instanceof String) {
+	        	   keyJson = "\"" + key + "\"";
+	           } else {
+	        	   throw new IllegalArgumentException("Cannot convert key type " + key.getClass().getName() + " to javascript value");
+	           }
+    	   }
+           if (key == null || key.equals("")) {
+               continue; // don't allow null or empty keys, 
+           } else if (value == null) {
+               continue; // don't bother transferring null values to javascript
+           } else if (value instanceof String) {
+        	   if (!isFirst) { w.append(","); }
+        	   w.append(keyJson);
+        	   w.append( ": \"");
+        	   w.append(Text.escapeJavascript((String) value));
+        	   w.append("\"");
+           } else if (value instanceof ToJsonFormat) {
+        	   if (!isFirst) { w.append(","); }
+        	   w.append(keyJson);
+        	   w.append(": ");
+        	   w.append(((ToJsonFormat) value).toJson(jsonFormat));
+           } else if (value instanceof ToJson) {
+        	   if (!isFirst) { w.append(","); }
+        	   w.append(keyJson);
+        	   w.append(": ");
+        	   w.append(((ToJson) value).toJson());
+           } else if (value instanceof ToStringReturnsJson) {
+        	   if (!isFirst) { w.append(","); }
+        	   w.append(keyJson);
+        	   w.append(": ");
+        	   w.append(value.toString());
+           } else if (value instanceof Map) {
+        	   if (!isFirst) { w.append(","); }
+               w.append(keyJson);
+               w.append(": ");
+               structuredMapToFilteredJson(w, (Map) value, jsonFormat, validKeys);
+           } else if (value instanceof List) {
+        	   if (!isFirst) { w.append(","); }
+        	   w.append(keyJson);
+        	   w.append(": ");
+        	   structuredListToFilteredJson(w, (List) value, jsonFormat, validKeys);
+           } else if (value instanceof Number) {
+        	   if (!isFirst) { w.append(","); }
+               w.append(keyJson);
+               w.append(": ");
+               w.append(value.toString());
+           } else if (value instanceof Boolean) {
+        	   if (!isFirst) { w.append(","); }
+        	   w.append(keyJson);
+        	   w.append(": ");
+        	   w.append(value.toString());
+           } else if (value instanceof java.util.Date) {
+           	// MS-compatible JSON encoding of Dates:
+           	// see http://weblogs.asp.net/bleroy/archive/2008/01/18/dates-and-json.aspx
+        	   if (!isFirst) { w.append(","); }
+               w.append(keyJson);
+               w.append(": ");
+               w.append(Struct.toDate((java.util.Date)value, jsonFormat));
+           } else if (value.getClass().isArray()) {
+        	   
+           	  if (value instanceof Object[]) {
+	              List arrayList = Arrays.asList((Object[])value);
+	              if (!isFirst) { w.append(","); }
+	              w.append(keyJson);
+	              w.append(": ");
+	              structuredListToFilteredJson(w, (List)arrayList, jsonFormat, validKeys);
+           	  } else if (value instanceof double[]) {
+              	  // @TODO other primitive array types
+            	  // @TODO convert directly probably
+           		  double[] daSrc = (double[]) value;
+           		  Double[] daTgt = new Double[daSrc.length];
+           		  for (int j=0; j<daSrc.length; j++) { daTgt[j]=daSrc[j]; }
+           		  List arrayList = Arrays.asList((Object[])daTgt);
+           		  if (!isFirst) { w.append(","); }
+           		  w.append(keyJson);
+           		  w.append(": ");
+           		  structuredListToFilteredJson(w, (List)arrayList, jsonFormat, validKeys);
+           	  } else if (value instanceof int[]) {
+              	  // @TODO other primitive array types
+            	  // @TODO convert directly probably
+           		  int[] daSrc = (int[]) value;
+           		  Integer[] daTgt = new Integer[daSrc.length];
+           		  for (int j=0; j<daSrc.length; j++) { daTgt[j]=daSrc[j]; }
+           		  List arrayList = Arrays.asList((Object[])daTgt);
+           		  if (!isFirst) { w.append(","); }
+           		  w.append(keyJson);
+           		  w.append(": ");
+           		  structuredListToFilteredJson(w, (List)arrayList, jsonFormat, validKeys);
+           	  } else {
+           		  throw new UnsupportedOperationException("Cannot convert primitive array to JSON");
+           	  }
+           } else {
+               throw new RuntimeException("Cannot translate Java object " + value.getClass().getName() + " to javascript value");
+           }
+           isFirst = false;
+       }
+
+       w.append("}");  // removed \n
+   }
+
+   
     
     /** Convert a date object to it's JSON representation.
      * 
@@ -1733,34 +1988,8 @@ public class Struct {
     }
 
 
-	/** A comparator that allows elements within lists to be sorted, allowing
-	 * nulls (in order to sort map keys)
-	 */
-    static class ListComparator
-        implements Comparator
-    {
-        public int compare(Object o1, Object o2) {
-            if (o1 == null && o2 == null) {
-                return 0;
-            } else if (o1 == null) {
-                return -1;
-            } else if (o2 == null) {
-                return 1;
-            }
-            return ((Comparable)o1).compareTo(o2);
-        }
-    }
 
-    /** Converts a java map into javascript  
-     *
-     * @param map the Map to convert into javascript
-     *
-     * @return a javascript version of this Map
-     */
-    static public String structuredMapToJson(Map map)
-    {
-    	return structuredMapToJson(map, DATE_FORMAT_MICROSOFT);
-    }
+
     
     /** Create a structured Map out of key / value pairs. Keys must be Strings.
      * 
