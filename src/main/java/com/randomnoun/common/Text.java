@@ -3,20 +3,25 @@ package com.randomnoun.common;
 /* (c) 2013 randomnoun. All Rights Reserved. This work is licensed under a
  * BSD Simplified License. (http://www.randomnoun.com/bsd-simplified.html)
  */
-
-import java.io.*;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.Collator;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.BitSet;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import com.randomnoun.common.Struct;
 
 /** Text utility functions
  *
@@ -1201,8 +1206,6 @@ public class Text {
     /** Mapping table from 6-bit nibble to Base64 characters */
     private static char[] map1 = new char[64];
 
-    private static Map knownTypes = new HashMap();
-
     // NB: www-form-encoding appears to be alpha | numeric | -_.* ( + space) 
     static {
         percent.set('%');
@@ -1276,287 +1279,9 @@ public class Text {
         map1[i++] = '+';
         map1[i++] = '/';
         
-        // these types use a static valueOf() method or single String constructor 
-        // to return a type in parseData();
-        knownTypes.put("Boolean", "java.lang.Boolean");
-        knownTypes.put("Character", "java.lang.Character");
-        knownTypes.put("Byte", "java.lang.Byte");
-        knownTypes.put("Short", "java.lang.Short");
-        knownTypes.put("Integer", "java.lang.Integer");
-        knownTypes.put("Long", "java.lang.Long");
-        knownTypes.put("Float", "java.lang.Float");
-        knownTypes.put("Double", "java.lang.Double");
-        knownTypes.put("BigDecimal", "java.math.BigDecimal");
-        knownTypes.put("DateSpan", "com.randomnoun.common.jexl.eval.DateSpan");
-        knownTypes.put("Timestamp", "java.sql.Timestamp");
-		knownTypes.put("Date", "com.randomnoun.common.Text$DateParser");
-            
     }
     
     
-    /** Heinously inefficent method of parsing an unstructured list, map or set into
-     * an object, which is returned by this method. Basically coded up so I can
-     * cut &amp; paste state from the debug JSP into text files for testing.
-     * 
-     * <p>There are a few limits on round-tripping data via this method; specifically,
-     * numbers that don't have a type identifier will be returned as Long, and custom 
-     * datatypes that do not implement a .valueOf() method may not be able to 
-     * be constructed from a text description.
-     * 
-     * <p>Comments can be added using '#' notation (these cannot occur in the 
-     * middle of a structure, however). 
-     * 
-     * @param text The text to parse. See 
-     *   {@link com.randomnoun.common.Struct#structuredListToString(String, List)},
-     *   {@link com.randomnoun.common.Struct#structuredMapToString(String, Map)} and
-     *   {@link com.randomnoun.common.Struct#structuredSetToString(String, Set)} for
-     *   information on the required input format.
-     *
-     * @return an object constructed from the text description. 
-     */
-    public static Map parseStructOutput(String text) throws ParseException {
-        LineNumberReader lineReader = new LineNumberReader(new StringReader(text));
-        String line;
-        String token;
-        Map topLevelMap = new HashMap();
-        
-        Stack<Object> objectStack = new Stack<Object>();
-        objectStack.push(topLevelMap);
-        
-        int parseState = 0; 
-        // line-level parse state: 
-        //   0=creating top-level object 
-        //   1=constructing map   
-        //   2=constructing list
-        //   3=constructing set
-        
-        try {
-            line = lineReader.readLine();
-            while (line!=null) {            
-                int length = line.length();
-                int indent = 0; // could verify indent against stack size
-                // System.out.println("ps=" + parseState + "; line ='" + line + "'");
-                
-                while (indent<length && line.charAt(indent)==' ') { indent++; }
-                int tokenEnd = indent + 1;
-                while (tokenEnd<length && line.charAt(tokenEnd)!=' ' && line.charAt(tokenEnd)!=':') { tokenEnd++; }
-                if (tokenEnd<length) {
-                    token = line.substring(indent, tokenEnd);
-                } else {
-                    token = line.substring(indent);
-                }
-                // System.out.println("Token = '" + token + "'");
-                int listIndex = -1;
-                if (parseState == 2 && !token.equals("")) {
-                    try {
-                        listIndex = Integer.parseInt(token);
-                    } catch (NumberFormatException nfe) {
-                        // throw new ParseException("Line " + lnr.getLineNumber() + ": Could not parse integer at start of line", lnr.getLineNumber());
-                        listIndex = -1;    
-                    }
-                }
-                
-                if (token.equals("") || token.startsWith("#")) {
-                    // ignore blank lines or comments
-                    
-                } else if (token.equals("}")) {
-                    // close map
-                    if (parseState != 1) { throw new ParseException("Line " + lineReader.getLineNumber() + ": Found '}' whilst not constructing map", 0 ); }
-                    objectStack.pop();
-                    parseState = getNewParseState(objectStack);
-
-                } else if (token.equals("]")) {
-                    // close array
-                    if (parseState != 2) { throw new ParseException("Line " + lineReader.getLineNumber() + ": Found ']' whilst not constructing list", 0 ); }
-                    objectStack.pop();
-					parseState = getNewParseState(objectStack);
-
-				} else if (token.equals(")")) {
-					// close set
-					if (parseState != 3) { throw new ParseException("Line " + lineReader.getLineNumber() + ": Found ')' whilst not constructing set", 0 ); }
-					objectStack.pop();
-					parseState = getNewParseState(objectStack);
-                    
-                } else {
-                    // line at this point could be 
-                    //    token = { 
-                    //    token = [
-                    //    token = ( 
-                    //    token => data 
-                    //    token: data      (where token is an int)
-                    //    data             (set element)
-                    
-                    String rest = line.substring(tokenEnd);  
-                    // System.out.println("rest = '" + rest + "'");          
-                    if (rest.startsWith(": ")) {
-                        if (parseState != 2) { throw new ParseException("Line " + lineReader.getLineNumber() + ": Found nnn: xxx whilst not constructing list", 0); }
-                        Struct.setListElement(((List) objectStack.peek()), listIndex, parseData(rest.substring(2)));
-        
-                    } else if (rest.startsWith(" => ")) {
-                        if (parseState != 1) { throw new ParseException("Line " + lineReader.getLineNumber() + ": Found xxx => xxx whilst not constructing map", 0); }
-                        ((Map) objectStack.peek()).put(token, parseData(rest.substring(4)));
-                    
-                    } else if (rest.startsWith(" = [")) {
-                        List newList = new ArrayList();
-                        if (parseState==0 || parseState==1) {
-                            ((Map) objectStack.peek()).put(token, newList);
-                        } else if (parseState==2) {
-                            // should verify list index
-                            Struct.setListElement(((List) objectStack.peek()), listIndex, newList);
-                        } else if (parseState==3) {
-							((Set) objectStack.peek()).add(newList);
-						} else {
-							throw new IllegalStateException("Unknown state '" + parseState + "'");
-						}
-                        objectStack.push(newList);
-                        parseState = 2;
-        
-                    } else if (rest.startsWith(" = {")) {
-                        Map newMap = new HashMap();
-                        if (parseState==0 || parseState==1) {
-                            ((Map) objectStack.peek()).put(token, newMap);
-                        } else if (parseState==2) {
-                            // should verify list index
-                            Struct.setListElement(((List) objectStack.peek()), listIndex, newMap);
-                        } else if (parseState==3) {
-							((Set) objectStack.peek()).add(newMap);
-						} else {
-							throw new IllegalStateException("Unknown state '" + parseState + "'");
-						}                        
-						objectStack.push(newMap);
-                        parseState = 1;
-
-					} else if (rest.startsWith(" = (")) {
-						Set newSet = new HashSet();
-						if (parseState==0 || parseState==1) {
-							((Map) objectStack.peek()).put(token, newSet);
-						} else if (parseState==2) {
-							// should verify list index
-							Struct.setListElement(((List) objectStack.peek()), listIndex, newSet);
-						} else if (parseState==3) {
-							((Set) objectStack.peek()).add(newSet);
-						} else {
-							throw new IllegalStateException("Unknown state '" + parseState + "'");
-						}
-						objectStack.push(newSet);
-						parseState = 3;
-                        
-                    } else {
-						if (parseState != 3) { throw new ParseException("Line " + lineReader.getLineNumber() + ": Found data whilst not constructing map ('" + line + "')", 0); }
-						((Set) objectStack.peek()).add(parseData(line.trim()));
-                    }
-                }
-                
-                // get next line
-                line = lineReader.readLine();
-            }
-
-        } catch (IOException ioe) {
-            // this can't happen !
-            throw (IllegalStateException) new IllegalStateException("IOException reading String").initCause(ioe);
-        }
-
-        if (objectStack.size()>1) {
-            throw new ParseException("Unclosed } or ] in string representation (stack size = " + objectStack.size() + ")", 0);
-        }
-        if (parseState!=0) {
-            throw new ParseException("{} or [] mismatch in string representation (parseState = " + parseState + ")", 0);
-        }
-        
-        return topLevelMap;
-    }
-    
-    /** Private method used by {@link #parseStructOutput(String)} to determine the parse
-     * state for the next item on the parse stack.
-     * 
-     * @param stack current parse stack; elements are pushed onto this as parsing takes
-     *   place; the class of the top element of this stack will determine the next parse
-     *   state.
-     * 
-     * @return a parse state identifier; see {@link #parseStructOutput(String)} for 
-     *   details.
-     * 
-     * @throws IllegalStateException if the next element on the stack is not a Set, List or Map
-     */
-    private static int getNewParseState(Stack objectStack) {
-    	int parseState;
-		if (objectStack.size() > 1) {
-			if (objectStack.peek() instanceof Set) {
-				parseState = 3;
-			} else if (objectStack.peek() instanceof List) {
-				parseState = 2;
-			} else if (objectStack.peek() instanceof Map) {
-				parseState = 1;
-			} else {
-				throw new IllegalStateException("Invalid object '" + objectStack.peek().getClass().getName() + "' found on parse stack");
-			}
-		} else {
-			parseState = 0;
-		}
-		return parseState;
-    }
-
-    /** Parse the rhs of a Struct declaration.
-     *  
-     * <p>This method takes, as input, the output from a 
-     * {@link Struct#structuredListToString(String, List)} or
-     * {@link Struct#structuredMapToString(String, Map)} function, and attempts to
-     * reconstruct the original Map or List. This is useful when reading text
-     * representations of complex objects from disk for use in test cases.
-     * 
-     * <p>See the Codec class methods for descriptions of what types of syntax are
-     * accepted by this method.
-     * 
-     * @param text The string representation
-     * 
-     * @return The original class or method
-     */    
-    private static Object parseData(String text) throws ParseException {
-        if (text.startsWith("'") && text.endsWith("'")) {
-            return text.substring(1, text.length()-1);
-        } else if (text.equals("null")) {
-            return null;
-        } else if (text.startsWith("(")) {
-            int pos = text.indexOf(')');
-            if (pos==-1) { throw new ParseException("Unclosed parenthesis in data value '" + text + "'", 0); }
-            String type = text.substring(1, pos);
-            String rest = text.substring(pos + 2);
-            
-            if (knownTypes.containsKey(type)) {
-                try {
-                    Class clazz = Class.forName((String) knownTypes.get(type));
-                    
-                    // if class implements valueOf, then use this
-                    Method parseMethod;
-                    try {
-                        parseMethod = clazz.getMethod("valueOf", new Class[] {String.class});
-                    } catch (NoSuchMethodException nsme) {
-                        parseMethod = null;
-                    }
-                    
-                    if (parseMethod!=null) {
-                        return parseMethod.invoke(null, new Object[] { rest } );
-                    }
-                    
-                    // otherwise use a String constructor
-                    Constructor cons = clazz.getConstructor(new Class[] {String.class});
-                    return cons.newInstance(new Object[] { rest });
-                } catch (Exception e) {
-                    throw (ParseException) new ParseException("Could not instantiate class " + knownTypes.get(type) + " for data value '" + rest + "'", 0).initCause(e);
-                }
-            } else {
-                // could attempt to use a String constructor here, but 
-                // throwing an exception is probably safer
-                throw new ParseException("Unknown type '" + type + "' for data value '" + text + "'", 0);
-            }
-        }
-        
-        
-        
-        throw new ParseException("Expected string constant of the form 'xxx' or typed value whilst parsing value '" + text + "'", 0);
-        
-    }
-
 
     /**
      * Returns a comparator that compares contained numbers based on their numeric values and compares other parts
@@ -1575,8 +1300,7 @@ public class Text {
                 return compareNatural(collator, (String) o1, (String) o2);
             }
         };
-    }
-    
+    }    
 
     /**
      * <p>Compares two strings using the current locale's rules and comparing contained numbers based on their numeric
