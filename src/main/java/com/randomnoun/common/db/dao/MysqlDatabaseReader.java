@@ -74,8 +74,8 @@ public class MysqlDatabaseReader extends DatabaseReader {
 	@SuppressWarnings("unchecked")
 	private TableTO readTable(SchemaTO s, String tableName) {
 		final TableTO t = new TableTO(s, tableName);
-		List<TableColumnTO> columnList = null;
-		List<String> constraintList = null;
+		List<? extends TableColumnTO> columnList = null;
+		List<String> constraintNames = null;
 		
 		columnList = jt.query(
 			// TABLE_CATALOG always NULL, TABLE_SCHEMA
@@ -91,8 +91,8 @@ public class MysqlDatabaseReader extends DatabaseReader {
 				" UPPER(TABLE_NAME) = '" + t.name + "' " :
 				" TABLE_NAME = '" + t.name + "' ") +		
 			"	ORDER BY TABLE_NAME, ORDINAL_POSITION ", 
-			new RowMapper() {
-				public Object mapRow(ResultSet rs, int rowCount) throws SQLException {
+			new RowMapper<MysqlTableColumnTO>() {
+				public MysqlTableColumnTO mapRow(ResultSet rs, int rowCount) throws SQLException {
 					MysqlTableColumnTO mtc = new MysqlTableColumnTO(t, 
 						t.schema.database.upper(rs.getString("COLUMN_NAME")),
 						rs.getLong("ORDINAL_POSITION"),
@@ -115,15 +115,21 @@ public class MysqlDatabaseReader extends DatabaseReader {
 			t.columns.put(c.getName(), c);
 		}
 	
-		constraintList = jt.query(
+		constraintNames = jt.query(
 			"SELECT CONSTRAINT_NAME "+
 			" FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS " +
 			" WHERE TABLE_SCHEMA='" + t.schema.name + "'" +
 			" AND TABLE_NAME='" + t.name + "'",
 			new StringRowMapper() );
 		//constraintList = t.schema.database.upper(constraintList);
-		for (String c : constraintList) {
-			t.constraints.put(c, getConstraint(t, c));
+		for (String c : constraintNames) {
+			ConstraintTO constraint = getConstraint(t, c);
+			t.constraints.put(c, constraint);
+			if (constraint.getType() == ConstraintType.PRIMARY) {
+				for (String cn : constraint.getConstraintColumnNames()) {
+					t.columns.get(cn).setPrimaryKey(true);
+				}
+			}
 		}
 		return t;
 	}
@@ -142,17 +148,20 @@ public class MysqlDatabaseReader extends DatabaseReader {
 			ConstraintType type = ConstraintType.fromDatabaseString(typeString);
 			final ConstraintTO constraint = new ConstraintTO(t, type, t.schema.database.upper(constraintName));
 			
-			/* so this used to work
-			List columnList = jt.query(
+			/* so this used to work */
+			List<ConstraintColumnTO> columnList = jt.query(
 				"SELECT constraint_catalog, constraint_schema, constraint_name, " +
 				"  table_catalog, table_schema, table_name, " + 
-				"  column_name, ordinal_position, " +
-				"  referenced_table_name, referenced_column_name " +
+				"  column_name, ordinal_position, " + // position_in_unique_constraint,
+				// referenced_table_schema
+				"  referenced_table_name, referenced_column_name " + 
 			    " FROM information_schema.key_column_usage" +
-			    " WHERE constraint_name = '" + t.name + "' " +
+			    " WHERE constraint_name = '" + constraintName + "' " + // and catalog and schema
+			    " AND table_schema = '" + t.schema.name + "' " + 
+			    " AND table_name = '" + t.getName() + "' " +
 			    " ORDER BY ordinal_position ",
-				new RowMapper() {
-					public Object mapRow(ResultSet rs, int rowCount) throws SQLException {
+				new RowMapper<ConstraintColumnTO>() {
+					public ConstraintColumnTO mapRow(ResultSet rs, int rowCount) throws SQLException {
 						return new ConstraintColumnTO(constraint, 
 								constraint.table.schema.database.upper(rs.getString("COLUMN_NAME")),
 							rs.getLong("ORDINAL_POSITION"),
@@ -168,7 +177,7 @@ public class MysqlDatabaseReader extends DatabaseReader {
 				ConstraintColumnTO column = (ConstraintColumnTO) i.next();
 				constraint.columns.put(column.name, column);
 			}
-			*/
+			
 
 			
 			

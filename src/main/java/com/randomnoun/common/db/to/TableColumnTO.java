@@ -2,9 +2,6 @@ package com.randomnoun.common.db.to;
 
 import org.apache.log4j.Logger;
 
-import com.randomnoun.common.db.DatabaseReader;
-import com.randomnoun.common.db.enums.DatabaseType;
-
 /** Holds type information for a table column. 
  */
 public class TableColumnTO {
@@ -44,6 +41,9 @@ public class TableColumnTO {
 	public String getName() { return name; }
 	public long   getColumnId() { return columnId; }
 	public boolean isPrimaryKey() { return isPrimaryKey; }
+	public void setPrimaryKey(boolean b) {
+		this.isPrimaryKey = b;
+	}
 	public String getDataType() { return dataType; }
 	public long   getDataTypeLength() { return dataTypeLength; }
 	public long   getDataTypePrecision() { return dataTypePrecision; }
@@ -72,6 +72,7 @@ public class TableColumnTO {
 			return dataType;
 		}
 	}
+	
 	
 	
 	
