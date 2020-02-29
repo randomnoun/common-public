@@ -87,7 +87,7 @@ public class Struct {
 	
 	/** This class can be serialised as a JSON value by calling it's toJson(String) method. 
      * Multiple json formats are supported by supplying a jsonFormat string; e.g. 'simple'. 
-     * Passing null or an empty string should be equivalent to calling toJson() if the class also implements he Struct.ToJson interface.
+     * Passing null or an empty string should be equivalent to calling toJson() if the class also implements the Struct.ToJson interface.
      */
 	public static interface ToJsonFormat { 
 		public String toJson(String jsonFormat); 
@@ -95,10 +95,10 @@ public class Struct {
 	
 	/** This class can be serialised as a JSON value by calling it's writeJsonFormat() method 
      * Multiple json formats are supported by supplying a jsonFormat string; e.g. 'simple'. 
-     * Passing null or an empty string should be equivalent to calling toJson() if the class also implements he Struct.ToJson interface.
+     * Passing null or an empty string should be equivalent to calling toJson() if the class also implements the Struct.ToJson interface.
 	 */
 	public static interface WriteJsonFormat { 
-		public String writeJsonFormat(Writer w, String jsonFormat); 
+		public void writeJsonFormat(Writer w, String jsonFormat) throws IOException; 
 	}
 	
 	// @TODO when we move to jdk 11 layer extend these interfaces over each other with default implementations, + filteredJson interface
@@ -1659,8 +1659,9 @@ public class Struct {
         	   w.append(Text.escapeJavascript((String) value));
         	   w.append("\"");
            } else if (value instanceof WriteJsonFormat) {
+        	   if (!isFirst) { w.append(","); }
         	   w.append(keyJson);
-        	   w.append( ": \"");
+        	   w.append(": ");
         	   ((WriteJsonFormat) value).writeJsonFormat(w,  jsonFormat);
            } else if (value instanceof ToJsonFormat) {
         	   if (!isFirst) { w.append(","); }
