@@ -200,36 +200,46 @@ public class SetJavascriptVarTag
         throws javax.servlet.jsp.JspException
     {
         try {
-	        String javascript;
-	        javascript = (name.indexOf(".")==-1 ? "var " : "") + name + " = ";
+        	JspWriter out = pageContext.getOut();
+	        //String javascript;
+	        // javascript = (name.indexOf(".")==-1 ? "var " : "") + name + " = ";
+        	out.append(name.indexOf(".")==-1 ? "var " : "");
+        	out.append(name);
+        	out.append(" = ");
+        	
 	        if (value == null) {
-	            javascript += "null";
+	        	out.append("null");
 	        } else if (value instanceof String) {
-	            javascript += "\"" + Text.escapeJavascript((String) value) + "\"";
+	        	out.append("\"");
+	        	out.append(Text.escapeJavascript((String) value));
+	        	out.append("\"");
 	        } else if (value instanceof List) {
-	            javascript += Struct.structuredListToJson((List) value, jsonFormat);
+	        	// out.append(Struct.structuredListToJson((List) value, jsonFormat));
+	        	Struct.structuredListToJson(out, (List) value, jsonFormat);
 	        } else if (value instanceof Map) {
-	            javascript += Struct.structuredMapToJson((Map) value, jsonFormat);
+	        	// out.append(Struct.structuredMapToJson((Map) value, jsonFormat));
+	        	Struct.structuredMapToJson(out, (Map) value, jsonFormat);
 	        } else if (value instanceof Number) {
-	            javascript += value;
+	        	out.append(String.valueOf(value));
 	        } else if (value instanceof Boolean) {
-	        	javascript += value;
+	        	out.append(String.valueOf(value));
 	        } else if (value instanceof java.util.Date) {
             	// MS-compatible JSON encoding of Dates:
             	// see http://weblogs.asp.net/bleroy/archive/2008/01/18/dates-and-json.aspx
                 // javascript += "\"\\/Date(" + ((java.util.Date)value).getTime() +  ")\\/\"";
-	        	javascript += Struct.toDate((java.util.Date) value, jsonFormat);
+	        	out.append(Struct.toDate((java.util.Date) value, jsonFormat));
+	        } else if (value instanceof Struct.WriteJsonFormat) {
+	        	((Struct.WriteJsonFormat) value).writeJsonFormat(out, jsonFormat); 
+	        } else if (value instanceof Struct.ToJsonFormat) {
+	        	out.append(((Struct.ToJsonFormat) value).toJson(jsonFormat));
 	        } else if (value instanceof Struct.ToJson) {
-	        	javascript += ((Struct.ToJson) value).toJson();
+	        	out.append(((Struct.ToJson) value).toJson());
 	        } else {
-	        	throw new RuntimeException("Cannot translate Java object " +
-	                value.getClass().getName() + " to javascript variable");
+	        	throw new RuntimeException("Cannot translate Java object " + value.getClass().getName() + " to javascript variable");
 	        }
-
-	        javascript += ";";
+	        out.append(";");
 	        
-	        JspWriter out = pageContext.getOut();
-	        out.print(javascript);
+	        // out.print(javascript);
 		} catch (IOException ex) {
 			// ignore these errors, since they can occur when the user hits 'stop' in their browser
 		} catch (Throwable t) {
