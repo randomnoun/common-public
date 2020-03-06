@@ -1687,6 +1687,22 @@ public class Text {
     	}
     }
     
+    /** Returns a string composed of the supplied text, repeated 0 or more times 
+     * 
+     * @param text text to repeat
+     * @param count number of repetitions
+     * 
+     * @return the repeated text
+     */
+    static public String repeat(String text, int count) {
+    	StringBuffer sb = new StringBuffer();
+    	for (int i=0; i<count; i++) {
+    		sb.append(text);
+    	}
+    	return sb.toString();
+    }
+    
+    
 	/** Perform ${xxxx}-style substitution of placeholders in text. Placeholders without 
 	 * values will be left as-is.
 	 * 
