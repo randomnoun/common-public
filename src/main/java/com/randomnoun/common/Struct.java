@@ -381,8 +381,8 @@ public class Struct {
       String[] fields) 
     {
         if (fields == null) {
-            for (Iterator i = map.entrySet().iterator(); i.hasNext(); ) {
-                Map.Entry entry = (Map.Entry) i.next();
+            for (Iterator<?> i = map.entrySet().iterator(); i.hasNext(); ) {
+                Map.Entry<?, ?> entry = (Map.Entry<?, ?>) i.next();
                 setValue(obj, (String) entry.getKey(), entry.getValue(), ignoreMissingSetter, convertStrings, createMissingElements);
             }
         } else {
@@ -496,7 +496,7 @@ public class Struct {
 
     /** Call setter method, converting from String */
     private static void callSetterMethodWithString(Object target, Method setter, String value) {
-        Class clazz = setter.getParameterTypes()[0];
+        Class<?> clazz = setter.getParameterTypes()[0];
         Object realValue;
 
         if (clazz.equals(String.class)) {
@@ -583,16 +583,19 @@ public class Struct {
         methodArgs[0] = value;
         
         if (value!=null) {
-	        Class setterParamClass = setter.getParameterTypes()[0];
-	        Class valueClass = value.getClass();
+	        Class<?> setterParamClass = setter.getParameterTypes()[0];
+	        Class<?> valueClass = value.getClass();
 	        
-	        // special case for assigning BigDecimals to longs
-			if (setterParamClass.equals(Long.class) && valueClass.equals(BigDecimal.class)) {
-				methodArgs[0] = new Long(((BigDecimal)value).longValue()); 
-			} else if (setterParamClass.equals(long.class) && valueClass.equals(BigDecimal.class)) {
-	        	methodArgs[0] = new Long(((BigDecimal)value).longValue()); 
+	        // special case for assigning Numbers (including BigDecimals) to longs
+			if (setterParamClass.equals(Long.class) && Number.class.isAssignableFrom(valueClass)) { // valueClass.equals(BigDecimal.class)
+				methodArgs[0] = Long.valueOf(((Number)value).longValue()); 
+			} else if (setterParamClass.equals(long.class) && Number.class.isAssignableFrom(valueClass)) { // valueClass.equals(BigDecimal.class)
+	        	methodArgs[0] = Long.valueOf(((Number)value).longValue()); 
 	        } else {
 		        if (!isAssignmentSafe(setterParamClass, value.getClass())) {
+		        	// see if we can shoe-horn it in
+		        	
+		        	
 		            throw new IllegalArgumentException("Exception calling method '" + setter.getName() + 
 	  				  "' on object '" + target.getClass().getName() + "': value object of type '" + 
 	  				  valueClass.getName() + "' is not assignment-compatible with setter parameter '" + 
