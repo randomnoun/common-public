@@ -588,9 +588,9 @@ public class Struct {
 	        
 	        // special case for assigning Numbers (including BigDecimals) to longs
 			if (setterParamClass.equals(Long.class) && Number.class.isAssignableFrom(valueClass)) { // valueClass.equals(BigDecimal.class)
-				methodArgs[0] = Long.valueOf(((Number)value).longValue()); 
+				methodArgs[0] = new Long(((Number)value).longValue()); 
 			} else if (setterParamClass.equals(long.class) && Number.class.isAssignableFrom(valueClass)) { // valueClass.equals(BigDecimal.class)
-	        	methodArgs[0] = Long.valueOf(((Number)value).longValue()); 
+	        	methodArgs[0] = new Long(((Number)value).longValue()); 
 	        } else {
 		        if (!isAssignmentSafe(setterParamClass, value.getClass())) {
 		        	// see if we can shoe-horn it in
@@ -1537,6 +1537,11 @@ public class Struct {
     }
     
     public static void structuredListToJson(Writer w, List list, String jsonFormat) throws IOException {
+    	if (list==null) {
+    		w.append("null");
+    		return;
+    	}
+    	
         Object value;
         int index = 0;
         w.append('[');
@@ -1629,6 +1634,11 @@ public class Struct {
     }
    
     public static void structuredMapToJson(Writer w, Map map, String jsonFormat) throws IOException {
+    	if (map==null) {
+    		w.append("null");
+    		return;
+    	}
+    	
        Map.Entry entry;
        // String s;
        Object key;
