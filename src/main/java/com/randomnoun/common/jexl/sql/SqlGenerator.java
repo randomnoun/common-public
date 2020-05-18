@@ -196,6 +196,14 @@ public class SqlGenerator
 
     /** Internal variable used to contain positional parameter names. */
     public static final String VAR_PARAMETERS = ".parameters";
+    
+    /** Internal variable to configure empty string comparison handling.
+     * 
+     * When set to Boolean.TRUE, a comparison with the String constant "" will also 
+     * include NULL values. See {{@link #comparisonOpToSql(String, EvalContext, Object, Object)}
+     */
+    public static final String VAR_EMPTY_STRING_INCLUDES_NULL = ".emptyStringIncludesNull";
+    
 
     /** Oracle VAR_DATABASE_TYPE value */
     public static final String DATABASE_ORACLE = "Oracle";
@@ -317,21 +325,24 @@ public class SqlGenerator
         }
 
         if (rhs instanceof SqlColumn) {
-            // I could easily fix this if I wanted to, but the query builder doesn't allow these
-            // types of expressions, and throwing an exception just keeps the code simpler.
+            // query builder doesn't allow these types of expressions, and throwing an exception just keeps the code simpler.
             throw new EvalException("rhs SqlColumn not implemented");
         }
 
+        boolean emptyStringIncludesNull = Boolean.TRUE.equals(evalContext.getVariable(VAR_EMPTY_STRING_INCLUDES_NULL)); 
+        
         // default action: just compare the lhs to the rhs
         SqlText result = new SqlText("(" + toSql(evalContext, lhs) + " " + sqlOp + " " + toSql(evalContext, rhs) + ")");
 
-        // empty/null checks against strings
-        if ("=".equals(sqlOp) && "".equals(rhs)) {
-            result = new SqlText("(" + result + " OR (" + toSql(evalContext, lhs) + " IS NULL))");
-        } else if ("<>".equals(sqlOp) && "".equals(rhs)) {
-            result = new SqlText("(" + result + " OR (NOT " + toSql(evalContext, lhs) + " IS NULL))");
-        } else if ("<>".equals(sqlOp) && !"".equals(rhs)) {
-            result = new SqlText("(" + result + " OR (" + toSql(evalContext, lhs) + " IS NULL))");
+        if (emptyStringIncludesNull) {
+            // empty/null checks against strings
+        	if ("=".equals(sqlOp) && "".equals(rhs)) {
+	            result = new SqlText("(" + result + " OR (" + toSql(evalContext, lhs) + " IS NULL))");
+	        } else if ("<>".equals(sqlOp) && "".equals(rhs)) {
+	            result = new SqlText("(" + result + " OR (NOT " + toSql(evalContext, lhs) + " IS NULL))");
+	        } else if ("<>".equals(sqlOp) && !"".equals(rhs)) {
+	            result = new SqlText("(" + result + " OR (" + toSql(evalContext, lhs) + " IS NULL))");
+	        } 
         }
 
         return result;
