@@ -1,0 +1,365 @@
+<%@ jessop language="javascript" suppressEol="true" %> 
+<%
+  // inputs to this thing
+  // logger - a logger
+  // schema - a SchemaTO
+  // options.tableNames - a List of tables names to process (null = all)
+  // options.undoEnabledTableNames - a List of table names that are undo-enabled (null = none)
+  // options.dropTables - drop history tables
+  // options.alwaysRecreateTriggers
+  // options.alwaysRecreateStoredProcedures
+  // options.includeUpdateBitFields
+  // options.includeCurrentUser
+
+  // 'undoable' tables must have 
+  // a PK column called 'lngId'
+  // and a 'lngUserActionId' column
+  // and a 'ynDeleted' column
+  // to be able to undo deletes by userActionId, code must set 
+  //   lngUserActionId=the userActionId and 
+  //   ynDeleted='Y' 
+  // before deleting the record
+
+  // could possibly set the names of these columns and mangling routines 
+  // as inputs to this script
+
+  // outputs
+  // SQL to generate history tables, triggers to update them, stored procedures to undo things
+ 
+  var schemaName = schema.getName();
+  var tableNames = schema.getTableNames();
+  
+  for (var i=0; i<tableNames.size(); i++) {
+    var tableName = tableNames.get(i);
+    if (tableName.matches(/History$/)) { continue; }
+    var t = schema.getTable(tableName);
+    var ht = null;
+    if (schema.getTableNames().contains(tableName + 'History')) { 
+      ht = schema.getTable(tableName + 'History');
+    }
+    var isUndoEnabled = options.undoEnabledTableNames ? options.undoEnabledTableNames.contains(tableName) : false; 
+    
+
+    // altered = columns added, alteredDel = columns deleted
+    var altered = false, alteredDel = false;
+    if (ht == null) {
+      altered = true;
+    } else {
+      for (var j=0; j<t.getTableColumns().size(); j++) {
+        altered &= ht.getTableColumnNames().contains(t.getTableColumns().get(j).getName());
+      }
+      for (var j=0; j<ht.getTableColumns().size(); j++) {
+        var hc = ht.getTableColumns().get(j).getName();
+        if (hc=='lngTriggerId' || 
+            hc=='txtTriggerAction' ||
+            hc=='dtmTriggerTime' ||
+            hc.matches(/^upd/)) {
+            // ignore
+        } else {
+          var found = t.getTableColumnNames().contains(hc);
+          if (!found) { alteredDel = true; }
+        }
+      }
+    }
+      
+    if (options.alwaysRecreateTriggers || options.dropTables || altered || alteredDel) {
+%>
+DROP TRIGGER IF EXISTS `trg<%= tableName %>Insert`;
+DROP TRIGGER IF EXISTS `trg<%= tableName %>Update`;
+DROP TRIGGER IF EXISTS `trg<%= tableName %>Delete`;
+<%
+    }
+
+// HISTORY TABLES
+// ==============
+
+    if (options.dropTables) {
+%>
+DROP TABLE IF EXISTS `<%= tableName %>History`;
+<%
+    }
+    if (options.dropTables || altered) {
+      if (ht==null) {
+        // no history table exists; create one
+%>
+CREATE TABLE `<%= schemaName %>`.`<%= tableName %>History` (
+  lngTriggerId INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+  txtTriggerAction VARCHAR(1) NOT NULL,
+  dtmTriggerTime TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+<%
+        if (options.includeCurrentUser) {
+%>
+  txtTriggerUser VARCHAR(50) NULL,
+<%
+        }
+        // columns
+        var colNames1=[],  // comma-separated field names
+            colNames2=[];  // comma-separated field names except for lngUserActionId
+        if (options.includeCurrentUser) {
+          colNames1.push('`txtTriggerUser`');
+          colNames2.push('USER()');
+        }
+        for (var j=0; j<t.getTableColumns().size(); j++) {
+          var c = t.getTableColumns().get(j);
+          colNames1.push('`' + c.getName() + '`');
+          colNames2.push(c.getName()=='lngUserActionId' ? options.existingDataUserActionId : '`' + c.getName() + '`');
+          var nullDefault = c.getNullable() ? ' NULL ' : ' NOT NULL ';
+          if (c.getDataType() == 'timestamp') {
+            nullDefault = " NULL DEFAULT '0000-00-00 00:00:00' ";
+          }
+          var dtl = c.getDataType() == 'varchar' ? '(' + c.getDataTypeLength() + ')' : '';
+%>
+  `<%= c.getName() %>` <%= c.getDataType() %> <%= dtl %> <%= nullDefault %>,
+<%
+          if (options.includeUpdateBitFields) {
+%>
+  `upd<%= c.getName() %>` BOOLEAN NOT NULL DEFAULT 0,
+<%
+          }
+        } // for t.getTableColumns()...  
+%>
+  PRIMARY KEY(lngTriggerId),
+  INDEX idx<%= tableName %>History_TriggerTime (dtmTriggerTime)
+<%
+        if (isUndoEnabled) {
+%>
+  , INDEX idx<%= tableName %>History_Id (lngId)
+  , INDEX idx<%= tableName %>History_UserActionId (lngUserActionId)            
+<%
+        }
+  // TODO: existing PK, UAID
+  // TODO: existing engine, character set
+%>
+  ) ENGINE=InnoDB CHARACTER SET=utf8;
+  
+INSERT INTO `<%= schemaName %>`.`<%= tableName %>History`
+  (txtTriggerAction, <%= colNames1.join(', ') %>)
+    SELECT 'I', <%= colNames2.join(', ') %>
+    FROM `<%= schemaName %>`.`<%= tableName %>`
+    ORDER BY lngId;
+<%
+  // TODO: ORDER BY PK
+
+      } else {
+        // history table already exists; modify existing
+        var afterClause = 'FIRST';
+        var addCommaSeparator = false;
+%>
+ALTER TABLE `<%= schemaName %>`.`<%= tableName %>History`
+<%
+        for (var j=0; j<t.getTableColumns().size(); j++) {
+          var c = t.getTableColumns().get(j);
+          if ( ht.getTableColumnNames().contains(c.getName()) ) {
+            afterClause = 'AFTER `' + c.getName() + '`';
+%>
+  /* existing column <%= c.getName() %> */
+<%
+          } else {
+            var nullDefault = c.getNullable() ? ' NULL ' : ' NOT NULL ';
+            if (c.getDataType() == 'timestamp') {
+              nullDefault = " NULL DEFAULT '0000-00-00 00:00:00' ";
+            }
+            var dtl = c.getDataType() == 'varchar' ? '(' + c.getDataTypeLength() + ')' : '';
+%>
+  <%= addCommaSeparator ? ',' : '' %>
+  ADD COLUMN `<%= c.getName() %>` <%= c.getDataType() %> <%= dtl %><%= nullDefault %> <%= afterClause %>
+<%
+            afterClause = 'AFTER `' + c.getName() + '`';
+            if (options.includeUpdateBitFields) {
+%>
+  ,
+  ADD COLUMN `upd<%= c.getName() %>` BOOLEAN NOT NULL DEFAULT 0 <%= afterClause %>
+<%
+              afterClaue = 'AFTER `upd`' + c.getName() + '`';
+            }
+            addCommaSeparator = true;
+          }
+        }
+%>
+  ;
+<%
+      }
+    } else {
+      // history table exists, no modifications required
+%>
+-- table `<%= schemaName %>`.`<%= tableName %>History` not altered
+<%
+    }
+
+// TRIGGERS
+// ========
+
+
+    if (options.alwaysRecreateTriggers || options.dropTables || altered || alteredDel) {
+      var insColumnNames=[], updColumnNames=[], delColumnNames=[], columnNamesAndBitFields=[];
+      var declares='', colNames1=[], colNames2=[], colNames3=[];
+      var whitespace = options.includeUpdateBitFields ? '\n        ' : '';
+      if (options.includeCurrentUser) {
+         insColumnNames.push('USER()')
+         updColumnNames.push('USER()')
+         delColumnNames.push('USER()')
+      }
+      for (j=0; j<t.getTableColumns().size(); j++) {
+         var c = t.getTableColumns().get(j);
+         var columnName = c.getName();
+         // for triggers
+         insColumnNames.push('NEW.' + columnName);
+         updColumnNames.push(whitespace + 'NEW.' + columnName);
+         delColumnNames.push('OLD.' + columnName);
+         columnNamesAndBitFields.push(columnName);
+         if (options.includeUpdateBitFields) {
+           insColumnNames.push('1');
+           updColumnNames.push('(' +
+  			'(ISNULL(OLD.' + columnName + ') AND NOT ISNULL(' + 'NEW.' + columnName + ')) OR ' +
+  			'(NOT ISNULL(OLD.' + columnName + ') AND ISNULL(' + 'NEW.' + columnName + ')) OR ' +
+  			'(NOT ISNULL(OLD.' + columnName + ') AND NOT ISNULL(NEW.' + columnName + ') AND OLD.' + columnName + ' <> ' + 'NEW.' + columnName + ')' +
+  			')');
+  		   delColumnNames.push('1');
+  		   columnNamesAndBitFields.push('upd' + columnName);
+         }
+         // for stored procedures
+         var dtl = c.getDataType() == 'varchar' ? '(' + c.getDataTypeLength() + ')' : '';
+         declares += '  DECLARE `src' + columnName + '` ' + dtl + ';\n';
+         colNames1.push('`src' + columnName + '`');
+         colNames2.push('`' + columnName + '`=' +
+           (columnName=='lngUserActionId' ? 'lngNewUndoUserActionId' : '`src' + columnName +'`'));
+         colNames3.push(
+           (columnName=='lngUserActionId' ? 'lngNewUndoUserActionId' :
+           (columnName=='ynDeleted' ? 'NULL' : '`src' + columnName +'`')));
+      }
+    
+%>
+DELIMITER $$
+CREATE TRIGGER trg<%= tableName %>Insert
+  AFTER INSERT ON `<%= tableName %>`
+  FOR EACH ROW BEGIN
+    INSERT INTO <%= tableName %>History
+      (txtTriggerAction, <%= options.includeCurrentUser ? 'txtTriggerUser, ' : '' %> <%= columnNamesAndBitFields.join(', ') %> )
+      VALUES ('I', <%= insColumnNames.join(', ') %>);
+  END    
+$$
+CREATE TRIGGER trg<%= tableName %>Update
+  AFTER UPDATE ON `<%= tableName %>`
+  FOR EACH ROW BEGIN
+<%
+      if (isUndoEnabled) {
+%>
+    IF (NEW.ynDeleted IS NULL OR NEW.ynDeleted<>'Y') THEN
+<%
+      }
+%>          
+    INSERT INTO <%= tableName %>History
+      (txtTriggerAction, <%= options.includeCurrentUser ? 'txtTriggerUser, ' : '' %> <%= columnNamesAndBitFields.join(', ') %> )
+      VALUES ('U', <%= updColumnNames.join(', ') %> );
+<%
+      if (isUndoEnabled) {
+%>
+    END IF
+<%
+      }
+%>
+  END;
+$$            
+CREATE TRIGGER trg<%= tableName %>Delete
+  AFTER DELETE ON `<%= tableName %>`
+  FOR EACH ROW
+    INSERT INTO <%= tableName %>History
+      (txtTriggerAction, <%= options.includeCurrentUser ? 'txtTriggerUser, ' : '' %> <%= columnNamesAndBitFields.join(', ') %> )
+      VALUES ('D', <%= delColumnNames.join(', ') %>);
+$$      
+<%
+
+// UNDO STORED PROCEDURES
+// ======================
+
+      if (isUndoEnabled) {
+%>
+DROP PROCEDURE IF EXISTS prcUndo<%= tableSansPrefix %>Update
+$$
+CREATE PROCEDURE prcUndo<%= tableSansPrefix %>Update
+  (IN lngNewUndoUserActionId INTEGER,
+   IN lngOrigUserActionId INTEGER,
+   IN lngOrigReferenceId INTEGER)
+COMMENT 'Undo a <%= tableName %> update'
+BEGIN
+  -- would be nice if there was some kind of tuple data structure in MySQL
+  -- so I wouldn't have to declare all these variables
+<%= declares %>
+  DECLARE varlngDone INTEGER DEFAULT FALSE;
+
+  DECLARE curSource CURSOR FOR
+    -- get the previous value for this record. eurgh.
+    -- probably need to check that the previous value wasn't reversed as well now.
+    SELECT <%= columnNames.join(', ') %>
+      FROM <%= tableName %>History
+      WHERE lngUserActionId < lngOrigUserActionId AND lngId = lngOrigReferenceId
+      AND lngUserActionId NOT IN (
+        /* reversed actions */
+        SELECT lngId FROM tblUserAction WHERE lngUndoUserActionId IS NOT NULL)
+      ORDER BY lngUserActionId DESC, lngTriggerId DESC
+      LIMIT 1;
+  DECLARE CONTINUE HANDLER FOR NOT FOUND SET varlngDone = TRUE;
+
+  OPEN curSource;
+  -- not looping since there should only ever be one row
+  FETCH curSource INTO <%= colNames1.join(', ') %>;
+  -- SELECT "Wonder if I can debug this thing ", varlngDone;
+  IF NOT varlngDone THEN
+    UPDATE <%= tableName %> SET <%= colNames2.join(', ') %>
+    WHERE lngId = lngOrigReferenceId;
+    -- SELECT "srclngUserActionId, srctxtName and lngOrigReferenceId are ", srclngUserActionId, srctxtName, lngOrigReferenceId;
+  END IF;
+  CLOSE curSource;
+END
+$$
+
+DROP PROCEDURE IF EXISTS prcUndo<%= tableSansPrefix %>Delete
+$$
+CREATE PROCEDURE prcUndo<%= tableSansPrefix %>Delete
+  (IN lngNewUndoUserActionId INTEGER,
+   IN lngOrigUserActionId INTEGER,
+   IN lngOrigReferenceId INTEGER)
+COMMENT 'Undo a <%= tableName %> delete'
+BEGIN
+  -- would be nice if there was some kind of tuple data structure in MySQL
+  -- so I wouldn't have to declare all these variables
+<%= declares %>
+  DECLARE varlngDone INTEGER DEFAULT FALSE;
+
+  DECLARE curSource CURSOR FOR
+    -- get the previous value for this record. eurgh.
+    -- probably need to check that the previous value wasn't reversed as well now.
+    SELECT <%= columnNames.join(', ') %>
+      FROM <%= tableName %>History
+      WHERE lngUserActionId = lngOrigUserActionId AND lngId = lngOrigReferenceId AND txtTriggerAction = 'D'
+      AND lngUserActionId NOT IN (
+        /* reversed actions */
+        SELECT lngId FROM tblUserAction WHERE lngUndoUserActionId IS NOT NULL)
+      ORDER BY lngUserActionId DESC, lngTriggerId DESC
+      LIMIT 1;
+  DECLARE CONTINUE HANDLER FOR NOT FOUND SET varlngDone = TRUE;
+
+  OPEN curSource;
+  -- not looping since there should only ever be one row
+  FETCH curSource INTO <%= colNames1.join(', ') %>;
+  -- SELECT "Wonder if I can debug this thing ", varlngDone;
+  IF NOT varlngDone THEN
+    INSERT INTO <%= tableName %> (<%= columnNames.join(', ') %> )
+      VALUES (<%= colNames3.join(', ') %>);
+    -- SELECT "srctxtName and lngOrigReferenceId are ", srctxtName, lngOrigReferenceId;
+  END IF;
+  CLOSE curSource;
+END
+
+$$
+<%
+      }
+%>
+DELIMITER ;
+<%    
+    } 
+  } // tableName
+%>       
+     
+     
+     
