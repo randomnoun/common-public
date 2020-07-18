@@ -20,7 +20,8 @@ public class SqlParser {
 	private static Pattern MYSQL_DELIMITER_COMMAND = Pattern.compile("delimiter\\s+(.*)$", Pattern.CASE_INSENSITIVE);
 	
 	// could have a ParseState that contains things like the current delimiter, or current database
-	// (for 'use' commands), which can be modified by the InputStream
+	// (for 'use' commands), which can be modified by the InputStream, or the database vendor
+	// if we wanted to support escape sequences, which appear to be database-specific.
 	
 	/** Convert an InputStream of SQL statements into a List of individual
 	 * statements. Statements are delimited by ";" strings that occur outside of strings or comments.
@@ -35,6 +36,7 @@ public class SqlParser {
 	 * has finished parsing.
 	 * 
 	 * <p>NB: Does not handle escape sequences found within double or single quotes
+	 * (i.e. escape sequences are handled by the underlying database, not by this Parser)
 	 * 
 	 * @param includeComments include comment strings in result
 	 * 
