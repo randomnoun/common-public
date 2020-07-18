@@ -202,7 +202,7 @@ public class SqlGenerator
      * When set to Boolean.TRUE, a comparison with the String constant "" will also 
      * include NULL values. See {{@link #comparisonOpToSql(String, EvalContext, Object, Object)}
      */
-    public static final String VAR_EMPTY_STRING_INCLUDES_NULL = ".emptyStringIncludesNull";
+    public static final String VAR_EMPTY_STRING_COMPARISON_INCLUDES_NULL = ".emptyStringComparisonIncludesNull";
     
 
     /** Oracle VAR_DATABASE_TYPE value */
@@ -329,7 +329,7 @@ public class SqlGenerator
             throw new EvalException("rhs SqlColumn not implemented");
         }
 
-        boolean emptyStringIncludesNull = Boolean.TRUE.equals(evalContext.getVariable(VAR_EMPTY_STRING_INCLUDES_NULL)); 
+        boolean emptyStringIncludesNull = Boolean.TRUE.equals(evalContext.getVariable(VAR_EMPTY_STRING_COMPARISON_INCLUDES_NULL)); 
         
         // default action: just compare the lhs to the rhs
         SqlText result = new SqlText("(" + toSql(evalContext, lhs) + " " + sqlOp + " " + toSql(evalContext, rhs) + ")");
@@ -465,6 +465,23 @@ public class SqlGenerator
         } else if (databaseType.equals(DATABASE_SQLSERVER)) {
             string = "'" + Text.replaceString(string, "'", "''") + "'";
         } else if (databaseType.equals(DATABASE_MYSQL)) {
+        	// mysql string escaping rules: https://dev.mysql.com/doc/refman/8.0/en/string-literals.html
+        	
+        	// we're not going to escape backslashes in here as the user may have intended to already escape
+        	// some characters in LIKE expressions; we don't want to convert "\% starts with a percentage sign"
+        	// to "\\% starts with a percentage sign". 
+        	// That also means the user is responsible for converting newlines to "\n" etc
+        	// (nb: you can actually have newlines in string literals in mysql)
+        	
+        	// also note \% is treated by mysql as "\%" outside of a like expression
+        	// and       \_ is treated by mysql as "\_" outside of a like expression
+        	// but most other escapes, and unknown escapes are converted to single characters; e.g. 
+        	//           \x is treated by mysql as "x" outside of a like expression
+        	// but again this is up to the user to grok.
+        	
+        	// if I start using this class across databases again may want to come up with some 
+        	// crossvendor escaping rules which will have a myriad of tiny bugs in it 
+        	
             string = "'" + Text.replaceString(string, "'", "\\'") + "'";
         } else if (databaseType.equals(DATABASE_JET)) {
             string = "'" + Text.replaceString(string, "'", "\\'") + "'";
