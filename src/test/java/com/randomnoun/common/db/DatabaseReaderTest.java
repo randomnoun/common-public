@@ -5,26 +5,30 @@ import java.net.UnknownHostException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Properties;
 
 import javax.sql.DataSource;
 
-import junit.framework.TestCase;
-
 import org.apache.log4j.Logger;
 import org.springframework.jdbc.datasource.SingleConnectionDataSource;
 
-import com.randomnoun.common.db.enums.DatabaseType;
-import com.randomnoun.common.db.to.TableTO;
 import com.randomnoun.common.db.dao.MysqlDatabaseReader;
 import com.randomnoun.common.db.to.ConstraintTO;
 import com.randomnoun.common.db.to.SchemaTO;
 import com.randomnoun.common.db.to.TableColumnTO;
+import com.randomnoun.common.db.to.TableTO;
 import com.randomnoun.common.log4j.Log4jCliConfiguration;
+
+import junit.framework.TestCase;
 
 public class DatabaseReaderTest extends TestCase {
 	
 	Logger logger = Logger.getLogger(DatabaseReaderTest.class);
+	
+	/** Tests will only run if build is executing on these hosts */
+	public static List<String> TEST_HOSTS = Arrays.asList(new String[] { "yttrium", "halogen", "bnedev11" }); 
 	
 	private DataSource ds;
 	
@@ -32,7 +36,7 @@ public class DatabaseReaderTest extends TestCase {
 		// if (true) { return; } // skip tests for now
 		String hostname = InetAddress.getLocalHost().getHostName();
 		System.out.println("Running on " + hostname);
-		if (!(hostname.equals("halogen") || hostname.equals("bnedev11"))) { return; } // for now
+		if (!TEST_HOSTS.contains(hostname)) { return; }
 		
 		//Class.forName("com.mysql.jdbc.Driver");
 		//String connString = "jdbc:mysql://bnetst04.dev.randomnoun/syra-tst";
@@ -85,7 +89,7 @@ public class DatabaseReaderTest extends TestCase {
 	public void testMysql() throws SQLException, UnknownHostException {
 
 		String hostname = InetAddress.getLocalHost().getHostName();
-		if ((hostname.equals("yttrium") || hostname.equals("halogen") || hostname.equals("bnedev11"))) { return; } // for now
+		if (!TEST_HOSTS.contains(hostname)) { return; }
 
 		
 		// String connString  = "jdbc:mysql://localhost/jacobi-web-int?zeroDateTimeBehavior=convertToNull&autoReconnect=true&useSSL=false";
