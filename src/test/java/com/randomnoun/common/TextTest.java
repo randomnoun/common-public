@@ -1,5 +1,7 @@
 package com.randomnoun.common;
 
+import static org.junit.Assert.assertArrayEquals;
+
 import java.util.Properties;
 
 import com.randomnoun.common.Text;
@@ -328,5 +330,76 @@ public class TextTest
 		assertEquals("dollarAtEnd$", Text.substitutePlaceholders(v, "dollarAtEnd$"));
 		assertEquals("^[a-zA-Z0-9:/\\\\!@#$%^&{}\\[\\]()_+\\-=,.~'` ]{1,255}$", Text.substitutePlaceholders(v, "^[a-zA-Z0-9:/\\\\!@#$%^&{}\\[\\]()_+\\-=,.~'` ]{1,255}$"));
     }
+    
+    public void testEscapePathComponent() {
+    	assertEquals("abc", Text.escapePathComponent("abc"));
+    	assertEquals("a\\:bc\\/def", Text.escapePathComponent("a:bc/def"));
+    	assertEquals("a\\:bc\\\\def", Text.escapePathComponent("a:bc\\def"));
+    	assertEquals("", Text.escapePathComponent(""));
+    	assertEquals(null, Text.escapePathComponent(null));
+    }
+    
+    public void testUnscapePathComponent() {
+    	assertEquals("abc", Text.unescapePathComponent("abc"));
+    	assertEquals("a:bc/def", Text.unescapePathComponent("a\\:bc\\/def"));
+    	assertEquals("a:bc\\def", Text.unescapePathComponent("a\\:bc\\\\def"));
+    	assertEquals("", Text.unescapePathComponent(""));
+    	assertEquals(null, Text.unescapePathComponent(null));
+    	try {
+    		Text.unescapePathComponent("abcd\\efg");
+    		fail("Expected IllegalArgumentException");
+    	} catch (IllegalArgumentException iae) {
+    		// OK
+    	}
+    	try {
+    		Text.unescapePathComponent("abcdefg\\");
+    		fail("Expected IllegalArgumentException");
+    	} catch (IllegalArgumentException iae) {
+    		// OK
+    	}
+    }
+    
+    public void testSplitEscapedPath() {
+    	assertArrayEquals(new String[] { "abc" }, Text.splitEscapedPath("abc"));
+    	assertArrayEquals(new String[] { "abc", "def" }, Text.splitEscapedPath("abc/def"));
+    	assertArrayEquals(new String[] { "a:bc", "def" }, Text.splitEscapedPath("a:bc/def"));
+    	assertArrayEquals(new String[] { "a:bc", "def" }, Text.splitEscapedPath("a\\:bc/def")); // /: unescapes to :
+    	
+    	assertArrayEquals(new String[] { "a:bc\\/def" }, Text.splitEscapedPath("a\\:bc\\\\\\/def")); // does not unescape or split escaped '/' characters
+    	assertArrayEquals(new String[] { "a:bcd\\efg" }, Text.splitEscapedPath("a\\:bcd\\\\efg")); // does not unescape other characters
+    	assertArrayEquals(new String[] { "a:bcdefg\\" }, Text.splitEscapedPath("a\\:bcdefg\\\\")); // does not unescape other characters
+
+    	try {
+    		Text.splitEscapedPath(null);
+    		fail("Expected NullPointerException");
+    	} catch (NullPointerException iae) {
+    		// OK
+    	}
+    	assertArrayEquals(new String[] { "a:bc/def" }, Text.splitEscapedPath("a:bc\\/def"));
+    	try {
+    		Text.splitEscapedPath("a:bcd\\efg"); // unknown escape '\e'
+    		fail("Expected IllegalArgumentException");
+    	} catch (IllegalArgumentException iae) {
+    		// OK
+    	}
+    	try {
+    		Text.splitEscapedPath("a:bcdefg\\"); // unclosed escape
+    	} catch (IllegalArgumentException iae) {
+    		// OK
+    	}
+    		
+
+    }
+    
+    public void testCreateEscapedPath() {
+    	assertEquals("abc", Text.createEscapedPath(new String[] { "abc" }));
+    	assertEquals("abc/def", Text.createEscapedPath(new String[] { "abc", "def" }));
+    	assertEquals("a\\:bc/def", Text.createEscapedPath(new String[] { "a:bc", "def" }));
+    	assertEquals("a\\:bc\\\\\\/def", Text.createEscapedPath(new String[] { "a:bc\\/def" })); // does not unescape escaped '/' characters
+    	assertEquals("a\\:bcd\\\\efg", Text.createEscapedPath(new String[] { "a:bcd\\efg" })); // does not unescape other characters
+    	assertEquals("a\\:bcdefg\\\\", Text.createEscapedPath(new String[] { "a:bcdefg\\" })); // does not unescape other characters
+    	
+    }
+    
     
 }

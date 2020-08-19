@@ -615,7 +615,6 @@ public class Text {
         return string;
     }
 
-    // this should probably go into Text at some stage
     /** Returns a python string, escaped so that it can be enclosed in a single-quoted string. 
      * 
      * <p>The characters <tt>'</tt>,
@@ -645,6 +644,123 @@ public class Text {
         // return string;
     }
     
+    /** Escape a filename or path component. 
+     * Characters that typically have special meanings in paths (":", "/", "\") are escaped with a preceding "\" character.
+     * 
+     * Does not escape glob characters ( "*" or "?" ). 
+     * Do not use this method to escape a full file path; when escaping a file path, escape each path component separately and then join 
+     * the components with "/" characters ( see {@link #createEscapedPath(String[])} ). 
+     * 
+     * @param string the filename or path component to escape
+     * 
+     * @return the escaped form of the filename (or path component)
+     */
+    // Does not escape DOS special filenames ( "NUL", "CON", "LPT1" etc ). Remember those ? Of course you do.
+    public static String escapePathComponent(String string) {
+    	string = Text.replaceString(string, "\\", "\\\\");
+    	string = Text.replaceString(string, "/", "\\/");
+    	string = Text.replaceString(string, ":", "\\:");
+    	return string;
+    }
+    
+    /** Unescape a filename or path component. 
+     * The escape sequences "\\" , "\:" and "\/" are converted to "\", ":" and "/" respectively.
+     * All other escape sequences will raise an IllegalArgumentException 
+     *  
+     * <p>See {@link #splitEscapedPath(String)} to split an escaped path into components. 
+     *  
+     * @param pathComponent the filename or path component to unescape
+     * 
+     * @return the unescaped form of the filename or path component
+     * 
+     * @throws IllegalArgumentException if an unexpected escape is encountered, or the escape is unclosed
+     */
+    public static String unescapePathComponent(String pathComponent) {
+    	if (pathComponent == null) {
+            return null;
+        }
+        char c;
+        boolean inEscape = false;
+        StringBuilder sb = new StringBuilder(pathComponent.length());
+        for (int i = 0; i < pathComponent.length(); i++) {
+            c = pathComponent.charAt(i);
+            if (inEscape) {
+                switch (c) {
+                	case '\\': 
+                    case '/': // intentional fall-through
+                    case ':': // intentional fall-through
+                    	sb.append(c);
+                        break;
+                    default:
+                    	throw new IllegalArgumentException("Unexpected escape '\\" + c + "' in filename");
+                }
+                inEscape = false;
+            } else {
+                switch (c) {
+	                case '\\': 
+	                	inEscape = true;
+	                	break;
+	                default:
+	                	sb.append(c);
+                }
+            }
+        }
+        if (inEscape) {
+        	throw new IllegalArgumentException("Unclosed escape in filename");
+        }
+        return sb.toString();
+    }
+
+    // need to escape the \ in a regex ( \\ ) in a String ( \\\\ )
+    private static Pattern splitPathPattern = Pattern.compile("(?<!\\\\)/"); 
+    
+	/** Split a path, but allow forward slashes in path components if they're escaped by a preceding '\' character.
+     * Individual path components returned by this method will be unescaped.
+     *
+     * <pre>
+     * splitPath(null) = NPE
+     * splitPath("") = [ "" ]
+     * splitPath("abc") = [ "abc" ]
+     * splitPath("abc/def/ghi") = [ "abc", "def", "ghi" ]
+     * splitPath("abc\\/def/ghi") = [ "abc/def", "ghi" ]
+     * </pre>
+     * 
+     * <p>Opposite of {@link #createEscapedPath(String[])}
+     */
+    public static String[] splitEscapedPath(String escapedPath) {
+    	String[] result = splitPathPattern.split(escapedPath);
+    	for (int i=0; i<result.length; i++) {
+    		result[i] = Text.unescapePathComponent(result[i]);
+    	}
+    	return result;
+    }
+    
+    /** Escapes the components of a path String, returning an escaped full path String.
+     * Each path component is escaped with {@link #escapePathComponent(String)} and then joined using '/' characters.
+     * 
+     * <p>Opposite of {@link #splitEscapedPath(String)}.
+     * 
+     * @param pathComponents the filename components
+     * @return an escaped path
+     */
+    public static String createEscapedPath(String[] pathComponents) {
+    	String result = null;
+    	if (pathComponents.length == 0) { 
+    		throw new IllegalArgumentException("empty pathComponents"); 
+    	}
+    	for (String c : pathComponents) {
+    		if (c==null) { 
+    			throw new NullPointerException("null pathComponent"); 
+    		}
+    		if (result == null) {
+    			result = escapePathComponent(c);
+    		} else {
+    			result = result + "/" + escapePathComponent(c); 
+    		}
+    	}
+    	return result;
+    }
+    
     // escapeCss from ESAPI 2.0.1
     private static final String[] esapi_hex = new String[256];
 	static {
@@ -656,7 +772,7 @@ public class Text {
 			}
 		}
 	}
-	private  static String toHex(char c) {
+	private static String toHex(char c) {
 		return Integer.toHexString(c);
 	}
 	private static String getHexForNonAlphanumeric(char c) {
