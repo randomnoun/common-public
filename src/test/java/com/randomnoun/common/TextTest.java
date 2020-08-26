@@ -4,8 +4,6 @@ import static org.junit.Assert.assertArrayEquals;
 
 import java.util.Properties;
 
-import com.randomnoun.common.Text;
-
 import junit.framework.TestCase;
 
 
@@ -145,9 +143,10 @@ public class TextTest
      */
     public void testReplaceString()
     {
-        String a;
+        
 
         /*
+           String a;
            try {
              a = Text.replaceString(null, null, null);
              fail("replaceString(null, null, null) should throw NullPointerException");
@@ -271,7 +270,8 @@ public class TextTest
 		assertEquals("this\n\nis a string\n\nwith mixed EOL conventions\n\n\n\n", Text.reduceNewlines(oddString));
     }
     
-    public void testEscapeJavascript() {
+    @SuppressWarnings("deprecation")
+	public void testEscapeJavascript() {
     	String a = "lineWith\nNewlines";
     	String b = "lineWith\r\nNewlines";
     	String c = "lineWith'Quote";

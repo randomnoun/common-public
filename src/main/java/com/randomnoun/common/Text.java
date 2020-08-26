@@ -1371,6 +1371,8 @@ public class Text {
         reserved.set('+');
         reserved.set('$');
         reserved.set(',');
+        unreserved.or(alphanum);
+        unreserved.or(mark);
         uric.or(reserved);
         uric.or(unreserved);
         uric.or(escaped);
