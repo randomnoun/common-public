@@ -42,10 +42,6 @@ import org.apache.log4j.Logger;
  */
 public class XmlUtil {
 	
-    
-    
-
-
 	/** Clean some HTML text through the tagsoup filter. The returned string is guaranteed to be 
 	 * well-formed XML (and can therefore be used by other tools that expect valid XML). 
 	 * 
@@ -88,7 +84,7 @@ public class XmlUtil {
 			
 			xmlReader.setContentHandler(tagsoupXMLWriter);
 			xmlReader.parse(is);
-			return baos.toString();
+			return baos.toString("UTF-8");
 		} catch (IOException ioe) {
 			throw (IllegalStateException) new IllegalStateException("IO Exception reading from string").initCause(ioe);		
 		}
@@ -255,9 +251,11 @@ public class XmlUtil {
 			StreamResult result = new StreamResult(baos);
 			transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, omitXmlDeclaration ? "yes": "no");
 			transformer.transform(source, result);
-			return baos.toString();
+			return baos.toString("UTF-8");
 		} catch (TransformerConfigurationException tce) {
-			throw (IllegalStateException) new IllegalStateException("Could not initialise transfoermer").initCause(tce);
+			throw (IllegalStateException) new IllegalStateException("Could not initialise transformer").initCause(tce);
+		} catch (UnsupportedEncodingException uee) {
+			throw (IllegalStateException) new IllegalStateException("Unknown charset UTF-8").initCause(uee);
 		}
 	}
 	
