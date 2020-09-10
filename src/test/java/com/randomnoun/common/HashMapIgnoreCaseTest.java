@@ -22,7 +22,7 @@ public class HashMapIgnoreCaseTest
      * Test the map methods :)
      */
     public void testMap() {
-		HashMapIgnoreCase<String, String> map = new HashMapIgnoreCase<>();
+		HashMapIgnoreCase<String, String> map = new HashMapIgnoreCase<String, String>();
     	map.put("abc", "def");
     	map.put("AbC", "ghi");
     	assertEquals(1, map.size());
