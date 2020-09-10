@@ -28,7 +28,7 @@ public class DatabaseReaderTest extends TestCase {
 	Logger logger = Logger.getLogger(DatabaseReaderTest.class);
 	
 	/** Tests will only run if build is executing on these hosts */
-	public static List<String> TEST_HOSTS = Arrays.asList(new String[] { "yttrium", "halogen", "bnedev11" }); 
+	public static List<String> TEST_HOSTS = Arrays.asList(new String[] { "halogen", "bnedev11" }); 
 	
 	private DataSource ds;
 	
