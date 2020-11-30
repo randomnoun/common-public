@@ -23,7 +23,6 @@ import org.springframework.jdbc.core.SqlParameter;
 import org.springframework.jdbc.core.StatementCallback;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.jdbc.support.SQLExceptionTranslator;
-import org.springframework.jdbc.support.nativejdbc.NativeJdbcExtractor;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 
 import com.randomnoun.common.db.SqlWithArguments;
@@ -104,12 +103,6 @@ public class JdbcTemplateWithArguments extends JdbcTemplate {
 	}
 	public void afterPropertiesSet() {
 		jt.afterPropertiesSet();
-	}
-	public void setNativeJdbcExtractor(NativeJdbcExtractor extractor) {
-		jt.setNativeJdbcExtractor(extractor);
-	}
-	public NativeJdbcExtractor getNativeJdbcExtractor() {
-		return jt.getNativeJdbcExtractor();
 	}
 	public void setIgnoreWarnings(boolean ignoreWarnings) {
 		jt.setIgnoreWarnings(ignoreWarnings);

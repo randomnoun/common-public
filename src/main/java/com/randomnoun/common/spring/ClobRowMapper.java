@@ -17,7 +17,6 @@ import org.springframework.jdbc.support.JdbcUtils;
 import org.springframework.jdbc.support.MetaDataAccessException;
 import org.springframework.jdbc.support.lob.DefaultLobHandler;
 import org.springframework.jdbc.support.lob.LobHandler;
-import org.springframework.jdbc.support.lob.OracleLobHandler;
 
 import com.randomnoun.common.StreamUtil;
 import com.randomnoun.common.spring.ClobRowMapper;
@@ -98,18 +97,19 @@ public class ClobRowMapper implements RowMapper<Map<String, Object>>
      */
     public ClobRowMapper(JdbcTemplate jt)
     {
+    	lobHandler = new DefaultLobHandler();
+    	/*
         DataSource ds = jt.getDataSource();
-        
         try {
             if (detectDatabase(ds).equals("DB2")) {
-                lobHandler = new DefaultLobHandler();
+            	lobHandler = new DefaultLobHandler();
             } else {
-                lobHandler = new OracleLobHandler();
+                // lobHandler = new OracleLobHandler();
             }
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             throw new RuntimeException("Could not instantiate lobHandler");
         }
+        */
     }
 
     /** Map rows to a disconnected HashMap representation */
