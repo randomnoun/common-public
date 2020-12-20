@@ -1,9 +1,9 @@
 package com.randomnoun.common.db.enums;
 
-public enum ConstraintType {
+public enum ConstraintTypeEnum {
 	PRIMARY, FOREIGN, CHECK, UNIQUE;
 	
-	public static ConstraintType fromDatabaseString(String s) {
+	public static ConstraintTypeEnum fromDatabaseString(String s) {
 		if (s.equals("PRIMARY KEY")) {
 			return PRIMARY;
 		} else if (s.equals("FOREIGN KEY")) {

@@ -1,6 +1,6 @@
 package com.randomnoun.common.db.enums;
 
-public enum DatabaseType {
+public enum DatabaseTypeEnum {
 	/** A Jet (MSAccess) database accessed via the jdbc:odbc bridge */
 	JET,
 	/** A Jet (MSAccess) database accessed via the JACOB DAO library */
