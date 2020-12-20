@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import com.randomnoun.common.db.enums.DatabaseType;
+import com.randomnoun.common.db.enums.DatabaseTypeEnum;
 
 /** The thing returned by the DatabaseReader.
  * 
@@ -12,11 +12,11 @@ import com.randomnoun.common.db.enums.DatabaseType;
  * @author knoxg
  */
 public class DatabaseTO {
-	public DatabaseType dbType;
-	public boolean caseInsensitive = false;
-	public Map<String, SchemaTO> schemas = null;
+	private boolean caseInsensitive = false;
+	private DatabaseTypeEnum databaseType;
+	private Map<String, SchemaTO> schemaMap = null;
 	
-	public DatabaseType getDatabaseType() { return dbType; }
+	public DatabaseTypeEnum getDatabaseType() { return databaseType; }
 	
 	public void setCaseInsensitive() {
 		this.caseInsensitive = true;
@@ -36,6 +36,34 @@ public class DatabaseTO {
 		} else {
 			return l;
 		}
+	}
+
+	public boolean isCaseInsensitive() {
+		return caseInsensitive;
+	}
+
+	public void setCaseInsensitive(boolean caseInsensitive) {
+		this.caseInsensitive = caseInsensitive;
+	}
+
+	public DatabaseTypeEnum getDbType() {
+		return databaseType;
+	}
+
+	public void setDbType(DatabaseTypeEnum dbType) {
+		this.databaseType = dbType;
+	}
+
+	public Map<String, SchemaTO> getSchemaMap() {
+		return schemaMap;
+	}
+
+	public void setSchemaMap(Map<String, SchemaTO> schemaMap) {
+		this.schemaMap = schemaMap;
+	}
+
+	public void setDatabaseType(DatabaseTypeEnum databaseType) {
+		this.databaseType = databaseType;
 	}
 
 	

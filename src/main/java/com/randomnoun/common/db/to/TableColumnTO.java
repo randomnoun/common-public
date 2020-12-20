@@ -8,23 +8,23 @@ public class TableColumnTO {
 	
 	Logger logger = Logger.getLogger(TableColumnTO.class);
 	
-	TableTO table;
-	String name;
-	long columnId;
-	public boolean isPrimaryKey;
-	String dataType;
-	long dataTypeLength;
-	long dataTypePrecision;
-	long dataScale;
-	boolean nullable;
-	String defaultValue;
-	String comments;
+	private TableTO table;
+	private String name;
+	private long columnId;
+	private boolean isPrimaryKey;
+	private String dataType;
+	private long dataTypeLength;
+	private long dataTypePrecision;
+	private long dataScale;
+	private boolean nullable;
+	private String defaultValue;
+	private String comments;
 	
 	public TableColumnTO(TableTO table, String name, long columnId, boolean isPrimaryKey, String dataType,
 		long dataTypeLength, long dataTypePrecision, long dataScale, 
 		boolean nullable, String defaultValue, String comments) 
 	{
-		logger.debug("Datatype for '" + table.name + "." + name + "' is " + (isPrimaryKey ? "PK " : "") + dataType + " (" + dataTypeLength + ", " + dataTypePrecision + ", " + dataScale + ")");  
+		logger.debug("Datatype for '" + table.getName() + "." + name + "' is " + (isPrimaryKey ? "PK " : "") + dataType + " (" + dataTypeLength + ", " + dataTypePrecision + ", " + dataScale + ")");  
 		this.table = table;
 		this.name = name;
 		this.columnId = columnId;
