@@ -3,7 +3,7 @@
 	
 	<groupId>com.randomnoun.common</groupId>
 	<artifactId>common-public</artifactId>
-	<version>0.2.29</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	
 	<name>randomnoun common classes</name>
