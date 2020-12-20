@@ -8,10 +8,8 @@ import java.util.HashMap;
 
 import javax.sql.DataSource;
 
-import org.apache.log4j.Logger;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import com.randomnoun.common.db.enums.DatabaseType;
 import com.randomnoun.common.db.to.SchemaTO;
 import com.randomnoun.common.db.to.TableColumnTO;
 import com.randomnoun.common.db.to.TableTO;
@@ -29,15 +27,11 @@ import com.randomnoun.common.db.to.TableTO;
  */
 public abstract class DatabaseReader {
 
-	private static Logger logger = Logger.getLogger(DatabaseReader.class);
-	
 	protected com.randomnoun.common.db.to.DatabaseTO db;
     
 	// only required for online DB metadata
 	public DataSource ds;
 	public JdbcTemplate jt;
-	
-	private String jetDatabaseFilename;
 	
 	/* these aren't used yet
 	public static class SourceTypeTO {
@@ -89,21 +83,8 @@ public abstract class DatabaseReader {
 		this.ds = dataSource;
 		this.jt = new JdbcTemplate(dataSource);
 		this.db = new com.randomnoun.common.db.to.DatabaseTO();
-		db.dbType = null; // dbType
-		db.schemas = new HashMap<String, SchemaTO>();
-	}
-	
-	/** Alternate constructor that uses ADO to interrogate a Jet (MSAccess)
-	 * database. Way to go, Microsoft.
-	 * 
-	 * @param jetDatabaseLocation
-	 */
-	public DatabaseReader(String jetDatabaseFilename) {
-		this.db = new com.randomnoun.common.db.to.DatabaseTO();
-		db.dbType = DatabaseType.JET_DAO;
-		db.schemas = new HashMap<String, SchemaTO>();
-		this.jetDatabaseFilename = jetDatabaseFilename;
-		
+		db.setDatabaseType(null);
+		db.setSchemaMap(new HashMap<String, SchemaTO>());
 	}
 	
 	
@@ -112,7 +93,7 @@ public abstract class DatabaseReader {
 		
 		// default schema name
 		if (schemaName==null) {
-			switch (db.dbType) {
+			switch (db.getDatabaseType()) {
 				case ORACLE:
 					throw new UnsupportedOperationException("Not supported for this database type");
 				
@@ -124,14 +105,14 @@ public abstract class DatabaseReader {
 					throw new UnsupportedOperationException("Not supported for this database type");
 					
 				default:
-					throw new IllegalStateException("Unknown database type " + db.dbType);
+					throw new IllegalStateException("Unknown database type " + db.getDatabaseType());
 			}
 		}
 		
-		SchemaTO schema = db.schemas.get(db.upper(schemaName));
+		SchemaTO schema = db.getSchemaMap().get(db.upper(schemaName));
 		if (schema == null) {
 			schema = readSchema(db.upper(schemaName));
-			db.schemas.put(db.upper(schemaName), schema); 
+			db.getSchemaMap().put(db.upper(schemaName), schema); 
 		}
 		return schema;
 	}
@@ -150,7 +131,7 @@ public abstract class DatabaseReader {
 		if (bits.length > 2) { schemaName = bits[bits.length - 3]; }
 		if (bits.length > 1) { tableName = bits[bits.length - 2]; }
 		columnName = bits[bits.length - 1];
-		SchemaTO schema = db.schemas.get(schemaName); 
+		SchemaTO schema = db.getSchemaMap().get(schemaName); 
 		TableTO table = schema.getTable(tableName);
 		return table.getTableColumn(columnName);
 	}

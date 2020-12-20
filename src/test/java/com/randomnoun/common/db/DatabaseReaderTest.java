@@ -12,6 +12,7 @@ import java.util.Properties;
 import javax.sql.DataSource;
 
 import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.springframework.jdbc.datasource.SingleConnectionDataSource;
 
 import com.randomnoun.common.db.dao.MysqlDatabaseReader;
@@ -19,7 +20,7 @@ import com.randomnoun.common.db.to.ConstraintTO;
 import com.randomnoun.common.db.to.SchemaTO;
 import com.randomnoun.common.db.to.TableColumnTO;
 import com.randomnoun.common.db.to.TableTO;
-import com.randomnoun.common.log4j.Log4jCliConfiguration;
+import com.randomnoun.common.log4j2.Log4j2CliConfiguration;
 
 import junit.framework.TestCase;
 
@@ -28,7 +29,7 @@ public class DatabaseReaderTest extends TestCase {
 	Logger logger = Logger.getLogger(DatabaseReaderTest.class);
 	
 	/** Tests will only run if build is executing on these hosts */
-	public static List<String> TEST_HOSTS = Arrays.asList(new String[] { "halogen", "bnedev11" }); 
+	public static List<String> TEST_HOSTS = Arrays.asList(new String[] { "halogen", "bnedev11", "yttrium" }); 
 	
 	private DataSource ds;
 	
@@ -49,21 +50,23 @@ public class DatabaseReaderTest extends TestCase {
 		//String username = null;
 		//String password = null;
 		
-        Log4jCliConfiguration lcc = new Log4jCliConfiguration();
+		LogManager.shutdown(); // ok so if I do this I need to reconstruct the Logger instances, which is annoying
+        Log4j2CliConfiguration lcc = new Log4j2CliConfiguration();
         Properties props = new Properties();
         lcc.init("[DatabaseReaderTest]", props);
-		
+        
 		logger.info("setUp()");
+		logger.fatal("For christ sake");
 	}
 	
 	public void dumpSchema(SchemaTO s) {
 		// something
-		for (TableTO t : s.tables.values()) {
-			logger.info("Table " + t.name);
-			for (TableColumnTO tc : t.columns.values()) {
+		for (TableTO t : s.getTableMap().values()) {
+			logger.info("Table " + t.getName());
+			for (TableColumnTO tc : t.getTableColumnMap().values()) {
 				logger.info("  Column " + tc.getName());
 			}
-			for (ConstraintTO c : t.constraints.values()) {
+			for (ConstraintTO c : t.getConstraintMap().values()) {
 				logger.info("  Constraint " + c.getName());
 			}
 		}
@@ -91,11 +94,10 @@ public class DatabaseReaderTest extends TestCase {
 		String hostname = InetAddress.getLocalHost().getHostName();
 		if (!TEST_HOSTS.contains(hostname)) { return; }
 
-		
 		// String connString  = "jdbc:mysql://localhost/jacobi-web-int?zeroDateTimeBehavior=convertToNull&autoReconnect=true&useSSL=false";
-		String connString  = "jdbc:mysql://mysql.dev.randomnoun/common?zeroDateTimeBehavior=convertToNull&autoReconnect=true&useSSL=false";
-		String username = "common";
-		String password = "common";
+		String connString  = "jdbc:mysql://localhost/jacobiwebdev?zeroDateTimeBehavior=convertToNull&autoReconnect=true&useSSL=false";
+		String username = "root";
+		String password = "abc123";
 		Connection conn = DriverManager.getConnection(connString, username, password);
 		ds = new SingleConnectionDataSource(conn, false);
 		DatabaseReader dr = new MysqlDatabaseReader(ds);
