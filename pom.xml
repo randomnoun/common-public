@@ -10,6 +10,7 @@
 	<description>Common utility classes</description>
 	<url>https://github.com/randomnoun/common-public</url>
 	<inceptionYear>2013</inceptionYear>
+	<!-- version before 1.0.0 bump was 0.2.29 -->
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
