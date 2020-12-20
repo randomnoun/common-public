@@ -501,6 +501,8 @@ public class Text {
                     } else {
                         throw new ParseException("Cannot have trailing data after close quote character", pos);
                     }
+                    break;
+                    
                 default:
                     throw new IllegalStateException("Illegal state '" + parseState + "' in parseCsv");
             }

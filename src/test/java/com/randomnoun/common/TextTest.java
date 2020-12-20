@@ -2,6 +2,8 @@ package com.randomnoun.common;
 
 import static org.junit.Assert.assertArrayEquals;
 
+import java.text.ParseException;
+import java.util.Arrays;
 import java.util.Properties;
 
 import junit.framework.TestCase;
@@ -14,18 +16,11 @@ import junit.framework.TestCase;
 public class TextTest
     extends TestCase
 {
-    /**
-     * Constructor for TextTest.
-     * @param arg0
-     */
-    public TextTest(String name)
+	public TextTest(String name)
     {
         super(name);
     }
 
-    /**
-     * DOCUMENT ME!
-     */
     public void testIsBlank()
     {
         assertTrue("isBlank(null)", Text.isBlank(null));
@@ -62,9 +57,6 @@ public class TextTest
     }
 
     
-    /**
-     * DOCUMENT ME!
-     */
     public void testGetDisplayString()
     {
         String a;
@@ -120,9 +112,6 @@ public class TextTest
             Text.getDisplayString("abc", a));
     }
 
-    /**
-     * DOCUMENT ME!
-     */
     public void testStrDefault()
     {
         assertNull("strDefault(null, null)", Text.strDefault(null, null));
@@ -138,35 +127,10 @@ public class TextTest
         assertEquals("strDefault('', '')", "", Text.strDefault("", ""));
     }
 
-    /**
-     * DOCUMENT ME!
-     */
     public void testReplaceString()
     {
         
 
-        /*
-           String a;
-           try {
-             a = Text.replaceString(null, null, null);
-             fail("replaceString(null, null, null) should throw NullPointerException");
-           } catch (NullPointerException ne) {
-             // ok
-           }
-           try {
-             a = Text.replaceString("abc", null, null);
-             fail("replaceString('abc', null, null) should throw NullPointerException");
-           } catch (NullPointerException ne) {
-             // ok
-           }
-    
-           try {
-             a = Text.replaceString("abc", "def", null);
-             fail("replaceString('abc', 'def', null) should throw NullPointerException");
-           } catch (NullPointerException ne) {
-             // ok
-           }
-         */
         // single char replacement        
         assertEquals("replaceString('', 'b', 'x')", "", Text.replaceString("", "b", "x"));
         assertEquals("replaceString('abc', 'b', 'x')", "axc",
@@ -208,51 +172,30 @@ public class TextTest
             Text.replaceString("abababa", "bab", "a"));
     }
 
-    /**
-     * DOCUMENT ME!
-     */
     public void testGetFileContents()
     {
     }
 
-    /**
-     * DOCUMENT ME!
-     */
     public void testIndent()
     {
     }
 
-    /**
-     * DOCUMENT ME!
-     */
     public void testStructuredListToString()
     {
     }
 
-    /**
-     * DOCUMENT ME!
-     */
     public void testStructuredMapToString()
     {
     }
 
-    /*
-     * Test for void setFromRequest(Object, HttpServletRequest)
-     */
     public void testSetFromRequestObjectHttpServletRequest()
     {
     }
 
-    /*
-     * Test for void setFromRequest(Object, HttpServletRequest, String[])
-     */
     public void testSetFromRequestObjectHttpServletRequestStringArray()
     {
     }
 
-    /**
-     * DOCUMENT ME!
-     */
     public void testGetValue()
     {
     }
@@ -401,5 +344,32 @@ public class TextTest
     	
     }
     
+
+    public void testParseCsv() throws ParseException {
+    	assertEquals(Arrays.asList(new String[] { "abc" }), Text.parseCsv("abc"));
+    	assertEquals(Arrays.asList(new String[] { "abc","def" }), Text.parseCsv("abc,def"));
+    	assertEquals(Arrays.asList(new String[] { "", "abc", "" }), Text.parseCsv(",abc,"));
+    	assertEquals(Arrays.asList(new String[] { "" }), Text.parseCsv(""));
+    	assertEquals(Arrays.asList(new String[] { "quotes" }), Text.parseCsv("\"quotes\""));
+    	assertEquals(Arrays.asList(new String[] { "q", "a,b", "c" }), Text.parseCsv("\"q\",\"a,b\",c"));
+    	assertEquals(Arrays.asList(new String[] { "q", "a,\"b\",c", "d" }), Text.parseCsv("\"q\",\"a,\"\"b\"\",c\",d"));
+    	assertEquals(Arrays.asList(new String[] { "nq", "q", "a,\"b\",c", "d" }), Text.parseCsv("nq,\"q\",\"a,\"\"b\"\",c\",d"));
+    	assertEquals(Arrays.asList(new String[] { "nq", "q", "a,\"b\",c", "d" }), Text.parseCsv("nq   ,   \"q\",   \"a,\"\"b\"\",c\"   ,d"));
+    	// whitespace-sensitive
+    	assertEquals(Arrays.asList(new String[] { "nq", "q", "a,\"b\",c", "d" }), Text.parseCsv("nq,\"q\",\"a,\"\"b\"\",c\",d", true));
+    	assertEquals(Arrays.asList(new String[] { "nq   ", "   \"q\"", "  \"a  " }), Text.parseCsv("nq   ,   \"q\",  \"a  ", true));
+    	
+    	// test failure modes
+    	try {
+    		Text.parseCsv("\"q\",\"a"); // unclosed quote
+    		fail("expected ParseException");
+    	} catch (ParseException e) { }
+    	try {
+    		Text.parseCsv("\"q\",\"a\"  ",true); // whitespace after close quote in whitespace-sensitive mode
+    		fail("expected ParseException");
+    	} catch (ParseException e) { }
+
+    }
+
     
 }
