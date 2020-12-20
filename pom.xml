@@ -8,7 +8,7 @@
 	
 	<name>randomnoun common classes</name>
 	<description>Common utility classes</description>
-	<url>http://code.randomnoun.com/common-public/index.html</url>
+	<url>https://github.com/randomnoun/common-public</url>
 	<inceptionYear>2013</inceptionYear>
 
 	<properties>
@@ -407,7 +407,7 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-site-plugin</artifactId>
-					<version>3.2</version>
+					<<version>3.3</version>
 					<dependencies>
 						<dependency>
 							<groupId>lt.velykis.maven.skins</groupId>
@@ -425,14 +425,27 @@
 							<artifactId>doxia-module-html</artifactId>
 							<version>1.1.0</version>
 						</dependency>
-						<dependency>
-							<!-- add support for ssh/scp -->
-							<groupId>org.apache.maven.wagon</groupId>
-							<artifactId>wagon-ssh</artifactId>
-							<version>1.0</version>
-						</dependency>
 					</dependencies>
 				</plugin>
+				
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-javadoc-plugin</artifactId>
+					<version>3.2.0</version>
+					<!-- 
+					  this configuration is used during the javadoc:jar goal during the release
+					  configuration for the reports is in the <reporting> section  
+					-->
+					<configuration>
+	                	<additionalparam>-Xdoclint:none</additionalparam>
+	                	<failOnError>false</failOnError>
+						<javadocDirectory>${project.basedir}/src/main/javadoc</javadocDirectory>
+						<docfilessubdirs>true</docfilessubdirs>
+						<author>true</author>
+						<linksource>true</linksource>
+					</configuration>
+				</plugin>
+				
 				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
 				<plugin>
 					<groupId>org.eclipse.m2e</groupId>
@@ -509,13 +522,28 @@
 
 	<reporting>
 		<plugins>
-		<!-- 
 			<plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+                <version>2.9</version>
+                <configuration>
+		          <webAccessUrl>https://github.com/randomnoun/log4j-one</webAccessUrl>
+		          <anonymousConnection>scm:git:ssh://git@github.com:randomnoun/log4j-one.git</anonymousConnection>
+		          <developerConnection>scm:git:ssh://git@github.com:randomnoun/log4j-one.git</developerConnection>
+		        </configuration>
+            </plugin>
+            
+            <plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<version>3.2.0</version>
+				<!-- 
+				  this configuration is used during the site:site goal during the release
+				  configuration for the javadoc artifact is in the <pluginManagement> section  
+				-->
 				<configuration>
-					<stylesheetfile>${project.basedir}/src/main/javadoc/stylesheet.css</stylesheetfile>
+                	<additionalparam>-Xdoclint:none</additionalparam>
+                	<failOnError>false</failOnError>
 					<javadocDirectory>${project.basedir}/src/main/javadoc</javadocDirectory>
 					<docfilessubdirs>true</docfilessubdirs>
 					<author>true</author>
@@ -530,33 +558,23 @@
 					</reportSet>
 				</reportSets>
 			</plugin>
-			 -->
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>cobertura-maven-plugin</artifactId>
-				<version>2.6</version>
-				<configuration>
-					<formats>
-						<format>html</format>
-						<format>xml</format>
-					</formats>
-				</configuration>
-			</plugin>
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-report-plugin</artifactId>
-				<version>2.16</version>
+				<version>2.19.1</version>
 				<configuration>
+					<argLine>-Dnashorn.args="--no-deprecation-warning"</argLine>
 				</configuration>
 			</plugin>
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jxr-plugin</artifactId>
-				<version>2.3</version>
+				<version>2.5</version>
 				<configuration>
 					<linkJavadoc>true</linkJavadoc>
-					<javadocDir>target/site/apidocs</javadocDir>
+					<javadocDir>target/site/apidocs</javadocDir> 
 				</configuration>
 			</plugin>
 
@@ -576,12 +594,7 @@
 	        <url>http://nexus2.dev.randomnoun/nexus/content/repositories/snapshots/</url>
 	        <uniqueVersion>false</uniqueVersion>
 	    </snapshotRepository>
-		<site>
-			<id>site</id>
-			<name>common-public Website</name>
-			<!-- this will be externally visible at http://code.randomnoun.com/common-public -->
-			<url>scp://code.randomnoun.com/var/www/code.randomnoun.com/common-public/</url>
-		</site>
+		
 	</distributionManagement>
 
 </project>
