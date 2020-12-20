@@ -3,7 +3,7 @@
 	
 	<groupId>com.randomnoun.common</groupId>
 	<artifactId>common-public</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	
 	<name>randomnoun common classes</name>
@@ -293,15 +293,11 @@
 
 	
 	<scm>
-		<connection>scm:git:ssh://git@gitlab.dev.randomnoun:2222/randomnoun/common-public.git</connection>
-		<developerConnection>scm:git:ssh://git@gitlab.dev.randomnoun:2222/randomnoun/common-public.git</developerConnection>
+		<connection>scm:git:http://gitlab.dev.randomnoun/randomnoun/common-public.git</connection>
+		<developerConnection>scm:git:http://gitlab.dev.randomnoun/randomnoun/common-public.git</developerConnection>
 		<url>http://gitlab.dev.randomnoun/randomnoun/common-public</url>
-	  <tag>common-public-1.0.0</tag>
-  </scm>
-	<issueManagement>
-		<system>jira</system>
-		<url>http://jira.dev.randomnoun/COMMONPUBLIC</url>
-	</issueManagement>
+  	</scm>
+	
 	<ciManagement>
 		<system>Bamboo</system>
 		<url>http://bamboo.dev.randomnoun:8085/bamboo/browse/RANDOMNOUN-COMMONPUBLIC</url>
@@ -323,7 +319,6 @@
 			<post>common-public@lists.randomnoun.com</post>
 			<archive>http://lists.randomnoun.com/pipermail/common-public/</archive>
 		</mailingList>
-		<!-- TODO: a generic announcements / notifications list -->
 	</mailingLists>
 	<organization>
 		<name>randomnoun</name>
