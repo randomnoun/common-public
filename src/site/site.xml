@@ -10,7 +10,7 @@
 <span class="color-highlight">randomnoun</span> common-public
 ]]>
     </name>
-    <href>http://code.randomnoun.com/common-public/index.html</href>
+    <href>https://randomnoun.github.io/common-public/</href>
   </bannerLeft>
   
   <skin>
@@ -37,7 +37,7 @@
 <span class="color-highlight">randomnoun</span> common-public
 ]]>
         </name>
-        <href>http://code.randomnoun.com/common-public/index.html</href>
+        <href>https://randomnoun.github.io/common-public/</href>
       </brand>
       <slogan>Common utility classes</slogan>
       <titleTemplate>%2$s | %1$s</titleTemplate>
@@ -112,6 +112,7 @@ a set of common utility classes.
   
     <links>
       <item name="Download" href="index.html#Usage" />
+      <item name="Github" href="https://github.com/randomnoun/common-public" />
     </links>
 
     <breadcrumbs>
@@ -120,6 +121,7 @@ a set of common utility classes.
   
     <menu name="Main" inherit="top">
       <item name="Home" href="index.html" />
+      <item name="Github project" href="https://github.com/randomnoun/common-public" />
       <item name="Blog" href="http://www.randomnoun.com/wp" />
       <item name="Release notes" href="changes-report.html" />
     </menu>
@@ -129,7 +131,7 @@ a set of common utility classes.
     </menu>
     <menu name="Documentation" inherit="bottom">
       <item name="Usage" href="index.html" />
-      <item name="Javadocs" href="apidocs/index.html" />
+      <item name="Javadocs" href="apidocs/index.html?overview-summary.html" />
       <item name="Code coverage" href="cobertura/index.html" />
       <item name="Source XRef" href="xref/index.html" />
       <item name="Test XRef" href="xref-test/index.html" />
