@@ -1,6 +1,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	
+	<parent>
+		<artifactId>parent-pom</artifactId>
+		<groupId>com.randomnoun.build</groupId>
+		<version>1.23-SNAPSHOT</version>
+	</parent>
+	
 	<groupId>com.randomnoun.common</groupId>
 	<artifactId>common-public</artifactId>
 	<version>1.0.1-SNAPSHOT</version>
@@ -14,7 +20,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<org.springframework.version>5.3.1</org.springframework.version><!--  was 4.3.20.RELEASE -->
+		<org.springframework.version>5.3.1</org.springframework.version>
 	</properties>
 
 	<dependencies>
@@ -22,20 +28,19 @@
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
-			<version>4.12</version>
 		</dependency>
 		<dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>
-            <version>2.14.0</version><!--  2.12.1 was last version to support jdk7, latest is 2.14.0 -->
             <optional>true</optional>
         </dependency>
 
-        <!-- keep the log4j 1 interfaces as some downstream projects still use log4j 1 appenders -->
+        <!-- keep the log4j 1 interfaces as some downstream projects still use log4j 1 appenders 
+             note the LoggingEvent class in log4j-1.2-api is broken, so we supply our own in this project
+        -->
         <dependency>
         	<groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-1.2-api</artifactId>
-            <version>2.14.0</version><!--  2.12.1 was last version to support jdk7, latest is 2.14.0 -->
             <optional>true</optional>
         </dependency>
 
@@ -57,143 +62,35 @@
         <dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>
-			<version>2.5</version>
 			<scope>provided</scope>
 		</dependency>
         <dependency>
         	<groupId>javax.servlet.jsp</groupId>
         	<artifactId>jsp-api</artifactId>
-        	<version>2.2</version>
         	<scope>provided</scope>
         </dependency>
         
-        		
-        <!-- http://stackoverflow.com/questions/2237537/which-maven-dependencies-to-include-for-spring-3-0 -->
-		<!-- so now the spring JAR has now been replaced with 14 easy-to-use spring jarlets -->
-		<!-- Core utilities used by other modules.
-		   Define this if you use Spring Utility APIs 
-		   (org.springframework.core.*/org.springframework.util.*)-->
-		<dependency>
+        <dependency>
 		    <groupId>org.springframework</groupId>
 		    <artifactId>spring-core</artifactId>
-		    <version>${org.springframework.version}</version>
 		</dependency>
-		<!-- Expression Language (depends on spring-core)
-		   Define this if you use Spring Expression APIs 
-		   (org.springframework.expression.*)-->
-		<dependency>
-		    <groupId>org.springframework</groupId>
-		    <artifactId>spring-expression</artifactId>
-		    <version>${org.springframework.version}</version>
-		</dependency>
-		<!-- Bean Factory and JavaBeans utilities (depends on spring-core)
-		   Define this if you use Spring Bean APIs 
-		   (org.springframework.beans.*)-->
-		<dependency>
-		    <groupId>org.springframework</groupId>
-		    <artifactId>spring-beans</artifactId>
-		    <version>${org.springframework.version}</version>
-		</dependency>
-		<!-- Aspect Oriented Programming (AOP) Framework 
-		   (depends on spring-core, spring-beans)
-		   Define this if you use Spring AOP APIs 
-		   (org.springframework.aop.*)-->
-		<dependency>
-		    <groupId>org.springframework</groupId>
-		    <artifactId>spring-aop</artifactId>
-		    <version>${org.springframework.version}</version>
-		</dependency>
-		<!-- Application Context 
-		   (depends on spring-core, spring-expression, spring-aop, spring-beans)
-		   This is the central artifact for Spring's Dependency Injection Container
-		   and is generally always defined-->
-		<dependency>
-		    <groupId>org.springframework</groupId>
-		    <artifactId>spring-context</artifactId>
-		    <version>${org.springframework.version}</version>
-		</dependency>
-		<!-- Various Application Context utilities, including EhCache, JavaMail, Quartz, 
-		   and Freemarker integration
-		   Define this if you need any of these integrations-->
 		<dependency>
 		    <groupId>org.springframework</groupId>
 		    <artifactId>spring-context-support</artifactId>
-		    <version>${org.springframework.version}</version>
 		</dependency>
-		<!-- Transaction Management Abstraction 
-		   (depends on spring-core, spring-beans, spring-aop, spring-context)
-		   Define this if you use Spring Transactions or DAO Exception Hierarchy
-		   (org.springframework.transaction.*/org.springframework.dao.*)-->
 		<dependency>
 		    <groupId>org.springframework</groupId>
 		    <artifactId>spring-tx</artifactId>
-		    <version>${org.springframework.version}</version>
 		</dependency>
-		<!-- JDBC Data Access Library 
-		   (depends on spring-core, spring-beans, spring-context, spring-tx)
-		   Define this if you use Spring's JdbcTemplate API 
-		   (org.springframework.jdbc.*)-->
 		<dependency>
 		    <groupId>org.springframework</groupId>
 		    <artifactId>spring-jdbc</artifactId>
-		    <version>${org.springframework.version}</version>
 		</dependency>
-		<!-- Object-to-Relation-Mapping (ORM) integration with Hibernate, JPA and iBatis.
-		   (depends on spring-core, spring-beans, spring-context, spring-tx)
-		   Define this if you need ORM (org.springframework.orm.*)-->
-		<dependency>
-		    <groupId>org.springframework</groupId>
-		    <artifactId>spring-orm</artifactId>
-		    <version>${org.springframework.version}</version>
-		</dependency>
-		<!-- Object-to-XML Mapping (OXM) abstraction and integration with JAXB, JiBX, 
-		   Castor, XStream, and XML Beans.
-		   (depends on spring-core, spring-beans, spring-context)
-		   Define this if you need OXM (org.springframework.oxm.*)-->
-		<dependency>
-		    <groupId>org.springframework</groupId>
-		    <artifactId>spring-oxm</artifactId>
-		    <version>${org.springframework.version}</version>
-		</dependency>
-		<!-- Web application development utilities applicable to both Servlet and 
-		   Portlet Environments 
-		   (depends on spring-core, spring-beans, spring-context)
-		   Define this if you use Spring MVC, or wish to use Struts, JSF, or another
-		   web framework with Spring (org.springframework.web.*)-->
-		<dependency>
-		    <groupId>org.springframework</groupId>
-		    <artifactId>spring-web</artifactId>
-		    <version>${org.springframework.version}</version>
-		</dependency>
-		<!-- Spring MVC for Servlet Environments 
-		   (depends on spring-core, spring-beans, spring-context, spring-web)
-		   Define this if you use Spring MVC with a Servlet Container such as 
-		   Apache Tomcat (org.springframework.web.servlet.*)-->
-		<dependency>
-		    <groupId>org.springframework</groupId>
-		    <artifactId>spring-webmvc</artifactId>
-		    <version>${org.springframework.version}</version>
-		</dependency>
-		<!-- Support for testing Spring applications with tools such as JUnit and TestNG
-		   This artifact is generally always defined with a 'test' scope for the 
-		   integration testing framework and unit testing stubs-->
-		<dependency>
-		    <groupId>org.springframework</groupId>
-		    <artifactId>spring-test</artifactId>
-		    <version>${org.springframework.version}</version>
-		    <scope>test</scope>
-		</dependency>
+		
 
 		<dependency>
 			<groupId>commons-httpclient</groupId>
 			<artifactId>commons-httpclient</artifactId>
-			<version>3.1</version>
-			<exclusions>
-				<exclusion>
-					<groupId>junit</groupId>
-					<artifactId>junit</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 
 		<!-- used to be a sub-dep of struts, now required for Struct; @TODO remove -->
@@ -214,52 +111,33 @@
 		<dependency>
 			<groupId>org.ccil.cowan.tagsoup</groupId>
 			<artifactId>tagsoup</artifactId>
-			<version>1.2</version>
 		</dependency>
 		<dependency>
 			<groupId>xalan</groupId>
 			<artifactId>xalan</artifactId>
-			<version>2.7.2</version>
-			<exclusions>
-				<exclusion>
-					<groupId>xml-apis</groupId>
-					<artifactId>xml-apis</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>xerces</groupId>
 			<artifactId>xercesImpl</artifactId>
-			<version>2.12.0</version>
-			<exclusions>
-				<exclusion>
-					<groupId>xml-apis</groupId>
-					<artifactId>xml-apis</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 
 		<dependency>
         	<groupId>javax.mail</groupId>
         	<artifactId>mail</artifactId>
-        	<version>1.4.1</version>
       	</dependency>
 
 		<dependency>
 			<groupId>net.java.dev.jna</groupId>
 			<artifactId>jna</artifactId>
-			<version>4.2.2</version><!--  was 3.5.1 -->
 		</dependency>
 		<dependency>
 			<groupId>net.java.dev.jna</groupId>
 			<artifactId>jna-platform</artifactId>
-			<version>4.2.2</version><!--  was net.java.dev.jna:platform:3.5.1 -->
 		</dependency>	
 		
 		<dependency>
             <groupId>org.mariadb.jdbc</groupId>
             <artifactId>mariadb-java-client</artifactId>
-            <version>1.8.0</version>
 			<scope>test</scope>
         </dependency>
 		
@@ -267,19 +145,15 @@
 		<dependency>
 			<groupId>commons-dbcp</groupId>
 			<artifactId>commons-dbcp</artifactId>
-			<version>1.4</version>
 			<type>jar</type>
 			<optional>true</optional>
 		</dependency>
 		<dependency>
 			<groupId>com.mchange</groupId>
 			<artifactId>c3p0</artifactId>
-			<version>0.9.5.4</version>
 			<type>jar</type>
 			<optional>true</optional>
 		</dependency>
-		
-		
 		
 		<dependency>
             <groupId>com.randomnoun.common</groupId>
@@ -301,46 +175,9 @@
 	
 	<ciManagement>
 		<system>Bamboo</system>
-		<url>http://bamboo.dev.randomnoun:8085/bamboo/browse/RANDOMNOUN-COMMONPUBLIC</url>
+		<url>http://bamboo.dev.randomnoun/browse/RANDOMNOUN-COMMONPUBLIC</url>
 	</ciManagement>
-	<licenses>
-		<license>
-			<name>Simplified BSD License</name>
-			<url>http://www.randomnoun.com/licences/bsd-simplified.txt</url>
-			<!-- <url>http://opensource.org/licenses/BSD-2-Clause</url> -->
-			<distribution>repo</distribution>
-			<comments>Simplified BSD License (BSD 2-clause license).</comments>
-		</license>
-	</licenses>
-	<mailingLists>
-		<mailingList>
-			<name>common-public Mailing List</name>
-			<subscribe>common-public-subscribe@lists.randomnoun.com</subscribe>
-			<unsubscribe>common-public-unsubscribe@lists.randomnoun.com</unsubscribe>
-			<post>common-public@lists.randomnoun.com</post>
-			<archive>http://lists.randomnoun.com/pipermail/common-public/</archive>
-		</mailingList>
-	</mailingLists>
-	<organization>
-		<name>randomnoun</name>
-		<url>http://www.randomnoun.com</url>
-	</organization>
-	<developers>
-		<developer>
-			<id>knoxg</id>
-			<name>Greg Knox</name>
-			<email>knoxg@randomnoun.com</email>
-			<organization>randomnoun</organization>
-			<organizationUrl>http://www.randomnoun.com</organizationUrl>
-			<roles>
-				<role>Software Gazelle</role>
-			</roles>
-			<timezone>Australia/Brisbane</timezone>
-			<properties>
-				<picUrl>http://www.gravatar.com/avatar/10b6f00fa8d70d6f4e042558a9433086.jpg?s=32</picUrl>
-			</properties>
-		</developer>
-	</developers>
+	
 
 	<build>
 		<plugins>
@@ -365,234 +202,7 @@
 				</executions>
 			</plugin>
 		</plugins>
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-compiler-plugin</artifactId>
-					<version>2.3.2</version>
-					<configuration>
-						<source>11</source>
-						<target>11</target>
-						<encoding>UTF-8</encoding>
-					</configuration>
-				</plugin>
-
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-surefire-plugin</artifactId>
-                    <version>2.15</version>
-                    <configuration>
-                        <!--  x<argLine>${surefireArgLine} ${surefireArgLine2}</argLine> -->
-                        <systemPropertyVariables>
-                            <runOrder>alphabetical</runOrder>
-                        </systemPropertyVariables>
-                        <includes>
-                            <include>**/*Test.java</include>
-                            <include>**/*TestSuite.java</include>
-                        </includes>
-                    </configuration>
-
-                    <executions>
-                        <execution>
-                            <goals>
-                                <goal>test</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
-
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-site-plugin</artifactId>
-					<version>3.3</version>
-					<dependencies>
-						<dependency>
-							<groupId>lt.velykis.maven.skins</groupId>
-							<artifactId>reflow-velocity-tools</artifactId>
-							<version>1.0.0</version>
-						</dependency>
-						<!-- Reflow skin requires Velocity >= 1.7 -->
-						<dependency>
-							<groupId>org.apache.velocity</groupId>
-							<artifactId>velocity</artifactId>
-							<version>1.7</version>
-						</dependency>
-						<dependency>
-							<groupId>com.randomnoun.maven.doxia</groupId>
-							<artifactId>doxia-module-html</artifactId>
-							<version>1.1.0</version>
-						</dependency>
-					</dependencies>
-				</plugin>
-				
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-javadoc-plugin</artifactId>
-					<version>3.2.0</version>
-					<!-- 
-					  this configuration is used during the javadoc:jar goal during the release
-					  configuration for the reports is in the <reporting> section  
-					-->
-					<configuration>
-	                	<additionalparam>-Xdoclint:none</additionalparam>
-	                	<failOnError>false</failOnError>
-						<javadocDirectory>${project.basedir}/src/main/javadoc</javadocDirectory>
-						<docfilessubdirs>true</docfilessubdirs>
-						<author>true</author>
-						<linksource>true</linksource>
-					</configuration>
-				</plugin>
-				
-				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
-				<plugin>
-					<groupId>org.eclipse.m2e</groupId>
-					<artifactId>lifecycle-mapping</artifactId>
-					<version>1.0.0</version>
-					<configuration>
-						<lifecycleMappingMetadata>
-							<pluginExecutions>
-								<pluginExecution>
-									<pluginExecutionFilter>
-										<groupId>
-											org.codehaus.mojo
-										</groupId>
-										<artifactId>
-											javacc-maven-plugin
-										</artifactId>
-										<versionRange>
-											[2.5,)
-										</versionRange>
-										<goals>
-											<goal>jtb-javacc</goal>
-										</goals>
-									</pluginExecutionFilter>
-									<action>
-										<ignore />
-									</action>
-								</pluginExecution>
-							</pluginExecutions>
-						</lifecycleMappingMetadata>
-					</configuration>
-				</plugin>
-			</plugins>
-		</pluginManagement>
-	</build>
-
-   <!-- 
-     The performRelease profile is automatically included when performing releases.
-     Don't forget to install the appropriate version of gpg.exe, and include the 
-       -Darguments=-Dgpg.passphrase=PASSPHRASE -Dgpg.passphrase=PASSPHRASE 
-     command-line options when releasing, as per 
-       https://docs.sonatype.org/display/Repository/How+To+Generate+PGP+Signatures+With+Maven 
-     unless that doesn't work, in which case updating settings.xml instead, as per 
-       http://stackoverflow.com/questions/14114528/avoid-gpg-signing-prompt-when-using-maven-release-plugin 
-     -->
-	<profiles>
-		<profile>
-			<id>release-sign-artifacts</id>
-			<activation>
-				<property>
-					<name>performRelease</name>
-					<value>true</value>
-				</property>
-			</activation>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-gpg-plugin</artifactId>
-						<executions>
-							<execution>
-								<id>sign-artifacts</id>
-								<phase>verify</phase>
-								<goals>
-									<goal>sign</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-	</profiles>
-
-
-	<reporting>
-		<plugins>
-			<plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-project-info-reports-plugin</artifactId>
-                <version>2.9</version>
-                <configuration>
-		          <webAccessUrl>https://github.com/randomnoun/log4j-one</webAccessUrl>
-		          <anonymousConnection>scm:git:ssh://git@github.com:randomnoun/log4j-one.git</anonymousConnection>
-		          <developerConnection>scm:git:ssh://git@github.com:randomnoun/log4j-one.git</developerConnection>
-		        </configuration>
-            </plugin>
-            
-            <plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>3.2.0</version>
-				<!-- 
-				  this configuration is used during the site:site goal during the release
-				  configuration for the javadoc artifact is in the <pluginManagement> section  
-				-->
-				<configuration>
-                	<additionalparam>-Xdoclint:none</additionalparam>
-                	<failOnError>false</failOnError>
-					<javadocDirectory>${project.basedir}/src/main/javadoc</javadocDirectory>
-					<docfilessubdirs>true</docfilessubdirs>
-					<author>true</author>
-					<linksource>true</linksource>
-				</configuration>
-				<reportSets>
-					<reportSet>
-						<reports>
-							<report>javadoc</report>
-							<report>test-javadoc</report>
-						</reports>
-					</reportSet>
-				</reportSets>
-			</plugin>
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-report-plugin</artifactId>
-				<version>2.19.1</version>
-				<configuration>
-					<argLine>-Dnashorn.args="--no-deprecation-warning"</argLine>
-				</configuration>
-			</plugin>
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jxr-plugin</artifactId>
-				<version>2.5</version>
-				<configuration>
-					<linkJavadoc>true</linkJavadoc>
-					<javadocDir>target/site/apidocs</javadocDir> 
-				</configuration>
-			</plugin>
-
-		</plugins>
-	</reporting>
-
-
-	<distributionManagement>
-	    <repository>
-	        <id>releases</id>
-	        <name>randomnoun releases</name>
-	        <url>http://nexus2.dev.randomnoun/nexus/content/repositories/releases/</url>
-	    </repository>
-	    <snapshotRepository>
-	        <id>snapshots</id>
-	        <name>randomnoun snapshots</name>
-	        <url>http://nexus2.dev.randomnoun/nexus/content/repositories/snapshots/</url>
-	        <uniqueVersion>false</uniqueVersion>
-	    </snapshotRepository>
 		
-	</distributionManagement>
+	</build>
 
 </project>
