@@ -47,14 +47,12 @@
 <sub class="small"><a href="${srcUrl}">${srcBasename}</a></sub>
 </p>
 
-<p>The links above are contained within the <a href="${repos}">maven central repository</a>
-
 <hr/>
 
 <h2>Code Examples</h2>
 
 The classes in this project have descriptions of their usage in both the
-<a href="apidocs/index.html">Javadoc overview</a> and on the 
+<a href="apidocs/index.html?overview-summary.html">Javadoc overview</a> and on the 
 <a href="http://www.randomnoun.com/wp">randomnoun blog</a>. 
 
 These are:
