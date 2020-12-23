@@ -204,7 +204,7 @@
 		<site>
         	<id>gh-pages</id>
         	<name>jessop Website</name>
-	        <url>git:http://gitlab.dev.randomnoun/randomnoun/jessop.git?gh-pages#</url>
+	        <url>git:http://gitlab.dev.randomnoun/randomnoun/common-public.git?gh-pages#</url>
     	</site>
 	</distributionManagement>
 	
