@@ -4,7 +4,7 @@
 	<parent>
 		<artifactId>parent-pom</artifactId>
 		<groupId>com.randomnoun.build</groupId>
-		<version>1.23-SNAPSHOT</version>
+		<version>1.23</version>
 	</parent>
 	
 	<groupId>com.randomnoun.common</groupId>
@@ -43,7 +43,7 @@
 		<dependency>
        		<groupId>com.randomnoun.common</groupId>
 			<artifactId>jessop</artifactId>
-			<version>1.0.14</version>
+			<version>1.0.15</version>
 		</dependency>
 
 		<!-- conflicts with packages in jdk 11
