@@ -203,7 +203,7 @@
 	<distributionManagement>
 		<site>
         	<id>gh-pages</id>
-        	<name>jessop Website</name>
+        	<name>common-public Website</name>
 	        <url>git:http://gitlab.dev.randomnoun/randomnoun/common-public.git?gh-pages#</url>
     	</site>
 	</distributionManagement>
