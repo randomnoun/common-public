@@ -18,10 +18,6 @@
 	<inceptionYear>2013</inceptionYear>
 	<!-- version before 1.0.0 bump was 0.2.29 -->
 
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<org.springframework.version>5.3.1</org.springframework.version>
-	</properties>
 
 	<dependencies>
 		<dependency>
@@ -170,8 +166,8 @@
 		<connection>scm:git:http://gitlab.dev.randomnoun/randomnoun/common-public.git</connection>
 		<developerConnection>scm:git:http://gitlab.dev.randomnoun/randomnoun/common-public.git</developerConnection>
 		<url>http://gitlab.dev.randomnoun/randomnoun/common-public</url>
-  	  <tag>HEAD</tag>
-  </scm>
+  	    <tag>HEAD</tag>
+    </scm>
 	
 	<ciManagement>
 		<system>Bamboo</system>
@@ -202,7 +198,19 @@
 				</executions>
 			</plugin>
 		</plugins>
-		
 	</build>
+	
+	<distributionManagement>
+		<site>
+        	<id>gh-pages</id>
+        	<name>jessop Website</name>
+	        <url>git:http://gitlab.dev.randomnoun/randomnoun/jessop.git?gh-pages#</url>
+    	</site>
+	</distributionManagement>
+	
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+	
 
 </project>
