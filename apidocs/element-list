@@ -24,4 +24,3 @@ com.randomnoun.common.spring
 com.randomnoun.common.timer
 com.randomnoun.common.webapp
 com.randomnoun.common.webapp.taglib
-org.apache.log4j.spi

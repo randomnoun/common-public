@@ -3,31 +3,31 @@
 -encoding
 'UTF-8'
 -overview
-'C:/Users/knoxg/workspace-4.15.0-sts-4.6.0-randomnoun/git/common-public/target/checkout/src/main/javadoc/overview.html'
+'C:/Users/knoxg/workspace-2020-12-randomnoun/git/git/common-public/target/checkout/src/main/javadoc/overview.html'
 -protected
 -source
 '8'
 -sourcepath
-'C:/Users/knoxg/workspace-4.15.0-sts-4.6.0-randomnoun/git/common-public/target/checkout/src/main/java;C:/Users/knoxg/workspace-4.15.0-sts-4.6.0-randomnoun/git/common-public/target/checkout/target/generated-sources/javacc;C:/Users/knoxg/workspace-4.15.0-sts-4.6.0-randomnoun/git/common-public/target/checkout/target/generated-sources/jtb;C:/Users/knoxg/workspace-4.15.0-sts-4.6.0-randomnoun/git/common-public/target/checkout/target/generated-sources/annotations;C:/Users/knoxg/workspace-4.15.0-sts-4.6.0-randomnoun/git/common-public/target/checkout/src/main/javadoc'
+'C:/Users/knoxg/workspace-2020-12-randomnoun/git/git/common-public/target/checkout/src/main/java;C:/Users/knoxg/workspace-2020-12-randomnoun/git/git/common-public/target/checkout/target/generated-sources/javacc;C:/Users/knoxg/workspace-2020-12-randomnoun/git/git/common-public/target/checkout/target/generated-sources/jtb;C:/Users/knoxg/workspace-2020-12-randomnoun/git/git/common-public/target/checkout/target/generated-sources/annotations;C:/Users/knoxg/workspace-2020-12-randomnoun/git/git/common-public/target/checkout/src/main/javadoc'
 --frames
 -author
 -bottom
-'Copyright &#169; 2013&#x2013;2020 <a href="http://www.randomnoun.com">randomnoun</a>. All rights reserved.'
+'Copyright &#169; 2013&#x2013;2021 <a href="http://www.randomnoun.com">randomnoun</a>. All rights reserved.'
 -charset
 'UTF-8'
 -d
-'C:/Users/knoxg/workspace-4.15.0-sts-4.6.0-randomnoun/git/common-public/target/checkout/target/site/apidocs'
+'C:/Users/knoxg/workspace-2020-12-randomnoun/git/git/common-public/target/checkout/target/site/apidocs'
 -docencoding
 'UTF-8'
 -docfilessubdirs
 -doctitle
-'randomnoun common classes 1.0.2 API'
+'randomnoun common classes 1.0.3 API'
 -linkoffline
-'https://docs.oracle.com/en/java/javase/11/docs/api' 'C:/Users/knoxg/workspace-4.15.0-sts-4.6.0-randomnoun/git/common-public/target/checkout/target/javadoc-bundle-options'
+'https://docs.oracle.com/en/java/javase/11/docs/api' 'C:/Users/knoxg/workspace-2020-12-randomnoun/git/git/common-public/target/checkout/target/javadoc-bundle-options'
 -linksource
 -stylesheetfile
-'C:/Users/knoxg/workspace-4.15.0-sts-4.6.0-randomnoun/git/common-public/target/checkout/src/main/javadoc/stylesheet.css'
+'C:/Users/knoxg/workspace-2020-12-randomnoun/git/git/common-public/target/checkout/src/main/javadoc/stylesheet.css'
 -use
 -version
 -windowtitle
-'randomnoun common classes 1.0.2 API'
+'randomnoun common classes 1.0.3 API'

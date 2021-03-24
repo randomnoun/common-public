@@ -91,7 +91,6 @@ com.randomnoun.common.webapp.taglib
 com.randomnoun.common.webapp.taglib
 com.randomnoun.common.webapp.taglib
 com.randomnoun.common
-org.apache.log4j.spi
 com.randomnoun.common.jexl.parser
 com.randomnoun.common.jexl.parser
 com.randomnoun.common.jexl.parser
