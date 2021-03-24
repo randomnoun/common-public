@@ -226,10 +226,13 @@ public class LogEventAdapter extends LoggingEvent {
     public Map getProperties() {
         return event.getContextData().toMap();
     }
-    
+
+    // is final
+    /*
     @Override
     public long getTimeStamp() {
         return event.getTimeMillis();
     }
+    */
     
 }
