@@ -159,7 +159,7 @@ public class MysqlDatabaseReader extends DatabaseReader {
 			"SELECT TC.constraint_catalog, TC.constraint_schema, TC.constraint_name,\n" + 
 			" TC.table_schema, TC.table_name,\n" + 
 			" TC.constraint_type, \n" + // TC.enforced in mysql 8 
-			" KCU.column_name, KCU.ordinal_position, -- KCU.position_in_unique_constraint = null\n" + 
+			" KCU.column_name, KCU.ordinal_position, \n" + // -- KCU.position_in_unique_constraint = null 
 			" KCU.referenced_table_schema, KCU.referenced_table_name, KCU.referenced_column_name\n" + 
 			"FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS TC\n" + 
 			" LEFT JOIN information_schema.KEY_COLUMN_USAGE KCU\n" + 
@@ -169,7 +169,7 @@ public class MysqlDatabaseReader extends DatabaseReader {
 			" AND TC.table_schema = KCU.table_schema\n" + 
 			" AND TC.table_name = KCU.table_name)\n" + 
 			"WHERE TC.table_schema = '" + s.getName() + "'\n" + // @TODO escape 
-			" ORDER BY TC.table_schema, TC.table_name, KCU.ordinal_position;\n",
+			" ORDER BY TC.table_schema, TC.table_name, TC.constraint_name, KCU.ordinal_position;\n",
 			new ResultSetExtractor<Object>() {
 				@Override
 				public Object extractData(ResultSet rs) throws SQLException, DataAccessException {
@@ -179,14 +179,15 @@ public class MysqlDatabaseReader extends DatabaseReader {
 					String lastConstraintName = null;
 					
 					while (rs.next()) {
-						String tableName = rs.getString("TABLE_NAME");
+						String tableName = s.getDatabase().upper(rs.getString("TABLE_NAME"));
 						if (t == null || !tableName.equals(lastTableName)) {
 							t = s.getTable(tableName);
 							lastTableName = tableName;
+							lastConstraintName = null;
 							c = null;
 						}
 						
-						String constraintName = rs.getString("CONSTRAINT_NAME");
+						String constraintName = s.getDatabase().upper(rs.getString("CONSTRAINT_NAME"));
 						if (c == null || !constraintName.equals(lastConstraintName)) {
 							String typeString = rs.getString("CONSTRAINT_TYPE");
 							ConstraintTypeEnum type = ConstraintTypeEnum.fromDatabaseString(typeString);
@@ -203,7 +204,11 @@ public class MysqlDatabaseReader extends DatabaseReader {
 						
 						c.getConstraintColumnMap().put(cc.getName(), cc);
 						if (c.getConstraintType() == ConstraintTypeEnum.PRIMARY) {
-							t.getTableColumnMap().get(cc.getName()).setPrimaryKey(true);
+							if (t.getTableColumnMap().get(cc.getName()) == null) {
+								logger.error("Could not find column '" + cc.getName() + "' in table '" + t.getName() + "', tableName='" + tableName + "', constraintName = '" + constraintName + "'");
+							} else {
+								t.getTableColumnMap().get(cc.getName()).setPrimaryKey(true);
+							}
 						}
 					}
 					return null;
