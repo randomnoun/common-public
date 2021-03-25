@@ -167,7 +167,7 @@
 <a class="jxr_linenumber" name="L159" href="#L159">159</a> 			<span class="jxr_string">"SELECT TC.constraint_catalog, TC.constraint_schema, TC.constraint_name,\n"</span> + 
 <a class="jxr_linenumber" name="L160" href="#L160">160</a> 			<span class="jxr_string">" TC.table_schema, TC.table_name,\n"</span> + 
 <a class="jxr_linenumber" name="L161" href="#L161">161</a> 			<span class="jxr_string">" TC.constraint_type, \n"</span> + <em class="jxr_comment">// TC.enforced in mysql 8 </em>
-<a class="jxr_linenumber" name="L162" href="#L162">162</a> 			<span class="jxr_string">" KCU.column_name, KCU.ordinal_position, -- KCU.position_in_unique_constraint = null\n"</span> + 
+<a class="jxr_linenumber" name="L162" href="#L162">162</a> 			<span class="jxr_string">" KCU.column_name, KCU.ordinal_position, \n"</span> + <em class="jxr_comment">// -- KCU.position_in_unique_constraint = null </em>
 <a class="jxr_linenumber" name="L163" href="#L163">163</a> 			<span class="jxr_string">" KCU.referenced_table_schema, KCU.referenced_table_name, KCU.referenced_column_name\n"</span> + 
 <a class="jxr_linenumber" name="L164" href="#L164">164</a> 			<span class="jxr_string">"FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS TC\n"</span> + 
 <a class="jxr_linenumber" name="L165" href="#L165">165</a> 			<span class="jxr_string">" LEFT JOIN information_schema.KEY_COLUMN_USAGE KCU\n"</span> + 
@@ -177,7 +177,7 @@
 <a class="jxr_linenumber" name="L169" href="#L169">169</a> 			<span class="jxr_string">" AND TC.table_schema = KCU.table_schema\n"</span> + 
 <a class="jxr_linenumber" name="L170" href="#L170">170</a> 			<span class="jxr_string">" AND TC.table_name = KCU.table_name)\n"</span> + 
 <a class="jxr_linenumber" name="L171" href="#L171">171</a> 			<span class="jxr_string">"WHERE TC.table_schema = '"</span> + s.getName() + <span class="jxr_string">"'\n"</span> + <em class="jxr_comment">// @TODO escape </em>
-<a class="jxr_linenumber" name="L172" href="#L172">172</a> 			<span class="jxr_string">" ORDER BY TC.table_schema, TC.table_name, KCU.ordinal_position;\n"</span>,
+<a class="jxr_linenumber" name="L172" href="#L172">172</a> 			<span class="jxr_string">" ORDER BY TC.table_schema, TC.table_name, TC.constraint_name, KCU.ordinal_position;\n"</span>,
 <a class="jxr_linenumber" name="L173" href="#L173">173</a> 			<strong class="jxr_keyword">new</strong> ResultSetExtractor&lt;Object&gt;() {
 <a class="jxr_linenumber" name="L174" href="#L174">174</a> 				@Override
 <a class="jxr_linenumber" name="L175" href="#L175">175</a> 				<strong class="jxr_keyword">public</strong> Object extractData(ResultSet rs) <strong class="jxr_keyword">throws</strong> SQLException, DataAccessException {
@@ -187,102 +187,107 @@
 <a class="jxr_linenumber" name="L179" href="#L179">179</a> 					String lastConstraintName = <strong class="jxr_keyword">null</strong>;
 <a class="jxr_linenumber" name="L180" href="#L180">180</a> 					
 <a class="jxr_linenumber" name="L181" href="#L181">181</a> 					<strong class="jxr_keyword">while</strong> (rs.next()) {
-<a class="jxr_linenumber" name="L182" href="#L182">182</a> 						String tableName = rs.getString(<span class="jxr_string">"TABLE_NAME"</span>);
+<a class="jxr_linenumber" name="L182" href="#L182">182</a> 						String tableName = s.getDatabase().upper(rs.getString(<span class="jxr_string">"TABLE_NAME"</span>));
 <a class="jxr_linenumber" name="L183" href="#L183">183</a> 						<strong class="jxr_keyword">if</strong> (t == <strong class="jxr_keyword">null</strong> || !tableName.equals(lastTableName)) {
 <a class="jxr_linenumber" name="L184" href="#L184">184</a> 							t = s.getTable(tableName);
 <a class="jxr_linenumber" name="L185" href="#L185">185</a> 							lastTableName = tableName;
-<a class="jxr_linenumber" name="L186" href="#L186">186</a> 							c = <strong class="jxr_keyword">null</strong>;
-<a class="jxr_linenumber" name="L187" href="#L187">187</a> 						}
-<a class="jxr_linenumber" name="L188" href="#L188">188</a> 						
-<a class="jxr_linenumber" name="L189" href="#L189">189</a> 						String constraintName = rs.getString(<span class="jxr_string">"CONSTRAINT_NAME"</span>);
-<a class="jxr_linenumber" name="L190" href="#L190">190</a> 						<strong class="jxr_keyword">if</strong> (c == <strong class="jxr_keyword">null</strong> || !constraintName.equals(lastConstraintName)) {
-<a class="jxr_linenumber" name="L191" href="#L191">191</a> 							String typeString = rs.getString(<span class="jxr_string">"CONSTRAINT_TYPE"</span>);
-<a class="jxr_linenumber" name="L192" href="#L192">192</a> 							ConstraintTypeEnum type = ConstraintTypeEnum.fromDatabaseString(typeString);
-<a class="jxr_linenumber" name="L193" href="#L193">193</a> 							c = <strong class="jxr_keyword">new</strong> <a href="../../../../../com/randomnoun/common/db/to/ConstraintTO.html">ConstraintTO</a>(t, type, t.getSchema().getDatabase().upper(constraintName));
-<a class="jxr_linenumber" name="L194" href="#L194">194</a> 							t.getConstraintMap().put(constraintName, c);
-<a class="jxr_linenumber" name="L195" href="#L195">195</a> 							lastConstraintName = constraintName;
-<a class="jxr_linenumber" name="L196" href="#L196">196</a> 						}
-<a class="jxr_linenumber" name="L197" href="#L197">197</a> 
-<a class="jxr_linenumber" name="L198" href="#L198">198</a> 						ConstraintColumnTO cc = <strong class="jxr_keyword">new</strong> <a href="../../../../../com/randomnoun/common/db/to/ConstraintColumnTO.html">ConstraintColumnTO</a>(c,
-<a class="jxr_linenumber" name="L199" href="#L199">199</a> 							c.getTable().getSchema().getDatabase().upper(rs.getString(<span class="jxr_string">"COLUMN_NAME"</span>)),
-<a class="jxr_linenumber" name="L200" href="#L200">200</a> 							rs.getLong(<span class="jxr_string">"ORDINAL_POSITION"</span>),
-<a class="jxr_linenumber" name="L201" href="#L201">201</a> 							c.getTable().getSchema().getDatabase().upper(rs.getString(<span class="jxr_string">"REFERENCED_TABLE_NAME"</span>)),
-<a class="jxr_linenumber" name="L202" href="#L202">202</a> 							c.getTable().getSchema().getDatabase().upper(rs.getString(<span class="jxr_string">"REFERENCED_COLUMN_NAME"</span>)));
-<a class="jxr_linenumber" name="L203" href="#L203">203</a> 						
-<a class="jxr_linenumber" name="L204" href="#L204">204</a> 						c.getConstraintColumnMap().put(cc.getName(), cc);
-<a class="jxr_linenumber" name="L205" href="#L205">205</a> 						<strong class="jxr_keyword">if</strong> (c.getConstraintType() == ConstraintTypeEnum.PRIMARY) {
-<a class="jxr_linenumber" name="L206" href="#L206">206</a> 							t.getTableColumnMap().get(cc.getName()).setPrimaryKey(<strong class="jxr_keyword">true</strong>);
-<a class="jxr_linenumber" name="L207" href="#L207">207</a> 						}
-<a class="jxr_linenumber" name="L208" href="#L208">208</a> 					}
-<a class="jxr_linenumber" name="L209" href="#L209">209</a> 					<strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">null</strong>;
-<a class="jxr_linenumber" name="L210" href="#L210">210</a> 				}
-<a class="jxr_linenumber" name="L211" href="#L211">211</a> 			});
-<a class="jxr_linenumber" name="L212" href="#L212">212</a> 	}
-<a class="jxr_linenumber" name="L213" href="#L213">213</a> 	
-<a class="jxr_linenumber" name="L214" href="#L214">214</a> 	<em class="jxr_comment">// probably more efficient to read all tables at once, but this is what the current code does</em>
-<a class="jxr_linenumber" name="L215" href="#L215">215</a> 	<strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">void</strong> readRoutines(<strong class="jxr_keyword">final</strong> <a href="../../../../../com/randomnoun/common/db/to/SchemaTO.html">SchemaTO</a> s) {
-<a class="jxr_linenumber" name="L216" href="#L216">216</a> 		jt.query(
-<a class="jxr_linenumber" name="L217" href="#L217">217</a> 			<em class="jxr_comment">// TABLE_CATALOG always NULL, TABLE_SCHEMA</em>
-<a class="jxr_linenumber" name="L218" href="#L218">218</a> 			<span class="jxr_string">"SELECT routine_catalog, routine_schema, routine_name, routine_type, "</span>+
-<a class="jxr_linenumber" name="L219" href="#L219">219</a> 			<span class="jxr_string">"  data_type, character_maximum_length, character_octet_length, "</span> +
-<a class="jxr_linenumber" name="L220" href="#L220">220</a> 			<span class="jxr_string">"  numeric_precision, numeric_scale, character_set_name, "</span> +
-<a class="jxr_linenumber" name="L221" href="#L221">221</a> 			<span class="jxr_string">"  collation_name, "</span> + <em class="jxr_comment">// dtd_identifier, routine_body</em>
-<a class="jxr_linenumber" name="L222" href="#L222">222</a> 			<span class="jxr_string">"  routine_definition,  "</span> + <em class="jxr_comment">// external_language, parameter_style </em>
-<a class="jxr_linenumber" name="L223" href="#L223">223</a> 			<span class="jxr_string">"  is_deterministic, sql_data_access, sql_path, "</span> +
-<a class="jxr_linenumber" name="L224" href="#L224">224</a> 			<span class="jxr_string">"  security_type, sql_mode, routine_comment, "</span> + <em class="jxr_comment">// created, last_altered</em>
-<a class="jxr_linenumber" name="L225" href="#L225">225</a> 			<span class="jxr_string">"  definer "</span> + <em class="jxr_comment">// , character_set_client, collation_connection, database_collation</em>
-<a class="jxr_linenumber" name="L226" href="#L226">226</a> 			<span class="jxr_string">" FROM INFORMATION_SCHEMA.routines "</span> +
-<a class="jxr_linenumber" name="L227" href="#L227">227</a> 			<span class="jxr_string">" WHERE "</span> +
-<a class="jxr_linenumber" name="L228" href="#L228">228</a> 			<span class="jxr_string">" routine_schema = '"</span> + s.getName() + <span class="jxr_string">"' "</span> + <em class="jxr_comment">// @TODO escape </em>
-<a class="jxr_linenumber" name="L229" href="#L229">229</a> 			<span class="jxr_string">"	ORDER BY routine_name "</span>, 
-<a class="jxr_linenumber" name="L230" href="#L230">230</a> 			<strong class="jxr_keyword">new</strong> ResultSetExtractor&lt;Object&gt;() {
-<a class="jxr_linenumber" name="L231" href="#L231">231</a> 				@Override
-<a class="jxr_linenumber" name="L232" href="#L232">232</a> 				<strong class="jxr_keyword">public</strong> Object extractData(ResultSet rs) <strong class="jxr_keyword">throws</strong> SQLException, DataAccessException {
-<a class="jxr_linenumber" name="L233" href="#L233">233</a> 					<strong class="jxr_keyword">while</strong> (rs.next()) {
-<a class="jxr_linenumber" name="L234" href="#L234">234</a> 						String routineName = rs.getString(<span class="jxr_string">"routine_name"</span>);
-<a class="jxr_linenumber" name="L235" href="#L235">235</a> 						RoutineTO r = <strong class="jxr_keyword">new</strong> <a href="../../../../../com/randomnoun/common/db/to/RoutineTO.html">RoutineTO</a>(s, routineName);
-<a class="jxr_linenumber" name="L236" href="#L236">236</a> 						r.setType(rs.getString(<span class="jxr_string">"routine_type"</span>));
-<a class="jxr_linenumber" name="L237" href="#L237">237</a> 						r.setDataType(<span class="jxr_string">"data_type"</span>);
-<a class="jxr_linenumber" name="L238" href="#L238">238</a> 						r.setDataTypeLength(rs.getLong(<span class="jxr_string">"character_maximum_length"</span>)); <strong class="jxr_keyword">if</strong> (rs.wasNull()) { r.setDataTypeLength(<strong class="jxr_keyword">null</strong>); }
-<a class="jxr_linenumber" name="L239" href="#L239">239</a> 						r.setDataTypeNumericPrecision(rs.getLong(<span class="jxr_string">"numeric_precision"</span>)); <strong class="jxr_keyword">if</strong> (rs.wasNull()) { r.setDataTypeNumericPrecision(<strong class="jxr_keyword">null</strong>); }
-<a class="jxr_linenumber" name="L240" href="#L240">240</a> 						r.setDataTypeNumericScale(rs.getLong(<span class="jxr_string">"numeric_scale"</span>)); <strong class="jxr_keyword">if</strong> (rs.wasNull()) { r.setDataTypeNumericScale(<strong class="jxr_keyword">null</strong>); }
-<a class="jxr_linenumber" name="L241" href="#L241">241</a> 						r.setCharsetName(rs.getString(<span class="jxr_string">"character_set_name"</span>));
-<a class="jxr_linenumber" name="L242" href="#L242">242</a> 						r.setCollationName(rs.getString(<span class="jxr_string">"collation_name"</span>));
-<a class="jxr_linenumber" name="L243" href="#L243">243</a> 						r.setDefinition(rs.getString(<span class="jxr_string">"routine_definition"</span>));
-<a class="jxr_linenumber" name="L244" href="#L244">244</a> 						r.setDeterministic(<span class="jxr_string">"YES"</span>.equals(rs.getString(<span class="jxr_string">"is_deterministic"</span>)));
-<a class="jxr_linenumber" name="L245" href="#L245">245</a> 						r.setSecurityType(rs.getString(<span class="jxr_string">"security_type"</span>));
-<a class="jxr_linenumber" name="L246" href="#L246">246</a> 						r.setSqlMode(rs.getString(<span class="jxr_string">"sql_mode"</span>));
-<a class="jxr_linenumber" name="L247" href="#L247">247</a> 						r.setComment(rs.getString(<span class="jxr_string">"routine_comment"</span>));
-<a class="jxr_linenumber" name="L248" href="#L248">248</a> 						r.setDefiner(rs.getString(<span class="jxr_string">"definer"</span>));
-<a class="jxr_linenumber" name="L249" href="#L249">249</a> 						
-<a class="jxr_linenumber" name="L250" href="#L250">250</a> 						<em class="jxr_comment">/*</em>
-<a class="jxr_linenumber" name="L251" href="#L251">251</a> <em class="jxr_comment">						RoutineParameterTO mtc = new RoutineParameterTO(t, </em>
-<a class="jxr_linenumber" name="L252" href="#L252">252</a> <em class="jxr_comment">							t.getSchema().getDatabase().upper(rs.getString("COLUMN_NAME")),</em>
-<a class="jxr_linenumber" name="L253" href="#L253">253</a> <em class="jxr_comment">							rs.getLong("ORDINAL_POSITION"),</em>
-<a class="jxr_linenumber" name="L254" href="#L254">254</a> <em class="jxr_comment">							false, // name == "id" ?</em>
-<a class="jxr_linenumber" name="L255" href="#L255">255</a> <em class="jxr_comment">							rs.getString("DATA_TYPE"),</em>
-<a class="jxr_linenumber" name="L256" href="#L256">256</a> <em class="jxr_comment">							rs.getObject("CHARACTER_MAXIMUM_LENGTH") == null ? -1 : rs.getLong("CHARACTER_MAXIMUM_LENGTH"),</em>
-<a class="jxr_linenumber" name="L257" href="#L257">257</a> <em class="jxr_comment">							rs.getObject("NUMERIC_PRECISION") == null ? -1 : rs.getLong("NUMERIC_PRECISION"),</em>
-<a class="jxr_linenumber" name="L258" href="#L258">258</a> <em class="jxr_comment">							rs.getObject("NUMERIC_SCALE") == null ? -1 : rs.getLong("NUMERIC_SCALE"),</em>
-<a class="jxr_linenumber" name="L259" href="#L259">259</a> <em class="jxr_comment">							rs.getString("IS_NULLABLE").startsWith("Y") ? true : false,</em>
-<a class="jxr_linenumber" name="L260" href="#L260">260</a> <em class="jxr_comment">							rs.getString("COLUMN_DEFAULT"),</em>
-<a class="jxr_linenumber" name="L261" href="#L261">261</a> <em class="jxr_comment">							rs.getString("COLUMN_COMMENT"));</em>
-<a class="jxr_linenumber" name="L262" href="#L262">262</a> <em class="jxr_comment">						// String ct = rs.getString("COLUMN_TYPE");</em>
-<a class="jxr_linenumber" name="L263" href="#L263">263</a> <em class="jxr_comment">						// logger.info("type for " + rs.getString("COLUMN_NAME") + " was " + ct);</em>
-<a class="jxr_linenumber" name="L264" href="#L264">264</a> <em class="jxr_comment">						// e.g. "int(10) unsigned", "enum('value1','value2','value3')"					</em>
-<a class="jxr_linenumber" name="L265" href="#L265">265</a> <em class="jxr_comment">						mtc.setColumnType(rs.getString("COLUMN_TYPE"));</em>
-<a class="jxr_linenumber" name="L266" href="#L266">266</a> <em class="jxr_comment">						t.getTableColumnMap().put(mtc.getName(), mtc);</em>
-<a class="jxr_linenumber" name="L267" href="#L267">267</a> <em class="jxr_comment">						*/</em>
-<a class="jxr_linenumber" name="L268" href="#L268">268</a> 					}
-<a class="jxr_linenumber" name="L269" href="#L269">269</a> 					<strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">null</strong>;
-<a class="jxr_linenumber" name="L270" href="#L270">270</a> 				}
-<a class="jxr_linenumber" name="L271" href="#L271">271</a> 			}
-<a class="jxr_linenumber" name="L272" href="#L272">272</a> 		);
-<a class="jxr_linenumber" name="L273" href="#L273">273</a> 
-<a class="jxr_linenumber" name="L274" href="#L274">274</a> 	}
-<a class="jxr_linenumber" name="L275" href="#L275">275</a> 	
-<a class="jxr_linenumber" name="L276" href="#L276">276</a> 
-<a class="jxr_linenumber" name="L277" href="#L277">277</a> }
+<a class="jxr_linenumber" name="L186" href="#L186">186</a> 							lastConstraintName = <strong class="jxr_keyword">null</strong>;
+<a class="jxr_linenumber" name="L187" href="#L187">187</a> 							c = <strong class="jxr_keyword">null</strong>;
+<a class="jxr_linenumber" name="L188" href="#L188">188</a> 						}
+<a class="jxr_linenumber" name="L189" href="#L189">189</a> 						
+<a class="jxr_linenumber" name="L190" href="#L190">190</a> 						String constraintName = s.getDatabase().upper(rs.getString(<span class="jxr_string">"CONSTRAINT_NAME"</span>));
+<a class="jxr_linenumber" name="L191" href="#L191">191</a> 						<strong class="jxr_keyword">if</strong> (c == <strong class="jxr_keyword">null</strong> || !constraintName.equals(lastConstraintName)) {
+<a class="jxr_linenumber" name="L192" href="#L192">192</a> 							String typeString = rs.getString(<span class="jxr_string">"CONSTRAINT_TYPE"</span>);
+<a class="jxr_linenumber" name="L193" href="#L193">193</a> 							ConstraintTypeEnum type = ConstraintTypeEnum.fromDatabaseString(typeString);
+<a class="jxr_linenumber" name="L194" href="#L194">194</a> 							c = <strong class="jxr_keyword">new</strong> <a href="../../../../../com/randomnoun/common/db/to/ConstraintTO.html">ConstraintTO</a>(t, type, t.getSchema().getDatabase().upper(constraintName));
+<a class="jxr_linenumber" name="L195" href="#L195">195</a> 							t.getConstraintMap().put(constraintName, c);
+<a class="jxr_linenumber" name="L196" href="#L196">196</a> 							lastConstraintName = constraintName;
+<a class="jxr_linenumber" name="L197" href="#L197">197</a> 						}
+<a class="jxr_linenumber" name="L198" href="#L198">198</a> 
+<a class="jxr_linenumber" name="L199" href="#L199">199</a> 						ConstraintColumnTO cc = <strong class="jxr_keyword">new</strong> <a href="../../../../../com/randomnoun/common/db/to/ConstraintColumnTO.html">ConstraintColumnTO</a>(c,
+<a class="jxr_linenumber" name="L200" href="#L200">200</a> 							c.getTable().getSchema().getDatabase().upper(rs.getString(<span class="jxr_string">"COLUMN_NAME"</span>)),
+<a class="jxr_linenumber" name="L201" href="#L201">201</a> 							rs.getLong(<span class="jxr_string">"ORDINAL_POSITION"</span>),
+<a class="jxr_linenumber" name="L202" href="#L202">202</a> 							c.getTable().getSchema().getDatabase().upper(rs.getString(<span class="jxr_string">"REFERENCED_TABLE_NAME"</span>)),
+<a class="jxr_linenumber" name="L203" href="#L203">203</a> 							c.getTable().getSchema().getDatabase().upper(rs.getString(<span class="jxr_string">"REFERENCED_COLUMN_NAME"</span>)));
+<a class="jxr_linenumber" name="L204" href="#L204">204</a> 						
+<a class="jxr_linenumber" name="L205" href="#L205">205</a> 						c.getConstraintColumnMap().put(cc.getName(), cc);
+<a class="jxr_linenumber" name="L206" href="#L206">206</a> 						<strong class="jxr_keyword">if</strong> (c.getConstraintType() == ConstraintTypeEnum.PRIMARY) {
+<a class="jxr_linenumber" name="L207" href="#L207">207</a> 							<strong class="jxr_keyword">if</strong> (t.getTableColumnMap().get(cc.getName()) == <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="L208" href="#L208">208</a> 								logger.error(<span class="jxr_string">"Could not find column '"</span> + cc.getName() + <span class="jxr_string">"' in table '"</span> + t.getName() + <span class="jxr_string">"', tableName='"</span> + tableName + <span class="jxr_string">"', constraintName = '"</span> + constraintName + <span class="jxr_string">"'"</span>);
+<a class="jxr_linenumber" name="L209" href="#L209">209</a> 							} <strong class="jxr_keyword">else</strong> {
+<a class="jxr_linenumber" name="L210" href="#L210">210</a> 								t.getTableColumnMap().get(cc.getName()).setPrimaryKey(<strong class="jxr_keyword">true</strong>);
+<a class="jxr_linenumber" name="L211" href="#L211">211</a> 							}
+<a class="jxr_linenumber" name="L212" href="#L212">212</a> 						}
+<a class="jxr_linenumber" name="L213" href="#L213">213</a> 					}
+<a class="jxr_linenumber" name="L214" href="#L214">214</a> 					<strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">null</strong>;
+<a class="jxr_linenumber" name="L215" href="#L215">215</a> 				}
+<a class="jxr_linenumber" name="L216" href="#L216">216</a> 			});
+<a class="jxr_linenumber" name="L217" href="#L217">217</a> 	}
+<a class="jxr_linenumber" name="L218" href="#L218">218</a> 	
+<a class="jxr_linenumber" name="L219" href="#L219">219</a> 	<em class="jxr_comment">// probably more efficient to read all tables at once, but this is what the current code does</em>
+<a class="jxr_linenumber" name="L220" href="#L220">220</a> 	<strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">void</strong> readRoutines(<strong class="jxr_keyword">final</strong> <a href="../../../../../com/randomnoun/common/db/to/SchemaTO.html">SchemaTO</a> s) {
+<a class="jxr_linenumber" name="L221" href="#L221">221</a> 		jt.query(
+<a class="jxr_linenumber" name="L222" href="#L222">222</a> 			<em class="jxr_comment">// TABLE_CATALOG always NULL, TABLE_SCHEMA</em>
+<a class="jxr_linenumber" name="L223" href="#L223">223</a> 			<span class="jxr_string">"SELECT routine_catalog, routine_schema, routine_name, routine_type, "</span>+
+<a class="jxr_linenumber" name="L224" href="#L224">224</a> 			<span class="jxr_string">"  data_type, character_maximum_length, character_octet_length, "</span> +
+<a class="jxr_linenumber" name="L225" href="#L225">225</a> 			<span class="jxr_string">"  numeric_precision, numeric_scale, character_set_name, "</span> +
+<a class="jxr_linenumber" name="L226" href="#L226">226</a> 			<span class="jxr_string">"  collation_name, "</span> + <em class="jxr_comment">// dtd_identifier, routine_body</em>
+<a class="jxr_linenumber" name="L227" href="#L227">227</a> 			<span class="jxr_string">"  routine_definition,  "</span> + <em class="jxr_comment">// external_language, parameter_style </em>
+<a class="jxr_linenumber" name="L228" href="#L228">228</a> 			<span class="jxr_string">"  is_deterministic, sql_data_access, sql_path, "</span> +
+<a class="jxr_linenumber" name="L229" href="#L229">229</a> 			<span class="jxr_string">"  security_type, sql_mode, routine_comment, "</span> + <em class="jxr_comment">// created, last_altered</em>
+<a class="jxr_linenumber" name="L230" href="#L230">230</a> 			<span class="jxr_string">"  definer "</span> + <em class="jxr_comment">// , character_set_client, collation_connection, database_collation</em>
+<a class="jxr_linenumber" name="L231" href="#L231">231</a> 			<span class="jxr_string">" FROM INFORMATION_SCHEMA.routines "</span> +
+<a class="jxr_linenumber" name="L232" href="#L232">232</a> 			<span class="jxr_string">" WHERE "</span> +
+<a class="jxr_linenumber" name="L233" href="#L233">233</a> 			<span class="jxr_string">" routine_schema = '"</span> + s.getName() + <span class="jxr_string">"' "</span> + <em class="jxr_comment">// @TODO escape </em>
+<a class="jxr_linenumber" name="L234" href="#L234">234</a> 			<span class="jxr_string">"	ORDER BY routine_name "</span>, 
+<a class="jxr_linenumber" name="L235" href="#L235">235</a> 			<strong class="jxr_keyword">new</strong> ResultSetExtractor&lt;Object&gt;() {
+<a class="jxr_linenumber" name="L236" href="#L236">236</a> 				@Override
+<a class="jxr_linenumber" name="L237" href="#L237">237</a> 				<strong class="jxr_keyword">public</strong> Object extractData(ResultSet rs) <strong class="jxr_keyword">throws</strong> SQLException, DataAccessException {
+<a class="jxr_linenumber" name="L238" href="#L238">238</a> 					<strong class="jxr_keyword">while</strong> (rs.next()) {
+<a class="jxr_linenumber" name="L239" href="#L239">239</a> 						String routineName = rs.getString(<span class="jxr_string">"routine_name"</span>);
+<a class="jxr_linenumber" name="L240" href="#L240">240</a> 						RoutineTO r = <strong class="jxr_keyword">new</strong> <a href="../../../../../com/randomnoun/common/db/to/RoutineTO.html">RoutineTO</a>(s, routineName);
+<a class="jxr_linenumber" name="L241" href="#L241">241</a> 						r.setType(rs.getString(<span class="jxr_string">"routine_type"</span>));
+<a class="jxr_linenumber" name="L242" href="#L242">242</a> 						r.setDataType(<span class="jxr_string">"data_type"</span>);
+<a class="jxr_linenumber" name="L243" href="#L243">243</a> 						r.setDataTypeLength(rs.getLong(<span class="jxr_string">"character_maximum_length"</span>)); <strong class="jxr_keyword">if</strong> (rs.wasNull()) { r.setDataTypeLength(<strong class="jxr_keyword">null</strong>); }
+<a class="jxr_linenumber" name="L244" href="#L244">244</a> 						r.setDataTypeNumericPrecision(rs.getLong(<span class="jxr_string">"numeric_precision"</span>)); <strong class="jxr_keyword">if</strong> (rs.wasNull()) { r.setDataTypeNumericPrecision(<strong class="jxr_keyword">null</strong>); }
+<a class="jxr_linenumber" name="L245" href="#L245">245</a> 						r.setDataTypeNumericScale(rs.getLong(<span class="jxr_string">"numeric_scale"</span>)); <strong class="jxr_keyword">if</strong> (rs.wasNull()) { r.setDataTypeNumericScale(<strong class="jxr_keyword">null</strong>); }
+<a class="jxr_linenumber" name="L246" href="#L246">246</a> 						r.setCharsetName(rs.getString(<span class="jxr_string">"character_set_name"</span>));
+<a class="jxr_linenumber" name="L247" href="#L247">247</a> 						r.setCollationName(rs.getString(<span class="jxr_string">"collation_name"</span>));
+<a class="jxr_linenumber" name="L248" href="#L248">248</a> 						r.setDefinition(rs.getString(<span class="jxr_string">"routine_definition"</span>));
+<a class="jxr_linenumber" name="L249" href="#L249">249</a> 						r.setDeterministic(<span class="jxr_string">"YES"</span>.equals(rs.getString(<span class="jxr_string">"is_deterministic"</span>)));
+<a class="jxr_linenumber" name="L250" href="#L250">250</a> 						r.setSecurityType(rs.getString(<span class="jxr_string">"security_type"</span>));
+<a class="jxr_linenumber" name="L251" href="#L251">251</a> 						r.setSqlMode(rs.getString(<span class="jxr_string">"sql_mode"</span>));
+<a class="jxr_linenumber" name="L252" href="#L252">252</a> 						r.setComment(rs.getString(<span class="jxr_string">"routine_comment"</span>));
+<a class="jxr_linenumber" name="L253" href="#L253">253</a> 						r.setDefiner(rs.getString(<span class="jxr_string">"definer"</span>));
+<a class="jxr_linenumber" name="L254" href="#L254">254</a> 						
+<a class="jxr_linenumber" name="L255" href="#L255">255</a> 						<em class="jxr_comment">/*</em>
+<a class="jxr_linenumber" name="L256" href="#L256">256</a> <em class="jxr_comment">						RoutineParameterTO mtc = new RoutineParameterTO(t, </em>
+<a class="jxr_linenumber" name="L257" href="#L257">257</a> <em class="jxr_comment">							t.getSchema().getDatabase().upper(rs.getString("COLUMN_NAME")),</em>
+<a class="jxr_linenumber" name="L258" href="#L258">258</a> <em class="jxr_comment">							rs.getLong("ORDINAL_POSITION"),</em>
+<a class="jxr_linenumber" name="L259" href="#L259">259</a> <em class="jxr_comment">							false, // name == "id" ?</em>
+<a class="jxr_linenumber" name="L260" href="#L260">260</a> <em class="jxr_comment">							rs.getString("DATA_TYPE"),</em>
+<a class="jxr_linenumber" name="L261" href="#L261">261</a> <em class="jxr_comment">							rs.getObject("CHARACTER_MAXIMUM_LENGTH") == null ? -1 : rs.getLong("CHARACTER_MAXIMUM_LENGTH"),</em>
+<a class="jxr_linenumber" name="L262" href="#L262">262</a> <em class="jxr_comment">							rs.getObject("NUMERIC_PRECISION") == null ? -1 : rs.getLong("NUMERIC_PRECISION"),</em>
+<a class="jxr_linenumber" name="L263" href="#L263">263</a> <em class="jxr_comment">							rs.getObject("NUMERIC_SCALE") == null ? -1 : rs.getLong("NUMERIC_SCALE"),</em>
+<a class="jxr_linenumber" name="L264" href="#L264">264</a> <em class="jxr_comment">							rs.getString("IS_NULLABLE").startsWith("Y") ? true : false,</em>
+<a class="jxr_linenumber" name="L265" href="#L265">265</a> <em class="jxr_comment">							rs.getString("COLUMN_DEFAULT"),</em>
+<a class="jxr_linenumber" name="L266" href="#L266">266</a> <em class="jxr_comment">							rs.getString("COLUMN_COMMENT"));</em>
+<a class="jxr_linenumber" name="L267" href="#L267">267</a> <em class="jxr_comment">						// String ct = rs.getString("COLUMN_TYPE");</em>
+<a class="jxr_linenumber" name="L268" href="#L268">268</a> <em class="jxr_comment">						// logger.info("type for " + rs.getString("COLUMN_NAME") + " was " + ct);</em>
+<a class="jxr_linenumber" name="L269" href="#L269">269</a> <em class="jxr_comment">						// e.g. "int(10) unsigned", "enum('value1','value2','value3')"					</em>
+<a class="jxr_linenumber" name="L270" href="#L270">270</a> <em class="jxr_comment">						mtc.setColumnType(rs.getString("COLUMN_TYPE"));</em>
+<a class="jxr_linenumber" name="L271" href="#L271">271</a> <em class="jxr_comment">						t.getTableColumnMap().put(mtc.getName(), mtc);</em>
+<a class="jxr_linenumber" name="L272" href="#L272">272</a> <em class="jxr_comment">						*/</em>
+<a class="jxr_linenumber" name="L273" href="#L273">273</a> 					}
+<a class="jxr_linenumber" name="L274" href="#L274">274</a> 					<strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">null</strong>;
+<a class="jxr_linenumber" name="L275" href="#L275">275</a> 				}
+<a class="jxr_linenumber" name="L276" href="#L276">276</a> 			}
+<a class="jxr_linenumber" name="L277" href="#L277">277</a> 		);
+<a class="jxr_linenumber" name="L278" href="#L278">278</a> 
+<a class="jxr_linenumber" name="L279" href="#L279">279</a> 	}
+<a class="jxr_linenumber" name="L280" href="#L280">280</a> 	
+<a class="jxr_linenumber" name="L281" href="#L281">281</a> 
+<a class="jxr_linenumber" name="L282" href="#L282">282</a> }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2013&#x2013;2021 <a href="http://www.randomnoun.com">randomnoun</a>. All rights reserved.</div>

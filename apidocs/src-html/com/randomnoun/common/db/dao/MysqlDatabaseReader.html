@@ -168,7 +168,7 @@
 <span class="sourceLineNo">159</span><a id="line.159">                        "SELECT TC.constraint_catalog, TC.constraint_schema, TC.constraint_name,\n" + </a>
 <span class="sourceLineNo">160</span><a id="line.160">                        " TC.table_schema, TC.table_name,\n" + </a>
 <span class="sourceLineNo">161</span><a id="line.161">                        " TC.constraint_type, \n" + // TC.enforced in mysql 8 </a>
-<span class="sourceLineNo">162</span><a id="line.162">                        " KCU.column_name, KCU.ordinal_position, -- KCU.position_in_unique_constraint = null\n" + </a>
+<span class="sourceLineNo">162</span><a id="line.162">                        " KCU.column_name, KCU.ordinal_position, \n" + // -- KCU.position_in_unique_constraint = null </a>
 <span class="sourceLineNo">163</span><a id="line.163">                        " KCU.referenced_table_schema, KCU.referenced_table_name, KCU.referenced_column_name\n" + </a>
 <span class="sourceLineNo">164</span><a id="line.164">                        "FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS TC\n" + </a>
 <span class="sourceLineNo">165</span><a id="line.165">                        " LEFT JOIN information_schema.KEY_COLUMN_USAGE KCU\n" + </a>
@@ -178,7 +178,7 @@
 <span class="sourceLineNo">169</span><a id="line.169">                        " AND TC.table_schema = KCU.table_schema\n" + </a>
 <span class="sourceLineNo">170</span><a id="line.170">                        " AND TC.table_name = KCU.table_name)\n" + </a>
 <span class="sourceLineNo">171</span><a id="line.171">                        "WHERE TC.table_schema = '" + s.getName() + "'\n" + // @TODO escape </a>
-<span class="sourceLineNo">172</span><a id="line.172">                        " ORDER BY TC.table_schema, TC.table_name, KCU.ordinal_position;\n",</a>
+<span class="sourceLineNo">172</span><a id="line.172">                        " ORDER BY TC.table_schema, TC.table_name, TC.constraint_name, KCU.ordinal_position;\n",</a>
 <span class="sourceLineNo">173</span><a id="line.173">                        new ResultSetExtractor&lt;Object&gt;() {</a>
 <span class="sourceLineNo">174</span><a id="line.174">                                @Override</a>
 <span class="sourceLineNo">175</span><a id="line.175">                                public Object extractData(ResultSet rs) throws SQLException, DataAccessException {</a>
@@ -188,102 +188,107 @@
 <span class="sourceLineNo">179</span><a id="line.179">                                        String lastConstraintName = null;</a>
 <span class="sourceLineNo">180</span><a id="line.180">                                        </a>
 <span class="sourceLineNo">181</span><a id="line.181">                                        while (rs.next()) {</a>
-<span class="sourceLineNo">182</span><a id="line.182">                                                String tableName = rs.getString("TABLE_NAME");</a>
+<span class="sourceLineNo">182</span><a id="line.182">                                                String tableName = s.getDatabase().upper(rs.getString("TABLE_NAME"));</a>
 <span class="sourceLineNo">183</span><a id="line.183">                                                if (t == null || !tableName.equals(lastTableName)) {</a>
 <span class="sourceLineNo">184</span><a id="line.184">                                                        t = s.getTable(tableName);</a>
 <span class="sourceLineNo">185</span><a id="line.185">                                                        lastTableName = tableName;</a>
-<span class="sourceLineNo">186</span><a id="line.186">                                                        c = null;</a>
-<span class="sourceLineNo">187</span><a id="line.187">                                                }</a>
-<span class="sourceLineNo">188</span><a id="line.188">                                                </a>
-<span class="sourceLineNo">189</span><a id="line.189">                                                String constraintName = rs.getString("CONSTRAINT_NAME");</a>
-<span class="sourceLineNo">190</span><a id="line.190">                                                if (c == null || !constraintName.equals(lastConstraintName)) {</a>
-<span class="sourceLineNo">191</span><a id="line.191">                                                        String typeString = rs.getString("CONSTRAINT_TYPE");</a>
-<span class="sourceLineNo">192</span><a id="line.192">                                                        ConstraintTypeEnum type = ConstraintTypeEnum.fromDatabaseString(typeString);</a>
-<span class="sourceLineNo">193</span><a id="line.193">                                                        c = new ConstraintTO(t, type, t.getSchema().getDatabase().upper(constraintName));</a>
-<span class="sourceLineNo">194</span><a id="line.194">                                                        t.getConstraintMap().put(constraintName, c);</a>
-<span class="sourceLineNo">195</span><a id="line.195">                                                        lastConstraintName = constraintName;</a>
-<span class="sourceLineNo">196</span><a id="line.196">                                                }</a>
-<span class="sourceLineNo">197</span><a id="line.197"></a>
-<span class="sourceLineNo">198</span><a id="line.198">                                                ConstraintColumnTO cc = new ConstraintColumnTO(c,</a>
-<span class="sourceLineNo">199</span><a id="line.199">                                                        c.getTable().getSchema().getDatabase().upper(rs.getString("COLUMN_NAME")),</a>
-<span class="sourceLineNo">200</span><a id="line.200">                                                        rs.getLong("ORDINAL_POSITION"),</a>
-<span class="sourceLineNo">201</span><a id="line.201">                                                        c.getTable().getSchema().getDatabase().upper(rs.getString("REFERENCED_TABLE_NAME")),</a>
-<span class="sourceLineNo">202</span><a id="line.202">                                                        c.getTable().getSchema().getDatabase().upper(rs.getString("REFERENCED_COLUMN_NAME")));</a>
-<span class="sourceLineNo">203</span><a id="line.203">                                                </a>
-<span class="sourceLineNo">204</span><a id="line.204">                                                c.getConstraintColumnMap().put(cc.getName(), cc);</a>
-<span class="sourceLineNo">205</span><a id="line.205">                                                if (c.getConstraintType() == ConstraintTypeEnum.PRIMARY) {</a>
-<span class="sourceLineNo">206</span><a id="line.206">                                                        t.getTableColumnMap().get(cc.getName()).setPrimaryKey(true);</a>
-<span class="sourceLineNo">207</span><a id="line.207">                                                }</a>
-<span class="sourceLineNo">208</span><a id="line.208">                                        }</a>
-<span class="sourceLineNo">209</span><a id="line.209">                                        return null;</a>
-<span class="sourceLineNo">210</span><a id="line.210">                                }</a>
-<span class="sourceLineNo">211</span><a id="line.211">                        });</a>
-<span class="sourceLineNo">212</span><a id="line.212">        }</a>
-<span class="sourceLineNo">213</span><a id="line.213">        </a>
-<span class="sourceLineNo">214</span><a id="line.214">        // probably more efficient to read all tables at once, but this is what the current code does</a>
-<span class="sourceLineNo">215</span><a id="line.215">        private void readRoutines(final SchemaTO s) {</a>
-<span class="sourceLineNo">216</span><a id="line.216">                jt.query(</a>
-<span class="sourceLineNo">217</span><a id="line.217">                        // TABLE_CATALOG always NULL, TABLE_SCHEMA</a>
-<span class="sourceLineNo">218</span><a id="line.218">                        "SELECT routine_catalog, routine_schema, routine_name, routine_type, "+</a>
-<span class="sourceLineNo">219</span><a id="line.219">                        "  data_type, character_maximum_length, character_octet_length, " +</a>
-<span class="sourceLineNo">220</span><a id="line.220">                        "  numeric_precision, numeric_scale, character_set_name, " +</a>
-<span class="sourceLineNo">221</span><a id="line.221">                        "  collation_name, " + // dtd_identifier, routine_body</a>
-<span class="sourceLineNo">222</span><a id="line.222">                        "  routine_definition,  " + // external_language, parameter_style </a>
-<span class="sourceLineNo">223</span><a id="line.223">                        "  is_deterministic, sql_data_access, sql_path, " +</a>
-<span class="sourceLineNo">224</span><a id="line.224">                        "  security_type, sql_mode, routine_comment, " + // created, last_altered</a>
-<span class="sourceLineNo">225</span><a id="line.225">                        "  definer " + // , character_set_client, collation_connection, database_collation</a>
-<span class="sourceLineNo">226</span><a id="line.226">                        " FROM INFORMATION_SCHEMA.routines " +</a>
-<span class="sourceLineNo">227</span><a id="line.227">                        " WHERE " +</a>
-<span class="sourceLineNo">228</span><a id="line.228">                        " routine_schema = '" + s.getName() + "' " + // @TODO escape </a>
-<span class="sourceLineNo">229</span><a id="line.229">                        "       ORDER BY routine_name ", </a>
-<span class="sourceLineNo">230</span><a id="line.230">                        new ResultSetExtractor&lt;Object&gt;() {</a>
-<span class="sourceLineNo">231</span><a id="line.231">                                @Override</a>
-<span class="sourceLineNo">232</span><a id="line.232">                                public Object extractData(ResultSet rs) throws SQLException, DataAccessException {</a>
-<span class="sourceLineNo">233</span><a id="line.233">                                        while (rs.next()) {</a>
-<span class="sourceLineNo">234</span><a id="line.234">                                                String routineName = rs.getString("routine_name");</a>
-<span class="sourceLineNo">235</span><a id="line.235">                                                RoutineTO r = new RoutineTO(s, routineName);</a>
-<span class="sourceLineNo">236</span><a id="line.236">                                                r.setType(rs.getString("routine_type"));</a>
-<span class="sourceLineNo">237</span><a id="line.237">                                                r.setDataType("data_type");</a>
-<span class="sourceLineNo">238</span><a id="line.238">                                                r.setDataTypeLength(rs.getLong("character_maximum_length")); if (rs.wasNull()) { r.setDataTypeLength(null); }</a>
-<span class="sourceLineNo">239</span><a id="line.239">                                                r.setDataTypeNumericPrecision(rs.getLong("numeric_precision")); if (rs.wasNull()) { r.setDataTypeNumericPrecision(null); }</a>
-<span class="sourceLineNo">240</span><a id="line.240">                                                r.setDataTypeNumericScale(rs.getLong("numeric_scale")); if (rs.wasNull()) { r.setDataTypeNumericScale(null); }</a>
-<span class="sourceLineNo">241</span><a id="line.241">                                                r.setCharsetName(rs.getString("character_set_name"));</a>
-<span class="sourceLineNo">242</span><a id="line.242">                                                r.setCollationName(rs.getString("collation_name"));</a>
-<span class="sourceLineNo">243</span><a id="line.243">                                                r.setDefinition(rs.getString("routine_definition"));</a>
-<span class="sourceLineNo">244</span><a id="line.244">                                                r.setDeterministic("YES".equals(rs.getString("is_deterministic")));</a>
-<span class="sourceLineNo">245</span><a id="line.245">                                                r.setSecurityType(rs.getString("security_type"));</a>
-<span class="sourceLineNo">246</span><a id="line.246">                                                r.setSqlMode(rs.getString("sql_mode"));</a>
-<span class="sourceLineNo">247</span><a id="line.247">                                                r.setComment(rs.getString("routine_comment"));</a>
-<span class="sourceLineNo">248</span><a id="line.248">                                                r.setDefiner(rs.getString("definer"));</a>
-<span class="sourceLineNo">249</span><a id="line.249">                                                </a>
-<span class="sourceLineNo">250</span><a id="line.250">                                                /*</a>
-<span class="sourceLineNo">251</span><a id="line.251">                                                RoutineParameterTO mtc = new RoutineParameterTO(t, </a>
-<span class="sourceLineNo">252</span><a id="line.252">                                                        t.getSchema().getDatabase().upper(rs.getString("COLUMN_NAME")),</a>
-<span class="sourceLineNo">253</span><a id="line.253">                                                        rs.getLong("ORDINAL_POSITION"),</a>
-<span class="sourceLineNo">254</span><a id="line.254">                                                        false, // name == "id" ?</a>
-<span class="sourceLineNo">255</span><a id="line.255">                                                        rs.getString("DATA_TYPE"),</a>
-<span class="sourceLineNo">256</span><a id="line.256">                                                        rs.getObject("CHARACTER_MAXIMUM_LENGTH") == null ? -1 : rs.getLong("CHARACTER_MAXIMUM_LENGTH"),</a>
-<span class="sourceLineNo">257</span><a id="line.257">                                                        rs.getObject("NUMERIC_PRECISION") == null ? -1 : rs.getLong("NUMERIC_PRECISION"),</a>
-<span class="sourceLineNo">258</span><a id="line.258">                                                        rs.getObject("NUMERIC_SCALE") == null ? -1 : rs.getLong("NUMERIC_SCALE"),</a>
-<span class="sourceLineNo">259</span><a id="line.259">                                                        rs.getString("IS_NULLABLE").startsWith("Y") ? true : false,</a>
-<span class="sourceLineNo">260</span><a id="line.260">                                                        rs.getString("COLUMN_DEFAULT"),</a>
-<span class="sourceLineNo">261</span><a id="line.261">                                                        rs.getString("COLUMN_COMMENT"));</a>
-<span class="sourceLineNo">262</span><a id="line.262">                                                // String ct = rs.getString("COLUMN_TYPE");</a>
-<span class="sourceLineNo">263</span><a id="line.263">                                                // logger.info("type for " + rs.getString("COLUMN_NAME") + " was " + ct);</a>
-<span class="sourceLineNo">264</span><a id="line.264">                                                // e.g. "int(10) unsigned", "enum('value1','value2','value3')"                                  </a>
-<span class="sourceLineNo">265</span><a id="line.265">                                                mtc.setColumnType(rs.getString("COLUMN_TYPE"));</a>
-<span class="sourceLineNo">266</span><a id="line.266">                                                t.getTableColumnMap().put(mtc.getName(), mtc);</a>
-<span class="sourceLineNo">267</span><a id="line.267">                                                */</a>
-<span class="sourceLineNo">268</span><a id="line.268">                                        }</a>
-<span class="sourceLineNo">269</span><a id="line.269">                                        return null;</a>
-<span class="sourceLineNo">270</span><a id="line.270">                                }</a>
-<span class="sourceLineNo">271</span><a id="line.271">                        }</a>
-<span class="sourceLineNo">272</span><a id="line.272">                );</a>
-<span class="sourceLineNo">273</span><a id="line.273"></a>
-<span class="sourceLineNo">274</span><a id="line.274">        }</a>
-<span class="sourceLineNo">275</span><a id="line.275">        </a>
-<span class="sourceLineNo">276</span><a id="line.276"></a>
-<span class="sourceLineNo">277</span><a id="line.277">}</a>
+<span class="sourceLineNo">186</span><a id="line.186">                                                        lastConstraintName = null;</a>
+<span class="sourceLineNo">187</span><a id="line.187">                                                        c = null;</a>
+<span class="sourceLineNo">188</span><a id="line.188">                                                }</a>
+<span class="sourceLineNo">189</span><a id="line.189">                                                </a>
+<span class="sourceLineNo">190</span><a id="line.190">                                                String constraintName = s.getDatabase().upper(rs.getString("CONSTRAINT_NAME"));</a>
+<span class="sourceLineNo">191</span><a id="line.191">                                                if (c == null || !constraintName.equals(lastConstraintName)) {</a>
+<span class="sourceLineNo">192</span><a id="line.192">                                                        String typeString = rs.getString("CONSTRAINT_TYPE");</a>
+<span class="sourceLineNo">193</span><a id="line.193">                                                        ConstraintTypeEnum type = ConstraintTypeEnum.fromDatabaseString(typeString);</a>
+<span class="sourceLineNo">194</span><a id="line.194">                                                        c = new ConstraintTO(t, type, t.getSchema().getDatabase().upper(constraintName));</a>
+<span class="sourceLineNo">195</span><a id="line.195">                                                        t.getConstraintMap().put(constraintName, c);</a>
+<span class="sourceLineNo">196</span><a id="line.196">                                                        lastConstraintName = constraintName;</a>
+<span class="sourceLineNo">197</span><a id="line.197">                                                }</a>
+<span class="sourceLineNo">198</span><a id="line.198"></a>
+<span class="sourceLineNo">199</span><a id="line.199">                                                ConstraintColumnTO cc = new ConstraintColumnTO(c,</a>
+<span class="sourceLineNo">200</span><a id="line.200">                                                        c.getTable().getSchema().getDatabase().upper(rs.getString("COLUMN_NAME")),</a>
+<span class="sourceLineNo">201</span><a id="line.201">                                                        rs.getLong("ORDINAL_POSITION"),</a>
+<span class="sourceLineNo">202</span><a id="line.202">                                                        c.getTable().getSchema().getDatabase().upper(rs.getString("REFERENCED_TABLE_NAME")),</a>
+<span class="sourceLineNo">203</span><a id="line.203">                                                        c.getTable().getSchema().getDatabase().upper(rs.getString("REFERENCED_COLUMN_NAME")));</a>
+<span class="sourceLineNo">204</span><a id="line.204">                                                </a>
+<span class="sourceLineNo">205</span><a id="line.205">                                                c.getConstraintColumnMap().put(cc.getName(), cc);</a>
+<span class="sourceLineNo">206</span><a id="line.206">                                                if (c.getConstraintType() == ConstraintTypeEnum.PRIMARY) {</a>
+<span class="sourceLineNo">207</span><a id="line.207">                                                        if (t.getTableColumnMap().get(cc.getName()) == null) {</a>
+<span class="sourceLineNo">208</span><a id="line.208">                                                                logger.error("Could not find column '" + cc.getName() + "' in table '" + t.getName() + "', tableName='" + tableName + "', constraintName = '" + constraintName + "'");</a>
+<span class="sourceLineNo">209</span><a id="line.209">                                                        } else {</a>
+<span class="sourceLineNo">210</span><a id="line.210">                                                                t.getTableColumnMap().get(cc.getName()).setPrimaryKey(true);</a>
+<span class="sourceLineNo">211</span><a id="line.211">                                                        }</a>
+<span class="sourceLineNo">212</span><a id="line.212">                                                }</a>
+<span class="sourceLineNo">213</span><a id="line.213">                                        }</a>
+<span class="sourceLineNo">214</span><a id="line.214">                                        return null;</a>
+<span class="sourceLineNo">215</span><a id="line.215">                                }</a>
+<span class="sourceLineNo">216</span><a id="line.216">                        });</a>
+<span class="sourceLineNo">217</span><a id="line.217">        }</a>
+<span class="sourceLineNo">218</span><a id="line.218">        </a>
+<span class="sourceLineNo">219</span><a id="line.219">        // probably more efficient to read all tables at once, but this is what the current code does</a>
+<span class="sourceLineNo">220</span><a id="line.220">        private void readRoutines(final SchemaTO s) {</a>
+<span class="sourceLineNo">221</span><a id="line.221">                jt.query(</a>
+<span class="sourceLineNo">222</span><a id="line.222">                        // TABLE_CATALOG always NULL, TABLE_SCHEMA</a>
+<span class="sourceLineNo">223</span><a id="line.223">                        "SELECT routine_catalog, routine_schema, routine_name, routine_type, "+</a>
+<span class="sourceLineNo">224</span><a id="line.224">                        "  data_type, character_maximum_length, character_octet_length, " +</a>
+<span class="sourceLineNo">225</span><a id="line.225">                        "  numeric_precision, numeric_scale, character_set_name, " +</a>
+<span class="sourceLineNo">226</span><a id="line.226">                        "  collation_name, " + // dtd_identifier, routine_body</a>
+<span class="sourceLineNo">227</span><a id="line.227">                        "  routine_definition,  " + // external_language, parameter_style </a>
+<span class="sourceLineNo">228</span><a id="line.228">                        "  is_deterministic, sql_data_access, sql_path, " +</a>
+<span class="sourceLineNo">229</span><a id="line.229">                        "  security_type, sql_mode, routine_comment, " + // created, last_altered</a>
+<span class="sourceLineNo">230</span><a id="line.230">                        "  definer " + // , character_set_client, collation_connection, database_collation</a>
+<span class="sourceLineNo">231</span><a id="line.231">                        " FROM INFORMATION_SCHEMA.routines " +</a>
+<span class="sourceLineNo">232</span><a id="line.232">                        " WHERE " +</a>
+<span class="sourceLineNo">233</span><a id="line.233">                        " routine_schema = '" + s.getName() + "' " + // @TODO escape </a>
+<span class="sourceLineNo">234</span><a id="line.234">                        "       ORDER BY routine_name ", </a>
+<span class="sourceLineNo">235</span><a id="line.235">                        new ResultSetExtractor&lt;Object&gt;() {</a>
+<span class="sourceLineNo">236</span><a id="line.236">                                @Override</a>
+<span class="sourceLineNo">237</span><a id="line.237">                                public Object extractData(ResultSet rs) throws SQLException, DataAccessException {</a>
+<span class="sourceLineNo">238</span><a id="line.238">                                        while (rs.next()) {</a>
+<span class="sourceLineNo">239</span><a id="line.239">                                                String routineName = rs.getString("routine_name");</a>
+<span class="sourceLineNo">240</span><a id="line.240">                                                RoutineTO r = new RoutineTO(s, routineName);</a>
+<span class="sourceLineNo">241</span><a id="line.241">                                                r.setType(rs.getString("routine_type"));</a>
+<span class="sourceLineNo">242</span><a id="line.242">                                                r.setDataType("data_type");</a>
+<span class="sourceLineNo">243</span><a id="line.243">                                                r.setDataTypeLength(rs.getLong("character_maximum_length")); if (rs.wasNull()) { r.setDataTypeLength(null); }</a>
+<span class="sourceLineNo">244</span><a id="line.244">                                                r.setDataTypeNumericPrecision(rs.getLong("numeric_precision")); if (rs.wasNull()) { r.setDataTypeNumericPrecision(null); }</a>
+<span class="sourceLineNo">245</span><a id="line.245">                                                r.setDataTypeNumericScale(rs.getLong("numeric_scale")); if (rs.wasNull()) { r.setDataTypeNumericScale(null); }</a>
+<span class="sourceLineNo">246</span><a id="line.246">                                                r.setCharsetName(rs.getString("character_set_name"));</a>
+<span class="sourceLineNo">247</span><a id="line.247">                                                r.setCollationName(rs.getString("collation_name"));</a>
+<span class="sourceLineNo">248</span><a id="line.248">                                                r.setDefinition(rs.getString("routine_definition"));</a>
+<span class="sourceLineNo">249</span><a id="line.249">                                                r.setDeterministic("YES".equals(rs.getString("is_deterministic")));</a>
+<span class="sourceLineNo">250</span><a id="line.250">                                                r.setSecurityType(rs.getString("security_type"));</a>
+<span class="sourceLineNo">251</span><a id="line.251">                                                r.setSqlMode(rs.getString("sql_mode"));</a>
+<span class="sourceLineNo">252</span><a id="line.252">                                                r.setComment(rs.getString("routine_comment"));</a>
+<span class="sourceLineNo">253</span><a id="line.253">                                                r.setDefiner(rs.getString("definer"));</a>
+<span class="sourceLineNo">254</span><a id="line.254">                                                </a>
+<span class="sourceLineNo">255</span><a id="line.255">                                                /*</a>
+<span class="sourceLineNo">256</span><a id="line.256">                                                RoutineParameterTO mtc = new RoutineParameterTO(t, </a>
+<span class="sourceLineNo">257</span><a id="line.257">                                                        t.getSchema().getDatabase().upper(rs.getString("COLUMN_NAME")),</a>
+<span class="sourceLineNo">258</span><a id="line.258">                                                        rs.getLong("ORDINAL_POSITION"),</a>
+<span class="sourceLineNo">259</span><a id="line.259">                                                        false, // name == "id" ?</a>
+<span class="sourceLineNo">260</span><a id="line.260">                                                        rs.getString("DATA_TYPE"),</a>
+<span class="sourceLineNo">261</span><a id="line.261">                                                        rs.getObject("CHARACTER_MAXIMUM_LENGTH") == null ? -1 : rs.getLong("CHARACTER_MAXIMUM_LENGTH"),</a>
+<span class="sourceLineNo">262</span><a id="line.262">                                                        rs.getObject("NUMERIC_PRECISION") == null ? -1 : rs.getLong("NUMERIC_PRECISION"),</a>
+<span class="sourceLineNo">263</span><a id="line.263">                                                        rs.getObject("NUMERIC_SCALE") == null ? -1 : rs.getLong("NUMERIC_SCALE"),</a>
+<span class="sourceLineNo">264</span><a id="line.264">                                                        rs.getString("IS_NULLABLE").startsWith("Y") ? true : false,</a>
+<span class="sourceLineNo">265</span><a id="line.265">                                                        rs.getString("COLUMN_DEFAULT"),</a>
+<span class="sourceLineNo">266</span><a id="line.266">                                                        rs.getString("COLUMN_COMMENT"));</a>
+<span class="sourceLineNo">267</span><a id="line.267">                                                // String ct = rs.getString("COLUMN_TYPE");</a>
+<span class="sourceLineNo">268</span><a id="line.268">                                                // logger.info("type for " + rs.getString("COLUMN_NAME") + " was " + ct);</a>
+<span class="sourceLineNo">269</span><a id="line.269">                                                // e.g. "int(10) unsigned", "enum('value1','value2','value3')"                                  </a>
+<span class="sourceLineNo">270</span><a id="line.270">                                                mtc.setColumnType(rs.getString("COLUMN_TYPE"));</a>
+<span class="sourceLineNo">271</span><a id="line.271">                                                t.getTableColumnMap().put(mtc.getName(), mtc);</a>
+<span class="sourceLineNo">272</span><a id="line.272">                                                */</a>
+<span class="sourceLineNo">273</span><a id="line.273">                                        }</a>
+<span class="sourceLineNo">274</span><a id="line.274">                                        return null;</a>
+<span class="sourceLineNo">275</span><a id="line.275">                                }</a>
+<span class="sourceLineNo">276</span><a id="line.276">                        }</a>
+<span class="sourceLineNo">277</span><a id="line.277">                );</a>
+<span class="sourceLineNo">278</span><a id="line.278"></a>
+<span class="sourceLineNo">279</span><a id="line.279">        }</a>
+<span class="sourceLineNo">280</span><a id="line.280">        </a>
+<span class="sourceLineNo">281</span><a id="line.281"></a>
+<span class="sourceLineNo">282</span><a id="line.282">}</a>
 
 
 
