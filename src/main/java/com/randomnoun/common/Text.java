@@ -84,13 +84,18 @@ public class Text {
        }
        boolean seenPoint = false; // existential quandary there for you
        char ch;
-       for (int i = 0; i < text.length(); i++) {
+       int len = text.length();
+       for (int i = 0; i < len; i++) {
            ch = text.charAt(i);
            if (ch=='.') {
         	   if (seenPoint) { return false; }
         	   seenPoint = true;
            } else if (ch == '-' && i == 0) {
         	   // leading negative symbol OK
+        	   if (len == 1) {
+        		   // but not if it's the only character in the string
+        		   return false;
+        	   }
            } else if (ch < '0' || ch > '9') {
                return false;
            }
