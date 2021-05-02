@@ -46,14 +46,13 @@
 			<version>1.0.15</version>
 		</dependency>
 
-		<!-- conflicts with packages in jdk 11
+		<!-- conflicts with packages in jdk 11 -->
 		<dependency>
        		<groupId>xml-apis</groupId>
        		<artifactId>xml-apis</artifactId>
        		<version>1.4.01</version>
        		<optional>true</optional>
         </dependency>
-         -->
         
         <dependency>
 			<groupId>javax.servlet</groupId>
@@ -209,6 +208,7 @@
 	</distributionManagement>
 	
 	<properties>
+		<jdk.version>8</jdk.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	
