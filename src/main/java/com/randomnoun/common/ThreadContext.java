@@ -50,8 +50,6 @@ import java.util.*;
  */
 public class ThreadContext
 {
-    public static String _revision = "$Id$";
-
     /** Backing map of threads-IDs to thread-specific Lists, containing maps */
     private static Map<String, List<Map<Object, Object>>> globalMap;
 

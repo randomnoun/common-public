@@ -372,7 +372,7 @@ public class ExceptionUtil {
             className = className.substring(0, className.indexOf('$'));
         }
         
-        Class clazz = Class.forName(className, true, loader);
+        Class<?> clazz = Class.forName(className, true, loader);
         
         // this is stored in the build.properties file, which we'll have to get from the JAR containing the class
         // see http://stackoverflow.com/questions/1983839/determine-which-jar-file-a-class-is-from
@@ -387,8 +387,8 @@ public class ExceptionUtil {
         } else if (uri.startsWith("jar:file:")) {
         	revisionMethod = 2;
         } else {
-            int idx = uri.indexOf(':');
-            String protocol = idx == -1 ? "(unknown)" : uri.substring(0, idx);
+            // int idx = uri.indexOf(':');
+            // String protocol = idx == -1 ? "(unknown)" : uri.substring(0, idx);
             // logger.warn("unknown protocol " + protocol + " in classpath uri '" + uri + "'");
             revisionMethod = -1;
         }
@@ -498,7 +498,7 @@ public class ExceptionUtil {
         }
         
         // if this is in a CVS repository, each class has it's own _revision public final static String variable
-        Class clazz = Class.forName(className, true, loader);
+        Class<?> clazz = Class.forName(className, true, loader);
         Field field = null;
         try {
         	field = clazz.getField("_revision");
@@ -545,8 +545,8 @@ public class ExceptionUtil {
         if (className.indexOf('$')!=-1) {
             className = className.substring(0, className.indexOf('$'));
         }
-        String file = className.replace('.',  '/') + ".class";
-        InputStream is = loader.getResourceAsStream(file);
+        // String file = className.replace('.',  '/') + ".class";
+        // InputStream is = loader.getResourceAsStream(file);
         
         // read up to '$Id:' text
         

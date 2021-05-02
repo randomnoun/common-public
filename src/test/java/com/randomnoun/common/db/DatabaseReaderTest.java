@@ -39,17 +39,6 @@ public class DatabaseReaderTest extends TestCase {
 		System.out.println("Running on " + hostname);
 		if (!TEST_HOSTS.contains(hostname)) { return; }
 		
-		//Class.forName("com.mysql.jdbc.Driver");
-		//String connString = "jdbc:mysql://bnetst04.dev.randomnoun/syra-tst";
-		//String username = "syra-tst";
-		//String password = "syra-tst";
-		
-		// can't get column metadata through this method
-		//String connString = "jdbc:odbc:syra"; // this isn't going to work for jet, is it. no. no it isn't. not today anyway.
-		//String connString  = "jdbc:odbc:Driver={Microsoft Access Driver (*.mdb, *.accdb)};DBQ=C:\\public\\syra.mdb";
-		//String username = null;
-		//String password = null;
-		
 		LogManager.shutdown(); // ok so if I do this I need to reconstruct the Logger instances, which is annoying
         Log4j2CliConfiguration lcc = new Log4j2CliConfiguration();
         Properties props = new Properties();
@@ -92,12 +81,12 @@ public class DatabaseReaderTest extends TestCase {
 	public void testMysql() throws SQLException, UnknownHostException {
 
 		String hostname = InetAddress.getLocalHost().getHostName();
-		if (!TEST_HOSTS.contains(hostname)) { return; }
+		if (hostname == null || !TEST_HOSTS.contains(hostname)) { return; }
 
-		// String connString  = "jdbc:mysql://localhost/jacobi-web-int?zeroDateTimeBehavior=convertToNull&autoReconnect=true&useSSL=false";
-		String connString  = "jdbc:mysql://localhost/jacobiwebdev?zeroDateTimeBehavior=convertToNull&autoReconnect=true&useSSL=false";
-		String username = "root";
-		String password = "abc123";
+		String connString  = "jdbc:mysql://localhost/common?zeroDateTimeBehavior=convertToNull&autoReconnect=true&useSSL=false";
+		String username = "common";
+		String password = "common";
+		
 		Connection conn = DriverManager.getConnection(connString, username, password);
 		ds = new SingleConnectionDataSource(conn, false);
 		DatabaseReader dr = new MysqlDatabaseReader(ds);
@@ -107,9 +96,9 @@ public class DatabaseReaderTest extends TestCase {
 
 	/*
 	public void testOracle() throws SQLException {
-		String connString  = "jdbc:oracle:thin:@farquin:1521:MLDEV1";
-		String username = "florg";
-		String password = "badger";
+		String connString  = "jdbc:oracle:thin:@test:1521:DEV";
+		String username = "test";
+		String password = "test";
 		Connection conn = DriverManager.getConnection(connString, username, password);
 		ds = new SingleConnectionDataSource(conn, false);
 		DatabaseReader dr = new OracleDatabaseReader(ds);
@@ -120,8 +109,8 @@ public class DatabaseReaderTest extends TestCase {
 	public void testSqlServer() throws SQLException, ClassNotFoundException {
 		Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 		String connString = "jdbc:sqlserver://SERVER";
-		String username = "randomnoun_BIBTest_ro"; // think the ro user is rw anyway
-		String password = "abc123";
+		String username = "test"; 
+		String password = "test";
 		
 		Connection conn = DriverManager.getConnection(connString, username, password);
 		ds = new SingleConnectionDataSource(conn, false);

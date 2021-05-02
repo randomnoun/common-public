@@ -15,7 +15,7 @@ import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
 
 import com.randomnoun.common.XmlUtil;
-import com.randomnoun.common.log4j.Log4jCliConfiguration;
+import com.randomnoun.common.log4j2.Log4j2CliConfiguration;
 
 /** Unit test for WindowTreeDom 
  *
@@ -29,6 +29,7 @@ public class WindowTreeDomTest extends TestCase {
 		if (System.getProperty("os.name").startsWith("Windows")) {
 			WindowTreeDom wtd = new WindowTreeDom();
 			Document d = wtd.getDom();
+			XmlUtil.getXmlString(d, true);
 			// logger.info(XmlUtil.getXmlString(d, true));
 		} else {
 			logger.info("Not running tests on operating sytem '" + System.getProperty("os.name") + "'");
@@ -36,7 +37,7 @@ public class WindowTreeDomTest extends TestCase {
 	}
 	
 	public static void main(String args[]) throws ParserConfigurationException, IOException, TransformerException {
-		Log4jCliConfiguration lcc = new Log4jCliConfiguration();
+		Log4j2CliConfiguration lcc = new Log4j2CliConfiguration();
 		lcc.init("", null);
 		WindowTreeDomTest wtdt = new WindowTreeDomTest();
 		wtdt.testWindowTreeDom();

@@ -3,20 +3,31 @@ package com.randomnoun.common.email;
 /* (c) 2013 randomnoun. All Rights Reserved. This work is licensed under a
  * BSD Simplified License. (http://www.randomnoun.com/bsd-simplified.html)
  */
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 
-import java.io.*;
-import java.util.*;
-import javax.activation.*;
-import javax.mail.*;
-import javax.mail.internet.*;
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.activation.FileDataSource;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Part;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 
 import org.apache.log4j.Logger;
 
 import com.randomnoun.common.StreamUtil;
-import com.randomnoun.common.email.ByteArrayDataSource;
-import com.randomnoun.common.email.EmailWrapper;
-
-
 
 /**
  * Provides a simple, one-class wrapper around the Java Mail API. Use the
@@ -36,9 +47,6 @@ import com.randomnoun.common.email.EmailWrapper;
  * @author knoxg
  */
 public class EmailWrapper {
-    // no logger since this is now in vm-startup.jar
-    // public static final Logger logger = Logger.getLogger(EmailWrapper.class.getName());
-    public static String _revision = "$Id$";
     
     public static Logger logger = Logger.getLogger(EmailWrapper.class);
 
@@ -142,10 +150,10 @@ public class EmailWrapper {
      *  @return an InternetAddress[] structure, suitable for use in various
      *    JavaMail API calls
      */
-    private static InternetAddress[] getAddressList(String stringList, String headerName, List headerList)
+    private static InternetAddress[] getAddressList(String stringList, String headerName, List<Map<String, Object>> headerList)
         throws MessagingException {
         String[] addresses;
-        List addressList = new ArrayList();
+        List<InternetAddress> addressList = new ArrayList<>();
         int i;
 
         // add addresses in 'stringList' to addressList array
@@ -159,8 +167,8 @@ public class EmailWrapper {
 
         // do the same for any headers matching the headerName supplied
         if (!isBlank(headerName) && (headerList != null)) {
-            for (Iterator j = headerList.iterator(); j.hasNext();) {
-                Map map = (Map) j.next();
+            for (Iterator<Map<String, Object>> j = headerList.iterator(); j.hasNext();) {
+                Map<String, Object> map = (Map<String, Object>) j.next();
 
                 if (headerName.equals(map.get("name"))) {
                     addresses = ((String) map.get("value")).split(",");
@@ -245,7 +253,8 @@ public class EmailWrapper {
      *
      * @throws MessagingException An error occurred sending the email
      */
-    public static void emailAttachmentTo(Map params)
+    @SuppressWarnings("unchecked")
+	public static void emailAttachmentTo(Map<Object, Object> params) // Map<Object, Object> so it can accept Properties objects
         throws MessagingException {
         logger.debug("Inside emailAttachmentTo method with params");
 
@@ -264,11 +273,11 @@ public class EmailWrapper {
         String client = (String) params.get("client");
         String suffix = (String) params.get("suffix");
         
-        List attachFiles = (List) params.get("attachFiles"); // list of filenames to retrieve from disk
-        List attachResources = (List) params.get("attachResources"); // list of resources to retrieve from classpath
-        List attachData = (List) params.get("attachData"); // list of attachment data
-        List headers = (List) params.get("headers");
-        Map sessionProperties = (Map) params.get("sessionProperties");
+        List<Map<String, Object>> attachFiles = (List<Map<String, Object>>) params.get("attachFiles"); // list of filenames to retrieve from disk
+        List<Map<String, Object>> attachResources = (List<Map<String, Object>>) params.get("attachResources"); // list of resources to retrieve from classpath
+        List<Map<String, Object>> attachData = (List<Map<String, Object>>) params.get("attachData"); // list of attachment data
+        List<Map<String, Object>> headers = (List<Map<String, Object>>) params.get("headers");
+        Map<String, Object> sessionProperties = (Map<String, Object>) params.get("sessionProperties");
         
         boolean isMultipart = false;
         boolean isAltContent = false;  // true if both text and html
@@ -281,15 +290,10 @@ public class EmailWrapper {
         Properties props = new Properties();
         props.put("mail.smtp.host", host);
         if (username != null) { props.put("mail.smtp.user", username); }
-        // props.put("mail.host", host);
         if (sessionProperties != null) {
         	props.putAll(sessionProperties);
         }
         
-        
-        // could make this another parameter whether to reuse the default session or not
-        // breaks having per-message bounce addresses though.
-        // Session session = Session.getDefaultInstance(props, null);
         Session session = Session.getInstance(props, null);
         Message msg;
         if (isBlank(client) || isBlank(suffix)) {
@@ -327,8 +331,8 @@ public class EmailWrapper {
 
         // add other headers
         if (headers != null) {
-            for (Iterator i = headers.iterator(); i.hasNext();) {
-                Map map = (Map) i.next();
+            for (Iterator<Map<String, Object>> i = headers.iterator(); i.hasNext();) {
+            	Map<String, Object> map = i.next();
                 String headerName = (String) map.get("name");
 
                 if (headerName != null && !headerName.equals("to") && !headerName.equals("cc") && !headerName.equals("bcc")) {
@@ -360,8 +364,8 @@ public class EmailWrapper {
 
         // create attachments from files on disk
         if (attachFiles != null) {
-            for (Iterator i = attachFiles.iterator(); i.hasNext();) {
-                Map map = (Map) i.next();
+            for (Iterator<Map<String, Object>> i = attachFiles.iterator(); i.hasNext();) {
+                Map<String, Object> map = i.next();
                 String filename = (String) map.get("filename");
                 String attachFilename = (String) map.get("attachFilename");
                 DataSource dataSource = new FileDataSource(filename);
@@ -377,8 +381,8 @@ public class EmailWrapper {
         // create attachments from a list of classpath resources
         try {
             if (attachResources != null) {
-                for (Iterator i = attachResources.iterator(); i.hasNext();) {
-                    Map map = (Map) i.next();
+                for (Iterator<Map<String, Object>> i = attachResources.iterator(); i.hasNext();) {
+                	Map<String, Object> map = i.next();
                     String resource = (String) map.get("resource");
                     String attachFilename = (String) map.get("attachFilename");
                     Object classLoaderObject = (Object) map.get("classloader");
@@ -395,7 +399,7 @@ public class EmailWrapper {
                     }
 
                     if (classLoaderObject instanceof Class) {
-                        classLoader = ((Class) classLoaderObject).getClassLoader();
+                        classLoader = ((Class<?>) classLoaderObject).getClassLoader();
                     } else if (classLoaderObject instanceof ClassLoader) {
                         classLoader = (ClassLoader) classLoaderObject;
                     } else {
@@ -419,8 +423,8 @@ public class EmailWrapper {
 
         // create attachments from data passed in to this method
         if (attachData != null) {
-            for (Iterator i = attachData.iterator(); i.hasNext();) {
-                Map map = (Map) i.next();
+            for (Iterator<Map<String, Object>> i = attachData.iterator(); i.hasNext();) {
+            	Map<String, Object> map = i.next();
                 String attachFilename = (String) map.get("attachFilename");
                 Object data = map.get("data");
                 String contentType = (String) map.get("contentType");
@@ -448,9 +452,8 @@ public class EmailWrapper {
                 attachment.setFileName(attachFilename);
                 multiPart.addBodyPart(attachment);
                 if (contentId!=null) {
-                	attachment.addHeader("Content-ID", contentId); // because this makes perfect sense
+                	attachment.addHeader("Content-ID", contentId);
                 }
-                // sing with me: one of these APIs is not like the other
                 if ("inline".equals(disposition)) {
                 	attachment.setDisposition(Part.INLINE);
                 } else {
@@ -471,19 +474,8 @@ public class EmailWrapper {
         		msg.setText(bodyText);
         	} else if (bodyHtml!=null) {
         		throw new UnsupportedOperationException("HTML text supplied without plain text. Test this before using.");
-        		// msg.setContent(bodyHtml, "us-ascii", "html");
-        		// or perhaps setText() then modify the Content-Type header. Yeah. That'll work.
         	}
-        	/*
-        	if (!isBlank(bodyText)) {
-                msg.setText(bodyText);
-            }
-            */
         }
-        
-        // authentication is performed here. We can supply a 
-        // password details at the mail Session creation stage, but I could
-        // never get that to work properly :(
         
         Transport tr = session.getTransport("smtp");
         if (username!=null && password!=null) {

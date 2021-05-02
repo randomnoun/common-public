@@ -67,9 +67,6 @@ public abstract class AppConfigBase extends Properties {
 	/** Generated serialVersionUID */
 	private static final long serialVersionUID = -5375559262217993785L;
 
-	/** Revision string for stacktraces */
-    public static String _revision = "$Id$";
-
     /** Logger instance for this class */
     public static Logger logger = Logger.getLogger(AppConfigBase.class);
     
@@ -100,14 +97,14 @@ public abstract class AppConfigBase extends Properties {
      * 
      * @throws RuntimeExcption if the database drivers are not on the classpath of this webapp
      */
-    protected void initDatabase() {
+	protected void initDatabase() {
         logger.info("Initialising database...");
         try {
         	String connectionType = getProperty("database.connectionType");
         	if (connectionType==null || 
         	  connectionType.equals("simple") || 
         	  connectionType.equals("dbcp")) { 
-        		Class.forName(getProperty("database.driver")).newInstance();
+        		Class.forName(getProperty("database.driver")).getDeclaredConstructor().newInstance();
         	}
         } catch (Exception e) {
             initialisationFailure = e;

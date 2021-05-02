@@ -33,29 +33,19 @@ import javax.servlet.http.HttpServletRequest;
  * <li> {@link #addError(String, String, String, int)} - add an invalid field error with a specific severity 
  * </ul>
  * 
- * <p>Field-level errors are detected by the <tt>&lt;mm:input&gt;</tt> and <tt>&lt;mm:select&gt;</tt>
- * tag libraries to alert the user that the fields are in error.
- * 
- * <p>Code that uses an ErrorList to perform validation may 'attach' an object to the
- * errorList instance to perform standard validations and to localise error messages. This
- * information can be used by other helper classes to extract field names and data from
- * complex objects. In common, methods to perform standard validation are contained 
- * in the {@link com.randomnoun.common.struts.ActionBase} class (which can be
- * used as a superclass of any struts action). 
- * 
- * <p>EJBs that wish to pass information back to the presentation layer should use
- * ValidationExceptions (which take an ErrorList as an argument).
+ * <p>Code that uses an ErrorList to perform validation may attach an object to the
+ * errorList instance to perform standard validations and to localise error messages.
  *
  * @author knoxg
- * @version <tt>$Id$</tt>
  */
 public class ErrorList extends ArrayList<ErrorList.ErrorData>
     implements java.io.Serializable
 {
-    
-    
 
-    /** Severity level indicating 'not an error' (e.g. informational only). Used to indicate successful operations */
+    /** Generated serialVersionUID */
+	private static final long serialVersionUID = 9113362689694606840L;
+
+	/** Severity level indicating 'not an error' (e.g. informational only). Used to indicate successful operations */
     public static final int SEVERITY_OK = 0; // Not an error
 
     /** invalid user-supplied data; end-user can fix situation */
@@ -94,9 +84,12 @@ public class ErrorList extends ArrayList<ErrorList.ErrorData>
      *  a single error
      */
     public static class ErrorData
-        extends HashMap
+        extends HashMap<String, Object>
     {
-        /**
+        /** Generated serialVersionUID */
+		private static final long serialVersionUID = -176737615399095851L;
+
+		/**
          * Creates a new ErrorInfo object.
          *
          * @param shortText a short, descriptive string for this error
@@ -112,7 +105,7 @@ public class ErrorList extends ArrayList<ErrorList.ErrorData>
             put("shortText", shortText);
             put("longText", longText);
             put("field", errorField);
-            put("severity", new Integer(severity));
+            put("severity", Integer.valueOf(severity));
         }
 
         /** Retrieves the type for this error
@@ -197,10 +190,10 @@ public class ErrorList extends ArrayList<ErrorList.ErrorData>
         // if we have an attachedFieldFormat, then format each field to this format
         if (attachedFieldFormat != null && errorField != null) {
             try {
-                List fields = Text.parseCsv(errorField);
+                List<String> fields = Text.parseCsv(errorField);
                 errorField = "";
-                for (Iterator i = fields.iterator(); i.hasNext();) {
-                    String field = (String)i.next();
+                for (Iterator<String> i = fields.iterator(); i.hasNext();) {
+                    String field = i.next();
                     errorField = errorField + getFieldName(field) +
                         (i.hasNext() ? "," : "");
                 }
@@ -305,10 +298,9 @@ public class ErrorList extends ArrayList<ErrorList.ErrorData>
     public boolean hasErrorOn(String field)
     {
         ErrorData errorInfo;
-        boolean hasError = false;
 
-        for (Iterator i = super.iterator(); i.hasNext(); ) {
-            errorInfo = (ErrorData)i.next();
+        for (Iterator<ErrorData> i = super.iterator(); i.hasNext(); ) {
+            errorInfo = i.next();
             if (errorInfo.getField()!=null) {
 	            String[] errorFields = errorInfo.getField().split(",");
 	            for (int j = 0; j < errorFields.length; j++) {
@@ -340,7 +332,7 @@ public class ErrorList extends ArrayList<ErrorList.ErrorData>
      */
     public boolean hasErrors(int severity)
     {
-        for (Iterator i = this.iterator(); i.hasNext(); ){
+        for (Iterator<ErrorData> i = this.iterator(); i.hasNext(); ){
             ErrorData errorData = (ErrorData) i.next();
             if (errorData.getSeverity() >= severity ) { 
                 return true;
@@ -425,7 +417,7 @@ public class ErrorList extends ArrayList<ErrorList.ErrorData>
     public String toString() {
         StringBuffer sb = new StringBuffer();
         ErrorData errorData;
-        for (Iterator i = super.iterator(); i.hasNext(); ) {
+        for (Iterator<ErrorData> i = super.iterator(); i.hasNext(); ) {
             errorData = (ErrorData)i.next();
 
             sb.append("#");
@@ -577,9 +569,9 @@ public class ErrorList extends ArrayList<ErrorList.ErrorData>
         	errorData = (ErrorData) get(i);
         	if (i>0) { sb.append(","); }
         	sb.append(
-        	  "{\"shortText\":\"" + Text.escapeJavascript2(errorData.getShortText()) + "\"," +
-        	  "\"longText\":\"" + Text.escapeJavascript2(errorData.getLongText()) + "\"," +
-        	  "\"fields\":\"" + Text.escapeJavascript2(errorData.getField()) + "\"," +
+        	  "{\"shortText\":\"" + Text.escapeJavascript(errorData.getShortText()) + "\"," +
+        	  "\"longText\":\"" + Text.escapeJavascript(errorData.getLongText()) + "\"," +
+        	  "\"fields\":\"" + Text.escapeJavascript(errorData.getField()) + "\"," +
         	  "\"severity\":" + errorData.getSeverity() + "}");
         }
         sb.append("]");

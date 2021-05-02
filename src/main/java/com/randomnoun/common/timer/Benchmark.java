@@ -58,9 +58,6 @@ import com.randomnoun.common.Text;
  * 
  */
 public class Benchmark {
-    /** A string to use in stack traces. */
-    public static String _revision = "$Id$";
-
 
     /** A Comparator which performs comparisons between two Benchmarks.
      */

@@ -21,15 +21,35 @@ public class TextTest
         super(name);
     }
 
-    public void testIsBlank()
-    {
+    public void testIsBlank() {
         assertTrue("isBlank(null)", Text.isBlank(null));
         assertTrue("isBlank('')", Text.isBlank(""));
         assertFalse("isBlank('abc')", Text.isBlank("abc"));
     }
 
-    public void testEscapeHtml()
-    {
+    public void testIsNumeric() {
+        assertTrue(Text.isNumeric("123"));
+        assertFalse(Text.isNumeric("x123"));
+        assertFalse(Text.isNumeric("123x"));
+        assertFalse(Text.isNumeric("123.456"));
+        assertFalse(Text.isNumeric("-123"));
+        assertFalse(Text.isNumeric("-"));
+        assertTrue(Text.isNumeric(""));
+        assertFalse(Text.isNumeric(null));
+    }
+
+    public void testIsNumericDecimal() {
+        assertTrue(Text.isNumericDecimal("123"));
+        assertFalse(Text.isNumericDecimal("x123"));
+        assertFalse(Text.isNumericDecimal("123x"));
+        assertTrue(Text.isNumericDecimal("123.456"));
+        assertTrue(Text.isNumericDecimal("-123"));
+        assertFalse(Text.isNumericDecimal("-"));
+        assertTrue(Text.isNumericDecimal(""));
+        assertFalse(Text.isNumericDecimal(null));
+    }
+
+    public void testEscapeHtml() {
         assertEquals("escapeHtml(null)", Text.escapeHtml(null), "");
         assertEquals("escapeHtml('')", Text.escapeHtml(""), "");
 
@@ -42,8 +62,7 @@ public class TextTest
         assertEquals("escapeHtml(\u1234)", "&#x1234;", Text.escapeHtml("\u1234"));
     }
 
-    public void testEscapeCss()
-    {
+    public void testEscapeCss() {
         assertEquals("escapeCss(null)", Text.escapeCss(null), "");
         assertEquals("escapeCss('')", Text.escapeCss(""), "");
 
@@ -57,64 +76,44 @@ public class TextTest
     }
 
     
-    public void testGetDisplayString()
-    {
+    public void testGetDisplayString() {
         String a;
 
-        try
-        {
+        try {
             a = Text.getDisplayString(null, null);
             fail("Text.getDisplayString(null, null) should throw NullPointerException");
-        }
-        catch (NullPointerException ne)
-        {
+        } catch (NullPointerException ne) {
             // ok  
         }
 
-        try
-        {
+        try {
             a = Text.getDisplayString(null, "abc");
             fail("Text.getDisplayString(null, 'abc') should throw NullPointerException");
-        }
-        catch (NullPointerException ne)
-        {
+        } catch (NullPointerException ne) {
             // ok  
         }
 
-        assertEquals("getDisplayString('abc', null)", "(null)",
-            Text.getDisplayString("abc", null));
-        assertEquals("getDisplayString('password', null)", "********",
-            Text.getDisplayString("password", null));
-        assertEquals("getDisplayString('pAsSwOrD', null)", "(null)",
-            Text.getDisplayString("pAsSwOrD", null));
-        assertEquals("getDisplayString('credentials', null)", "********",
-            Text.getDisplayString("credentials", null));
+        assertEquals("getDisplayString('abc', null)", "(null)", Text.getDisplayString("abc", null));
+        assertEquals("getDisplayString('password', null)", "********", Text.getDisplayString("password", null));
+        assertEquals("getDisplayString('pAsSwOrD', null)", "(null)", Text.getDisplayString("pAsSwOrD", null));
+        assertEquals("getDisplayString('credentials', null)", "********", Text.getDisplayString("credentials", null));
 
-        assertEquals("getDisplayString('abc', 'def')", "def",
-            Text.getDisplayString("abc", "def"));
-        assertEquals("getDisplayString('password', 'def')", "********",
-            Text.getDisplayString("password", "def"));
-        assertEquals("getDisplayString('pAsSwOrD', 'def')", "def",
-            Text.getDisplayString("pAsSwOrD", "def"));
-        assertEquals("getDisplayString('credentials', 'def')", "********",
-            Text.getDisplayString("credentials", "def"));
+        assertEquals("getDisplayString('abc', 'def')", "def", Text.getDisplayString("abc", "def"));
+        assertEquals("getDisplayString('password', 'def')", "********", Text.getDisplayString("password", "def"));
+        assertEquals("getDisplayString('pAsSwOrD', 'def')", "def", Text.getDisplayString("pAsSwOrD", "def"));
+        assertEquals("getDisplayString('credentials', 'def')", "********", Text.getDisplayString("credentials", "def"));
 
         a = "";
-
-        for (int i = 0; i < 200; i++)
-        {
+        for (int i = 0; i < 200; i++) {
             a = a + "1234567890";
         }
-
-        ;
         assertEquals("getDisplayString('abc', longstring)",
             a.substring(0, 300) + "... (1700 more characters truncated)",
             Text.getDisplayString("abc", a));
     }
 
-    public void testStrDefault()
-    {
-        assertNull("strDefault(null, null)", Text.strDefault(null, null));
+    public void testStrDefault() {        
+    	assertNull("strDefault(null, null)", Text.strDefault(null, null));
         assertEquals("strDefault(null, 'abc')", "abc", Text.strDefault(null, "abc"));
         assertEquals("strDefault(null, '')", "", Text.strDefault(null, ""));
 
@@ -133,8 +132,7 @@ public class TextTest
 
         // single char replacement        
         assertEquals("replaceString('', 'b', 'x')", "", Text.replaceString("", "b", "x"));
-        assertEquals("replaceString('abc', 'b', 'x')", "axc",
-            Text.replaceString("abc", "b", "x"));
+        assertEquals("replaceString('abc', 'b', 'x')", "axc",             Text.replaceString("abc", "b", "x"));
         assertEquals("replaceString('abc', 'd', 'x')", "abc",
             Text.replaceString("abc", "d", "x"));
         assertEquals("replaceString('abc', 'bc', 'x')", "ax",
@@ -172,36 +170,28 @@ public class TextTest
             Text.replaceString("abababa", "bab", "a"));
     }
 
-    public void testGetFileContents()
-    {
+    public void tstGetFileContents() {
     }
 
-    public void testIndent()
-    {
+    public void testIndent() {
     }
 
-    public void testStructuredListToString()
-    {
+    public void testStructuredListToString() {
     }
 
-    public void testStructuredMapToString()
-    {
+    public void testStructuredMapToString() {
     }
 
-    public void testSetFromRequestObjectHttpServletRequest()
-    {
+    public void testSetFromRequestObjectHttpServletRequest() {
     }
 
-    public void testSetFromRequestObjectHttpServletRequestStringArray()
-    {
+    public void testSetFromRequestObjectHttpServletRequestStringArray() {
     }
 
-    public void testGetValue()
-    {
+    public void testGeValue() {
     }
     
-    public void testReduceNewlines() 
-    {
+    public void testReduceNewlines() {
     	String dosString = "this\r\nis a string\r\nwith DOS EOL conventions\r\n";
 		String unixString = "this\nis a string\nwith unix EOL conventions\n";
 		String macString = "this\ris a string\rwith mac EOL conventions\r";
