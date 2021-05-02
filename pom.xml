@@ -43,7 +43,7 @@
 		<dependency>
        		<groupId>com.randomnoun.common</groupId>
 			<artifactId>jessop</artifactId>
-			<version>1.0.15</version>
+			<version>1.0.16</version>
 		</dependency>
 
 		<!-- conflicts with packages in jdk 11 -->
