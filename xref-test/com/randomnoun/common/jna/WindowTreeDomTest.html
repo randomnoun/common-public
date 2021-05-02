@@ -23,7 +23,7 @@
 <a class="jxr_linenumber" name="L15" href="#L15">15</a>  <strong class="jxr_keyword">import</strong> org.w3c.dom.Document;
 <a class="jxr_linenumber" name="L16" href="#L16">16</a>  
 <a class="jxr_linenumber" name="L17" href="#L17">17</a>  <strong class="jxr_keyword">import</strong> com.randomnoun.common.XmlUtil;
-<a class="jxr_linenumber" name="L18" href="#L18">18</a>  <strong class="jxr_keyword">import</strong> com.randomnoun.common.log4j.Log4jCliConfiguration;
+<a class="jxr_linenumber" name="L18" href="#L18">18</a>  <strong class="jxr_keyword">import</strong> com.randomnoun.common.log4j2.Log4j2CliConfiguration;
 <a class="jxr_linenumber" name="L19" href="#L19">19</a>  
 <a class="jxr_linenumber" name="L20" href="#L20">20</a>  <em class="jxr_javadoccomment">/** Unit test for WindowTreeDom </em>
 <a class="jxr_linenumber" name="L21" href="#L21">21</a>  <em class="jxr_javadoccomment"> *</em>
@@ -37,20 +37,21 @@
 <a class="jxr_linenumber" name="L29" href="#L29">29</a>  		<strong class="jxr_keyword">if</strong> (System.getProperty(<span class="jxr_string">"os.name"</span>).startsWith(<span class="jxr_string">"Windows"</span>)) {
 <a class="jxr_linenumber" name="L30" href="#L30">30</a>  			WindowTreeDom wtd = <strong class="jxr_keyword">new</strong> WindowTreeDom();
 <a class="jxr_linenumber" name="L31" href="#L31">31</a>  			Document d = wtd.getDom();
-<a class="jxr_linenumber" name="L32" href="#L32">32</a>  			<em class="jxr_comment">// logger.info(XmlUtil.getXmlString(d, true));</em>
-<a class="jxr_linenumber" name="L33" href="#L33">33</a>  		} <strong class="jxr_keyword">else</strong> {
-<a class="jxr_linenumber" name="L34" href="#L34">34</a>  			logger.info(<span class="jxr_string">"Not running tests on operating sytem '"</span> + System.getProperty(<span class="jxr_string">"os.name"</span>) + <span class="jxr_string">"'"</span>);
-<a class="jxr_linenumber" name="L35" href="#L35">35</a>  		}
-<a class="jxr_linenumber" name="L36" href="#L36">36</a>  	}
-<a class="jxr_linenumber" name="L37" href="#L37">37</a>  	
-<a class="jxr_linenumber" name="L38" href="#L38">38</a>  	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">void</strong> main(String args[]) <strong class="jxr_keyword">throws</strong> ParserConfigurationException, IOException, TransformerException {
-<a class="jxr_linenumber" name="L39" href="#L39">39</a>  		Log4jCliConfiguration lcc = <strong class="jxr_keyword">new</strong> Log4jCliConfiguration();
-<a class="jxr_linenumber" name="L40" href="#L40">40</a>  		lcc.init(<span class="jxr_string">""</span>, <strong class="jxr_keyword">null</strong>);
-<a class="jxr_linenumber" name="L41" href="#L41">41</a>  		WindowTreeDomTest wtdt = <strong class="jxr_keyword">new</strong> <a href="../../../../com/randomnoun/common/jna/WindowTreeDomTest.html">WindowTreeDomTest</a>();
-<a class="jxr_linenumber" name="L42" href="#L42">42</a>  		wtdt.testWindowTreeDom();
-<a class="jxr_linenumber" name="L43" href="#L43">43</a>  	}
-<a class="jxr_linenumber" name="L44" href="#L44">44</a>  
-<a class="jxr_linenumber" name="L45" href="#L45">45</a>  }
+<a class="jxr_linenumber" name="L32" href="#L32">32</a>  			XmlUtil.getXmlString(d, <strong class="jxr_keyword">true</strong>);
+<a class="jxr_linenumber" name="L33" href="#L33">33</a>  			<em class="jxr_comment">// logger.info(XmlUtil.getXmlString(d, true));</em>
+<a class="jxr_linenumber" name="L34" href="#L34">34</a>  		} <strong class="jxr_keyword">else</strong> {
+<a class="jxr_linenumber" name="L35" href="#L35">35</a>  			logger.info(<span class="jxr_string">"Not running tests on operating sytem '"</span> + System.getProperty(<span class="jxr_string">"os.name"</span>) + <span class="jxr_string">"'"</span>);
+<a class="jxr_linenumber" name="L36" href="#L36">36</a>  		}
+<a class="jxr_linenumber" name="L37" href="#L37">37</a>  	}
+<a class="jxr_linenumber" name="L38" href="#L38">38</a>  	
+<a class="jxr_linenumber" name="L39" href="#L39">39</a>  	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">void</strong> main(String args[]) <strong class="jxr_keyword">throws</strong> ParserConfigurationException, IOException, TransformerException {
+<a class="jxr_linenumber" name="L40" href="#L40">40</a>  		Log4j2CliConfiguration lcc = <strong class="jxr_keyword">new</strong> Log4j2CliConfiguration();
+<a class="jxr_linenumber" name="L41" href="#L41">41</a>  		lcc.init(<span class="jxr_string">""</span>, <strong class="jxr_keyword">null</strong>);
+<a class="jxr_linenumber" name="L42" href="#L42">42</a>  		WindowTreeDomTest wtdt = <strong class="jxr_keyword">new</strong> <a href="../../../../com/randomnoun/common/jna/WindowTreeDomTest.html">WindowTreeDomTest</a>();
+<a class="jxr_linenumber" name="L43" href="#L43">43</a>  		wtdt.testWindowTreeDom();
+<a class="jxr_linenumber" name="L44" href="#L44">44</a>  	}
+<a class="jxr_linenumber" name="L45" href="#L45">45</a>  
+<a class="jxr_linenumber" name="L46" href="#L46">46</a>  }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2013&#x2013;2021 <a href="http://www.randomnoun.com">randomnoun</a>. All rights reserved.</div>
