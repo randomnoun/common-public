@@ -9,7 +9,6 @@ import java.io.Writer;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -24,12 +23,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import javax.servlet.http.HttpServletRequest;
 
-
-
 import org.apache.commons.beanutils.PropertyUtils;
 
-import com.randomnoun.common.Struct;
-import com.randomnoun.common.Text;
 import com.randomnoun.common.io.StringBuilderWriter;
 
 /**
@@ -1654,7 +1649,7 @@ public class Struct {
        for (Iterator i = list.iterator(); i.hasNext();) {
            key = (Object) i.next();
            if (key instanceof String) {
-        	   keyJson = "\"" + key + "\"";
+        	   keyJson = "\"" + Text.escapeJavascript((String) key) + "\"";
            } else if (key instanceof Number) {
         	   keyJson = "\"" + String.valueOf(key) + "\""; // coerce numeric keys to strings
            } else {
