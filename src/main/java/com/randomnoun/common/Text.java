@@ -336,8 +336,7 @@ public class Text {
         // prefix cells that start with ‘=’ , '@', '+' or '-' with an apostrophe 
         // This will ensure that the cell isn’t interpreted as a formula, and as a bonus in Microsoft Excel the apostrophe itself will not be displayed.
         if (string.startsWith("=") || 
-          string.startsWith("@") || 
-          string.indexOf('%')!=-1) {
+          string.startsWith("@")) {
             // prefix the string with an a single quote char to escape it
             string = "'" + string;
             quoted = true; // not sure need to quote here, but doesn't hurt
