@@ -42,7 +42,6 @@ import com.randomnoun.common.jexl.visitor.*;
  * <p>NB: In the javadocs below, "lhs" refers to the left-hand-side value of any binary
  * operation, and "rhs" refers to the right-hand-side value; e.g. in "3 + 4",
  * the lhs is "3", the rhs is "4" and the op is "+".
- *
  * 
  * @author knoxg
  */
@@ -57,6 +56,9 @@ public class Evaluator
     /** Logger instance for this class */
     Logger logger = Logger.getLogger(Evaluator.class);
 
+    // could probably use generics these days
+    // and I'm pretty sure these are in java.util.functions as well
+    
     /** Binary operation interface; takes two parameters, returns a result. */
     interface BinaryOp {
         Object op(Object a, Object b);
