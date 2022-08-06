@@ -16,6 +16,10 @@
  */
 package com.randomnoun.common.log4j2;
 
+import java.lang.reflect.Method;
+import java.util.Map;
+import java.util.Set;
+
 import org.apache.log4j.Category;
 import org.apache.log4j.Level;
 import org.apache.log4j.spi.LocationInfo;
@@ -26,10 +30,6 @@ import org.apache.logging.log4j.core.util.Loader;
 import org.apache.logging.log4j.core.util.Throwables;
 import org.apache.logging.log4j.spi.StandardLevel;
 import org.apache.logging.log4j.status.StatusLogger;
-
-import java.lang.reflect.Method;
-import java.util.Map;
-import java.util.Set;
 
 // a modified form of the LogEventAdapter in log4j2, which uses our own LoggingEvent class, which has a non-final getTimestamp()
 
@@ -218,12 +218,12 @@ public class LogEventAdapter extends LoggingEvent {
     }
 
     @Override
-    public Set getPropertyKeySet() {
+    public Set<String> getPropertyKeySet() {
         return event.getContextData().toMap().keySet();
     }
 
     @Override
-    public Map getProperties() {
+    public Map<String, String> getProperties() {
         return event.getContextData().toMap();
     }
 
