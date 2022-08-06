@@ -27,7 +27,6 @@ import javax.sql.DataSource;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
-import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -308,17 +307,7 @@ public abstract class AppConfigBase extends Properties {
 		        ds = new SingleConnectionDataSource(connection, false);
 		        
 	        } else if (connectionType.equals("dbcp")) {
-	        	if (url==null) { throw new NullPointerException(prefix + "url has not been initialised"); }
-	        	BasicDataSource bds = new BasicDataSource();
-	        	bds.setDriverClassName(driver);
-	        	Map<? extends Object, ? extends Object> dbcpProps = PropertyParser.restrict(this, prefix + "dbcp", true);
-	        	Struct.setFromMap(bds, dbcpProps, false, true, false);
-	        	bds.setUrl(url);
-	        	if (!Text.isBlank(username)) {
-	        		bds.setUsername(username);
-	        		bds.setPassword(password);
-	        	}
-	        	ds = bds;
+	        	throw new UnsupportedOperationException("dbcp is no longer supported; use c3p0 instead");
 	        	
 	        } else if (connectionType.equals("c3p0")) {
 	        	if (url==null) { throw new NullPointerException(prefix + "url has not been initialised"); }
