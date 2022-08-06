@@ -3,9 +3,13 @@ package com.randomnoun.common.email;
 /* (c) 2013 randomnoun. All Rights Reserved. This work is licensed under a
  * BSD Simplified License. (http://www.randomnoun.com/bsd-simplified.html)
  */
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
-import java.io.*;
-import javax.activation.*;
+import jakarta.activation.DataSource;
 
 
 /** A DataSource generated from an array of bytes

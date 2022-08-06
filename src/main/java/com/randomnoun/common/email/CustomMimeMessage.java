@@ -1,12 +1,12 @@
 package com.randomnoun.common.email;
 
+import jakarta.mail.MessagingException;
+import jakarta.mail.Session;
+import jakarta.mail.internet.MimeMessage;
+
 /* (c) 2013 randomnoun. All Rights Reserved. This work is licensed under a
  * BSD Simplified License. (http://www.randomnoun.com/bsd-simplified.html)
  */
-
-import javax.mail.MessagingException;
-import javax.mail.Session;
-import javax.mail.internet.MimeMessage;
 
 public class CustomMimeMessage extends MimeMessage {
 
