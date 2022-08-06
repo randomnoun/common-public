@@ -46,7 +46,7 @@ public class MysqlDatabaseReader extends DatabaseReader {
 			new StringRowMapper() );
 		//tableList = schema.database.upper(tableList);
 		for (String n : tableList) {
-			logger.info("Table " + n);
+			logger.debug("Table " + n);
 			// TableTO t = readTable(schema, n);
 			TableTO t = new TableTO(schema, n);
 			schema.getTableMap().put(n, t);
