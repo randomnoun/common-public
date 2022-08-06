@@ -12,11 +12,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.randomnoun.common.MRUCache;
-import com.randomnoun.common.security.Permission;
-import com.randomnoun.common.security.ResourceCriteria;
-import com.randomnoun.common.security.SecurityContext;
-import com.randomnoun.common.security.SecurityLoader;
-import com.randomnoun.common.security.User;
 
 /**
  * This class manages users, roles, resources and permissions for an application.
@@ -33,13 +28,13 @@ import com.randomnoun.common.security.User;
  * <p>The following properties can be passed to the SecurityContext during construction;
  * property keys are defined as static public final Strings in this class.
  *
- * <attributes>
- *   INIT_CASE_INSENSITIVE - make the security cache case-insensitive, typically when interfacing with 
+ * <ul>
+ * <li>INIT_CASE_INSENSITIVE - make the security cache case-insensitive, typically when interfacing with 
  *     Active Directory. Defaults to false.
- *   INIT_USER_CACHE_SIZE - maximum size of user cache
- *   INIT_USER_CACHE_EXPIRY - expiry time of users from the user cache (in milliseconds). If this
+ * <li>INIT_USER_CACHE_SIZE - maximum size of user cache
+ * <li>INIT_USER_CACHE_EXPIRY - expiry time of users from the user cache (in milliseconds). If this
  *     property is not set, user caching is disabled.
- * </attributes>
+ * </ul>
  *
  * <p>Additional properties may also be required based on the SecurityLoader implementation used.
  * 

@@ -19,13 +19,13 @@ import com.randomnoun.common.Text;
  * converted into the javascript equivalent.
  *
  * <p>Attributes defined for this tag (in common.tld) are:
- * <attributes>
- *   baseName - the name of the javascript variable to extend
- *   name - the name of the object within base (may contain sub-object names separated by '.')
- *   value - the value of the javascript variable.
- *   key - if defined, the value of this field within the value object is used to extend the base object.
+ * <ul>
+ * <li>baseName - the name of the javascript variable to extend
+ * <li>name - the name of the object within base (may contain sub-object names separated by '.')
+ * <li>value - the value of the javascript variable.
+ * <li>key - if defined, the value of this field within the value object is used to extend the base object.
  *     if key is supplied the object is replaced, not merged
- * </attributes>
+ * </ul>
  *
  * <p>Both name and value may contain EL-style expressions.
  *

@@ -37,8 +37,7 @@ import org.apache.log4j.Logger;
 /** XML utility functions
  *
  * @author knoxg
- * @blog http://www.randomnoun.com/wp/2013/01/25/exciting-things-with-xml/
- * 
+ * @see <a href="http://www.randomnoun.com/wp/2013/01/25/exciting-things-with-xml/">http://www.randomnoun.com/wp/2013/01/25/exciting-things-with-xml/</a>
  */
 public class XmlUtil {
 	
@@ -58,7 +57,7 @@ public class XmlUtil {
 	/** Clean a HTML inputStream through the tagsoup filter. The returned string is guaranteed to be 
 	 * well-formed XML (and can therefore be used by other tools that expect valid XML). 
 	 * 
-	 * @param is input XML stream
+	 * @param inputStream input XML stream
 	 * @param isHtml if true, uses the HTML schema, omits the XML declaration, and uses the html method
 	 * 
 	 * @throws SAXException if the tagsoup library could not parse the input string
@@ -263,7 +262,7 @@ public class XmlUtil {
 	/** Remove leading/trailing whitespace from all text nodes in this nodeList.
 	 * Will iterate through subnodes recursively.
 	 * 
-	 * @param nodeList
+	 * @param node
 	 */
 	public static void compact(Node node) {
 		if (node.getNodeType()==Node.TEXT_NODE) {
@@ -292,10 +291,10 @@ public class XmlUtil {
 	 * @param xmlText an XML document (or part thereof)
 	 * 
 	 * @throws SAXException if the document could not be parsed
-	 * @throws IllegalException if the parser could not be initialised, or an I/O error occurred 
+	 * @throws IllegalStateException if the parser could not be initialised, or an I/O error occurred 
 	 *   (should not happen since we're just dealing with strings)
 	 */
-	public static void processContentHandler(ContentHandler contentHandler, String xmlText) throws SAXException {
+	public static void processContentHandler(ContentHandler contentHandler, String xmlText) throws SAXException, IllegalStateException {
 		 SAXParserFactory factory = SAXParserFactory.newInstance();
 		 try {
 			 // Parse the input
@@ -466,7 +465,7 @@ public class XmlUtil {
 	
 
 	/** Convert a NodeList into something that Java1.5 can treat as Iterable,
-	 * so that it can be used in <tt>for (Node node : nodeList) { ... }</tt> style
+	 * so that it can be used in <code>for (Node node : nodeList) { ... }</code> style
 	 * constructs.
 	 * 
 	 * <p>(org.w3c.dom.traversal.NodeListIterator doesn't currently implement Iterable)

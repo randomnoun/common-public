@@ -41,9 +41,9 @@ import com.randomnoun.common.jessop.JessopCompiledScript;
  * 
  * <p>This class is similar to the old HistoryTableGenerator, but uses templates instead.
  * 
- * @TODO add other db types
- * @TODO add stored procs to roll back table(s) to a given point in time
- * @TODO add history partitions, if mysql supports it 
+ * <p><b>TODO</b> add other db types
+ * <p><b>TODO</b> add stored procs to roll back table(s) to a given point in time
+ * <p><b>TODO</b> add history partitions, if mysql supports it 
  **/
 public class HistoryTableGenerator {
 

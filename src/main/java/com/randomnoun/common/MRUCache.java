@@ -127,7 +127,7 @@ public class MRUCache
      *    expiry period.
      * @param callback   A callback which can be used to populate entries in the cache that are unknown,
      *    or have expired. This parameter can be set to null <b>if and only if</b> the
-     *    two-parameter {@link #get(String, RetrievalCallback)} method is used to retrieve
+     *    two-parameter {@link #get(Object, RetrievalCallback)} method is used to retrieve
      *    elements from the map.
      */
     public MRUCache(int cacheSize, int expiryTime, RetrievalCallback callback)

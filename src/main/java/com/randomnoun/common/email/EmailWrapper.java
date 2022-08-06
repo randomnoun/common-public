@@ -40,7 +40,7 @@ import jakarta.mail.internet.MimeMultipart;
  * 
  * <p>S/MIME encryption isn't supported, but would be relatively easy to add;
  *
- * <p>Use the (somewhat more complex) {@see #emailAttachmentTo(Map)} method to send emails
+ * <p>Use the (somewhat more complex) {@link #emailAttachmentTo(Map)} method to send emails
  * with attachments sourced from the file system, byte arrays or the classpath,
  * or to modify the email headers.
  *
@@ -62,7 +62,7 @@ public class EmailWrapper {
      * @param to A comma-separated list of recipients
      * @param from The address to place in the From: field of the email
      * @param subject The subject text
-     * @param msgText The message text
+     * @param bodyText The message text
      */
     public static void emailToNoEx(String to, String from, String host, String subject, 
       String bodyText, String username, String password) {
@@ -192,62 +192,62 @@ public class EmailWrapper {
      *
      * The following attributes are accepted by this method
      *
-     * <attributes>
-     * to - To addresses, comma-separated. Will also include any
+     * <ul>
+     * <li>to - To addresses, comma-separated. Will also include any
      *      custom headers supplied with the headername of 'to'
-     * from - From address
-     * subject - The subject of the email
-     * bodyText - The body text of the email
-     * bodyHtml - The body text of the email, in HTML format
-     * username - If not null, the username to authenticate to the SMTP server
-     * password - If not null, the password with which to authenticate to the SMTP 
-     * cc - CC addresses, comma-separated. Will also include any
+     * <li>from - From address
+     * <li>subject - The subject of the email
+     * <li>bodyText - The body text of the email
+     * <li>bodyHtml - The body text of the email, in HTML format
+     * <li>username - If not null, the username to authenticate to the SMTP server
+     * <li>password - If not null, the password with which to authenticate to the SMTP 
+     * <li>cc - CC addresses, comma-separated. Will also include any
      *                   custom headers supplied with the headername of 'cc'
-     * bcc - BCC addresses, comma-separated. Will also include any
+     * <li>bcc - BCC addresses, comma-separated. Will also include any
      *                   custom headers supplied with the headername of 'bcc'
-     * replyTo - Reply-To addresses, comma-separated. Will also include any
+     * <li>replyTo - Reply-To addresses, comma-separated. Will also include any
      *                   custom headers supplied with the headername of 'replyTo'
-     * client - email client to use in generated MessageID (defaults to "JavaMail")
-     * suffix - suffix to use in generated MessageID (defaults to "username@host")
-     *          (both client & suffix must be specified together)
-     * sessionProperties - A map containing additional JavaMail session properties
-     * headers - A structured list of custom headers
-     * <attributes>
-     *   name - The header name
-     *   value - The header value
-     * </attributes>
+     * <li>client - email client to use in generated MessageID (defaults to "JavaMail")
+     * <li>suffix - suffix to use in generated MessageID (defaults to "username@host")
+     *          (both client &amp; suffix must be specified together)
+     * <li>sessionProperties - A map containing additional JavaMail session properties
+     * <li>headers - A structured list of custom headers
+     * <ul>
+     *   <li>name - The header name
+     *   <li>value - The header value
+     * </ul>
      *
-     * attachFiles   Attachments to this email, sourced from the filesystem
-     * <attributes>
-     *   filename - The file on the local filesystem which contains the  data to send
-     *   attachFilename - The name of the file visible in the email
-     *   contentType - The content-type to assign to this file. Will default to
-     *                   <tt>application/octet-stream</tt>
-     * </attributes>
+     * <li>attachFiles   Attachments to this email, sourced from the filesystem
+     * <ul>
+     *   <li>filename - The file on the local filesystem which contains the  data to send
+     *   <li>attachFilename - The name of the file visible in the email
+     *   <li>contentType - The content-type to assign to this file. Will default to
+     *                   <code>application/octet-stream</code>
+     * </ul>
      *
-     * attachResources Attachments to this email, sourced from the classLoader
-     * <attributes>
-     *   resource - The resource name
-     *   attachFilename - The name of the file visible in the email
-     *   contentType - The content-type to assign to this file. Will default to
-     *                   <tt>application/octet-stream</tt>
-     *   classLoader - Any class which will indicate which class loader to
+     * <li>attachResources Attachments to this email, sourced from the classLoader
+     * <ul>
+     *   <li>resource - The resource name
+     *   <li>attachFilename - The name of the file visible in the email
+     *   <li>contentType - The content-type to assign to this file. Will default to
+     *                   <code>application/octet-stream</code>
+     *   <li>classLoader - Any class which will indicate which class loader to
      *                   use to find this resource, or a ClassLoader instance.
      *                   If missing, will default to the class loader of the
      *                   EmailWrapper class.
-     * </attributes>
+     * </ul>
      *
-     * attachData    Attachments to this email, passed in directly
-     * <attributes>
-     *   data - The data comprising the attachment. Can be either a
+     * <li>attachData    Attachments to this email, passed in directly
+     * <ul>
+     *   <li>data - The data comprising the attachment. Can be either a
      *                   byte array, or a string. If the object is of any other
      *                   type, then it is converted to a string using it's
      *                   .toString() method.
-     *   attachFilename - The name of the file visible in the email
-     *   contentType - The content-type to assign to this file. Will default
-     *                   to <tt>application/octet-stream</tt>
-     * </attributes>
-     * </attributes>
+     *   <li>attachFilename - The name of the file visible in the email
+     *   <li>contentType - The content-type to assign to this file. Will default
+     *                   to <code>application/octet-stream</code>
+     * </ul>
+     * </ul>
      *
      * This method returns no values
      *

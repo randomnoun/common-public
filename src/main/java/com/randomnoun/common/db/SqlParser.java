@@ -31,7 +31,7 @@ public class SqlParser {
 	 * This command may end with a newline instead of a delimiter.
 	 * 
 	 * <p>Comments may also be returned in the result.
-	 * <p>Comments are defined by '-- to-end-of-line' or '/* within slash-star star-slash *&#8288;/' syntax.
+	 * <p>Comments are defined by '-- to-end-of-line' or '/* within slash-star star-slash *&#42;/' syntax.
 	 * Comments that are created with '--' and that occur within a statement are returned before that statement
 	 * has finished parsing.
 	 * 

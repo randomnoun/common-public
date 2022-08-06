@@ -33,18 +33,16 @@ import com.randomnoun.common.timer.HiResTimer;
  * the system classpath. The Ant build task 'buildStartupJar' in ext/build.xml
  * can compile the JNI and create this startup JAR.
  *
- * <hr/>
- *
  * <p>This file was based on the discussion at
- * <br/><a href="http://www.fawcette.com/archives/premier/mgznarch/javapro/2001/08aug01/km0108/km0108-1.asp">
+ * <a href="http://www.fawcette.com/archives/premier/mgznarch/javapro/2001/08aug01/km0108/km0108-1.asp">
  * http://www.fawcette.com/archives/premier/mgznarch/javapro/2001/08aug01/km0108/km0108-1.asp</a>
  *
  * <p>Some instructions on building JNI in a cygwin/gcc environment was found at
- * <br/><a href="http://www.inonit.com/cygwin/jni/helloWorld/">
+ * <a href="http://www.inonit.com/cygwin/jni/helloWorld/">
  * http://www.inonit.com/cygwin/jni/helloWorld/</a>
  * 
  * <p>Documentation on Windows APIs can be found in Windows 2003 Core API download, found at
- * <br/><a href="http://www.microsoft.com/msdownload/platformsdk/sdkupdate/">
+ * <a href="http://www.microsoft.com/msdownload/platformsdk/sdkupdate/">
  * http://www.microsoft.com/msdownload/platformsdk/sdkupdate/</a>
  *
  * @author  knoxg

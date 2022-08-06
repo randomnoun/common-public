@@ -36,7 +36,7 @@ public class ByteArrayDataSource
     }
 
     /** Returns the name of the DataSource
-     * @returns String Name of the DataSource
+     * @return String Name of the DataSource
      */
     public String getName()
     {
@@ -44,7 +44,7 @@ public class ByteArrayDataSource
     }
 
     /** Returns the content type of the DataSource
-     * @returns String Content type of the DataSource
+     * @return String Content type of the DataSource
      */
     public String getContentType()
     {
@@ -52,7 +52,7 @@ public class ByteArrayDataSource
     }
 
     /** Returns an InputStream from the DataSource
-     * @returns InputStream Array of bytes converted into an InputStream
+     * @return InputStream Array of bytes converted into an InputStream
      */
     public InputStream getInputStream()
         throws IOException
@@ -61,7 +61,7 @@ public class ByteArrayDataSource
     }
 
     /** Returns an OutputStream from the DataSource
-     * @returns OutputStream Array of bytes converted into an OutputStream
+     * @return OutputStream Array of bytes converted into an OutputStream
      */
     public OutputStream getOutputStream()
         throws IOException

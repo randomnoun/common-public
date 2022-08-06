@@ -39,7 +39,7 @@ import com.randomnoun.common.jexl.eval.*;
  *
  * It's probably worth going into the difference between the two different types of variables.
  * If I have a variable that I know the value of at translation time; e.g. the variable
- * <tt>messageVar</tt> is <tt>MT500</tt>, I can generate standalone SQL that uses this variable:
+ * <code>messageVar</code> is <code>MT500</code>, I can generate standalone SQL that uses this variable:
  *
  * <pre style="code">
  *   // [1] parse the expression into an AST
@@ -65,9 +65,9 @@ import com.randomnoun.common.jexl.eval.*;
  *   String result = (String) generator.visit(expr, context);
  * </pre>
  *
- * <p>The result here being <tt>externalMessageType = 'MT500'</tt>.
+ * <p>The result here being <code>externalMessageType = 'MT500'</code>.
  *
- * <p>If, however, I won't know <tt>messageVar</tt> until execution time, I can still
+ * <p>If, however, I won't know <code>messageVar</code> until execution time, I can still
  * generate the SQL using a PositionalParameter object:
  *
  * <pre style="code">
@@ -81,8 +81,8 @@ import com.randomnoun.common.jexl.eval.*;
  *   String result = (String) generator.visit(expr, context);
  * </pre>
  *
- * The result here being <tt>externalMessageType = ?</tt> instead. The value of the
- * '<tt>?</tt>' in the result is supplied
+ * The result here being <code>externalMessageType = ?</code> instead. The value of the
+ * '<code>?</code>' in the result is supplied
  * by the program at execution time, using standard JDBC positional parameters. But, you're
  * probably thinking, how do I know <i>which</i> positional parameter to use? After all,
  * I could have had more than one PositionalParameter's in the context, and they may
@@ -96,7 +96,7 @@ import com.randomnoun.common.jexl.eval.*;
  * </pre>
  *
  * this will set paramList to a one-element list, containing the String "messageVar"
- * (corresponding to the single '<tt>?</tt>' in the result String). We can
+ * (corresponding to the single '<code>?</code>' in the result String). We can
  * iterate over this list to create the actual parameters to pass into JDBC when running
  * the query.
  *
@@ -164,7 +164,7 @@ import com.randomnoun.common.jexl.eval.*;
  *    context.setVariable("amount", moneyColumn);
  * </pre
  *
- * which will generate SQL of the form <tt>currency = "USD" AND amount &gt; 10000</tt>.
+ * which will generate SQL of the form <code>currency = "USD" AND amount &gt; 10000</code>.
  * (MoneyValueFunction is an EvalFunction which returns a MoneyValue object).
  * -->
  *
@@ -173,8 +173,6 @@ import com.randomnoun.common.jexl.eval.*;
  * string, in YYYYMMDD format. It is treated internally as identical to a VARCHAR
  * column, but allows operations on these columns to be aware that the information
  * being stored in it is a date.
- *
- * <hr/>
  *
  * <p>Other references:
  * <ul>

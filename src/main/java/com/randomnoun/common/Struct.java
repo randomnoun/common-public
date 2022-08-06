@@ -65,7 +65,7 @@ public class Struct {
     private static Map<Class<?>, Map<String,Method>> settersCache;
 
     /** Serialise Date objects using the Microsoft convention for Dates, 
-     * which is a String in the form <tt>"/Date(millisSinceEpoch)/"</tt>
+     * which is a String in the form <code>"/Date(millisSinceEpoch)/"</code>
      */
 	public static final String DATE_FORMAT_MICROSOFT = "microsoft";
 	
@@ -256,7 +256,7 @@ public class Struct {
      *  set implements the Map interface.
      *
      *  <p>e.g. if passed a Map object, and the HttpServletRequest has a parameter named
-     *  "<tt>table[12].id</tt>" with the value "<tt>1234</tt>", then:
+     *  "<code>table[12].id</code>" with the value "<code>1234</code>", then:
      *  <ul><li>a List object named "table" is created
      *  in the Map,
      *  <li>the list is increased to allow at least 12 elements,
@@ -279,7 +279,7 @@ public class Struct {
      *  need more fine-grained control.
      *
      *  <p>You can limit the setters that are invoked by using the
-     *  {@see #setFromRequest(Object, HttpServletRequest, String[])} form of this method.
+     *  {@link #setFromRequest(Object, HttpServletRequest, String[])} form of this method.
      *
      * @param obj The object being set.
      * @param request The request containing the source data
@@ -296,7 +296,7 @@ public class Struct {
      *  to populate the object. If the named parameter does not exist in the request,
      *  then the setter for that parameter is not invoked.
      *
-     *  <p>See {@see #setFromRequest(Object, HttpServletRequest)} for more information
+     *  <p>See {@link #setFromRequest(Object, HttpServletRequest)} for more information
      *  on how this method operates.
      *
      * @param obj The object being set.
@@ -616,10 +616,10 @@ public class Struct {
     /** Return a single value from a structured map. Returns null if the
      *  value does not exist, or if an error occurred retrieving it.
      *
-     * @param map The structure map
+     * @param object The structure map
      * @param key The key of the value we wish to retrieve (e.g. "abc.def[12].ghi")
      *
-     * @result The value
+     * @return The value
      */
     static public Object getValue(Object object, String key) {
         // @TODO (low priority) make this function consistent with setValue()
@@ -642,16 +642,16 @@ public class Struct {
      * 
      * <p>There is a possible denial-of-service attack that can be used against
      * this method which you should probably be aware of, but can't do anything about:
-     * if a large list index is supplied, e.g. "<tt>abc[1293921]</tt>", then a list will be
+     * if a large list index is supplied, e.g. "<code>abc[1293921]</code>", then a list will be
      * generated with this many elements in it. There are workarounds for this, 
      * but none are really satisfactory.
      * 
      * <p>It should also be noted that even if an exception is thrown within this
      * method, the data structure underneath it may still have been modified, e.g.
-     * setting "<tt>abc.def.ghi</tt>" may successfully construct 'def' but later
+     * setting "<code>abc.def.ghi</code>" may successfully construct 'def' but later
      * fail on 'ghi'. 
      * 
-     * @param map The structure map or list
+     * @param object The structure map or list
      * @param key The key of the value we wish to set (e.g. "abc.def[12].ghi"). Note
      *   that map keys are assumed; i.e. they are not enclosed in 'curly braces'.
      * @param value The value to set this to
@@ -675,7 +675,7 @@ public class Struct {
      * <li>An invalid key was supplied (e.g. 'bob[123' -- no closing square bracket)
      * </ul>
      * @throws NumberFormatException if an array index cannot be converted to
-     *   an integer via {@see java.lang.Integer#parseInt(java.lang.String)}.
+     *   an integer via {@link java.lang.Integer#parseInt(java.lang.String)}.
      */
     static public void setValue(Object object, String key, Object value, boolean ignoreMissingSetter, boolean convertStrings, boolean createMissingElements)
         throws NumberFormatException 
@@ -898,7 +898,7 @@ public class Struct {
 
     /** Sets the element at a particular list index to a particular object.
      * This differs from the standard List.set() method inasmuch as the list
-     * is allowed to grow in the case where index>=List.size(). If the list
+     * is allowed to grow in the case where index&gt;=List.size(). If the list
      * needs to grow to accomodate the new element, then null objects are
      * appended until the list is large enough.
      *
@@ -932,7 +932,7 @@ public class Struct {
      * 
      * @param list The list to search.
      * @param keyField The name of the key field.
-     * @param key The key value to search for
+     * @param longValue The key value to search for
      *
      * @return The requested element in the list, or null if the element cannot be found.
      *
@@ -969,7 +969,7 @@ public class Struct {
      *
      * @param list The list to search.
      * @param keyField The name of the key field.
-     * @param key The key value to search for
+     * @param longValue The key value to search for
      *
      * @return The requested element in the list, or null if the element cannot be found.
      *
@@ -1011,7 +1011,7 @@ public class Struct {
      *  ]
      *  </pre>
      *
-     *  <p><tt>getStructuredListItem(list, "systemId", "def")</tt> would return a reference to the
+     *  <p><code>getStructuredListItem(list, "systemId", "def")</code> would return a reference to the
      *  second element in the list, i.e. the Map:
      *
      *  <pre>
@@ -1161,7 +1161,7 @@ public class Struct {
      *  ]
      *  </pre>
      *
-     *  <p><tt>getStructuredListColumn(list, "systemId")</tt> would return a new List with
+     *  <p><code>getStructuredListColumn(list, "systemId")</code> would return a new List with
      *  three elements, i.e.
      *
      *  <pre>
@@ -1226,7 +1226,7 @@ public class Struct {
      *     1: null
      *     2: (WeirdObjectClass) "toString() output of weirdObject"
      *     3 = {
-     *         mapElement => ...,
+     *         mapElement =&gt; ...,
      *         ...
      *       }
      *     4 = [
@@ -1241,7 +1241,7 @@ public class Struct {
      * </pre>
      *
      * Strings are represented as their own values in quotes; null values
-     * are represented with the text <tt>null</tt>, and structured maps
+     * are represented with the text <code>null</code>, and structured maps
      * and structured lists contained within this list are recursed into.
      *
      * @param topLevelName The name to assign to the list in the first row of output
@@ -1296,7 +1296,7 @@ public class Struct {
 	 *     1: null
 	 *     2: (WeirdObjectClass) "toString() output of weirdObject"
 	 *     3 = {
-	 *         mapElement => ...,
+	 *         mapElement =&gt; ...,
 	 *         ...
 	 *       }
 	 *     4 = [
@@ -1311,11 +1311,11 @@ public class Struct {
 	 * </pre>
 	 *
 	 * Strings are represented as their own values in quotes; null values
-	 * are represented with the text <tt>null</tt>, and structured maps
+	 * are represented with the text <code>null</code>, and structured maps
 	 * and structured lists contained within this list are recursed into.
 	 *
 	 * @param topLevelName The name to assign to the list in the first row of output
-	 * @param list         The list we wish to represent as a string
+	 * @param set          The set we wish to represent as a string
 	 * @return             A human-readable version of a structured list
 	 */
 	static public String structuredSetToString(String topLevelName, Set set) {
@@ -1362,11 +1362,11 @@ public class Struct {
      *
      * <pre style="code">
      *   topLevelName = {
-     *     apples => 'stringValue'
-     *     rhinocerouseses => null
-     *     weirdObjectValue => (WeirdObjectClass) "toString() output of weirdObject"
+     *     apples =&gt; 'stringValue'
+     *     rhinocerouseses =&gt; null
+     *     weirdObjectValue =&gt; (WeirdObjectClass) "toString() output of weirdObject"
      *     mapValue = {
-     *         mapElement => ...
+     *         mapElement =&gt; ...
      *         ...
      *       }
      *     listValue = [
@@ -1383,7 +1383,7 @@ public class Struct {
      * Keys within the map are sorted alphabetically before being enumerated.
      *
      * Strings are represented as their own values in quotes; null values
-     * are represented with the text <tt>null</tt>, and structured maps
+     * are represented with the text <code>null</code>, and structured maps
      * and structured lists contained within this list are recursed into.
      *
      * @param topLevelName The name to assign to the list in the first row of output
@@ -1467,7 +1467,7 @@ public class Struct {
 	 *     1: null
 	 *     2: (WeirdObjectClass) "toString() output of weirdObject"
 	 *     3 = {
-	 *         mapElement => ...,
+	 *         mapElement =&gt; ...,
 	 *         ...
 	 *       }
 	 *     4 = [
@@ -1482,7 +1482,7 @@ public class Struct {
 	 * </pre>
 	 *
 	 * Strings are represented as their own values in quotes; null values
-	 * are represented with the text <tt>null</tt>, and structured maps
+	 * are represented with the text <code>null</code>, and structured maps
 	 * and structured lists contained within this list are recursed into.
 	 *
 	 * @param topLevelName The name to assign to the list in the first row of output
@@ -1777,9 +1777,9 @@ public class Struct {
     }
 
 	/**
-     * Converts a java List into javascript, whilst filtering the keys of any Maps to only those in validKeys
+     * Converts a java Map into javascript, whilst filtering the keys of any Maps to only those in validKeys
      *
-     * @param list the list to convert into javascript
+     * @param map the map to convert into javascript
      * @param jsonFormat the jsonFormat
      * @param validKeys 
      *
@@ -1981,12 +1981,12 @@ public class Struct {
      * <p>As there's no real standard for this, a type format is used to define what kind of Dates your 
      * going to get on the Json side.
      * 
-     * @see see http://weblogs.asp.net/bleroy/archive/2008/01/18/dates-and-json.aspx
-     * 
      * @param d a Date object
      * @param jsonFormat either "microsoft" or "numeric"
      * 
      * @return A date in json representation.
+     * 
+     * @see <a href="http://weblogs.asp.net/bleroy/archive/2008/01/18/dates-and-json.aspx">http://weblogs.asp.net/bleroy/archive/2008/01/18/dates-and-json.aspx</a>
      */
     static public String toDate(Date d, String jsonFormat) {
 	   	if (jsonFormat==null || jsonFormat.equals("microsoft")) {

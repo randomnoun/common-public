@@ -12,7 +12,7 @@ package com.randomnoun.common.jexl.sql;
  *  return values which are either POJOs (Integers, Strings, Longs, etc...) which
  *  are <i>evaluated</i> from the AST, or SQL text, which is basically an
  *  opaque string which is generated from what we've seen so far in the AST;
- *  (e.g. "abc > 123 AND def LIKE 'GHI'"). As soon as a POJO is converted into
+ *  (e.g. "abc &gt; 123 AND def LIKE 'GHI'"). As soon as a POJO is converted into
  *  it's SQL form, it is wrappered in this object, so that other visit() nodes
  *  don't accidentally try to evaluate it.
  *

@@ -140,8 +140,8 @@ public class Text {
 
 
     /** Ensures that a string returned from a browser (on any platform) conforms
-     * to unix line-EOF conventions. Any instances of consecutive CRs (<tt>0xD</tt>) 
-     * and LFs (<tt>0xA</tt>) in a string will be reduced to a series of CRs (the number of CRs will be the
+     * to unix line-EOF conventions. Any instances of consecutive CRs (<code>0xD</code>) 
+     * and LFs (<code>0xA</code>) in a string will be reduced to a series of CRs (the number of CRs will be the
      * maximum number of CRs or LFs found in a row).  
      * 
      * @param input the input string
@@ -182,13 +182,13 @@ public class Text {
 
 
     /**
-     * Returns the HTML-escaped form of a string. The <tt>&amp;</tt>,
-     * <tt>&lt;</tt>, <tt>&gt;</tt>, and <tt>"</tt> characters are converted to
-     * <tt>&amp;amp;</tt>, <tt>&amp;lt;<tt>, <tt>&amp;gt;<tt>, and
-     * <tt>&amp;quot;</tt> respectively.
+     * Returns the HTML-escaped form of a string. The <code>&amp;</code>,
+     * <code>&lt;</code>, <code>&gt;</code>, and <code>"</code> characters are converted to
+     * <code>&amp;amp;</code>, <code>&amp;lt;</code>, <code>&amp;gt;</code>, and
+     * <code>&amp;quot;</code> respectively.
      * 
-     * <p>Characters in the unicode control code blocks ( apart from \t, \n and \r ) are converted to &xfffd;
-     * <p>Characters outside of the ASCII printable range are converted into &xnnnn; form
+     * <p>Characters in the unicode control code blocks ( apart from \t, \n and \r ) are converted to &amp;xfffd;
+     * <p>Characters outside of the ASCII printable range are converted into &amp;xnnnn; form
      *
      * @param string the string to convert
      *
@@ -357,18 +357,18 @@ public class Text {
         return string;
     }
 
-    /** Given a csv-encoded string (as produced by the rules in {@see #escapeCsv},
+    /** Given a csv-encoded string (as produced by the rules in {@link #escapeCsv(String)},
      *  produces a List of Strings which represent the individual values in the string.
-     *  Note that this method is *not* equivalent to calling <tt>Arrays.asList(astring.split(","))</tt>.
+     *  Note that this method is *not* equivalent to calling <code>Arrays.asList(astring.split(","))</code>.
      *
      * <p>Setting the whitespaceSensitive parameter to false allows leading and trailing
-     * whitespace in *non-quoted* values to be removed, e.g. if the input string <tt>text</tt> is:
+     * whitespace in *non-quoted* values to be removed, e.g. if the input string <code>text</code> is:
      *
      * <pre class="code">
      * abc,def,  ghi, j k ,"lmn"," op "," q,r","""hello""", "another"
      * </pre>
      *
-     * then <tt>parseCsv(text, <b>false</b>)</tt> will return the strings:
+     * then <code>parseCsv(text, <b>false</b>)</code> will return the strings:
      * <pre class="code">
      * abc
      * def
@@ -381,13 +381,13 @@ public class Text {
      * another
      * </pre>
      *
-     * and <tt>parseCsv(text, <b>true</b>)</tt> would throw a ParseException (since the
+     * and <code>parseCsv(text, <b>true</b>)</code> would throw a ParseException (since the
      * final element is a quoted value, but begins with a space).
      *
-     * If the <tt>, "another"</tt> text is removed, however, then
-     * <tt>parseCsv(text, true)</tt> would return the following:
+     * If the <code>, "another"</code> text is removed, however, then
+     * <code>parseCsv(text, true)</code> would return the following:
      *
-     * and <tt>parseCsv(text, true)</tt> will return the string
+     * and <code>parseCsv(text, true)</code> will return the string
      * <pre>
      * abc
      * def
@@ -403,11 +403,11 @@ public class Text {
      * (a) less chance of a ParseException, and (b) it's what an end-user would normally
      * expect. This can be performed by calling the {@link #parseCsv(String)} method.
      *
-     * <p>Whitespace is determined by using the <tt>Character.isSpaceChar()</tt> method,
+     * <p>Whitespace is determined by using the <code>Character.isSpaceChar()</code> method,
      * which is Unicode-aware.
      *
      * @param text   The CSV-encoded string to parse
-     * @param trim   If set to true, will trim leading and trailing whitespace in *non-quoted* values.
+     * @param whitespaceSensitive   If set to true, will trim leading and trailing whitespace in *non-quoted* values.
      *
      * @return a List of Strings. The returned List is guaranteed to always contain at least one element.
      *
@@ -527,7 +527,7 @@ public class Text {
     }
 
     /**
-     * Equivalent to <tt>parseCsv(text, false);</tt> (i.e. whitespace-insensitive parsing).
+     * Equivalent to <code>parseCsv(text, false);</code> (i.e. whitespace-insensitive parsing).
      * Refer to the documentation for that method for more details.
      *
      * @see #parseCsv(String, boolean)
@@ -537,7 +537,7 @@ public class Text {
      * @return a List of Strings. The returned List is guaranteed to always contain at least one element.
      *
      * @throws NullPointerException if the text passed to this method is null.
-     * @throws ParseException see {@see #parseCsv(String, boolean)} for details.
+     * @throws ParseException see {@link #parseCsv(String, boolean)} for details.
      */
     static public List<String> parseCsv(String text)
         throws ParseException {
@@ -556,8 +556,8 @@ public class Text {
         return Text.replaceString(string, "\"", "\\\"");
     }
 
-    /** Returns a javascript string. The characters <tt>'</tt>,
-     * <tt>"</tt> and <tt>\</tt> are converted into their Unicode equivalents,
+    /** Returns a javascript string. The characters <code>'</code>,
+     * <code>"</code> and <code>\</code> are converted into their Unicode equivalents,
      *
      * <p>Non-printable characters are converted into unicode equivalents
      **
@@ -588,8 +588,8 @@ public class Text {
     }
 
 
-    /** Returns a javascript string. The characters <tt>'</tt>,
-     * <tt>"</tt> and <tt>\</tt> are converted into their Unicode equivalents,
+    /** Returns a javascript string. The characters <code>'</code>,
+     * <code>"</code> and <code>\</code> are converted into their Unicode equivalents,
      *
      * <p>Non-printable characters are converted into unicode equivalents
      *
@@ -623,8 +623,8 @@ public class Text {
 
     /** Returns a python string, escaped so that it can be enclosed in a single-quoted string. 
      * 
-     * <p>The characters <tt>'</tt>,
-     * <tt>"</tt> and <tt>\</tt> are converted into their Unicode equivalents,
+     * <p>The characters <code>'</code>,
+     * <code>"</code> and <code>\</code> are converted into their Unicode equivalents,
      *
      * <p>Non-printable characters are converted into unicode equivalents
      *
@@ -796,7 +796,7 @@ public class Text {
      * 
      * <p>Characters outside of the printable ASCII range are converted to \nnnn form
      *
-     * @param string the string to convert
+     * @param input the string to convert
      *
      * @return the HTML-escaped form of the string
      */
@@ -868,7 +868,7 @@ public class Text {
     }
 
     /** Utility function to return a default if the supplied string is null.
-     *  Shorthand for <tt>(strText==null) ? strDefaultText : strText;</tt>
+     *  Shorthand for <code>(strText==null) ? strDefaultText : strText;</code>
      *
      * @return strText is strText is not null, otherwise strDefaultText
      */
@@ -882,8 +882,6 @@ public class Text {
      * @return delimiter The delimiter to join each string with
      *
      * @throws NullPointerException if elements or delimiter is null
-     *
-     * @see #join(List, String)
      */
     public static String join(String[] elements, String delimiter) {
     	return joinWithLast(elements, false, delimiter, delimiter);
@@ -895,8 +893,6 @@ public class Text {
      * @return delimiter The delimiter to join each string with
      *
      * @throws NullPointerException if elements or delimiter is null
-     *
-     * @see #join(String[], String)
      */
     public static String join(Iterable elements, String delimiter) {
     	return joinWithLast(elements, false, delimiter, delimiter);
@@ -904,7 +900,7 @@ public class Text {
     
     /** Return a string composed of a series of strings, separated with the specified delimiter.
     * Each element is contained in single quotes. The final delimeter can be set to a different
-    * value, to produce text in the form <tt>"'a', 'b' or 'c'"</tt> or <tt>"'a', 'b' and 'c'"</tt>. 
+    * value, to produce text in the form <code>"'a', 'b' or 'c'"</code> or <code>"'a', 'b' and 'c'"</code>. 
     *
     * <p>There is no special handling of values containing quotes; see {@link #escapeCsv(String)} 
     *
@@ -914,8 +910,6 @@ public class Text {
     * @param lastDelimiter The delimiter to join the second-last and last elements
     *
     * @throws NullPointerException if elements or delimiter is null
-    *
-    * @see #join(List, String)
     */
    public static String joinWithLast(String[] elements, boolean isQuoted, String delimiter, String lastDelimiter) {
    	   StringBuilder sb = new StringBuilder();
@@ -1001,10 +995,10 @@ public class Text {
      */
 
     /**
-     * An efficient search & replace routine. Replaces all instances of
+     * An efficient search &amp; replace routine. Replaces all instances of
      * searchString within str with replaceString.
      *
-     * @param str The string to search
+     * @param originalString The string to search
      * @param searchString The string to search for
      * @param replaceString The string to replace it with
      *
@@ -1093,7 +1087,7 @@ public class Text {
     
     /**
      * Prefixes every lines supplied with a given indent. e.g.
-     * <tt>indent("\t", "abcd\nefgh")</tt> would return "\tabcd\n\tefgh". If the
+     * <code>indent("\t", "abcd\nefgh")</code> would return "\tabcd\n\tefgh". If the
      * string ends in a newline, then the return value also ends with a newline.
      *
      * @param indentString   The characters to indent with. Usually spaces or tabs,
@@ -1159,7 +1153,7 @@ public class Text {
      *  <p>If component is null, this function returns null.
      *  <p>If component contains no periods, this function returns the original string.
      *
-     *  @param component The string to retrieve the last component from
+     *  @param string The string to retrieve the last component from
      */
     static public String getLastComponent(String string) {
         if (string == null) {
@@ -1415,7 +1409,6 @@ public class Text {
      *
      * @return <p>A string comparator that uses the current locale's order rules and handles embedded numbers
      *         correctly.</p>
-     * @see #getNaturalComparator(java.text.Collator)
      */
     public static Comparator getNaturalComparator() {
         final Collator collator = Collator.getInstance();
@@ -1831,14 +1824,14 @@ public class Text {
 	 * values will be left as-is.
 	 * 
 	 * <p>For example, gives the set of variables:
-	 * <attributes>
-	 * abc - def
-	 * </attributes>
+	 * <ul>
+	 * <li>abc = def
+	 * </ul>
 	 * 
-	 * <p>then the result of <tt>substituteParameters("xxxx${abc}yyyy${def}zzzz")</tt>
+	 * <p>then the result of <code>substituteParameters("xxxx${abc}yyyy${def}zzzz")</code>
 	 * will be "xxxxdefyyyy${def}zzzz"
 	 * 
-	 * <p><tt>$</tt> followed by any other character will be left as-is. 
+	 * <p><code>$</code> followed by any other character will be left as-is. 
 	 * 
 	 * @param variables a set of variable names and values, used in the substitution 
 	 * @param text the text to be substituted.

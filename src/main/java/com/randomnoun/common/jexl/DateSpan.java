@@ -48,8 +48,8 @@ import com.randomnoun.common.Text;
  *   new DateSpan("2004-11-07", TimeZone.getTimezone("America/New_York"))
  * </pre>
  *
- * <p>Note that if a timezone is not supplied for a 'fixed' time, then any call to {@see #getStartAsDate()}
- * or {@see #getEndAsDate()} will return an IllegalStateException.
+ * <p>Note that if a timezone is not supplied for a 'fixed' time, then any call to {@link #getStartAsDate()}
+ * or {@link #getEndAsDate()} will return an IllegalStateException.
  *
  * <p>This class only supports the 'fixed day span', 'timezoned day span' or 'timezoned timestamp'
  * examples above. Could extend this later on to 'fixed timestamp' values. 

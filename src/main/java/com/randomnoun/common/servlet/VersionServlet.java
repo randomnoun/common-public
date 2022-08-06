@@ -28,7 +28,7 @@ import org.json.JSONObject;
  * 
  * <p>For this to work, the application needs to have been built
  * through maven (and possibly bamboo), and there should be a 
- * <tt>build.properties</tt> file in the application being created, 
+ * <code>build.properties</code> file in the application being created, 
  * with the contents:
  * 
  * <pre>
@@ -60,15 +60,13 @@ import org.json.JSONObject;
     -DuniqueVersion=false 
  * </pre>
  *
- * <hr/>
- * 
- * This script will also look for a build.properties file in /etc/build.properties; 
+ * <p>This script will also look for a build.properties file in /etc/build.properties; 
  * this should exist on docker containers built by bamboo. If this exists, it is also 
  * included in the JSON output under the "/etc/build.properties" key.
  * 
  * 
  * @author knoxg
- * @blog http://www.randomnoun.com/wp/2013/09/24/webapp-versions-v1-0/
+ * @see <a href="http://www.randomnoun.com/wp/2013/09/24/webapp-versions-v1-0/">http://www.randomnoun.com/wp/2013/09/24/webapp-versions-v1-0/</a>
  * 
  */
 @SuppressWarnings("serial")

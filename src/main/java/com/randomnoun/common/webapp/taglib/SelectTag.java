@@ -23,20 +23,20 @@ import com.randomnoun.common.Text;
  * will have already been evaluated by the container before they reach this class.
  *
  * <p>Attributes defined for this tag (in common.tld) are:
- * <attributes>
- * name - the NAME element of the generated SELECT tag.
- * value - the current value of the SELECT tag.
- * data - a reference to a structured list containing both display and value columns,
+ * <ul>
+ * <li> name - the NAME element of the generated SELECT tag.
+ * <li> value - the current value of the SELECT tag.
+ * <li> data - a reference to a structured list containing both display and value columns,
  *   or a list of Strings. An empty list can be forced by setting an empty data attribute.
- * valueColumn - the name of the column in the list to use to populate OPTION values
- * displayColumn - the name of the column in the list to use to populate OPTION display text
+ * <li> valueColumn - the name of the column in the list to use to populate OPTION values
+ * <li> displayColumn - the name of the column in the list to use to populate OPTION display text
  *   (will default to valueColumn if left blank)
- * firstOption - specifies a display value for the first option for a list; this
+ * <li> firstOption - specifies a display value for the first option for a list; this
  *   option corresponds to a null value. Used to generate options like
  *   '(please select...)' at the top of a select box.
- * bundle - the resource bundle used to internationalise display column text
- * bundleFormat - a MessageFormat used to convert a value into a bundle key
- * </attributes>
+ * <li> bundle - the resource bundle used to internationalise display column text
+ * <li> bundleFormat - a MessageFormat used to convert a value into a bundle key
+ * </ul>
  *
  * Only one of 'value' and 'valueFromRequest' can be set.
  *

@@ -3,16 +3,11 @@ package com.randomnoun.common.jexl.eval;
 /* (c) 2013 randomnoun. All Rights Reserved. This work is licensed under a
  * BSD Simplified License. (http://www.randomnoun.com/bsd-simplified.html)
  */
-
-import java.util.*;
-
-import com.randomnoun.common.jexl.eval.EvalException;
-import com.randomnoun.common.jexl.eval.EvalFunction;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Provides variables and functions for an expression to be evaluated with
- *
- * @see EvalTest
  *
  * 
  * @author knoxg

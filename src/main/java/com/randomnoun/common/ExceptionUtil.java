@@ -33,8 +33,7 @@ import org.apache.log4j.Logger;
  * <li>Thread.currentThread().getContextClassLoader()
  * </ul>
  * 
- * @blog http://www.randomnoun.com/wp/2012/12/17/marginally-better-stack-traces/
- * 
+ * @see <a href="http://www.randomnoun.com/wp/2012/12/17/marginally-better-stack-traces/">http://www.randomnoun.com/wp/2012/12/17/marginally-better-stack-traces/</a>
  * @author knoxg
  */
 public class ExceptionUtil {
@@ -87,7 +86,7 @@ public class ExceptionUtil {
      * 
      * <p>Stack trace elements whose classes begin with the specified highlightPrefix
      * are also marked, to allow easier debugging. Highlights used can be text
-     * (which will insert the string "=>" before relevent stack trace elements), or 
+     * (which will insert the string "=&gt;" before relevent stack trace elements), or 
      * HTML (which will render the stack trace element between &lt;b&gt; and &lt;/b&gt; tags.
      * 
      * <p>If HTML highlighting is enabled, then the exception message is also HTML-escaped.
@@ -96,7 +95,7 @@ public class ExceptionUtil {
      * @param loader ClassLoader used to read stack trace element revision information
      * @param highlight One of the HIGHLIGHT_* constants in this class
      * @param highlightPrefix A prefix used to determine which stack trace elements are
-     *   rendered as being 'important'. (e.g. "<tt>com.randomnoun.common.</tt>"). Multiple
+     *   rendered as being 'important'. (e.g. "<code>com.randomnoun.common.</code>"). Multiple
      *   prefixes can be specified, if separated by commas.   
      * 
      * @return string representation of the exception's stack trace
@@ -525,8 +524,6 @@ public class ExceptionUtil {
      * which searches the raw bytecode of the class, rather than using Java reflection.
      * May be a bit more robust.
      * 
-     * @TODO implement this
-     * 
      * @param loader Classloader to use
      * @param className Class to load
      * 
@@ -538,6 +535,7 @@ public class ExceptionUtil {
      * @throws IllegalArgumentException
      * @throws IllegalAccessException
      */
+    /* TODO implement */
     public static String getClassRevision2(ClassLoader loader, String className) 
     	throws ClassNotFoundException, SecurityException, NoSuchFieldException, 
     	IllegalArgumentException, IllegalAccessException 
@@ -615,10 +613,10 @@ public class ExceptionUtil {
     }
 
     /**
-     * Returns the HTML-escaped form of a string. Any <tt>&amp;</tt>,
-     * <tt>&lt;</tt>, <tt>&gt;</tt>, and <tt>"</tt> characters are converted to
-     * <tt>&amp;amp;</tt>, <tt>&amp;lt;<tt>, <tt>&amp;gt;<tt>, and
-     * <tt>&amp;quot;</tt> respectively.
+     * Returns the HTML-escaped form of a string. Any <code>&amp;</code>,
+     * <code>&lt;</code>, <code>&gt;</code>, and <code>"</code> characters are converted to
+     * <code>&amp;amp;</code>, <code>&amp;lt;</code>, <code>&amp;gt;</code>, and
+     * <code>&amp;quot;</code> respectively.
      *
      * @param string the string to convert
      *

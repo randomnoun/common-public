@@ -16,22 +16,20 @@ import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import com.randomnoun.common.XmlUtil;
 import com.sun.jna.Native;
 import com.sun.jna.Pointer;
-import com.sun.jna.platform.win32.WinUser;
 import com.sun.jna.platform.win32.WinDef.DWORD;
 import com.sun.jna.platform.win32.WinDef.HWND;
+import com.sun.jna.platform.win32.WinUser;
 import com.sun.jna.platform.win32.WinUser.WNDENUMPROC;
 import com.sun.jna.win32.StdCallLibrary;
 import com.sun.jna.win32.W32APIOptions;
 
-import com.randomnoun.common.XmlUtil;
-
 /** A class to convert the Win32 windows tree into a DOM object
  * 
- * @blog http://www.randomnoun.com/wp/2012/12/26/automating-windows-from-java-and-windowtreedom/
+ * @see <a href="http://www.randomnoun.com/wp/2012/12/26/automating-windows-from-java-and-windowtreedom/">http://www.randomnoun.com/wp/2012/12/26/automating-windows-from-java-and-windowtreedom/</a>
  * @author knoxg
- * 
  */
 public class WindowTreeDom {
 

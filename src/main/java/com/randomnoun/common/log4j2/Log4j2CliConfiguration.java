@@ -32,11 +32,9 @@ log4j.logger.org.springframework=INFO
  * 
  * <p>with an optional line prefix before the <code>%d{ABSOLUTE}</code> in the ConversionPattern.
  * 
- * @see http://logging.apache.org/log4j/1.2/manual.html
- * 
- * @blog http://www.randomnoun.com/wp/2013/01/13/logging/
+ * @see <a href="http://logging.apache.org/log4j/1.2/manual.html">http://logging.apache.org/log4j/1.2/manual.html</a>
+ * @see <a href="http://www.randomnoun.com/wp/2013/01/13/logging/">http://www.randomnoun.com/wp/2013/01/13/logging/</a>
  * @author knoxg
- * 
  */
 public class Log4j2CliConfiguration {
     

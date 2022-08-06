@@ -33,7 +33,7 @@ import org.apache.logging.log4j.core.config.plugins.PluginFactory;
  * which limits the number of logging events captured by this class (old events
  * are popped off the list when the list becomes full).
  * 
- * <p>Use the {@link #getLoggingEvents()} to return the List of events written
+ * <p>Use the {@link #getLogEvents()} to return the List of events written
  * to this class. This list is a <b>copy</b> of the list contained within this class,
  * so it can safely be iterated over even if logging events are still
  * occurring in an application.
@@ -52,8 +52,7 @@ import org.apache.logging.log4j.core.config.plugins.PluginFactory;
  * List events = memoryAppender.getEvents();
  * </pre>
  *
- * @blog http://www.randomnoun.com/wp/2013/01/13/logging/
- * 
+ * @see <a href="http://www.randomnoun.com/wp/2013/01/13/logging/">http://www.randomnoun.com/wp/2013/01/13/logging/</a>
  * @author knoxg
  */
 @Plugin(name = MemoryAppender.PLUGIN_NAME, category = Core.CATEGORY_NAME, elementType = Appender.ELEMENT_TYPE, printObject = true)

@@ -35,6 +35,7 @@ import org.apache.log4j.Logger;
  * <p>The following command-line arguments are recognised 
  *
 <table>
+<caption>Usage</caption>
 <tr><th> -h -?     <td>displays this helptext
 <tr><th> -f        <td>follow symlinks
 <tr><th> -a        <td>show all resources found (i.e. do not use searchTerm)
@@ -64,19 +65,16 @@ import org.apache.log4j.Logger;
 </table>
 
  * 
- * @TODO split CLI functionality into separate class
- * @TODO pass enough information to the callback classes to display somewhat sane progress bar 
- * @TODO fix -dj switch + handle inner classes
- * @TODO rewrite jad to deal with annotations and other 1.5+ crap
- * @TODO -cs switches to change search behaviour within content
+ * <p><b>TODO</b> split CLI functionality into separate class
+ * <p><b>TODO</b> pass enough information to the callback classes to display somewhat sane progress bar 
+ * <p><b>TODO</b> fix -dj switch + handle inner classes
+ * <p><b>TODO</b> rewrite jad to deal with annotations and other 1.5+ crap
+ * <p><b>TODO</b> -cs switches to change search behaviour within content
  * 
  * @author knoxg
  * 
  */
 public class ResourceFinder {
-
-	/** CVS revision identifier */
-	
 
 	/** Logger instance for this class */
 	Logger logger = Logger.getLogger(ResourceFinder.class);
@@ -296,7 +294,7 @@ public class ResourceFinder {
 
 		/** This method is only invoked for archive resources, before that archive has been read or
 		 * recursed into. Both archives and standard files will be passed to the 
-		 * {@link #postProcess(String, long, long, InputStream)} method.  
+		 * {@link #postProcess(String, long, long, InputStream, ResourceFinderCallbackResult)} method.  
 		 * 
 		 * @param resourceName full resource name
 		 * @param filesize the size of the (uncompressed) resource, or -1 if this is unknown
@@ -326,7 +324,7 @@ public class ResourceFinder {
 		 * 
 		 * @return a ResourceFinderCallbackResult which can be used to abort the search
 		 * 
-		 * @throws IOException if an operation on the <tt>inputStream</tt> fails 
+		 * @throws IOException if an operation on the <code>inputStream</code> fails 
 		 */
 		public ResourceFinderCallbackResult postProcess(String resourceName, long filesize, long timestamp, 
 			InputStream inputStream, ResourceFinderCallbackResult preProcessResult) throws IOException;
@@ -670,7 +668,7 @@ public class ResourceFinder {
 	 * @param searchTerm resource being searched for
 	 * @param matchType a MATCHTYPE_* constant denoting how the searchTerm is to be used to match against resource names
 	 * @param ignoreCase if true, will perform a case insensitive search 
-	 * @param startDirectory directory from which search begins
+	 * @param startInputStream stream from which search begins
 	 * @param callback callback to be invoked on every resource that matches the search criteria 
 	 * 
 	 * @throws IOException if the start directory is invalid
@@ -683,9 +681,7 @@ public class ResourceFinder {
 	/** Searches and returns a list of resources matching the criteria defined
 	 * in the constructor
 	 * 
-	 * @TODO the list returned by this object probably isn't accurate.
-	 * 
-	 * @return a List of Strings, in the syntax defined by the class javadoc
+	 * <p><b>TODO</b> the list returned by this object probably isn't accurate.
 	 * 
 	 * @throws IOException
 	 */
@@ -774,8 +770,6 @@ public class ResourceFinder {
 	 * @param prefix a prefix which is included in any results returned by this
 	 *   method
 	 * 
-	 * @return a List of Strings, in the syntax defined in the class javadoc
-	 * 
 	 * @throws IOException 
 	 */
 	public void findResourceInFolder(File folder, String prefix) throws IOException  {
@@ -858,8 +852,6 @@ public class ResourceFinder {
 	 * @param prefix a prefix which is included in any results returned by this
 	 *   method. By convention, this prefix should end with a '#' to separate it
 	 *   from resources found within the resource.
-	 * 
-	 * @return a List of Strings, in the syntax defined in the class javadoc
 	 * 
 	 * @throws IOException 
 	 */
@@ -1040,7 +1032,7 @@ public class ResourceFinder {
 	 * <li>-1 = infinite; i.e. will not perform depth checking 
 	 * </ul>
 	 * 
-	 * @param depth maximum depth (-1=no limit, 0=will not recursive into JARs/WARs etc..)
+	 * @param maxArchiveDepth maximum depth (-1=no limit, 0=will not recursive into JARs/WARs etc..)
 	 */
 	public void setMaxArchiveDepth(long maxArchiveDepth) {
 		this.maxArchiveDepth = maxArchiveDepth;
@@ -1058,7 +1050,7 @@ public class ResourceFinder {
 	 * <li>-1 = infinite; i.e. will not perform folder depth checking 
 	 * </ul>
 	 * 
-	 * @param depth maximum depth (-1=no limit, 0=will not recurse into folders)
+	 * @param maxFolderDepth maximum depth (-1=no limit, 0=will not recurse into folders)
 	 */
 	public void setMaxFolderDepth(long maxFolderDepth) {
 		this.maxFolderDepth = maxFolderDepth;

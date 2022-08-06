@@ -16,11 +16,11 @@ import javax.servlet.http.HttpServletRequest;
  * categorisation of the error and the longer description describes what has happened and
  * how to fix the problem; (e.g. shortText="Missing field", 
  * longText="The field 'id' is mandatory. Please enter a value for this field."). The short
- * description is normally rendered by <tt>errorHeader.jsp</tt> in bold before the long
+ * description is normally rendered by <code>errorHeader.jsp</code> in bold before the long
  * description. An individual error also may contain a list of fields that it applies to
  * (e.g. a 'mandatory inclusive' error may apply to several fields at once), and a
  * severity (normally set to {@link #SEVERITY_INVALID}. Errors are displayed by the
- * <tt>errorHeader.jsp</tt> JSP, which is typically included at the top of any page
+ * <code>errorHeader.jsp</code> JSP, which is typically included at the top of any page
  * that contains an input form. An error without a severity supplied is assumed to be 
  * of SEVERITY_INVALID, and an error without any fields supplied is assumed to be
  * associated with the entire form, rather than a specific set of fields.
@@ -124,7 +124,7 @@ public class ErrorList extends ArrayList<ErrorList.ErrorData>
             return (String)get("longText");
         }
 
-        /** Retrieves the description for this error, with newlines converted to <br/>s. 
+        /** Retrieves the description for this error, with newlines converted to &lt;br/&gt;s. 
          *   When displaying with &lt;c:out&gt;, set the escapeXml attribute to false
          *   
          *  @return   the description for this error
@@ -206,7 +206,7 @@ public class ErrorList extends ArrayList<ErrorList.ErrorData>
     }
 
     /**
-     * As per {@link #addError(String, int, String, String, int)}, with a default
+     * As per {@link #addError(String, String, String, int)}, with a default
      * severity of {@link #SEVERITY_ERROR}.
      *
      * @param errorField  a comma-separated list of field names that caused this error
@@ -316,7 +316,7 @@ public class ErrorList extends ArrayList<ErrorList.ErrorData>
     /**
      * Returns true if there are any errors in this object
      *
-     * @return True if the number of errors > 0
+     * @return True if the number of errors &gt; 0
      */
     public boolean hasErrors()
     {
@@ -328,7 +328,7 @@ public class ErrorList extends ArrayList<ErrorList.ErrorData>
      *
      * @param severity a SEVERITY_* constant
      *
-     * @return True if the number of errors at the specified severity or higher > 0
+     * @return True if the number of errors at the specified severity or higher &gt; 0
      */
     public boolean hasErrors(int severity)
     {

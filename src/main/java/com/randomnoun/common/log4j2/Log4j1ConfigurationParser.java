@@ -73,12 +73,11 @@ import org.apache.logging.log4j.util.Strings;
  * <p>To use, run the following:
  * <pre>
 Log4j1ConfigurationParser lcp = new Log4j1ConfigurationParser();
-ConfigurationBuilder<?> builder = lcp.buildConfigurationBuilder(props);
+ConfigurationBuilder&lt;?&gt; builder = lcp.buildConfigurationBuilder(props);
 Configuration config = builder.build();
 Configurator.reconfigure(config); 
  * </pre>
  *
- * <hr/>
  * Original comment block:
  * 
  * Experimental parser for Log4j 1.2 properties configuration files.

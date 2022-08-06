@@ -130,7 +130,7 @@ public class CamelCaser {
     /** Renames all the objects in a list. Any Maps or Lists contained with the List
      * will be recursed into.
      *
-     * @param map The list containing maps to rename.
+     * @param list The list containing maps to rename.
      */
     @SuppressWarnings("unchecked")
 	public void renameList(List<? extends Object> list) {

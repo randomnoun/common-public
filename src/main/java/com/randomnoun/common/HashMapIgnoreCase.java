@@ -44,10 +44,10 @@ public class HashMapIgnoreCase<K, V> extends HashMap<String, V> {
 	 * @param key key with which the specified value is to be associated.
 	 * @param value value to be associated with the specified key.
 	 * 
-	 * @return previous value associated with specified key, or <tt>null</tt>
-	 *	       if there was no mapping for key.  A <tt>null</tt> return can
+	 * @return previous value associated with specified key, or <code>null</code>
+	 *	       if there was no mapping for key.  A <code>null</code> return can
 	 *	       also indicate that the HashMap previously associated
-	 *	       <tt>null</tt> with the specified key.
+	 *	       <code>null</code> with the specified key.
 	 *
 	 * @throws IllegalArgumentException if the key parameter is not a String
 	 */
@@ -73,8 +73,8 @@ public class HashMapIgnoreCase<K, V> extends HashMap<String, V> {
 	
 	/** Returns true if this map contains a mapping for the specified key. 
 	 * More formally, returns true if and only if this map contains at 
-	 * a mapping for a key <tt>k</tt> such that 
-	 * (<tt>key==null ? k==null : key.equals(k)</tt>). (There can be at 
+	 * a mapping for a key <code>k</code> such that 
+	 * (<code>key==null ? k==null : key.equals(k)</code>). (There can be at 
 	 * most one such mapping.)
 	 *  
 	 * @param key key whose presence in this map is to be tested. 
@@ -95,9 +95,9 @@ public class HashMapIgnoreCase<K, V> extends HashMap<String, V> {
 	 * Removes the mapping for this key from this map if present.
 	 *
 	 * @param  key key whose mapping is to be removed from the map.
-	 * @return previous value associated with specified key, or <tt>null</tt>
-	 *	       if there was no mapping for key.  A <tt>null</tt> return can
-	 *	       also indicate that the map previously associated <tt>null</tt>
+	 * @return previous value associated with specified key, or <code>null</code>
+	 *	       if there was no mapping for key.  A <code>null</code> return can
+	 *	       also indicate that the map previously associated <code>null</code>
 	 *	       with the specified key.
 	 */
 	@Override

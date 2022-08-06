@@ -21,10 +21,6 @@ import com.randomnoun.common.security.impl.NullSecurityLoaderImpl;
  * <p>All methods do nothing or return empty lists, 
  * and searches for user or role IDs return -1.
  * 
- * <attributes>
- * </attributes>
- * 
- * 
  * @author knoxg
  */ 
 public class NullSecurityLoaderImpl implements SecurityLoader

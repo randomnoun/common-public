@@ -42,27 +42,27 @@ import com.randomnoun.common.Struct;
  * <pre class="code">
              List result1 = jt.queryForList(sql);
              System.out.println(Text.structuredListToString("result1", result1));
-             </pre>
+   </pre>
              (with the SQL above) would produce this output (a three-element list):
  * <pre class="code">
               result1 = [
                 0 = {
-                  COWGROUPID => 1
-                  COWGROUPNAME => 'ROLLINGFIELD7'
-                  COWID => 1000
-                  COWNAME => 'DAISY'
+                  COWGROUPID =&gt; 1
+                  COWGROUPNAME =&gt; 'ROLLINGFIELD7'
+                  COWID =&gt; 1000
+                  COWNAME =&gt; 'DAISY'
                 }
                 1 = {
-                  COWGROUPID => 2
-                  COWGROUPNAME => 'SLAUGHTERHOUSE5'
-                  COWID => 1001
-                  COWNAME => 'BUTTERCUP'
+                  COWGROUPID =&gt; 2
+                  COWGROUPNAME =&gt; 'SLAUGHTERHOUSE5'
+                  COWID =&gt; 1001
+                  COWNAME =&gt; 'BUTTERCUP'
                 }
                 2 = {
-                  COWGROUPID => 2
-                  COWGROUPNAME => 'SLAUGHTERHOUSE5'
-                  COWID => 1002
-                  COWNAME => 'STEVE'
+                  COWGROUPID =&gt; 2
+                  COWGROUPNAME =&gt; 'SLAUGHTERHOUSE5'
+                  COWID =&gt; 1002
+                  COWNAME =&gt; 'STEVE'
                 }
               ]
               </pre>
@@ -85,26 +85,26 @@ import com.randomnoun.common.Struct;
              <pre style="code">
               result2 = [
                 0 = {
-                  cowGroupName => 'ROLLINGFIELD7'
-                  cowGroupId => 2
+                  cowGroupName =&gt; 'ROLLINGFIELD7'
+                  cowGroupId =&gt; 2
                   cows = [
                     0 = {
-                      cowId => 1000
-                      cowName => 'DAISY'
+                      cowId =&gt; 1000
+                      cowName =&gt; 'DAISY'
                     }
                   ]
                 }
                 1 = {
-                  cowGroupName => 'SLAUGHTERHOUSE5'
-                  cowGroupId => 1
+                  cowGroupName =&gt; 'SLAUGHTERHOUSE5'
+                  cowGroupId =&gt; 1
                   cows = [
                     0 = {
-                      cowId => 1001
-                      cowName => 'BUTTERCUP'
+                      cowId =&gt; 1001
+                      cowName =&gt; 'BUTTERCUP'
                     }
                     1 = {
-                      cowId => 1002
-                      cowName => 'STEVE'
+                      cowId =&gt; 1002
+                      cowName =&gt; 'STEVE'
                     }
                   ]
                 }
@@ -115,7 +115,7 @@ import com.randomnoun.common.Struct;
  * JSTL, e.g.
  *
  * <pre class="code">
- *   &lt;c:out value="${result2[0].cows[1].cowName}"/>
+ *   &lt;c:out value="${result2[0].cows[1].cowName}"/&gt;
  * </pre>
  *
  * would generate the text "STEVE".

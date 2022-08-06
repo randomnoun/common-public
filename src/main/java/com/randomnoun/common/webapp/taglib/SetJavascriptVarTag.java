@@ -19,10 +19,10 @@ import com.randomnoun.common.Text;
  * converted into the javascript equivalent.
  *
  * <p>Attributes defined for this tag (in common.tld) are:
- * <attributes>
- *   name - the name of the javascript variable to define
- *   value - the value of the javascript variable.
- * </attributes>
+ * <ul>
+ * <li>name - the name of the javascript variable to define
+ * <li>value - the value of the javascript variable.
+ * </ul>
  *
  * <p>Both name and value may contain EL-style expressions.
  *
@@ -32,12 +32,12 @@ import com.randomnoun.common.Text;
  *
              <pre class="code">
              var columns = new Array();
-             &lt;c:forEach var="i" varStatus="rowStatus" items="${columns}" >
-               columns[&lt;c:out value='${rowStatus.index}'/>] = {
-                 visible: &lt;c:out value='${i.visible}'/>,
-                 name: "&lt;c:out value='${i.name}'/>",
-                 width: &lt;c:out value='${i.width}'/> };
-             &lt;/c:forEach>
+             &lt;c:forEach var="i" varStatus="rowStatus" items="${columns}" &gt;
+               columns[&lt;c:out value='${rowStatus.index}'/&gt;] = {
+                 visible: &lt;c:out value='${i.visible}'/&gt;,
+                 name: "&lt;c:out value='${i.name}'/&gt;",
+                 width: &lt;c:out value='${i.width}'/&gt; };
+             &lt;/c:forEach&gt;
              </pre>
  *
  * <p>... which produces output of the form:

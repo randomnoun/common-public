@@ -41,27 +41,12 @@ import com.randomnoun.common.spring.StringRowMapper;
  * to this class (in addition to those initialisation properties that are
  * set by the SecurityContext itself):
  *
- * <attributes>
- * {@link #INIT_JDBCTEMPLATE} - The Spring JdbcTemplate class used to retrieve
+ * <ul>
+ * <li> {@link #INIT_JDBCTEMPLATE} - The Spring JdbcTemplate class used to retrieve
  *   information from a database.
- * {@link #INIT_USERNAME_MASK} - Used to mangle usernames before they are looked
- *   up in an LDAP repository. A mask does a simple text replacment, with the
- *   text "<tt>{username}</tt>" being replaced by the real username being passed
- *   to the authenticate method. <i>e.g.</i> a username mask of
- *   "{username}@abc.com" will convert the username "bob" to "bob@abc.com"
- *   before authentication is performed.
- * {@link #INIT_TABLE_SUFFIX} - A String appended to each table used in queries
- *   against the database. Used to separate the 'LIVE' area from the 'WORK' staging
- *   area.
- * {@link #INIT_DATABASE_VENDOR} - Set to one of the SqlGenerator.DATABASE_* constants,
+ * <li> {@link #INIT_DATABASE_VENDOR} - Set to one of the SqlGenerator.DATABASE_* constants,
  *   which specifies what syntax of SQL to use (DB2, Oracle or SqlServer).
- * {@link #INIT_AUDIT_ENABLED} - (Boolean) If false, then disables auditting security changes
- * </attributes>
- * 
- * @TODO this class does not internationalise text added to the audit log
- *   (it should be in a form that can be parsed and internationalised depending on the
- *   user viewing it).
- *
+ * </ul>
  * 
  * @author knoxg
  */
@@ -69,8 +54,6 @@ public class SpringSecurityLoaderImpl
 	implements SecurityLoader
 {
 	
-	
-    
 	/** Logger for this class */
 	public static final Logger logger = Logger.getLogger(SpringSecurityLoaderImpl.class);
 

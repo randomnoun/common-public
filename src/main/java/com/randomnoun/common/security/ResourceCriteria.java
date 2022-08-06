@@ -9,7 +9,7 @@ import java.util.*;
 
 /**
  * A criteria than can be used to evaluate fine-grained resources. (e.g.
- * an 'account' resource where account.balance > 1000). This class should be
+ * an 'account' resource where account.balance &gt; 1000). This class should be
  * subclassed by security implementations that wish to perform access control
  * over fine-grained resources.
  *

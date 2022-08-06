@@ -3,18 +3,22 @@ package com.randomnoun.common;
 /* (c) 2013 randomnoun. All Rights Reserved. This work is licensed under a
  * BSD Simplified License. (http://www.randomnoun.com/bsd-simplified.html)
  */
-
-import java.io.*;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.LineNumberReader;
+import java.io.Reader;
 import java.text.ParseException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Properties;
+import java.util.StringTokenizer;
 
 import org.apache.log4j.Logger;
-
-import com.randomnoun.common.Struct;
-import com.randomnoun.common.PropertyParser;
-
-
 
 /**
  * The PropertyParser class parses a property definition text file into
@@ -24,20 +28,20 @@ import com.randomnoun.common.PropertyParser;
  * sections can be marked off for particular regions (e.g. properties
  * that only take effect in development, or when run on certain machines).
  * The current region
- * is specified by the <tt>com.randomnoun.common.mode</tt> system property
+ * is specified by the <code>com.randomnoun.common.mode</code> system property
  * set on the VM commandline. If this system property is not set,
- * the region defaults to the value "<tt>localhost-dev-unknown</tt>".
+ * the region defaults to the value "<code>localhost-dev-unknown</code>".
  * An alternate constructor exists if you
  * wish to specify the region manually.
  *
  * <p>Environments are specified in '<i>machine-release-subsystem</i>'
  * format, with each segment set as follows:
- * <attributes>
- * machine - the hostname of the system (in lowercase)
- * release - the development phase of the system (either set to <tt>dev</tt>,
- *   <tt>xpt</tt>, <tt>prd</tt> for development, acceptance or production
- * subsystem - the subsystem that this VM represents. 
- * </attributes>
+ * <ul>
+ * <li>machine - the hostname of the system (in lowercase)
+ * <li>release - the development phase of the system (either set to <code>dev</code>,
+ *   <code>xpt</code>, <code>prd</code> for development, acceptance or production
+ * <li>subsystem - the subsystem that this VM represents. 
+ * </ul>
  *
  * <p>Properties are specified in the standard "propertyName=propertyValue" method.
  * Whitespace is removed from either side of the '=' character. New-lines
@@ -72,12 +76,12 @@ import com.randomnoun.common.PropertyParser;
  *   ENV *-prd-* property4=this property only visible in production
  * </pre>
  *
- * <p>As shown above, the '<tt>*</tt>' character can be used to specify a property
+ * <p>As shown above, the '<code>*</code>' character can be used to specify a property
  * across multiple regions. The keywords 'STARTENVIRONMENT', 'ENDENVIRONMENT' and
  * 'ENV' are case-insensitive
  * 
  * <p>You can now also specify environments based on the values of previously-defined
- * properties; this allows a simple <tt>#ifdef</tt> style facility. There are 
+ * properties; this allows a simple <code>#ifdef</code> style facility. There are 
  * two types of syntax, which use regex matching or simple string matching; e.g.
  * 
  * <pre style="code">
@@ -95,7 +99,7 @@ import com.randomnoun.common.PropertyParser;
  * <p>Property files can contain any number of blank lines, or comments (lines
  * starting with the '#' character), which will be ignored by the parser.
  *
- * <p>Any occurences of the string "<tt>\n</tt>" in a property value will be
+ * <p>Any occurences of the string "<code>\n</code>" in a property value will be
  * replaced by a newline character.
  *
  * <p>A property make also contain a List, rather than a string, by including the
@@ -529,33 +533,33 @@ public class PropertyParser {
      * returning those key/value pairs whose keys begin with a set prefix. e.g.
      * if 'a' contains the properties
      *
-     * <attributes>
+     * <pre>
      *   customer.1.name=fish
      *   customer.1.description=Patagonian toothfish
      *   customer.2.name=hunter
      *   customer.2.description=Patagonian toothfish hunter
      *   customer.11.name=spear
      *   customer.11.description=Patagonian toothfish hunter's spear
-     * </attributes>
+     * </pre>
      *
      * <p>then calling <code>restrict(a, "customer.1", false)</code> will return:
      *
-     * <attributes>
+     * <pre>
      *   customer.1.name=fish
      *   customer.1.description=Patagonian toothfish
-     * </attributes>
+     * </pre>
      *
      * <p>setting the 'removePrefix' to true will remove the initial prefix from
      * the returned property list; <code>restrict(a, "customer.1", true)</code> in
      * this case will then return:
      *
-     * <attributes>
+     * <pre>
      *   name=fish
      *   description=Patagonian toothfish
-     * </attributes>
+     * </pre>
      *
      * <p>Note that the prefix passed in to this method has no trailing period,
-     * but each property must contain that period (to prevent <tt>customer.11</tt>
+     * but each property must contain that period (to prevent <code>customer.11</code>
      * from being returned in the example above).
      *
      * <p>If 'properties' is set to null, then this method will return null.

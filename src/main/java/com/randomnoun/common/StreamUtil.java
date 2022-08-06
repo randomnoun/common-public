@@ -25,9 +25,10 @@ public class StreamUtil {
     /** Copies the data from an inputStream to an outputstream (used to mimic
      *  pipes).
      *
-     *  @param id The id of this stream (used when debugging)
      *  @param input The stream to retrieve information from
      *  @param output The stream to send data to
+     *  @param bufSize buffer size in bytes
+     *  
      * @throws IOException
      */
     public static void copyStream(InputStream input, OutputStream output, int bufSize)
@@ -74,9 +75,9 @@ public class StreamUtil {
      *  inputstream to an outputstream. The thread will complete when the
      *  inputStream returns EOF.
      *
-     *  @param id The id of this stream (used when debugging)
      *  @param input The stream to retrieve information from
      *  @param output The stream to send data to
+     *  @param bufSize buffer size in bytes
      */
     public static Thread copyThread(InputStream input, OutputStream output, int bufSize) {
         // not terribly sure why variables accessed from within anonymous classes
@@ -107,7 +108,7 @@ public class StreamUtil {
      * @param input The input stream to scan
      * @param searchText The text we are searching for
      * 
-     * @throws IOExcpetion if an IO Exception occurs reading the stream
+     * @throws IOException if an IO Exception occurs reading the stream
      */    
     public static int indexOf(InputStream input, String searchText) throws IOException {
         int bytesRead = 0;
@@ -166,9 +167,9 @@ public class StreamUtil {
      *  inputstream to an outputstream. The thread will complete when the
      *  inputStream returns EOF. The output stream will also be closed.
      *
-     *  @param id The id of this stream (used when debugging)
      *  @param input The stream to retrieve information from
      *  @param output The stream to send data to
+     *  @param bufSize buffer size in bytes
      */
     public static Thread copyAndCloseThread(InputStream input, OutputStream output, int bufSize) {
         // not terribly sure why variables accessed from within anonymous classes

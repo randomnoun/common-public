@@ -18,8 +18,8 @@ import java.util.*;
  * <p>In addition, each thread is supplied with a stack context which allows multiple EJBs
  * to run in the same thread (e.g. if one EJB invokes another local EJB which then
  * executes within the same thread). To ensure separation of data, each EJB
- * should invoke {@link #ThreadContext.push()} to create its own context as soon as
- * it is invoked, and call {@link #ThreadContext.pop()} before it terminates to
+ * should invoke {@link #push()} to create its own context as soon as
+ * it is invoked, and call {@link #pop()} before it terminates to
  * maintain the per-thread data stack. (i.e. the invoked method, not the method caller is
  * responsible for maintaining data integrity).
  *
@@ -67,7 +67,7 @@ public class ThreadContext
 
     /** Create a new context for this thread.
      *
-     *  @returns The global map for the newly created context.
+     *  @return The global map for the newly created context.
      **/
     public static Map<Object, Object> push()
     {
@@ -238,7 +238,7 @@ public class ThreadContext
     }
 
     /**
-     * As per {@link java.util.Map#isEmpty(java.lang.Object)} for the current thread's context
+     * As per {@link java.util.Map#isEmpty()} for the current thread's context
      *
      * @return true if this map contains no key-value mappings
      *
@@ -251,7 +251,7 @@ public class ThreadContext
     }
 
     /**
-     * As per {@link java.util.Map#keySet(java.lang.Object)} for the current thread's context
+     * As per {@link java.util.Map#keySet()} for the current thread's context
      *
      * @return a set view of the keys contained in this map
      *

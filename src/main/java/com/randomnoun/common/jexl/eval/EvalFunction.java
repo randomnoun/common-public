@@ -16,7 +16,7 @@ import org.apache.log4j.Logger;
  * functions.
  *
  * <pre>
-    Map<String, EvalFunction> functions = new HashMap();
+    Map&lt;String, EvalFunction&gt; functions = new HashMap();
     functions.put("length", new LengthFunction());
     functions.put("like", new LikeFunction());
     EvalContext evalContext = new EvalContext();
