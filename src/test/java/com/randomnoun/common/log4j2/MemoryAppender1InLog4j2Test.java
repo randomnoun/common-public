@@ -1,25 +1,6 @@
 package com.randomnoun.common.log4j2;
 
-/* (c) 2013 randomnoun. All Rights Reserved. This work is licensed under a
- * BSD Simplified License. (http://www.randomnoun.com/bsd-simplified.html)
- */
-
-import java.util.List;
-import java.util.Properties;
-
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
-import org.apache.log4j.spi.LoggingEvent;
-
-import com.randomnoun.common.log4j.MemoryAppender;
-
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.core.LoggerContext;
-import org.apache.logging.log4j.core.config.AppenderRef;
-import org.apache.logging.log4j.core.config.Configuration;
-import org.apache.logging.log4j.core.config.Configurator;
-import org.apache.logging.log4j.core.config.LoggerConfig;
-import org.apache.logging.log4j.core.config.builder.api.ConfigurationBuilder;
 
 import junit.framework.TestCase;
 
