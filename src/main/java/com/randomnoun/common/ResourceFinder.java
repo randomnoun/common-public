@@ -892,6 +892,7 @@ public class ResourceFinder {
 		while (zipEntry != null) {
 			String name = zipEntry.getName();
 			String shortName = name;
+			// zipEntry.isDirectory(); // write these at the end ? skip them altogether ?
 
 			// on unix, it's possible to get directory entries (trailing '/'s) within ZIPs; on windows this doesn't seem to happen
 			while (shortName.endsWith("/")) { shortName = shortName.substring(0, shortName.length() - 1); }

@@ -10,8 +10,13 @@ package com.randomnoun.common.jexl.parser;
 import java.io.*;
 
 /**
- * Grammar to parse expressions 
+ * Grammar to parse expressions
+ * 
  * Based on java1.5.jj at https://javacc.dev.java.net/servlets/ProjectDocumentList?folderID=110
+ * which doesn't exist any more, but there's some old content at 
+ *   https://web.archive.org/web/20120929013920/http://java.net/projects/javacc/downloads/directory/contrib/grammars
+ * and compare against the behemoth that that's turned into at
+ *   https://github.com/javaparser/javaparser/blob/master/javaparser-core/src/main/javacc/java.jj
  */
 public class ExpressionParser
 {
