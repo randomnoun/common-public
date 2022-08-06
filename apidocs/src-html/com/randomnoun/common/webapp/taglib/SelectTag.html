@@ -32,20 +32,20 @@
 <span class="sourceLineNo">023</span><a id="line.23"> * will have already been evaluated by the container before they reach this class.</a>
 <span class="sourceLineNo">024</span><a id="line.24"> *</a>
 <span class="sourceLineNo">025</span><a id="line.25"> * &lt;p&gt;Attributes defined for this tag (in common.tld) are:</a>
-<span class="sourceLineNo">026</span><a id="line.26"> * &lt;attributes&gt;</a>
-<span class="sourceLineNo">027</span><a id="line.27"> * name - the NAME element of the generated SELECT tag.</a>
-<span class="sourceLineNo">028</span><a id="line.28"> * value - the current value of the SELECT tag.</a>
-<span class="sourceLineNo">029</span><a id="line.29"> * data - a reference to a structured list containing both display and value columns,</a>
+<span class="sourceLineNo">026</span><a id="line.26"> * &lt;ul&gt;</a>
+<span class="sourceLineNo">027</span><a id="line.27"> * &lt;li&gt; name - the NAME element of the generated SELECT tag.</a>
+<span class="sourceLineNo">028</span><a id="line.28"> * &lt;li&gt; value - the current value of the SELECT tag.</a>
+<span class="sourceLineNo">029</span><a id="line.29"> * &lt;li&gt; data - a reference to a structured list containing both display and value columns,</a>
 <span class="sourceLineNo">030</span><a id="line.30"> *   or a list of Strings. An empty list can be forced by setting an empty data attribute.</a>
-<span class="sourceLineNo">031</span><a id="line.31"> * valueColumn - the name of the column in the list to use to populate OPTION values</a>
-<span class="sourceLineNo">032</span><a id="line.32"> * displayColumn - the name of the column in the list to use to populate OPTION display text</a>
+<span class="sourceLineNo">031</span><a id="line.31"> * &lt;li&gt; valueColumn - the name of the column in the list to use to populate OPTION values</a>
+<span class="sourceLineNo">032</span><a id="line.32"> * &lt;li&gt; displayColumn - the name of the column in the list to use to populate OPTION display text</a>
 <span class="sourceLineNo">033</span><a id="line.33"> *   (will default to valueColumn if left blank)</a>
-<span class="sourceLineNo">034</span><a id="line.34"> * firstOption - specifies a display value for the first option for a list; this</a>
+<span class="sourceLineNo">034</span><a id="line.34"> * &lt;li&gt; firstOption - specifies a display value for the first option for a list; this</a>
 <span class="sourceLineNo">035</span><a id="line.35"> *   option corresponds to a null value. Used to generate options like</a>
 <span class="sourceLineNo">036</span><a id="line.36"> *   '(please select...)' at the top of a select box.</a>
-<span class="sourceLineNo">037</span><a id="line.37"> * bundle - the resource bundle used to internationalise display column text</a>
-<span class="sourceLineNo">038</span><a id="line.38"> * bundleFormat - a MessageFormat used to convert a value into a bundle key</a>
-<span class="sourceLineNo">039</span><a id="line.39"> * &lt;/attributes&gt;</a>
+<span class="sourceLineNo">037</span><a id="line.37"> * &lt;li&gt; bundle - the resource bundle used to internationalise display column text</a>
+<span class="sourceLineNo">038</span><a id="line.38"> * &lt;li&gt; bundleFormat - a MessageFormat used to convert a value into a bundle key</a>
+<span class="sourceLineNo">039</span><a id="line.39"> * &lt;/ul&gt;</a>
 <span class="sourceLineNo">040</span><a id="line.40"> *</a>
 <span class="sourceLineNo">041</span><a id="line.41"> * Only one of 'value' and 'valueFromRequest' can be set.</a>
 <span class="sourceLineNo">042</span><a id="line.42"> *</a>

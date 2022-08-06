@@ -25,20 +25,20 @@
 <span class="sourceLineNo">016</span><a id="line.16"> */</a>
 <span class="sourceLineNo">017</span><a id="line.17">package com.randomnoun.common.log4j2;</a>
 <span class="sourceLineNo">018</span><a id="line.18"></a>
-<span class="sourceLineNo">019</span><a id="line.19">import org.apache.log4j.Category;</a>
-<span class="sourceLineNo">020</span><a id="line.20">import org.apache.log4j.Level;</a>
-<span class="sourceLineNo">021</span><a id="line.21">import org.apache.log4j.spi.LocationInfo;</a>
-<span class="sourceLineNo">022</span><a id="line.22">import org.apache.log4j.spi.LoggingEvent;</a>
-<span class="sourceLineNo">023</span><a id="line.23">import org.apache.log4j.spi.ThrowableInformation;</a>
-<span class="sourceLineNo">024</span><a id="line.24">import org.apache.logging.log4j.core.LogEvent;</a>
-<span class="sourceLineNo">025</span><a id="line.25">import org.apache.logging.log4j.core.util.Loader;</a>
-<span class="sourceLineNo">026</span><a id="line.26">import org.apache.logging.log4j.core.util.Throwables;</a>
-<span class="sourceLineNo">027</span><a id="line.27">import org.apache.logging.log4j.spi.StandardLevel;</a>
-<span class="sourceLineNo">028</span><a id="line.28">import org.apache.logging.log4j.status.StatusLogger;</a>
-<span class="sourceLineNo">029</span><a id="line.29"></a>
-<span class="sourceLineNo">030</span><a id="line.30">import java.lang.reflect.Method;</a>
-<span class="sourceLineNo">031</span><a id="line.31">import java.util.Map;</a>
-<span class="sourceLineNo">032</span><a id="line.32">import java.util.Set;</a>
+<span class="sourceLineNo">019</span><a id="line.19">import java.lang.reflect.Method;</a>
+<span class="sourceLineNo">020</span><a id="line.20">import java.util.Map;</a>
+<span class="sourceLineNo">021</span><a id="line.21">import java.util.Set;</a>
+<span class="sourceLineNo">022</span><a id="line.22"></a>
+<span class="sourceLineNo">023</span><a id="line.23">import org.apache.log4j.Category;</a>
+<span class="sourceLineNo">024</span><a id="line.24">import org.apache.log4j.Level;</a>
+<span class="sourceLineNo">025</span><a id="line.25">import org.apache.log4j.spi.LocationInfo;</a>
+<span class="sourceLineNo">026</span><a id="line.26">import org.apache.log4j.spi.LoggingEvent;</a>
+<span class="sourceLineNo">027</span><a id="line.27">import org.apache.log4j.spi.ThrowableInformation;</a>
+<span class="sourceLineNo">028</span><a id="line.28">import org.apache.logging.log4j.core.LogEvent;</a>
+<span class="sourceLineNo">029</span><a id="line.29">import org.apache.logging.log4j.core.util.Loader;</a>
+<span class="sourceLineNo">030</span><a id="line.30">import org.apache.logging.log4j.core.util.Throwables;</a>
+<span class="sourceLineNo">031</span><a id="line.31">import org.apache.logging.log4j.spi.StandardLevel;</a>
+<span class="sourceLineNo">032</span><a id="line.32">import org.apache.logging.log4j.status.StatusLogger;</a>
 <span class="sourceLineNo">033</span><a id="line.33"></a>
 <span class="sourceLineNo">034</span><a id="line.34">// a modified form of the LogEventAdapter in log4j2, which uses our own LoggingEvent class, which has a non-final getTimestamp()</a>
 <span class="sourceLineNo">035</span><a id="line.35"></a>
@@ -227,12 +227,12 @@
 <span class="sourceLineNo">218</span><a id="line.218">    }</a>
 <span class="sourceLineNo">219</span><a id="line.219"></a>
 <span class="sourceLineNo">220</span><a id="line.220">    @Override</a>
-<span class="sourceLineNo">221</span><a id="line.221">    public Set getPropertyKeySet() {</a>
+<span class="sourceLineNo">221</span><a id="line.221">    public Set&lt;String&gt; getPropertyKeySet() {</a>
 <span class="sourceLineNo">222</span><a id="line.222">        return event.getContextData().toMap().keySet();</a>
 <span class="sourceLineNo">223</span><a id="line.223">    }</a>
 <span class="sourceLineNo">224</span><a id="line.224"></a>
 <span class="sourceLineNo">225</span><a id="line.225">    @Override</a>
-<span class="sourceLineNo">226</span><a id="line.226">    public Map getProperties() {</a>
+<span class="sourceLineNo">226</span><a id="line.226">    public Map&lt;String, String&gt; getProperties() {</a>
 <span class="sourceLineNo">227</span><a id="line.227">        return event.getContextData().toMap();</a>
 <span class="sourceLineNo">228</span><a id="line.228">    }</a>
 <span class="sourceLineNo">229</span><a id="line.229"></a>

@@ -21,22 +21,22 @@
 <span class="sourceLineNo">012</span><a id="line.12">import java.util.Map;</a>
 <span class="sourceLineNo">013</span><a id="line.13">import java.util.Properties;</a>
 <span class="sourceLineNo">014</span><a id="line.14"></a>
-<span class="sourceLineNo">015</span><a id="line.15">import javax.activation.DataHandler;</a>
-<span class="sourceLineNo">016</span><a id="line.16">import javax.activation.DataSource;</a>
-<span class="sourceLineNo">017</span><a id="line.17">import javax.activation.FileDataSource;</a>
-<span class="sourceLineNo">018</span><a id="line.18">import javax.mail.Message;</a>
-<span class="sourceLineNo">019</span><a id="line.19">import javax.mail.MessagingException;</a>
-<span class="sourceLineNo">020</span><a id="line.20">import javax.mail.Part;</a>
-<span class="sourceLineNo">021</span><a id="line.21">import javax.mail.Session;</a>
-<span class="sourceLineNo">022</span><a id="line.22">import javax.mail.Transport;</a>
-<span class="sourceLineNo">023</span><a id="line.23">import javax.mail.internet.InternetAddress;</a>
-<span class="sourceLineNo">024</span><a id="line.24">import javax.mail.internet.MimeBodyPart;</a>
-<span class="sourceLineNo">025</span><a id="line.25">import javax.mail.internet.MimeMessage;</a>
-<span class="sourceLineNo">026</span><a id="line.26">import javax.mail.internet.MimeMultipart;</a>
-<span class="sourceLineNo">027</span><a id="line.27"></a>
-<span class="sourceLineNo">028</span><a id="line.28">import org.apache.log4j.Logger;</a>
-<span class="sourceLineNo">029</span><a id="line.29"></a>
-<span class="sourceLineNo">030</span><a id="line.30">import com.randomnoun.common.StreamUtil;</a>
+<span class="sourceLineNo">015</span><a id="line.15">import org.apache.log4j.Logger;</a>
+<span class="sourceLineNo">016</span><a id="line.16"></a>
+<span class="sourceLineNo">017</span><a id="line.17">import com.randomnoun.common.StreamUtil;</a>
+<span class="sourceLineNo">018</span><a id="line.18"></a>
+<span class="sourceLineNo">019</span><a id="line.19">import jakarta.activation.DataHandler;</a>
+<span class="sourceLineNo">020</span><a id="line.20">import jakarta.activation.DataSource;</a>
+<span class="sourceLineNo">021</span><a id="line.21">import jakarta.activation.FileDataSource;</a>
+<span class="sourceLineNo">022</span><a id="line.22">import jakarta.mail.Message;</a>
+<span class="sourceLineNo">023</span><a id="line.23">import jakarta.mail.MessagingException;</a>
+<span class="sourceLineNo">024</span><a id="line.24">import jakarta.mail.Part;</a>
+<span class="sourceLineNo">025</span><a id="line.25">import jakarta.mail.Session;</a>
+<span class="sourceLineNo">026</span><a id="line.26">import jakarta.mail.Transport;</a>
+<span class="sourceLineNo">027</span><a id="line.27">import jakarta.mail.internet.InternetAddress;</a>
+<span class="sourceLineNo">028</span><a id="line.28">import jakarta.mail.internet.MimeBodyPart;</a>
+<span class="sourceLineNo">029</span><a id="line.29">import jakarta.mail.internet.MimeMessage;</a>
+<span class="sourceLineNo">030</span><a id="line.30">import jakarta.mail.internet.MimeMultipart;</a>
 <span class="sourceLineNo">031</span><a id="line.31"></a>
 <span class="sourceLineNo">032</span><a id="line.32">/**</a>
 <span class="sourceLineNo">033</span><a id="line.33"> * Provides a simple, one-class wrapper around the Java Mail API. Use the</a>
@@ -49,7 +49,7 @@
 <span class="sourceLineNo">040</span><a id="line.40"> * </a>
 <span class="sourceLineNo">041</span><a id="line.41"> * &lt;p&gt;S/MIME encryption isn't supported, but would be relatively easy to add;</a>
 <span class="sourceLineNo">042</span><a id="line.42"> *</a>
-<span class="sourceLineNo">043</span><a id="line.43"> * &lt;p&gt;Use the (somewhat more complex) {@see #emailAttachmentTo(Map)} method to send emails</a>
+<span class="sourceLineNo">043</span><a id="line.43"> * &lt;p&gt;Use the (somewhat more complex) {@link #emailAttachmentTo(Map)} method to send emails</a>
 <span class="sourceLineNo">044</span><a id="line.44"> * with attachments sourced from the file system, byte arrays or the classpath,</a>
 <span class="sourceLineNo">045</span><a id="line.45"> * or to modify the email headers.</a>
 <span class="sourceLineNo">046</span><a id="line.46"> *</a>
@@ -71,7 +71,7 @@
 <span class="sourceLineNo">062</span><a id="line.62">     * @param to A comma-separated list of recipients</a>
 <span class="sourceLineNo">063</span><a id="line.63">     * @param from The address to place in the From: field of the email</a>
 <span class="sourceLineNo">064</span><a id="line.64">     * @param subject The subject text</a>
-<span class="sourceLineNo">065</span><a id="line.65">     * @param msgText The message text</a>
+<span class="sourceLineNo">065</span><a id="line.65">     * @param bodyText The message text</a>
 <span class="sourceLineNo">066</span><a id="line.66">     */</a>
 <span class="sourceLineNo">067</span><a id="line.67">    public static void emailToNoEx(String to, String from, String host, String subject, </a>
 <span class="sourceLineNo">068</span><a id="line.68">      String bodyText, String username, String password) {</a>
@@ -201,62 +201,62 @@
 <span class="sourceLineNo">192</span><a id="line.192">     *</a>
 <span class="sourceLineNo">193</span><a id="line.193">     * The following attributes are accepted by this method</a>
 <span class="sourceLineNo">194</span><a id="line.194">     *</a>
-<span class="sourceLineNo">195</span><a id="line.195">     * &lt;attributes&gt;</a>
-<span class="sourceLineNo">196</span><a id="line.196">     * to - To addresses, comma-separated. Will also include any</a>
+<span class="sourceLineNo">195</span><a id="line.195">     * &lt;ul&gt;</a>
+<span class="sourceLineNo">196</span><a id="line.196">     * &lt;li&gt;to - To addresses, comma-separated. Will also include any</a>
 <span class="sourceLineNo">197</span><a id="line.197">     *      custom headers supplied with the headername of 'to'</a>
-<span class="sourceLineNo">198</span><a id="line.198">     * from - From address</a>
-<span class="sourceLineNo">199</span><a id="line.199">     * subject - The subject of the email</a>
-<span class="sourceLineNo">200</span><a id="line.200">     * bodyText - The body text of the email</a>
-<span class="sourceLineNo">201</span><a id="line.201">     * bodyHtml - The body text of the email, in HTML format</a>
-<span class="sourceLineNo">202</span><a id="line.202">     * username - If not null, the username to authenticate to the SMTP server</a>
-<span class="sourceLineNo">203</span><a id="line.203">     * password - If not null, the password with which to authenticate to the SMTP </a>
-<span class="sourceLineNo">204</span><a id="line.204">     * cc - CC addresses, comma-separated. Will also include any</a>
+<span class="sourceLineNo">198</span><a id="line.198">     * &lt;li&gt;from - From address</a>
+<span class="sourceLineNo">199</span><a id="line.199">     * &lt;li&gt;subject - The subject of the email</a>
+<span class="sourceLineNo">200</span><a id="line.200">     * &lt;li&gt;bodyText - The body text of the email</a>
+<span class="sourceLineNo">201</span><a id="line.201">     * &lt;li&gt;bodyHtml - The body text of the email, in HTML format</a>
+<span class="sourceLineNo">202</span><a id="line.202">     * &lt;li&gt;username - If not null, the username to authenticate to the SMTP server</a>
+<span class="sourceLineNo">203</span><a id="line.203">     * &lt;li&gt;password - If not null, the password with which to authenticate to the SMTP </a>
+<span class="sourceLineNo">204</span><a id="line.204">     * &lt;li&gt;cc - CC addresses, comma-separated. Will also include any</a>
 <span class="sourceLineNo">205</span><a id="line.205">     *                   custom headers supplied with the headername of 'cc'</a>
-<span class="sourceLineNo">206</span><a id="line.206">     * bcc - BCC addresses, comma-separated. Will also include any</a>
+<span class="sourceLineNo">206</span><a id="line.206">     * &lt;li&gt;bcc - BCC addresses, comma-separated. Will also include any</a>
 <span class="sourceLineNo">207</span><a id="line.207">     *                   custom headers supplied with the headername of 'bcc'</a>
-<span class="sourceLineNo">208</span><a id="line.208">     * replyTo - Reply-To addresses, comma-separated. Will also include any</a>
+<span class="sourceLineNo">208</span><a id="line.208">     * &lt;li&gt;replyTo - Reply-To addresses, comma-separated. Will also include any</a>
 <span class="sourceLineNo">209</span><a id="line.209">     *                   custom headers supplied with the headername of 'replyTo'</a>
-<span class="sourceLineNo">210</span><a id="line.210">     * client - email client to use in generated MessageID (defaults to "JavaMail")</a>
-<span class="sourceLineNo">211</span><a id="line.211">     * suffix - suffix to use in generated MessageID (defaults to "username@host")</a>
-<span class="sourceLineNo">212</span><a id="line.212">     *          (both client &amp; suffix must be specified together)</a>
-<span class="sourceLineNo">213</span><a id="line.213">     * sessionProperties - A map containing additional JavaMail session properties</a>
-<span class="sourceLineNo">214</span><a id="line.214">     * headers - A structured list of custom headers</a>
-<span class="sourceLineNo">215</span><a id="line.215">     * &lt;attributes&gt;</a>
-<span class="sourceLineNo">216</span><a id="line.216">     *   name - The header name</a>
-<span class="sourceLineNo">217</span><a id="line.217">     *   value - The header value</a>
-<span class="sourceLineNo">218</span><a id="line.218">     * &lt;/attributes&gt;</a>
+<span class="sourceLineNo">210</span><a id="line.210">     * &lt;li&gt;client - email client to use in generated MessageID (defaults to "JavaMail")</a>
+<span class="sourceLineNo">211</span><a id="line.211">     * &lt;li&gt;suffix - suffix to use in generated MessageID (defaults to "username@host")</a>
+<span class="sourceLineNo">212</span><a id="line.212">     *          (both client &amp;amp; suffix must be specified together)</a>
+<span class="sourceLineNo">213</span><a id="line.213">     * &lt;li&gt;sessionProperties - A map containing additional JavaMail session properties</a>
+<span class="sourceLineNo">214</span><a id="line.214">     * &lt;li&gt;headers - A structured list of custom headers</a>
+<span class="sourceLineNo">215</span><a id="line.215">     * &lt;ul&gt;</a>
+<span class="sourceLineNo">216</span><a id="line.216">     *   &lt;li&gt;name - The header name</a>
+<span class="sourceLineNo">217</span><a id="line.217">     *   &lt;li&gt;value - The header value</a>
+<span class="sourceLineNo">218</span><a id="line.218">     * &lt;/ul&gt;</a>
 <span class="sourceLineNo">219</span><a id="line.219">     *</a>
-<span class="sourceLineNo">220</span><a id="line.220">     * attachFiles   Attachments to this email, sourced from the filesystem</a>
-<span class="sourceLineNo">221</span><a id="line.221">     * &lt;attributes&gt;</a>
-<span class="sourceLineNo">222</span><a id="line.222">     *   filename - The file on the local filesystem which contains the  data to send</a>
-<span class="sourceLineNo">223</span><a id="line.223">     *   attachFilename - The name of the file visible in the email</a>
-<span class="sourceLineNo">224</span><a id="line.224">     *   contentType - The content-type to assign to this file. Will default to</a>
-<span class="sourceLineNo">225</span><a id="line.225">     *                   &lt;tt&gt;application/octet-stream&lt;/tt&gt;</a>
-<span class="sourceLineNo">226</span><a id="line.226">     * &lt;/attributes&gt;</a>
+<span class="sourceLineNo">220</span><a id="line.220">     * &lt;li&gt;attachFiles   Attachments to this email, sourced from the filesystem</a>
+<span class="sourceLineNo">221</span><a id="line.221">     * &lt;ul&gt;</a>
+<span class="sourceLineNo">222</span><a id="line.222">     *   &lt;li&gt;filename - The file on the local filesystem which contains the  data to send</a>
+<span class="sourceLineNo">223</span><a id="line.223">     *   &lt;li&gt;attachFilename - The name of the file visible in the email</a>
+<span class="sourceLineNo">224</span><a id="line.224">     *   &lt;li&gt;contentType - The content-type to assign to this file. Will default to</a>
+<span class="sourceLineNo">225</span><a id="line.225">     *                   &lt;code&gt;application/octet-stream&lt;/code&gt;</a>
+<span class="sourceLineNo">226</span><a id="line.226">     * &lt;/ul&gt;</a>
 <span class="sourceLineNo">227</span><a id="line.227">     *</a>
-<span class="sourceLineNo">228</span><a id="line.228">     * attachResources Attachments to this email, sourced from the classLoader</a>
-<span class="sourceLineNo">229</span><a id="line.229">     * &lt;attributes&gt;</a>
-<span class="sourceLineNo">230</span><a id="line.230">     *   resource - The resource name</a>
-<span class="sourceLineNo">231</span><a id="line.231">     *   attachFilename - The name of the file visible in the email</a>
-<span class="sourceLineNo">232</span><a id="line.232">     *   contentType - The content-type to assign to this file. Will default to</a>
-<span class="sourceLineNo">233</span><a id="line.233">     *                   &lt;tt&gt;application/octet-stream&lt;/tt&gt;</a>
-<span class="sourceLineNo">234</span><a id="line.234">     *   classLoader - Any class which will indicate which class loader to</a>
+<span class="sourceLineNo">228</span><a id="line.228">     * &lt;li&gt;attachResources Attachments to this email, sourced from the classLoader</a>
+<span class="sourceLineNo">229</span><a id="line.229">     * &lt;ul&gt;</a>
+<span class="sourceLineNo">230</span><a id="line.230">     *   &lt;li&gt;resource - The resource name</a>
+<span class="sourceLineNo">231</span><a id="line.231">     *   &lt;li&gt;attachFilename - The name of the file visible in the email</a>
+<span class="sourceLineNo">232</span><a id="line.232">     *   &lt;li&gt;contentType - The content-type to assign to this file. Will default to</a>
+<span class="sourceLineNo">233</span><a id="line.233">     *                   &lt;code&gt;application/octet-stream&lt;/code&gt;</a>
+<span class="sourceLineNo">234</span><a id="line.234">     *   &lt;li&gt;classLoader - Any class which will indicate which class loader to</a>
 <span class="sourceLineNo">235</span><a id="line.235">     *                   use to find this resource, or a ClassLoader instance.</a>
 <span class="sourceLineNo">236</span><a id="line.236">     *                   If missing, will default to the class loader of the</a>
 <span class="sourceLineNo">237</span><a id="line.237">     *                   EmailWrapper class.</a>
-<span class="sourceLineNo">238</span><a id="line.238">     * &lt;/attributes&gt;</a>
+<span class="sourceLineNo">238</span><a id="line.238">     * &lt;/ul&gt;</a>
 <span class="sourceLineNo">239</span><a id="line.239">     *</a>
-<span class="sourceLineNo">240</span><a id="line.240">     * attachData    Attachments to this email, passed in directly</a>
-<span class="sourceLineNo">241</span><a id="line.241">     * &lt;attributes&gt;</a>
-<span class="sourceLineNo">242</span><a id="line.242">     *   data - The data comprising the attachment. Can be either a</a>
+<span class="sourceLineNo">240</span><a id="line.240">     * &lt;li&gt;attachData    Attachments to this email, passed in directly</a>
+<span class="sourceLineNo">241</span><a id="line.241">     * &lt;ul&gt;</a>
+<span class="sourceLineNo">242</span><a id="line.242">     *   &lt;li&gt;data - The data comprising the attachment. Can be either a</a>
 <span class="sourceLineNo">243</span><a id="line.243">     *                   byte array, or a string. If the object is of any other</a>
 <span class="sourceLineNo">244</span><a id="line.244">     *                   type, then it is converted to a string using it's</a>
 <span class="sourceLineNo">245</span><a id="line.245">     *                   .toString() method.</a>
-<span class="sourceLineNo">246</span><a id="line.246">     *   attachFilename - The name of the file visible in the email</a>
-<span class="sourceLineNo">247</span><a id="line.247">     *   contentType - The content-type to assign to this file. Will default</a>
-<span class="sourceLineNo">248</span><a id="line.248">     *                   to &lt;tt&gt;application/octet-stream&lt;/tt&gt;</a>
-<span class="sourceLineNo">249</span><a id="line.249">     * &lt;/attributes&gt;</a>
-<span class="sourceLineNo">250</span><a id="line.250">     * &lt;/attributes&gt;</a>
+<span class="sourceLineNo">246</span><a id="line.246">     *   &lt;li&gt;attachFilename - The name of the file visible in the email</a>
+<span class="sourceLineNo">247</span><a id="line.247">     *   &lt;li&gt;contentType - The content-type to assign to this file. Will default</a>
+<span class="sourceLineNo">248</span><a id="line.248">     *                   to &lt;code&gt;application/octet-stream&lt;/code&gt;</a>
+<span class="sourceLineNo">249</span><a id="line.249">     * &lt;/ul&gt;</a>
+<span class="sourceLineNo">250</span><a id="line.250">     * &lt;/ul&gt;</a>
 <span class="sourceLineNo">251</span><a id="line.251">     *</a>
 <span class="sourceLineNo">252</span><a id="line.252">     * This method returns no values</a>
 <span class="sourceLineNo">253</span><a id="line.253">     *</a>

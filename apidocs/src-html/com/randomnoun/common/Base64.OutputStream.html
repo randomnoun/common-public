@@ -21,11 +21,11 @@
 <span class="sourceLineNo">012</span><a id="line.12"> * </a>
 <span class="sourceLineNo">013</span><a id="line.13"> * &lt;p&gt;Example:&lt;/p&gt;</a>
 <span class="sourceLineNo">014</span><a id="line.14"> * </a>
-<span class="sourceLineNo">015</span><a id="line.15"> * &lt;code&gt;String encoded = Base64.encode( myByteArray );&lt;/code&gt;</a>
-<span class="sourceLineNo">016</span><a id="line.16"> * &lt;br /&gt;</a>
-<span class="sourceLineNo">017</span><a id="line.17"> * &lt;code&gt;byte[] myByteArray = Base64.decode( encoded );&lt;/code&gt;</a>
+<span class="sourceLineNo">015</span><a id="line.15"> * &lt;p&gt;&lt;code&gt;String encoded = Base64.encode( myByteArray );&lt;/code&gt;&lt;/p&gt;</a>
+<span class="sourceLineNo">016</span><a id="line.16"> * </a>
+<span class="sourceLineNo">017</span><a id="line.17"> * &lt;p&gt;&lt;code&gt;byte[] myByteArray = Base64.decode( encoded );&lt;/code&gt;&lt;/p&gt;</a>
 <span class="sourceLineNo">018</span><a id="line.18"> *</a>
-<span class="sourceLineNo">019</span><a id="line.19"> * &lt;p&gt;The &lt;tt&gt;options&lt;/tt&gt; parameter, which appears in a few places, is used to pass </a>
+<span class="sourceLineNo">019</span><a id="line.19"> * &lt;p&gt;The &lt;code&gt;options&lt;/code&gt; parameter, which appears in a few places, is used to pass </a>
 <span class="sourceLineNo">020</span><a id="line.20"> * several pieces of information to the encoder. In the "higher level" methods such as </a>
 <span class="sourceLineNo">021</span><a id="line.21"> * encodeBytes( bytes, options ) the options parameter can be used to indicate such </a>
 <span class="sourceLineNo">022</span><a id="line.22"> * things as first gzipping the bytes before encoding them, not inserting linefeeds,</a>
@@ -133,9 +133,9 @@
 <span class="sourceLineNo">124</span><a id="line.124"> *   when data that's being decoded is gzip-compressed and will decompress it</a>
 <span class="sourceLineNo">125</span><a id="line.125"> *   automatically. Generally things are cleaner. You'll probably have to</a>
 <span class="sourceLineNo">126</span><a id="line.126"> *   change some method calls that you were making to support the new</a>
-<span class="sourceLineNo">127</span><a id="line.127"> *   options format (&lt;tt&gt;int&lt;/tt&gt;s that you "OR" together).&lt;/li&gt;</a>
+<span class="sourceLineNo">127</span><a id="line.127"> *   options format (&lt;code&gt;int&lt;/code&gt;s that you "OR" together).&lt;/li&gt;</a>
 <span class="sourceLineNo">128</span><a id="line.128"> *  &lt;li&gt;v1.5.1 - Fixed bug when decompressing and decoding to a             </a>
-<span class="sourceLineNo">129</span><a id="line.129"> *   byte[] using &lt;tt&gt;decode( String s, boolean gzipCompressed )&lt;/tt&gt;.      </a>
+<span class="sourceLineNo">129</span><a id="line.129"> *   byte[] using &lt;code&gt;decode( String s, boolean gzipCompressed )&lt;/code&gt;.      </a>
 <span class="sourceLineNo">130</span><a id="line.130"> *   Added the ability to "suspend" encoding in the Output Stream so        </a>
 <span class="sourceLineNo">131</span><a id="line.131"> *   you can turn on and off the encoding if you need to embed base64       </a>
 <span class="sourceLineNo">132</span><a id="line.132"> *   data in an otherwise "normal" stream (like an XML file).&lt;/li&gt;  </a>
@@ -1252,7 +1252,7 @@
 <span class="sourceLineNo">1243</span><a id="line.1243">     * @param options encode options such as URL_SAFE</a>
 <span class="sourceLineNo">1244</span><a id="line.1244">     * @return the decoded data</a>
 <span class="sourceLineNo">1245</span><a id="line.1245">     * @throws java.io.IOException if there is an error</a>
-<span class="sourceLineNo">1246</span><a id="line.1246">     * @throws NullPointerException if &lt;tt&gt;s&lt;/tt&gt; is null</a>
+<span class="sourceLineNo">1246</span><a id="line.1246">     * @throws NullPointerException if &lt;code&gt;s&lt;/code&gt; is null</a>
 <span class="sourceLineNo">1247</span><a id="line.1247">     * @since 1.4</a>
 <span class="sourceLineNo">1248</span><a id="line.1248">     */</a>
 <span class="sourceLineNo">1249</span><a id="line.1249">    public static byte[] decode( String s, int options ) throws java.io.IOException {</a>
@@ -1319,7 +1319,7 @@
 <span class="sourceLineNo">1310</span><a id="line.1310"></a>
 <span class="sourceLineNo">1311</span><a id="line.1311">    /**</a>
 <span class="sourceLineNo">1312</span><a id="line.1312">     * Attempts to decode Base64 data and deserialize a Java</a>
-<span class="sourceLineNo">1313</span><a id="line.1313">     * Object within. Returns &lt;tt&gt;null&lt;/tt&gt; if there was an error.</a>
+<span class="sourceLineNo">1313</span><a id="line.1313">     * Object within. Returns &lt;code&gt;null&lt;/code&gt; if there was an error.</a>
 <span class="sourceLineNo">1314</span><a id="line.1314">     *</a>
 <span class="sourceLineNo">1315</span><a id="line.1315">     * @param encodedObject The Base64 data to decode</a>
 <span class="sourceLineNo">1316</span><a id="line.1316">     * @return The decoded and deserialized object</a>
@@ -1337,8 +1337,8 @@
 <span class="sourceLineNo">1328</span><a id="line.1328"></a>
 <span class="sourceLineNo">1329</span><a id="line.1329">    /**</a>
 <span class="sourceLineNo">1330</span><a id="line.1330">     * Attempts to decode Base64 data and deserialize a Java</a>
-<span class="sourceLineNo">1331</span><a id="line.1331">     * Object within. Returns &lt;tt&gt;null&lt;/tt&gt; if there was an error.</a>
-<span class="sourceLineNo">1332</span><a id="line.1332">     * If &lt;tt&gt;loader&lt;/tt&gt; is not null, it will be the class loader</a>
+<span class="sourceLineNo">1331</span><a id="line.1331">     * Object within. Returns &lt;code&gt;null&lt;/code&gt; if there was an error.</a>
+<span class="sourceLineNo">1332</span><a id="line.1332">     * If &lt;code&gt;loader&lt;/code&gt; is not null, it will be the class loader</a>
 <span class="sourceLineNo">1333</span><a id="line.1333">     * used when deserializing.</a>
 <span class="sourceLineNo">1334</span><a id="line.1334">     *</a>
 <span class="sourceLineNo">1335</span><a id="line.1335">     * @param encodedObject The Base64 data to decode</a>
@@ -1589,7 +1589,7 @@
 <span class="sourceLineNo">1580</span><a id="line.1580">        }   // end encodeFromFile</a>
 <span class="sourceLineNo">1581</span><a id="line.1581">    </a>
 <span class="sourceLineNo">1582</span><a id="line.1582">    /**</a>
-<span class="sourceLineNo">1583</span><a id="line.1583">     * Reads &lt;tt&gt;infile&lt;/tt&gt; and encodes it to &lt;tt&gt;outfile&lt;/tt&gt;.</a>
+<span class="sourceLineNo">1583</span><a id="line.1583">     * Reads &lt;code&gt;infile&lt;/code&gt; and encodes it to &lt;code&gt;outfile&lt;/code&gt;.</a>
 <span class="sourceLineNo">1584</span><a id="line.1584">     *</a>
 <span class="sourceLineNo">1585</span><a id="line.1585">     * @param infile Input file</a>
 <span class="sourceLineNo">1586</span><a id="line.1586">     * @param outfile Output file</a>
@@ -1617,7 +1617,7 @@
 <span class="sourceLineNo">1608</span><a id="line.1608"></a>
 <span class="sourceLineNo">1609</span><a id="line.1609"></a>
 <span class="sourceLineNo">1610</span><a id="line.1610">    /**</a>
-<span class="sourceLineNo">1611</span><a id="line.1611">     * Reads &lt;tt&gt;infile&lt;/tt&gt; and decodes it to &lt;tt&gt;outfile&lt;/tt&gt;.</a>
+<span class="sourceLineNo">1611</span><a id="line.1611">     * Reads &lt;code&gt;infile&lt;/code&gt; and decodes it to &lt;code&gt;outfile&lt;/code&gt;.</a>
 <span class="sourceLineNo">1612</span><a id="line.1612">     *</a>
 <span class="sourceLineNo">1613</span><a id="line.1613">     * @param infile Input file</a>
 <span class="sourceLineNo">1614</span><a id="line.1614">     * @param outfile Output file</a>
@@ -1650,7 +1650,7 @@
 <span class="sourceLineNo">1641</span><a id="line.1641">    </a>
 <span class="sourceLineNo">1642</span><a id="line.1642">    /**</a>
 <span class="sourceLineNo">1643</span><a id="line.1643">     * A {@link Base64.InputStream} will read data from another</a>
-<span class="sourceLineNo">1644</span><a id="line.1644">     * &lt;tt&gt;java.io.InputStream&lt;/tt&gt;, given in the constructor,</a>
+<span class="sourceLineNo">1644</span><a id="line.1644">     * &lt;code&gt;java.io.InputStream&lt;/code&gt;, given in the constructor,</a>
 <span class="sourceLineNo">1645</span><a id="line.1645">     * and encode/decode to/from Base64 notation on the fly.</a>
 <span class="sourceLineNo">1646</span><a id="line.1646">     *</a>
 <span class="sourceLineNo">1647</span><a id="line.1647">     * @see Base64</a>
@@ -1672,7 +1672,7 @@
 <span class="sourceLineNo">1663</span><a id="line.1663">        /**</a>
 <span class="sourceLineNo">1664</span><a id="line.1664">         * Constructs a {@link Base64.InputStream} in DECODE mode.</a>
 <span class="sourceLineNo">1665</span><a id="line.1665">         *</a>
-<span class="sourceLineNo">1666</span><a id="line.1666">         * @param in the &lt;tt&gt;java.io.InputStream&lt;/tt&gt; from which to read data.</a>
+<span class="sourceLineNo">1666</span><a id="line.1666">         * @param in the &lt;code&gt;java.io.InputStream&lt;/code&gt; from which to read data.</a>
 <span class="sourceLineNo">1667</span><a id="line.1667">         * @since 1.3</a>
 <span class="sourceLineNo">1668</span><a id="line.1668">         */</a>
 <span class="sourceLineNo">1669</span><a id="line.1669">        public InputStream( java.io.InputStream in ) {</a>
@@ -1687,13 +1687,13 @@
 <span class="sourceLineNo">1678</span><a id="line.1678">         * Valid options:&lt;pre&gt;</a>
 <span class="sourceLineNo">1679</span><a id="line.1679">         *   ENCODE or DECODE: Encode or Decode as data is read.</a>
 <span class="sourceLineNo">1680</span><a id="line.1680">         *   DO_BREAK_LINES: break lines at 76 characters</a>
-<span class="sourceLineNo">1681</span><a id="line.1681">         *     (only meaningful when encoding)&lt;/i&gt;</a>
+<span class="sourceLineNo">1681</span><a id="line.1681">         *     (only meaningful when encoding)</a>
 <span class="sourceLineNo">1682</span><a id="line.1682">         * &lt;/pre&gt;</a>
 <span class="sourceLineNo">1683</span><a id="line.1683">         * &lt;p&gt;</a>
 <span class="sourceLineNo">1684</span><a id="line.1684">         * Example: &lt;code&gt;new Base64.InputStream( in, Base64.DECODE )&lt;/code&gt;</a>
 <span class="sourceLineNo">1685</span><a id="line.1685">         *</a>
 <span class="sourceLineNo">1686</span><a id="line.1686">         *</a>
-<span class="sourceLineNo">1687</span><a id="line.1687">         * @param in the &lt;tt&gt;java.io.InputStream&lt;/tt&gt; from which to read data.</a>
+<span class="sourceLineNo">1687</span><a id="line.1687">         * @param in the &lt;code&gt;java.io.InputStream&lt;/code&gt; from which to read data.</a>
 <span class="sourceLineNo">1688</span><a id="line.1688">         * @param options Specified options</a>
 <span class="sourceLineNo">1689</span><a id="line.1689">         * @see Base64#ENCODE</a>
 <span class="sourceLineNo">1690</span><a id="line.1690">         * @see Base64#DECODE</a>
@@ -1863,7 +1863,7 @@
 <span class="sourceLineNo">1854</span><a id="line.1854">    </a>
 <span class="sourceLineNo">1855</span><a id="line.1855">    /**</a>
 <span class="sourceLineNo">1856</span><a id="line.1856">     * A {@link Base64.OutputStream} will write data to another</a>
-<span class="sourceLineNo">1857</span><a id="line.1857">     * &lt;tt&gt;java.io.OutputStream&lt;/tt&gt;, given in the constructor,</a>
+<span class="sourceLineNo">1857</span><a id="line.1857">     * &lt;code&gt;java.io.OutputStream&lt;/code&gt;, given in the constructor,</a>
 <span class="sourceLineNo">1858</span><a id="line.1858">     * and encode/decode to/from Base64 notation on the fly.</a>
 <span class="sourceLineNo">1859</span><a id="line.1859">     *</a>
 <span class="sourceLineNo">1860</span><a id="line.1860">     * @see Base64</a>
@@ -1885,7 +1885,7 @@
 <span class="sourceLineNo">1876</span><a id="line.1876">        /**</a>
 <span class="sourceLineNo">1877</span><a id="line.1877">         * Constructs a {@link Base64.OutputStream} in ENCODE mode.</a>
 <span class="sourceLineNo">1878</span><a id="line.1878">         *</a>
-<span class="sourceLineNo">1879</span><a id="line.1879">         * @param out the &lt;tt&gt;java.io.OutputStream&lt;/tt&gt; to which data will be written.</a>
+<span class="sourceLineNo">1879</span><a id="line.1879">         * @param out the &lt;code&gt;java.io.OutputStream&lt;/code&gt; to which data will be written.</a>
 <span class="sourceLineNo">1880</span><a id="line.1880">         * @since 1.3</a>
 <span class="sourceLineNo">1881</span><a id="line.1881">         */</a>
 <span class="sourceLineNo">1882</span><a id="line.1882">        public OutputStream( java.io.OutputStream out ) {</a>
@@ -1900,12 +1900,12 @@
 <span class="sourceLineNo">1891</span><a id="line.1891">         * Valid options:&lt;pre&gt;</a>
 <span class="sourceLineNo">1892</span><a id="line.1892">         *   ENCODE or DECODE: Encode or Decode as data is read.</a>
 <span class="sourceLineNo">1893</span><a id="line.1893">         *   DO_BREAK_LINES: don't break lines at 76 characters</a>
-<span class="sourceLineNo">1894</span><a id="line.1894">         *     (only meaningful when encoding)&lt;/i&gt;</a>
+<span class="sourceLineNo">1894</span><a id="line.1894">         *     (only meaningful when encoding)</a>
 <span class="sourceLineNo">1895</span><a id="line.1895">         * &lt;/pre&gt;</a>
 <span class="sourceLineNo">1896</span><a id="line.1896">         * &lt;p&gt;</a>
 <span class="sourceLineNo">1897</span><a id="line.1897">         * Example: &lt;code&gt;new Base64.OutputStream( out, Base64.ENCODE )&lt;/code&gt;</a>
 <span class="sourceLineNo">1898</span><a id="line.1898">         *</a>
-<span class="sourceLineNo">1899</span><a id="line.1899">         * @param out the &lt;tt&gt;java.io.OutputStream&lt;/tt&gt; to which data will be written.</a>
+<span class="sourceLineNo">1899</span><a id="line.1899">         * @param out the &lt;code&gt;java.io.OutputStream&lt;/code&gt; to which data will be written.</a>
 <span class="sourceLineNo">1900</span><a id="line.1900">         * @param options Specified options.</a>
 <span class="sourceLineNo">1901</span><a id="line.1901">         * @see Base64#ENCODE</a>
 <span class="sourceLineNo">1902</span><a id="line.1902">         * @see Base64#DECODE</a>

@@ -74,7 +74,7 @@
 <span class="sourceLineNo">065</span><a id="line.65">    private static Map&lt;Class&lt;?&gt;, Map&lt;String,Method&gt;&gt; settersCache;</a>
 <span class="sourceLineNo">066</span><a id="line.66"></a>
 <span class="sourceLineNo">067</span><a id="line.67">    /** Serialise Date objects using the Microsoft convention for Dates, </a>
-<span class="sourceLineNo">068</span><a id="line.68">     * which is a String in the form &lt;tt&gt;"/Date(millisSinceEpoch)/"&lt;/tt&gt;</a>
+<span class="sourceLineNo">068</span><a id="line.68">     * which is a String in the form &lt;code&gt;"/Date(millisSinceEpoch)/"&lt;/code&gt;</a>
 <span class="sourceLineNo">069</span><a id="line.69">     */</a>
 <span class="sourceLineNo">070</span><a id="line.70">        public static final String DATE_FORMAT_MICROSOFT = "microsoft";</a>
 <span class="sourceLineNo">071</span><a id="line.71">        </a>
@@ -265,7 +265,7 @@
 <span class="sourceLineNo">256</span><a id="line.256">     *  set implements the Map interface.</a>
 <span class="sourceLineNo">257</span><a id="line.257">     *</a>
 <span class="sourceLineNo">258</span><a id="line.258">     *  &lt;p&gt;e.g. if passed a Map object, and the HttpServletRequest has a parameter named</a>
-<span class="sourceLineNo">259</span><a id="line.259">     *  "&lt;tt&gt;table[12].id&lt;/tt&gt;" with the value "&lt;tt&gt;1234&lt;/tt&gt;", then:</a>
+<span class="sourceLineNo">259</span><a id="line.259">     *  "&lt;code&gt;table[12].id&lt;/code&gt;" with the value "&lt;code&gt;1234&lt;/code&gt;", then:</a>
 <span class="sourceLineNo">260</span><a id="line.260">     *  &lt;ul&gt;&lt;li&gt;a List object named "table" is created</a>
 <span class="sourceLineNo">261</span><a id="line.261">     *  in the Map,</a>
 <span class="sourceLineNo">262</span><a id="line.262">     *  &lt;li&gt;the list is increased to allow at least 12 elements,</a>
@@ -288,7 +288,7 @@
 <span class="sourceLineNo">279</span><a id="line.279">     *  need more fine-grained control.</a>
 <span class="sourceLineNo">280</span><a id="line.280">     *</a>
 <span class="sourceLineNo">281</span><a id="line.281">     *  &lt;p&gt;You can limit the setters that are invoked by using the</a>
-<span class="sourceLineNo">282</span><a id="line.282">     *  {@see #setFromRequest(Object, HttpServletRequest, String[])} form of this method.</a>
+<span class="sourceLineNo">282</span><a id="line.282">     *  {@link #setFromRequest(Object, HttpServletRequest, String[])} form of this method.</a>
 <span class="sourceLineNo">283</span><a id="line.283">     *</a>
 <span class="sourceLineNo">284</span><a id="line.284">     * @param obj The object being set.</a>
 <span class="sourceLineNo">285</span><a id="line.285">     * @param request The request containing the source data</a>
@@ -305,7 +305,7 @@
 <span class="sourceLineNo">296</span><a id="line.296">     *  to populate the object. If the named parameter does not exist in the request,</a>
 <span class="sourceLineNo">297</span><a id="line.297">     *  then the setter for that parameter is not invoked.</a>
 <span class="sourceLineNo">298</span><a id="line.298">     *</a>
-<span class="sourceLineNo">299</span><a id="line.299">     *  &lt;p&gt;See {@see #setFromRequest(Object, HttpServletRequest)} for more information</a>
+<span class="sourceLineNo">299</span><a id="line.299">     *  &lt;p&gt;See {@link #setFromRequest(Object, HttpServletRequest)} for more information</a>
 <span class="sourceLineNo">300</span><a id="line.300">     *  on how this method operates.</a>
 <span class="sourceLineNo">301</span><a id="line.301">     *</a>
 <span class="sourceLineNo">302</span><a id="line.302">     * @param obj The object being set.</a>
@@ -625,10 +625,10 @@
 <span class="sourceLineNo">616</span><a id="line.616">    /** Return a single value from a structured map. Returns null if the</a>
 <span class="sourceLineNo">617</span><a id="line.617">     *  value does not exist, or if an error occurred retrieving it.</a>
 <span class="sourceLineNo">618</span><a id="line.618">     *</a>
-<span class="sourceLineNo">619</span><a id="line.619">     * @param map The structure map</a>
+<span class="sourceLineNo">619</span><a id="line.619">     * @param object The structure map</a>
 <span class="sourceLineNo">620</span><a id="line.620">     * @param key The key of the value we wish to retrieve (e.g. "abc.def[12].ghi")</a>
 <span class="sourceLineNo">621</span><a id="line.621">     *</a>
-<span class="sourceLineNo">622</span><a id="line.622">     * @result The value</a>
+<span class="sourceLineNo">622</span><a id="line.622">     * @return The value</a>
 <span class="sourceLineNo">623</span><a id="line.623">     */</a>
 <span class="sourceLineNo">624</span><a id="line.624">    static public Object getValue(Object object, String key) {</a>
 <span class="sourceLineNo">625</span><a id="line.625">        // @TODO (low priority) make this function consistent with setValue()</a>
@@ -651,16 +651,16 @@
 <span class="sourceLineNo">642</span><a id="line.642">     * </a>
 <span class="sourceLineNo">643</span><a id="line.643">     * &lt;p&gt;There is a possible denial-of-service attack that can be used against</a>
 <span class="sourceLineNo">644</span><a id="line.644">     * this method which you should probably be aware of, but can't do anything about:</a>
-<span class="sourceLineNo">645</span><a id="line.645">     * if a large list index is supplied, e.g. "&lt;tt&gt;abc[1293921]&lt;/tt&gt;", then a list will be</a>
+<span class="sourceLineNo">645</span><a id="line.645">     * if a large list index is supplied, e.g. "&lt;code&gt;abc[1293921]&lt;/code&gt;", then a list will be</a>
 <span class="sourceLineNo">646</span><a id="line.646">     * generated with this many elements in it. There are workarounds for this, </a>
 <span class="sourceLineNo">647</span><a id="line.647">     * but none are really satisfactory.</a>
 <span class="sourceLineNo">648</span><a id="line.648">     * </a>
 <span class="sourceLineNo">649</span><a id="line.649">     * &lt;p&gt;It should also be noted that even if an exception is thrown within this</a>
 <span class="sourceLineNo">650</span><a id="line.650">     * method, the data structure underneath it may still have been modified, e.g.</a>
-<span class="sourceLineNo">651</span><a id="line.651">     * setting "&lt;tt&gt;abc.def.ghi&lt;/tt&gt;" may successfully construct 'def' but later</a>
+<span class="sourceLineNo">651</span><a id="line.651">     * setting "&lt;code&gt;abc.def.ghi&lt;/code&gt;" may successfully construct 'def' but later</a>
 <span class="sourceLineNo">652</span><a id="line.652">     * fail on 'ghi'. </a>
 <span class="sourceLineNo">653</span><a id="line.653">     * </a>
-<span class="sourceLineNo">654</span><a id="line.654">     * @param map The structure map or list</a>
+<span class="sourceLineNo">654</span><a id="line.654">     * @param object The structure map or list</a>
 <span class="sourceLineNo">655</span><a id="line.655">     * @param key The key of the value we wish to set (e.g. "abc.def[12].ghi"). Note</a>
 <span class="sourceLineNo">656</span><a id="line.656">     *   that map keys are assumed; i.e. they are not enclosed in 'curly braces'.</a>
 <span class="sourceLineNo">657</span><a id="line.657">     * @param value The value to set this to</a>
@@ -684,7 +684,7 @@
 <span class="sourceLineNo">675</span><a id="line.675">     * &lt;li&gt;An invalid key was supplied (e.g. 'bob[123' -- no closing square bracket)</a>
 <span class="sourceLineNo">676</span><a id="line.676">     * &lt;/ul&gt;</a>
 <span class="sourceLineNo">677</span><a id="line.677">     * @throws NumberFormatException if an array index cannot be converted to</a>
-<span class="sourceLineNo">678</span><a id="line.678">     *   an integer via {@see java.lang.Integer#parseInt(java.lang.String)}.</a>
+<span class="sourceLineNo">678</span><a id="line.678">     *   an integer via {@link java.lang.Integer#parseInt(java.lang.String)}.</a>
 <span class="sourceLineNo">679</span><a id="line.679">     */</a>
 <span class="sourceLineNo">680</span><a id="line.680">    static public void setValue(Object object, String key, Object value, boolean ignoreMissingSetter, boolean convertStrings, boolean createMissingElements)</a>
 <span class="sourceLineNo">681</span><a id="line.681">        throws NumberFormatException </a>
@@ -907,7 +907,7 @@
 <span class="sourceLineNo">898</span><a id="line.898"></a>
 <span class="sourceLineNo">899</span><a id="line.899">    /** Sets the element at a particular list index to a particular object.</a>
 <span class="sourceLineNo">900</span><a id="line.900">     * This differs from the standard List.set() method inasmuch as the list</a>
-<span class="sourceLineNo">901</span><a id="line.901">     * is allowed to grow in the case where index&gt;=List.size(). If the list</a>
+<span class="sourceLineNo">901</span><a id="line.901">     * is allowed to grow in the case where index&amp;gt;=List.size(). If the list</a>
 <span class="sourceLineNo">902</span><a id="line.902">     * needs to grow to accomodate the new element, then null objects are</a>
 <span class="sourceLineNo">903</span><a id="line.903">     * appended until the list is large enough.</a>
 <span class="sourceLineNo">904</span><a id="line.904">     *</a>
@@ -941,7 +941,7 @@
 <span class="sourceLineNo">932</span><a id="line.932">     * </a>
 <span class="sourceLineNo">933</span><a id="line.933">     * @param list The list to search.</a>
 <span class="sourceLineNo">934</span><a id="line.934">     * @param keyField The name of the key field.</a>
-<span class="sourceLineNo">935</span><a id="line.935">     * @param key The key value to search for</a>
+<span class="sourceLineNo">935</span><a id="line.935">     * @param longValue The key value to search for</a>
 <span class="sourceLineNo">936</span><a id="line.936">     *</a>
 <span class="sourceLineNo">937</span><a id="line.937">     * @return The requested element in the list, or null if the element cannot be found.</a>
 <span class="sourceLineNo">938</span><a id="line.938">     *</a>
@@ -978,7 +978,7 @@
 <span class="sourceLineNo">969</span><a id="line.969">     *</a>
 <span class="sourceLineNo">970</span><a id="line.970">     * @param list The list to search.</a>
 <span class="sourceLineNo">971</span><a id="line.971">     * @param keyField The name of the key field.</a>
-<span class="sourceLineNo">972</span><a id="line.972">     * @param key The key value to search for</a>
+<span class="sourceLineNo">972</span><a id="line.972">     * @param longValue The key value to search for</a>
 <span class="sourceLineNo">973</span><a id="line.973">     *</a>
 <span class="sourceLineNo">974</span><a id="line.974">     * @return The requested element in the list, or null if the element cannot be found.</a>
 <span class="sourceLineNo">975</span><a id="line.975">     *</a>
@@ -1020,7 +1020,7 @@
 <span class="sourceLineNo">1011</span><a id="line.1011">     *  ]</a>
 <span class="sourceLineNo">1012</span><a id="line.1012">     *  &lt;/pre&gt;</a>
 <span class="sourceLineNo">1013</span><a id="line.1013">     *</a>
-<span class="sourceLineNo">1014</span><a id="line.1014">     *  &lt;p&gt;&lt;tt&gt;getStructuredListItem(list, "systemId", "def")&lt;/tt&gt; would return a reference to the</a>
+<span class="sourceLineNo">1014</span><a id="line.1014">     *  &lt;p&gt;&lt;code&gt;getStructuredListItem(list, "systemId", "def")&lt;/code&gt; would return a reference to the</a>
 <span class="sourceLineNo">1015</span><a id="line.1015">     *  second element in the list, i.e. the Map:</a>
 <span class="sourceLineNo">1016</span><a id="line.1016">     *</a>
 <span class="sourceLineNo">1017</span><a id="line.1017">     *  &lt;pre&gt;</a>
@@ -1170,7 +1170,7 @@
 <span class="sourceLineNo">1161</span><a id="line.1161">     *  ]</a>
 <span class="sourceLineNo">1162</span><a id="line.1162">     *  &lt;/pre&gt;</a>
 <span class="sourceLineNo">1163</span><a id="line.1163">     *</a>
-<span class="sourceLineNo">1164</span><a id="line.1164">     *  &lt;p&gt;&lt;tt&gt;getStructuredListColumn(list, "systemId")&lt;/tt&gt; would return a new List with</a>
+<span class="sourceLineNo">1164</span><a id="line.1164">     *  &lt;p&gt;&lt;code&gt;getStructuredListColumn(list, "systemId")&lt;/code&gt; would return a new List with</a>
 <span class="sourceLineNo">1165</span><a id="line.1165">     *  three elements, i.e.</a>
 <span class="sourceLineNo">1166</span><a id="line.1166">     *</a>
 <span class="sourceLineNo">1167</span><a id="line.1167">     *  &lt;pre&gt;</a>
@@ -1235,7 +1235,7 @@
 <span class="sourceLineNo">1226</span><a id="line.1226">     *     1: null</a>
 <span class="sourceLineNo">1227</span><a id="line.1227">     *     2: (WeirdObjectClass) "toString() output of weirdObject"</a>
 <span class="sourceLineNo">1228</span><a id="line.1228">     *     3 = {</a>
-<span class="sourceLineNo">1229</span><a id="line.1229">     *         mapElement =&gt; ...,</a>
+<span class="sourceLineNo">1229</span><a id="line.1229">     *         mapElement =&amp;gt; ...,</a>
 <span class="sourceLineNo">1230</span><a id="line.1230">     *         ...</a>
 <span class="sourceLineNo">1231</span><a id="line.1231">     *       }</a>
 <span class="sourceLineNo">1232</span><a id="line.1232">     *     4 = [</a>
@@ -1250,7 +1250,7 @@
 <span class="sourceLineNo">1241</span><a id="line.1241">     * &lt;/pre&gt;</a>
 <span class="sourceLineNo">1242</span><a id="line.1242">     *</a>
 <span class="sourceLineNo">1243</span><a id="line.1243">     * Strings are represented as their own values in quotes; null values</a>
-<span class="sourceLineNo">1244</span><a id="line.1244">     * are represented with the text &lt;tt&gt;null&lt;/tt&gt;, and structured maps</a>
+<span class="sourceLineNo">1244</span><a id="line.1244">     * are represented with the text &lt;code&gt;null&lt;/code&gt;, and structured maps</a>
 <span class="sourceLineNo">1245</span><a id="line.1245">     * and structured lists contained within this list are recursed into.</a>
 <span class="sourceLineNo">1246</span><a id="line.1246">     *</a>
 <span class="sourceLineNo">1247</span><a id="line.1247">     * @param topLevelName The name to assign to the list in the first row of output</a>
@@ -1305,7 +1305,7 @@
 <span class="sourceLineNo">1296</span><a id="line.1296">         *     1: null</a>
 <span class="sourceLineNo">1297</span><a id="line.1297">         *     2: (WeirdObjectClass) "toString() output of weirdObject"</a>
 <span class="sourceLineNo">1298</span><a id="line.1298">         *     3 = {</a>
-<span class="sourceLineNo">1299</span><a id="line.1299">         *         mapElement =&gt; ...,</a>
+<span class="sourceLineNo">1299</span><a id="line.1299">         *         mapElement =&amp;gt; ...,</a>
 <span class="sourceLineNo">1300</span><a id="line.1300">         *         ...</a>
 <span class="sourceLineNo">1301</span><a id="line.1301">         *       }</a>
 <span class="sourceLineNo">1302</span><a id="line.1302">         *     4 = [</a>
@@ -1320,11 +1320,11 @@
 <span class="sourceLineNo">1311</span><a id="line.1311">         * &lt;/pre&gt;</a>
 <span class="sourceLineNo">1312</span><a id="line.1312">         *</a>
 <span class="sourceLineNo">1313</span><a id="line.1313">         * Strings are represented as their own values in quotes; null values</a>
-<span class="sourceLineNo">1314</span><a id="line.1314">         * are represented with the text &lt;tt&gt;null&lt;/tt&gt;, and structured maps</a>
+<span class="sourceLineNo">1314</span><a id="line.1314">         * are represented with the text &lt;code&gt;null&lt;/code&gt;, and structured maps</a>
 <span class="sourceLineNo">1315</span><a id="line.1315">         * and structured lists contained within this list are recursed into.</a>
 <span class="sourceLineNo">1316</span><a id="line.1316">         *</a>
 <span class="sourceLineNo">1317</span><a id="line.1317">         * @param topLevelName The name to assign to the list in the first row of output</a>
-<span class="sourceLineNo">1318</span><a id="line.1318">         * @param list         The list we wish to represent as a string</a>
+<span class="sourceLineNo">1318</span><a id="line.1318">         * @param set          The set we wish to represent as a string</a>
 <span class="sourceLineNo">1319</span><a id="line.1319">         * @return             A human-readable version of a structured list</a>
 <span class="sourceLineNo">1320</span><a id="line.1320">         */</a>
 <span class="sourceLineNo">1321</span><a id="line.1321">        static public String structuredSetToString(String topLevelName, Set set) {</a>
@@ -1371,11 +1371,11 @@
 <span class="sourceLineNo">1362</span><a id="line.1362">     *</a>
 <span class="sourceLineNo">1363</span><a id="line.1363">     * &lt;pre style="code"&gt;</a>
 <span class="sourceLineNo">1364</span><a id="line.1364">     *   topLevelName = {</a>
-<span class="sourceLineNo">1365</span><a id="line.1365">     *     apples =&gt; 'stringValue'</a>
-<span class="sourceLineNo">1366</span><a id="line.1366">     *     rhinocerouseses =&gt; null</a>
-<span class="sourceLineNo">1367</span><a id="line.1367">     *     weirdObjectValue =&gt; (WeirdObjectClass) "toString() output of weirdObject"</a>
+<span class="sourceLineNo">1365</span><a id="line.1365">     *     apples =&amp;gt; 'stringValue'</a>
+<span class="sourceLineNo">1366</span><a id="line.1366">     *     rhinocerouseses =&amp;gt; null</a>
+<span class="sourceLineNo">1367</span><a id="line.1367">     *     weirdObjectValue =&amp;gt; (WeirdObjectClass) "toString() output of weirdObject"</a>
 <span class="sourceLineNo">1368</span><a id="line.1368">     *     mapValue = {</a>
-<span class="sourceLineNo">1369</span><a id="line.1369">     *         mapElement =&gt; ...</a>
+<span class="sourceLineNo">1369</span><a id="line.1369">     *         mapElement =&amp;gt; ...</a>
 <span class="sourceLineNo">1370</span><a id="line.1370">     *         ...</a>
 <span class="sourceLineNo">1371</span><a id="line.1371">     *       }</a>
 <span class="sourceLineNo">1372</span><a id="line.1372">     *     listValue = [</a>
@@ -1392,7 +1392,7 @@
 <span class="sourceLineNo">1383</span><a id="line.1383">     * Keys within the map are sorted alphabetically before being enumerated.</a>
 <span class="sourceLineNo">1384</span><a id="line.1384">     *</a>
 <span class="sourceLineNo">1385</span><a id="line.1385">     * Strings are represented as their own values in quotes; null values</a>
-<span class="sourceLineNo">1386</span><a id="line.1386">     * are represented with the text &lt;tt&gt;null&lt;/tt&gt;, and structured maps</a>
+<span class="sourceLineNo">1386</span><a id="line.1386">     * are represented with the text &lt;code&gt;null&lt;/code&gt;, and structured maps</a>
 <span class="sourceLineNo">1387</span><a id="line.1387">     * and structured lists contained within this list are recursed into.</a>
 <span class="sourceLineNo">1388</span><a id="line.1388">     *</a>
 <span class="sourceLineNo">1389</span><a id="line.1389">     * @param topLevelName The name to assign to the list in the first row of output</a>
@@ -1476,7 +1476,7 @@
 <span class="sourceLineNo">1467</span><a id="line.1467">         *     1: null</a>
 <span class="sourceLineNo">1468</span><a id="line.1468">         *     2: (WeirdObjectClass) "toString() output of weirdObject"</a>
 <span class="sourceLineNo">1469</span><a id="line.1469">         *     3 = {</a>
-<span class="sourceLineNo">1470</span><a id="line.1470">         *         mapElement =&gt; ...,</a>
+<span class="sourceLineNo">1470</span><a id="line.1470">         *         mapElement =&amp;gt; ...,</a>
 <span class="sourceLineNo">1471</span><a id="line.1471">         *         ...</a>
 <span class="sourceLineNo">1472</span><a id="line.1472">         *       }</a>
 <span class="sourceLineNo">1473</span><a id="line.1473">         *     4 = [</a>
@@ -1491,7 +1491,7 @@
 <span class="sourceLineNo">1482</span><a id="line.1482">         * &lt;/pre&gt;</a>
 <span class="sourceLineNo">1483</span><a id="line.1483">         *</a>
 <span class="sourceLineNo">1484</span><a id="line.1484">         * Strings are represented as their own values in quotes; null values</a>
-<span class="sourceLineNo">1485</span><a id="line.1485">         * are represented with the text &lt;tt&gt;null&lt;/tt&gt;, and structured maps</a>
+<span class="sourceLineNo">1485</span><a id="line.1485">         * are represented with the text &lt;code&gt;null&lt;/code&gt;, and structured maps</a>
 <span class="sourceLineNo">1486</span><a id="line.1486">         * and structured lists contained within this list are recursed into.</a>
 <span class="sourceLineNo">1487</span><a id="line.1487">         *</a>
 <span class="sourceLineNo">1488</span><a id="line.1488">         * @param topLevelName The name to assign to the list in the first row of output</a>
@@ -1786,9 +1786,9 @@
 <span class="sourceLineNo">1777</span><a id="line.1777">    }</a>
 <span class="sourceLineNo">1778</span><a id="line.1778"></a>
 <span class="sourceLineNo">1779</span><a id="line.1779">        /**</a>
-<span class="sourceLineNo">1780</span><a id="line.1780">     * Converts a java List into javascript, whilst filtering the keys of any Maps to only those in validKeys</a>
+<span class="sourceLineNo">1780</span><a id="line.1780">     * Converts a java Map into javascript, whilst filtering the keys of any Maps to only those in validKeys</a>
 <span class="sourceLineNo">1781</span><a id="line.1781">     *</a>
-<span class="sourceLineNo">1782</span><a id="line.1782">     * @param list the list to convert into javascript</a>
+<span class="sourceLineNo">1782</span><a id="line.1782">     * @param map the map to convert into javascript</a>
 <span class="sourceLineNo">1783</span><a id="line.1783">     * @param jsonFormat the jsonFormat</a>
 <span class="sourceLineNo">1784</span><a id="line.1784">     * @param validKeys </a>
 <span class="sourceLineNo">1785</span><a id="line.1785">     *</a>
@@ -1990,12 +1990,12 @@
 <span class="sourceLineNo">1981</span><a id="line.1981">     * &lt;p&gt;As there's no real standard for this, a type format is used to define what kind of Dates your </a>
 <span class="sourceLineNo">1982</span><a id="line.1982">     * going to get on the Json side.</a>
 <span class="sourceLineNo">1983</span><a id="line.1983">     * </a>
-<span class="sourceLineNo">1984</span><a id="line.1984">     * @see see http://weblogs.asp.net/bleroy/archive/2008/01/18/dates-and-json.aspx</a>
-<span class="sourceLineNo">1985</span><a id="line.1985">     * </a>
-<span class="sourceLineNo">1986</span><a id="line.1986">     * @param d a Date object</a>
-<span class="sourceLineNo">1987</span><a id="line.1987">     * @param jsonFormat either "microsoft" or "numeric"</a>
+<span class="sourceLineNo">1984</span><a id="line.1984">     * @param d a Date object</a>
+<span class="sourceLineNo">1985</span><a id="line.1985">     * @param jsonFormat either "microsoft" or "numeric"</a>
+<span class="sourceLineNo">1986</span><a id="line.1986">     * </a>
+<span class="sourceLineNo">1987</span><a id="line.1987">     * @return A date in json representation.</a>
 <span class="sourceLineNo">1988</span><a id="line.1988">     * </a>
-<span class="sourceLineNo">1989</span><a id="line.1989">     * @return A date in json representation.</a>
+<span class="sourceLineNo">1989</span><a id="line.1989">     * @see &lt;a href="http://weblogs.asp.net/bleroy/archive/2008/01/18/dates-and-json.aspx"&gt;http://weblogs.asp.net/bleroy/archive/2008/01/18/dates-and-json.aspx&lt;/a&gt;</a>
 <span class="sourceLineNo">1990</span><a id="line.1990">     */</a>
 <span class="sourceLineNo">1991</span><a id="line.1991">    static public String toDate(Date d, String jsonFormat) {</a>
 <span class="sourceLineNo">1992</span><a id="line.1992">                if (jsonFormat==null || jsonFormat.equals("microsoft")) {</a>

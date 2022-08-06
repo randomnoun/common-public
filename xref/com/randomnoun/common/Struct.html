@@ -73,7 +73,7 @@
 <a class="jxr_linenumber" name="L65" href="#L65">65</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> Map&lt;Class&lt;?&gt;, Map&lt;String,Method&gt;&gt; settersCache;
 <a class="jxr_linenumber" name="L66" href="#L66">66</a>  
 <a class="jxr_linenumber" name="L67" href="#L67">67</a>      <em class="jxr_javadoccomment">/** Serialise Date objects using the Microsoft convention for Dates, </em>
-<a class="jxr_linenumber" name="L68" href="#L68">68</a>  <em class="jxr_javadoccomment">     * which is a String in the form &lt;tt&gt;"/Date(millisSinceEpoch)/"&lt;/tt&gt;</em>
+<a class="jxr_linenumber" name="L68" href="#L68">68</a>  <em class="jxr_javadoccomment">     * which is a String in the form &lt;code&gt;"/Date(millisSinceEpoch)/"&lt;/code&gt;</em>
 <a class="jxr_linenumber" name="L69" href="#L69">69</a>  <em class="jxr_javadoccomment">     */</em>
 <a class="jxr_linenumber" name="L70" href="#L70">70</a>  	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String DATE_FORMAT_MICROSOFT = <span class="jxr_string">"microsoft"</span>;
 <a class="jxr_linenumber" name="L71" href="#L71">71</a>  	
@@ -264,7 +264,7 @@
 <a class="jxr_linenumber" name="L256" href="#L256">256</a> <em class="jxr_javadoccomment">     *  set implements the Map interface.</em>
 <a class="jxr_linenumber" name="L257" href="#L257">257</a> <em class="jxr_javadoccomment">     *</em>
 <a class="jxr_linenumber" name="L258" href="#L258">258</a> <em class="jxr_javadoccomment">     *  &lt;p&gt;e.g. if passed a Map object, and the HttpServletRequest has a parameter named</em>
-<a class="jxr_linenumber" name="L259" href="#L259">259</a> <em class="jxr_javadoccomment">     *  "&lt;tt&gt;table[12].id&lt;/tt&gt;" with the value "&lt;tt&gt;1234&lt;/tt&gt;", then:</em>
+<a class="jxr_linenumber" name="L259" href="#L259">259</a> <em class="jxr_javadoccomment">     *  "&lt;code&gt;table[12].id&lt;/code&gt;" with the value "&lt;code&gt;1234&lt;/code&gt;", then:</em>
 <a class="jxr_linenumber" name="L260" href="#L260">260</a> <em class="jxr_javadoccomment">     *  &lt;ul&gt;&lt;li&gt;a List object named "table" is created</em>
 <a class="jxr_linenumber" name="L261" href="#L261">261</a> <em class="jxr_javadoccomment">     *  in the Map,</em>
 <a class="jxr_linenumber" name="L262" href="#L262">262</a> <em class="jxr_javadoccomment">     *  &lt;li&gt;the list is increased to allow at least 12 elements,</em>
@@ -287,7 +287,7 @@
 <a class="jxr_linenumber" name="L279" href="#L279">279</a> <em class="jxr_javadoccomment">     *  need more fine-grained control.</em>
 <a class="jxr_linenumber" name="L280" href="#L280">280</a> <em class="jxr_javadoccomment">     *</em>
 <a class="jxr_linenumber" name="L281" href="#L281">281</a> <em class="jxr_javadoccomment">     *  &lt;p&gt;You can limit the setters that are invoked by using the</em>
-<a class="jxr_linenumber" name="L282" href="#L282">282</a> <em class="jxr_javadoccomment">     *  {@see #setFromRequest(Object, HttpServletRequest, String[])} form of this method.</em>
+<a class="jxr_linenumber" name="L282" href="#L282">282</a> <em class="jxr_javadoccomment">     *  {@link #setFromRequest(Object, HttpServletRequest, String[])} form of this method.</em>
 <a class="jxr_linenumber" name="L283" href="#L283">283</a> <em class="jxr_javadoccomment">     *</em>
 <a class="jxr_linenumber" name="L284" href="#L284">284</a> <em class="jxr_javadoccomment">     * @param obj The object being set.</em>
 <a class="jxr_linenumber" name="L285" href="#L285">285</a> <em class="jxr_javadoccomment">     * @param request The request containing the source data</em>
@@ -304,7 +304,7 @@
 <a class="jxr_linenumber" name="L296" href="#L296">296</a> <em class="jxr_javadoccomment">     *  to populate the object. If the named parameter does not exist in the request,</em>
 <a class="jxr_linenumber" name="L297" href="#L297">297</a> <em class="jxr_javadoccomment">     *  then the setter for that parameter is not invoked.</em>
 <a class="jxr_linenumber" name="L298" href="#L298">298</a> <em class="jxr_javadoccomment">     *</em>
-<a class="jxr_linenumber" name="L299" href="#L299">299</a> <em class="jxr_javadoccomment">     *  &lt;p&gt;See {@see #setFromRequest(Object, HttpServletRequest)} for more information</em>
+<a class="jxr_linenumber" name="L299" href="#L299">299</a> <em class="jxr_javadoccomment">     *  &lt;p&gt;See {@link #setFromRequest(Object, HttpServletRequest)} for more information</em>
 <a class="jxr_linenumber" name="L300" href="#L300">300</a> <em class="jxr_javadoccomment">     *  on how this method operates.</em>
 <a class="jxr_linenumber" name="L301" href="#L301">301</a> <em class="jxr_javadoccomment">     *</em>
 <a class="jxr_linenumber" name="L302" href="#L302">302</a> <em class="jxr_javadoccomment">     * @param obj The object being set.</em>
@@ -624,10 +624,10 @@
 <a class="jxr_linenumber" name="L616" href="#L616">616</a>     <em class="jxr_javadoccomment">/** Return a single value from a structured map. Returns null if the</em>
 <a class="jxr_linenumber" name="L617" href="#L617">617</a> <em class="jxr_javadoccomment">     *  value does not exist, or if an error occurred retrieving it.</em>
 <a class="jxr_linenumber" name="L618" href="#L618">618</a> <em class="jxr_javadoccomment">     *</em>
-<a class="jxr_linenumber" name="L619" href="#L619">619</a> <em class="jxr_javadoccomment">     * @param map The structure map</em>
+<a class="jxr_linenumber" name="L619" href="#L619">619</a> <em class="jxr_javadoccomment">     * @param object The structure map</em>
 <a class="jxr_linenumber" name="L620" href="#L620">620</a> <em class="jxr_javadoccomment">     * @param key The key of the value we wish to retrieve (e.g. "abc.def[12].ghi")</em>
 <a class="jxr_linenumber" name="L621" href="#L621">621</a> <em class="jxr_javadoccomment">     *</em>
-<a class="jxr_linenumber" name="L622" href="#L622">622</a> <em class="jxr_javadoccomment">     * @result The value</em>
+<a class="jxr_linenumber" name="L622" href="#L622">622</a> <em class="jxr_javadoccomment">     * @return The value</em>
 <a class="jxr_linenumber" name="L623" href="#L623">623</a> <em class="jxr_javadoccomment">     */</em>
 <a class="jxr_linenumber" name="L624" href="#L624">624</a>     <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">public</strong> Object getValue(Object object, String key) {
 <a class="jxr_linenumber" name="L625" href="#L625">625</a>         <em class="jxr_comment">// @TODO (low priority) make this function consistent with setValue()</em>
@@ -650,16 +650,16 @@
 <a class="jxr_linenumber" name="L642" href="#L642">642</a> <em class="jxr_javadoccomment">     * </em>
 <a class="jxr_linenumber" name="L643" href="#L643">643</a> <em class="jxr_javadoccomment">     * &lt;p&gt;There is a possible denial-of-service attack that can be used against</em>
 <a class="jxr_linenumber" name="L644" href="#L644">644</a> <em class="jxr_javadoccomment">     * this method which you should probably be aware of, but can't do anything about:</em>
-<a class="jxr_linenumber" name="L645" href="#L645">645</a> <em class="jxr_javadoccomment">     * if a large list index is supplied, e.g. "&lt;tt&gt;abc[1293921]&lt;/tt&gt;", then a list will be</em>
+<a class="jxr_linenumber" name="L645" href="#L645">645</a> <em class="jxr_javadoccomment">     * if a large list index is supplied, e.g. "&lt;code&gt;abc[1293921]&lt;/code&gt;", then a list will be</em>
 <a class="jxr_linenumber" name="L646" href="#L646">646</a> <em class="jxr_javadoccomment">     * generated with this many elements in it. There are workarounds for this, </em>
 <a class="jxr_linenumber" name="L647" href="#L647">647</a> <em class="jxr_javadoccomment">     * but none are really satisfactory.</em>
 <a class="jxr_linenumber" name="L648" href="#L648">648</a> <em class="jxr_javadoccomment">     * </em>
 <a class="jxr_linenumber" name="L649" href="#L649">649</a> <em class="jxr_javadoccomment">     * &lt;p&gt;It should also be noted that even if an exception is thrown within this</em>
 <a class="jxr_linenumber" name="L650" href="#L650">650</a> <em class="jxr_javadoccomment">     * method, the data structure underneath it may still have been modified, e.g.</em>
-<a class="jxr_linenumber" name="L651" href="#L651">651</a> <em class="jxr_javadoccomment">     * setting "&lt;tt&gt;abc.def.ghi&lt;/tt&gt;" may successfully construct 'def' but later</em>
+<a class="jxr_linenumber" name="L651" href="#L651">651</a> <em class="jxr_javadoccomment">     * setting "&lt;code&gt;abc.def.ghi&lt;/code&gt;" may successfully construct 'def' but later</em>
 <a class="jxr_linenumber" name="L652" href="#L652">652</a> <em class="jxr_javadoccomment">     * fail on 'ghi'. </em>
 <a class="jxr_linenumber" name="L653" href="#L653">653</a> <em class="jxr_javadoccomment">     * </em>
-<a class="jxr_linenumber" name="L654" href="#L654">654</a> <em class="jxr_javadoccomment">     * @param map The structure map or list</em>
+<a class="jxr_linenumber" name="L654" href="#L654">654</a> <em class="jxr_javadoccomment">     * @param object The structure map or list</em>
 <a class="jxr_linenumber" name="L655" href="#L655">655</a> <em class="jxr_javadoccomment">     * @param key The key of the value we wish to set (e.g. "abc.def[12].ghi"). Note</em>
 <a class="jxr_linenumber" name="L656" href="#L656">656</a> <em class="jxr_javadoccomment">     *   that map keys are assumed; i.e. they are not enclosed in 'curly braces'.</em>
 <a class="jxr_linenumber" name="L657" href="#L657">657</a> <em class="jxr_javadoccomment">     * @param value The value to set this to</em>
@@ -683,7 +683,7 @@
 <a class="jxr_linenumber" name="L675" href="#L675">675</a> <em class="jxr_javadoccomment">     * &lt;li&gt;An invalid key was supplied (e.g. 'bob[123' -- no closing square bracket)</em>
 <a class="jxr_linenumber" name="L676" href="#L676">676</a> <em class="jxr_javadoccomment">     * &lt;/ul&gt;</em>
 <a class="jxr_linenumber" name="L677" href="#L677">677</a> <em class="jxr_javadoccomment">     * @throws NumberFormatException if an array index cannot be converted to</em>
-<a class="jxr_linenumber" name="L678" href="#L678">678</a> <em class="jxr_javadoccomment">     *   an integer via {@see java.lang.Integer#parseInt(java.lang.String)}.</em>
+<a class="jxr_linenumber" name="L678" href="#L678">678</a> <em class="jxr_javadoccomment">     *   an integer via {@link java.lang.Integer#parseInt(java.lang.String)}.</em>
 <a class="jxr_linenumber" name="L679" href="#L679">679</a> <em class="jxr_javadoccomment">     */</em>
 <a class="jxr_linenumber" name="L680" href="#L680">680</a>     <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setValue(Object object, String key, Object value, <strong class="jxr_keyword">boolean</strong> ignoreMissingSetter, <strong class="jxr_keyword">boolean</strong> convertStrings, <strong class="jxr_keyword">boolean</strong> createMissingElements)
 <a class="jxr_linenumber" name="L681" href="#L681">681</a>         <strong class="jxr_keyword">throws</strong> NumberFormatException 
@@ -906,7 +906,7 @@
 <a class="jxr_linenumber" name="L898" href="#L898">898</a> 
 <a class="jxr_linenumber" name="L899" href="#L899">899</a>     <em class="jxr_javadoccomment">/** Sets the element at a particular list index to a particular object.</em>
 <a class="jxr_linenumber" name="L900" href="#L900">900</a> <em class="jxr_javadoccomment">     * This differs from the standard List.set() method inasmuch as the list</em>
-<a class="jxr_linenumber" name="L901" href="#L901">901</a> <em class="jxr_javadoccomment">     * is allowed to grow in the case where index&gt;=List.size(). If the list</em>
+<a class="jxr_linenumber" name="L901" href="#L901">901</a> <em class="jxr_javadoccomment">     * is allowed to grow in the case where index&amp;gt;=List.size(). If the list</em>
 <a class="jxr_linenumber" name="L902" href="#L902">902</a> <em class="jxr_javadoccomment">     * needs to grow to accomodate the new element, then null objects are</em>
 <a class="jxr_linenumber" name="L903" href="#L903">903</a> <em class="jxr_javadoccomment">     * appended until the list is large enough.</em>
 <a class="jxr_linenumber" name="L904" href="#L904">904</a> <em class="jxr_javadoccomment">     *</em>
@@ -940,7 +940,7 @@
 <a class="jxr_linenumber" name="L932" href="#L932">932</a> <em class="jxr_javadoccomment">     * </em>
 <a class="jxr_linenumber" name="L933" href="#L933">933</a> <em class="jxr_javadoccomment">     * @param list The list to search.</em>
 <a class="jxr_linenumber" name="L934" href="#L934">934</a> <em class="jxr_javadoccomment">     * @param keyField The name of the key field.</em>
-<a class="jxr_linenumber" name="L935" href="#L935">935</a> <em class="jxr_javadoccomment">     * @param key The key value to search for</em>
+<a class="jxr_linenumber" name="L935" href="#L935">935</a> <em class="jxr_javadoccomment">     * @param longValue The key value to search for</em>
 <a class="jxr_linenumber" name="L936" href="#L936">936</a> <em class="jxr_javadoccomment">     *</em>
 <a class="jxr_linenumber" name="L937" href="#L937">937</a> <em class="jxr_javadoccomment">     * @return The requested element in the list, or null if the element cannot be found.</em>
 <a class="jxr_linenumber" name="L938" href="#L938">938</a> <em class="jxr_javadoccomment">     *</em>
@@ -977,7 +977,7 @@
 <a class="jxr_linenumber" name="L969" href="#L969">969</a> <em class="jxr_javadoccomment">     *</em>
 <a class="jxr_linenumber" name="L970" href="#L970">970</a> <em class="jxr_javadoccomment">     * @param list The list to search.</em>
 <a class="jxr_linenumber" name="L971" href="#L971">971</a> <em class="jxr_javadoccomment">     * @param keyField The name of the key field.</em>
-<a class="jxr_linenumber" name="L972" href="#L972">972</a> <em class="jxr_javadoccomment">     * @param key The key value to search for</em>
+<a class="jxr_linenumber" name="L972" href="#L972">972</a> <em class="jxr_javadoccomment">     * @param longValue The key value to search for</em>
 <a class="jxr_linenumber" name="L973" href="#L973">973</a> <em class="jxr_javadoccomment">     *</em>
 <a class="jxr_linenumber" name="L974" href="#L974">974</a> <em class="jxr_javadoccomment">     * @return The requested element in the list, or null if the element cannot be found.</em>
 <a class="jxr_linenumber" name="L975" href="#L975">975</a> <em class="jxr_javadoccomment">     *</em>
@@ -1019,7 +1019,7 @@
 <a class="jxr_linenumber" name="L1011" href="#L1011">1011</a> <em class="jxr_javadoccomment">     *  ]</em>
 <a class="jxr_linenumber" name="L1012" href="#L1012">1012</a> <em class="jxr_javadoccomment">     *  &lt;/pre&gt;</em>
 <a class="jxr_linenumber" name="L1013" href="#L1013">1013</a> <em class="jxr_javadoccomment">     *</em>
-<a class="jxr_linenumber" name="L1014" href="#L1014">1014</a> <em class="jxr_javadoccomment">     *  &lt;p&gt;&lt;tt&gt;getStructuredListItem(list, "systemId", "def")&lt;/tt&gt; would return a reference to the</em>
+<a class="jxr_linenumber" name="L1014" href="#L1014">1014</a> <em class="jxr_javadoccomment">     *  &lt;p&gt;&lt;code&gt;getStructuredListItem(list, "systemId", "def")&lt;/code&gt; would return a reference to the</em>
 <a class="jxr_linenumber" name="L1015" href="#L1015">1015</a> <em class="jxr_javadoccomment">     *  second element in the list, i.e. the Map:</em>
 <a class="jxr_linenumber" name="L1016" href="#L1016">1016</a> <em class="jxr_javadoccomment">     *</em>
 <a class="jxr_linenumber" name="L1017" href="#L1017">1017</a> <em class="jxr_javadoccomment">     *  &lt;pre&gt;</em>
@@ -1169,7 +1169,7 @@
 <a class="jxr_linenumber" name="L1161" href="#L1161">1161</a> <em class="jxr_javadoccomment">     *  ]</em>
 <a class="jxr_linenumber" name="L1162" href="#L1162">1162</a> <em class="jxr_javadoccomment">     *  &lt;/pre&gt;</em>
 <a class="jxr_linenumber" name="L1163" href="#L1163">1163</a> <em class="jxr_javadoccomment">     *</em>
-<a class="jxr_linenumber" name="L1164" href="#L1164">1164</a> <em class="jxr_javadoccomment">     *  &lt;p&gt;&lt;tt&gt;getStructuredListColumn(list, "systemId")&lt;/tt&gt; would return a new List with</em>
+<a class="jxr_linenumber" name="L1164" href="#L1164">1164</a> <em class="jxr_javadoccomment">     *  &lt;p&gt;&lt;code&gt;getStructuredListColumn(list, "systemId")&lt;/code&gt; would return a new List with</em>
 <a class="jxr_linenumber" name="L1165" href="#L1165">1165</a> <em class="jxr_javadoccomment">     *  three elements, i.e.</em>
 <a class="jxr_linenumber" name="L1166" href="#L1166">1166</a> <em class="jxr_javadoccomment">     *</em>
 <a class="jxr_linenumber" name="L1167" href="#L1167">1167</a> <em class="jxr_javadoccomment">     *  &lt;pre&gt;</em>
@@ -1234,7 +1234,7 @@
 <a class="jxr_linenumber" name="L1226" href="#L1226">1226</a> <em class="jxr_javadoccomment">     *     1: null</em>
 <a class="jxr_linenumber" name="L1227" href="#L1227">1227</a> <em class="jxr_javadoccomment">     *     2: (WeirdObjectClass) "toString() output of weirdObject"</em>
 <a class="jxr_linenumber" name="L1228" href="#L1228">1228</a> <em class="jxr_javadoccomment">     *     3 = {</em>
-<a class="jxr_linenumber" name="L1229" href="#L1229">1229</a> <em class="jxr_javadoccomment">     *         mapElement =&gt; ...,</em>
+<a class="jxr_linenumber" name="L1229" href="#L1229">1229</a> <em class="jxr_javadoccomment">     *         mapElement =&amp;gt; ...,</em>
 <a class="jxr_linenumber" name="L1230" href="#L1230">1230</a> <em class="jxr_javadoccomment">     *         ...</em>
 <a class="jxr_linenumber" name="L1231" href="#L1231">1231</a> <em class="jxr_javadoccomment">     *       }</em>
 <a class="jxr_linenumber" name="L1232" href="#L1232">1232</a> <em class="jxr_javadoccomment">     *     4 = [</em>
@@ -1249,7 +1249,7 @@
 <a class="jxr_linenumber" name="L1241" href="#L1241">1241</a> <em class="jxr_javadoccomment">     * &lt;/pre&gt;</em>
 <a class="jxr_linenumber" name="L1242" href="#L1242">1242</a> <em class="jxr_javadoccomment">     *</em>
 <a class="jxr_linenumber" name="L1243" href="#L1243">1243</a> <em class="jxr_javadoccomment">     * Strings are represented as their own values in quotes; null values</em>
-<a class="jxr_linenumber" name="L1244" href="#L1244">1244</a> <em class="jxr_javadoccomment">     * are represented with the text &lt;tt&gt;null&lt;/tt&gt;, and structured maps</em>
+<a class="jxr_linenumber" name="L1244" href="#L1244">1244</a> <em class="jxr_javadoccomment">     * are represented with the text &lt;code&gt;null&lt;/code&gt;, and structured maps</em>
 <a class="jxr_linenumber" name="L1245" href="#L1245">1245</a> <em class="jxr_javadoccomment">     * and structured lists contained within this list are recursed into.</em>
 <a class="jxr_linenumber" name="L1246" href="#L1246">1246</a> <em class="jxr_javadoccomment">     *</em>
 <a class="jxr_linenumber" name="L1247" href="#L1247">1247</a> <em class="jxr_javadoccomment">     * @param topLevelName The name to assign to the list in the first row of output</em>
@@ -1304,7 +1304,7 @@
 <a class="jxr_linenumber" name="L1296" href="#L1296">1296</a> <em class="jxr_javadoccomment">	 *     1: null</em>
 <a class="jxr_linenumber" name="L1297" href="#L1297">1297</a> <em class="jxr_javadoccomment">	 *     2: (WeirdObjectClass) "toString() output of weirdObject"</em>
 <a class="jxr_linenumber" name="L1298" href="#L1298">1298</a> <em class="jxr_javadoccomment">	 *     3 = {</em>
-<a class="jxr_linenumber" name="L1299" href="#L1299">1299</a> <em class="jxr_javadoccomment">	 *         mapElement =&gt; ...,</em>
+<a class="jxr_linenumber" name="L1299" href="#L1299">1299</a> <em class="jxr_javadoccomment">	 *         mapElement =&amp;gt; ...,</em>
 <a class="jxr_linenumber" name="L1300" href="#L1300">1300</a> <em class="jxr_javadoccomment">	 *         ...</em>
 <a class="jxr_linenumber" name="L1301" href="#L1301">1301</a> <em class="jxr_javadoccomment">	 *       }</em>
 <a class="jxr_linenumber" name="L1302" href="#L1302">1302</a> <em class="jxr_javadoccomment">	 *     4 = [</em>
@@ -1319,11 +1319,11 @@
 <a class="jxr_linenumber" name="L1311" href="#L1311">1311</a> <em class="jxr_javadoccomment">	 * &lt;/pre&gt;</em>
 <a class="jxr_linenumber" name="L1312" href="#L1312">1312</a> <em class="jxr_javadoccomment">	 *</em>
 <a class="jxr_linenumber" name="L1313" href="#L1313">1313</a> <em class="jxr_javadoccomment">	 * Strings are represented as their own values in quotes; null values</em>
-<a class="jxr_linenumber" name="L1314" href="#L1314">1314</a> <em class="jxr_javadoccomment">	 * are represented with the text &lt;tt&gt;null&lt;/tt&gt;, and structured maps</em>
+<a class="jxr_linenumber" name="L1314" href="#L1314">1314</a> <em class="jxr_javadoccomment">	 * are represented with the text &lt;code&gt;null&lt;/code&gt;, and structured maps</em>
 <a class="jxr_linenumber" name="L1315" href="#L1315">1315</a> <em class="jxr_javadoccomment">	 * and structured lists contained within this list are recursed into.</em>
 <a class="jxr_linenumber" name="L1316" href="#L1316">1316</a> <em class="jxr_javadoccomment">	 *</em>
 <a class="jxr_linenumber" name="L1317" href="#L1317">1317</a> <em class="jxr_javadoccomment">	 * @param topLevelName The name to assign to the list in the first row of output</em>
-<a class="jxr_linenumber" name="L1318" href="#L1318">1318</a> <em class="jxr_javadoccomment">	 * @param list         The list we wish to represent as a string</em>
+<a class="jxr_linenumber" name="L1318" href="#L1318">1318</a> <em class="jxr_javadoccomment">	 * @param set          The set we wish to represent as a string</em>
 <a class="jxr_linenumber" name="L1319" href="#L1319">1319</a> <em class="jxr_javadoccomment">	 * @return             A human-readable version of a structured list</em>
 <a class="jxr_linenumber" name="L1320" href="#L1320">1320</a> <em class="jxr_javadoccomment">	 */</em>
 <a class="jxr_linenumber" name="L1321" href="#L1321">1321</a> 	<strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">public</strong> String structuredSetToString(String topLevelName, Set set) {
@@ -1370,11 +1370,11 @@
 <a class="jxr_linenumber" name="L1362" href="#L1362">1362</a> <em class="jxr_javadoccomment">     *</em>
 <a class="jxr_linenumber" name="L1363" href="#L1363">1363</a> <em class="jxr_javadoccomment">     * &lt;pre style="code"&gt;</em>
 <a class="jxr_linenumber" name="L1364" href="#L1364">1364</a> <em class="jxr_javadoccomment">     *   topLevelName = {</em>
-<a class="jxr_linenumber" name="L1365" href="#L1365">1365</a> <em class="jxr_javadoccomment">     *     apples =&gt; 'stringValue'</em>
-<a class="jxr_linenumber" name="L1366" href="#L1366">1366</a> <em class="jxr_javadoccomment">     *     rhinocerouseses =&gt; null</em>
-<a class="jxr_linenumber" name="L1367" href="#L1367">1367</a> <em class="jxr_javadoccomment">     *     weirdObjectValue =&gt; (WeirdObjectClass) "toString() output of weirdObject"</em>
+<a class="jxr_linenumber" name="L1365" href="#L1365">1365</a> <em class="jxr_javadoccomment">     *     apples =&amp;gt; 'stringValue'</em>
+<a class="jxr_linenumber" name="L1366" href="#L1366">1366</a> <em class="jxr_javadoccomment">     *     rhinocerouseses =&amp;gt; null</em>
+<a class="jxr_linenumber" name="L1367" href="#L1367">1367</a> <em class="jxr_javadoccomment">     *     weirdObjectValue =&amp;gt; (WeirdObjectClass) "toString() output of weirdObject"</em>
 <a class="jxr_linenumber" name="L1368" href="#L1368">1368</a> <em class="jxr_javadoccomment">     *     mapValue = {</em>
-<a class="jxr_linenumber" name="L1369" href="#L1369">1369</a> <em class="jxr_javadoccomment">     *         mapElement =&gt; ...</em>
+<a class="jxr_linenumber" name="L1369" href="#L1369">1369</a> <em class="jxr_javadoccomment">     *         mapElement =&amp;gt; ...</em>
 <a class="jxr_linenumber" name="L1370" href="#L1370">1370</a> <em class="jxr_javadoccomment">     *         ...</em>
 <a class="jxr_linenumber" name="L1371" href="#L1371">1371</a> <em class="jxr_javadoccomment">     *       }</em>
 <a class="jxr_linenumber" name="L1372" href="#L1372">1372</a> <em class="jxr_javadoccomment">     *     listValue = [</em>
@@ -1391,7 +1391,7 @@
 <a class="jxr_linenumber" name="L1383" href="#L1383">1383</a> <em class="jxr_javadoccomment">     * Keys within the map are sorted alphabetically before being enumerated.</em>
 <a class="jxr_linenumber" name="L1384" href="#L1384">1384</a> <em class="jxr_javadoccomment">     *</em>
 <a class="jxr_linenumber" name="L1385" href="#L1385">1385</a> <em class="jxr_javadoccomment">     * Strings are represented as their own values in quotes; null values</em>
-<a class="jxr_linenumber" name="L1386" href="#L1386">1386</a> <em class="jxr_javadoccomment">     * are represented with the text &lt;tt&gt;null&lt;/tt&gt;, and structured maps</em>
+<a class="jxr_linenumber" name="L1386" href="#L1386">1386</a> <em class="jxr_javadoccomment">     * are represented with the text &lt;code&gt;null&lt;/code&gt;, and structured maps</em>
 <a class="jxr_linenumber" name="L1387" href="#L1387">1387</a> <em class="jxr_javadoccomment">     * and structured lists contained within this list are recursed into.</em>
 <a class="jxr_linenumber" name="L1388" href="#L1388">1388</a> <em class="jxr_javadoccomment">     *</em>
 <a class="jxr_linenumber" name="L1389" href="#L1389">1389</a> <em class="jxr_javadoccomment">     * @param topLevelName The name to assign to the list in the first row of output</em>
@@ -1475,7 +1475,7 @@
 <a class="jxr_linenumber" name="L1467" href="#L1467">1467</a> <em class="jxr_javadoccomment">	 *     1: null</em>
 <a class="jxr_linenumber" name="L1468" href="#L1468">1468</a> <em class="jxr_javadoccomment">	 *     2: (WeirdObjectClass) "toString() output of weirdObject"</em>
 <a class="jxr_linenumber" name="L1469" href="#L1469">1469</a> <em class="jxr_javadoccomment">	 *     3 = {</em>
-<a class="jxr_linenumber" name="L1470" href="#L1470">1470</a> <em class="jxr_javadoccomment">	 *         mapElement =&gt; ...,</em>
+<a class="jxr_linenumber" name="L1470" href="#L1470">1470</a> <em class="jxr_javadoccomment">	 *         mapElement =&amp;gt; ...,</em>
 <a class="jxr_linenumber" name="L1471" href="#L1471">1471</a> <em class="jxr_javadoccomment">	 *         ...</em>
 <a class="jxr_linenumber" name="L1472" href="#L1472">1472</a> <em class="jxr_javadoccomment">	 *       }</em>
 <a class="jxr_linenumber" name="L1473" href="#L1473">1473</a> <em class="jxr_javadoccomment">	 *     4 = [</em>
@@ -1490,7 +1490,7 @@
 <a class="jxr_linenumber" name="L1482" href="#L1482">1482</a> <em class="jxr_javadoccomment">	 * &lt;/pre&gt;</em>
 <a class="jxr_linenumber" name="L1483" href="#L1483">1483</a> <em class="jxr_javadoccomment">	 *</em>
 <a class="jxr_linenumber" name="L1484" href="#L1484">1484</a> <em class="jxr_javadoccomment">	 * Strings are represented as their own values in quotes; null values</em>
-<a class="jxr_linenumber" name="L1485" href="#L1485">1485</a> <em class="jxr_javadoccomment">	 * are represented with the text &lt;tt&gt;null&lt;/tt&gt;, and structured maps</em>
+<a class="jxr_linenumber" name="L1485" href="#L1485">1485</a> <em class="jxr_javadoccomment">	 * are represented with the text &lt;code&gt;null&lt;/code&gt;, and structured maps</em>
 <a class="jxr_linenumber" name="L1486" href="#L1486">1486</a> <em class="jxr_javadoccomment">	 * and structured lists contained within this list are recursed into.</em>
 <a class="jxr_linenumber" name="L1487" href="#L1487">1487</a> <em class="jxr_javadoccomment">	 *</em>
 <a class="jxr_linenumber" name="L1488" href="#L1488">1488</a> <em class="jxr_javadoccomment">	 * @param topLevelName The name to assign to the list in the first row of output</em>
@@ -1785,9 +1785,9 @@
 <a class="jxr_linenumber" name="L1777" href="#L1777">1777</a>     }
 <a class="jxr_linenumber" name="L1778" href="#L1778">1778</a> 
 <a class="jxr_linenumber" name="L1779" href="#L1779">1779</a> 	<em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L1780" href="#L1780">1780</a> <em class="jxr_javadoccomment">     * Converts a java List into javascript, whilst filtering the keys of any Maps to only those in validKeys</em>
+<a class="jxr_linenumber" name="L1780" href="#L1780">1780</a> <em class="jxr_javadoccomment">     * Converts a java Map into javascript, whilst filtering the keys of any Maps to only those in validKeys</em>
 <a class="jxr_linenumber" name="L1781" href="#L1781">1781</a> <em class="jxr_javadoccomment">     *</em>
-<a class="jxr_linenumber" name="L1782" href="#L1782">1782</a> <em class="jxr_javadoccomment">     * @param list the list to convert into javascript</em>
+<a class="jxr_linenumber" name="L1782" href="#L1782">1782</a> <em class="jxr_javadoccomment">     * @param map the map to convert into javascript</em>
 <a class="jxr_linenumber" name="L1783" href="#L1783">1783</a> <em class="jxr_javadoccomment">     * @param jsonFormat the jsonFormat</em>
 <a class="jxr_linenumber" name="L1784" href="#L1784">1784</a> <em class="jxr_javadoccomment">     * @param validKeys </em>
 <a class="jxr_linenumber" name="L1785" href="#L1785">1785</a> <em class="jxr_javadoccomment">     *</em>
@@ -1989,12 +1989,12 @@
 <a class="jxr_linenumber" name="L1981" href="#L1981">1981</a> <em class="jxr_javadoccomment">     * &lt;p&gt;As there's no real standard for this, a type format is used to define what kind of Dates your </em>
 <a class="jxr_linenumber" name="L1982" href="#L1982">1982</a> <em class="jxr_javadoccomment">     * going to get on the Json side.</em>
 <a class="jxr_linenumber" name="L1983" href="#L1983">1983</a> <em class="jxr_javadoccomment">     * </em>
-<a class="jxr_linenumber" name="L1984" href="#L1984">1984</a> <em class="jxr_javadoccomment">     * @see see <a href="http://weblogs.asp.net/bleroy/archive/2008/01/18/dates-and-json.asp" target="alexandria_uri">http://weblogs.asp.net/bleroy/archive/2008/01/18/dates-and-json.asp</a>x</em>
-<a class="jxr_linenumber" name="L1985" href="#L1985">1985</a> <em class="jxr_javadoccomment">     * </em>
-<a class="jxr_linenumber" name="L1986" href="#L1986">1986</a> <em class="jxr_javadoccomment">     * @param d a Date object</em>
-<a class="jxr_linenumber" name="L1987" href="#L1987">1987</a> <em class="jxr_javadoccomment">     * @param jsonFormat either "microsoft" or "numeric"</em>
+<a class="jxr_linenumber" name="L1984" href="#L1984">1984</a> <em class="jxr_javadoccomment">     * @param d a Date object</em>
+<a class="jxr_linenumber" name="L1985" href="#L1985">1985</a> <em class="jxr_javadoccomment">     * @param jsonFormat either "microsoft" or "numeric"</em>
+<a class="jxr_linenumber" name="L1986" href="#L1986">1986</a> <em class="jxr_javadoccomment">     * </em>
+<a class="jxr_linenumber" name="L1987" href="#L1987">1987</a> <em class="jxr_javadoccomment">     * @return A date in json representation.</em>
 <a class="jxr_linenumber" name="L1988" href="#L1988">1988</a> <em class="jxr_javadoccomment">     * </em>
-<a class="jxr_linenumber" name="L1989" href="#L1989">1989</a> <em class="jxr_javadoccomment">     * @return A date in json representation.</em>
+<a class="jxr_linenumber" name="L1989" href="#L1989">1989</a> <em class="jxr_javadoccomment">     * @see &lt;a href="<a href="http://weblogs.asp.net/bleroy/archive/2008/01/18/dates-and-json.aspx" target="alexandria_uri">http://weblogs.asp.net/bleroy/archive/2008/01/18/dates-and-json.aspx</a>"&gt;<a href="http://weblogs.asp.net/bleroy/archive/2008/01/18/dates-and-json.aspx" target="alexandria_uri">http://weblogs.asp.net/bleroy/archive/2008/01/18/dates-and-json.aspx</a>&lt;/a&gt;</em>
 <a class="jxr_linenumber" name="L1990" href="#L1990">1990</a> <em class="jxr_javadoccomment">     */</em>
 <a class="jxr_linenumber" name="L1991" href="#L1991">1991</a>     <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">public</strong> String toDate(Date d, String jsonFormat) {
 <a class="jxr_linenumber" name="L1992" href="#L1992">1992</a> 	   	<strong class="jxr_keyword">if</strong> (jsonFormat==<strong class="jxr_keyword">null</strong> || jsonFormat.equals(<span class="jxr_string">"microsoft"</span>)) {

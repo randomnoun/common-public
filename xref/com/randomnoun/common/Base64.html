@@ -20,11 +20,11 @@
 <a class="jxr_linenumber" name="L12" href="#L12">12</a>  <em class="jxr_javadoccomment"> * </em>
 <a class="jxr_linenumber" name="L13" href="#L13">13</a>  <em class="jxr_javadoccomment"> * &lt;p&gt;Example:&lt;/p&gt;</em>
 <a class="jxr_linenumber" name="L14" href="#L14">14</a>  <em class="jxr_javadoccomment"> * </em>
-<a class="jxr_linenumber" name="L15" href="#L15">15</a>  <em class="jxr_javadoccomment"> * &lt;code&gt;String encoded = Base64.encode( myByteArray );&lt;/code&gt;</em>
-<a class="jxr_linenumber" name="L16" href="#L16">16</a>  <em class="jxr_javadoccomment"> * &lt;br /&gt;</em>
-<a class="jxr_linenumber" name="L17" href="#L17">17</a>  <em class="jxr_javadoccomment"> * &lt;code&gt;byte[] myByteArray = Base64.decode( encoded );&lt;/code&gt;</em>
+<a class="jxr_linenumber" name="L15" href="#L15">15</a>  <em class="jxr_javadoccomment"> * &lt;p&gt;&lt;code&gt;String encoded = Base64.encode( myByteArray );&lt;/code&gt;&lt;/p&gt;</em>
+<a class="jxr_linenumber" name="L16" href="#L16">16</a>  <em class="jxr_javadoccomment"> * </em>
+<a class="jxr_linenumber" name="L17" href="#L17">17</a>  <em class="jxr_javadoccomment"> * &lt;p&gt;&lt;code&gt;byte[] myByteArray = Base64.decode( encoded );&lt;/code&gt;&lt;/p&gt;</em>
 <a class="jxr_linenumber" name="L18" href="#L18">18</a>  <em class="jxr_javadoccomment"> *</em>
-<a class="jxr_linenumber" name="L19" href="#L19">19</a>  <em class="jxr_javadoccomment"> * &lt;p&gt;The &lt;tt&gt;options&lt;/tt&gt; parameter, which appears in a few places, is used to pass </em>
+<a class="jxr_linenumber" name="L19" href="#L19">19</a>  <em class="jxr_javadoccomment"> * &lt;p&gt;The &lt;code&gt;options&lt;/code&gt; parameter, which appears in a few places, is used to pass </em>
 <a class="jxr_linenumber" name="L20" href="#L20">20</a>  <em class="jxr_javadoccomment"> * several pieces of information to the encoder. In the "higher level" methods such as </em>
 <a class="jxr_linenumber" name="L21" href="#L21">21</a>  <em class="jxr_javadoccomment"> * encodeBytes( bytes, options ) the options parameter can be used to indicate such </em>
 <a class="jxr_linenumber" name="L22" href="#L22">22</a>  <em class="jxr_javadoccomment"> * things as first gzipping the bytes before encoding them, not inserting linefeeds,</em>
@@ -132,9 +132,9 @@
 <a class="jxr_linenumber" name="L124" href="#L124">124</a> <em class="jxr_javadoccomment"> *   when data that's being decoded is gzip-compressed and will decompress it</em>
 <a class="jxr_linenumber" name="L125" href="#L125">125</a> <em class="jxr_javadoccomment"> *   automatically. Generally things are cleaner. You'll probably have to</em>
 <a class="jxr_linenumber" name="L126" href="#L126">126</a> <em class="jxr_javadoccomment"> *   change some method calls that you were making to support the new</em>
-<a class="jxr_linenumber" name="L127" href="#L127">127</a> <em class="jxr_javadoccomment"> *   options format (&lt;tt&gt;int&lt;/tt&gt;s that you "OR" together).&lt;/li&gt;</em>
+<a class="jxr_linenumber" name="L127" href="#L127">127</a> <em class="jxr_javadoccomment"> *   options format (&lt;code&gt;int&lt;/code&gt;s that you "OR" together).&lt;/li&gt;</em>
 <a class="jxr_linenumber" name="L128" href="#L128">128</a> <em class="jxr_javadoccomment"> *  &lt;li&gt;v1.5.1 - Fixed bug when decompressing and decoding to a             </em>
-<a class="jxr_linenumber" name="L129" href="#L129">129</a> <em class="jxr_javadoccomment"> *   byte[] using &lt;tt&gt;decode( String s, boolean gzipCompressed )&lt;/tt&gt;.      </em>
+<a class="jxr_linenumber" name="L129" href="#L129">129</a> <em class="jxr_javadoccomment"> *   byte[] using &lt;code&gt;decode( String s, boolean gzipCompressed )&lt;/code&gt;.      </em>
 <a class="jxr_linenumber" name="L130" href="#L130">130</a> <em class="jxr_javadoccomment"> *   Added the ability to "suspend" encoding in the Output Stream so        </em>
 <a class="jxr_linenumber" name="L131" href="#L131">131</a> <em class="jxr_javadoccomment"> *   you can turn on and off the encoding if you need to embed base64       </em>
 <a class="jxr_linenumber" name="L132" href="#L132">132</a> <em class="jxr_javadoccomment"> *   data in an otherwise "normal" stream (like an XML file).&lt;/li&gt;  </em>
@@ -1251,7 +1251,7 @@
 <a class="jxr_linenumber" name="L1243" href="#L1243">1243</a> <em class="jxr_javadoccomment">     * @param options encode options such as URL_SAFE</em>
 <a class="jxr_linenumber" name="L1244" href="#L1244">1244</a> <em class="jxr_javadoccomment">     * @return the decoded data</em>
 <a class="jxr_linenumber" name="L1245" href="#L1245">1245</a> <em class="jxr_javadoccomment">     * @throws java.io.IOException if there is an error</em>
-<a class="jxr_linenumber" name="L1246" href="#L1246">1246</a> <em class="jxr_javadoccomment">     * @throws NullPointerException if &lt;tt&gt;s&lt;/tt&gt; is null</em>
+<a class="jxr_linenumber" name="L1246" href="#L1246">1246</a> <em class="jxr_javadoccomment">     * @throws NullPointerException if &lt;code&gt;s&lt;/code&gt; is null</em>
 <a class="jxr_linenumber" name="L1247" href="#L1247">1247</a> <em class="jxr_javadoccomment">     * @since 1.4</em>
 <a class="jxr_linenumber" name="L1248" href="#L1248">1248</a> <em class="jxr_javadoccomment">     */</em>
 <a class="jxr_linenumber" name="L1249" href="#L1249">1249</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> byte[] decode( String s, <strong class="jxr_keyword">int</strong> options ) <strong class="jxr_keyword">throws</strong> java.io.IOException {
@@ -1318,7 +1318,7 @@
 <a class="jxr_linenumber" name="L1310" href="#L1310">1310</a> 
 <a class="jxr_linenumber" name="L1311" href="#L1311">1311</a>     <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L1312" href="#L1312">1312</a> <em class="jxr_javadoccomment">     * Attempts to decode Base64 data and deserialize a Java</em>
-<a class="jxr_linenumber" name="L1313" href="#L1313">1313</a> <em class="jxr_javadoccomment">     * Object within. Returns &lt;tt&gt;null&lt;/tt&gt; if there was an error.</em>
+<a class="jxr_linenumber" name="L1313" href="#L1313">1313</a> <em class="jxr_javadoccomment">     * Object within. Returns &lt;code&gt;null&lt;/code&gt; if there was an error.</em>
 <a class="jxr_linenumber" name="L1314" href="#L1314">1314</a> <em class="jxr_javadoccomment">     *</em>
 <a class="jxr_linenumber" name="L1315" href="#L1315">1315</a> <em class="jxr_javadoccomment">     * @param encodedObject The Base64 data to decode</em>
 <a class="jxr_linenumber" name="L1316" href="#L1316">1316</a> <em class="jxr_javadoccomment">     * @return The decoded and deserialized object</em>
@@ -1336,8 +1336,8 @@
 <a class="jxr_linenumber" name="L1328" href="#L1328">1328</a> 
 <a class="jxr_linenumber" name="L1329" href="#L1329">1329</a>     <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L1330" href="#L1330">1330</a> <em class="jxr_javadoccomment">     * Attempts to decode Base64 data and deserialize a Java</em>
-<a class="jxr_linenumber" name="L1331" href="#L1331">1331</a> <em class="jxr_javadoccomment">     * Object within. Returns &lt;tt&gt;null&lt;/tt&gt; if there was an error.</em>
-<a class="jxr_linenumber" name="L1332" href="#L1332">1332</a> <em class="jxr_javadoccomment">     * If &lt;tt&gt;loader&lt;/tt&gt; is not null, it will be the class loader</em>
+<a class="jxr_linenumber" name="L1331" href="#L1331">1331</a> <em class="jxr_javadoccomment">     * Object within. Returns &lt;code&gt;null&lt;/code&gt; if there was an error.</em>
+<a class="jxr_linenumber" name="L1332" href="#L1332">1332</a> <em class="jxr_javadoccomment">     * If &lt;code&gt;loader&lt;/code&gt; is not null, it will be the class loader</em>
 <a class="jxr_linenumber" name="L1333" href="#L1333">1333</a> <em class="jxr_javadoccomment">     * used when deserializing.</em>
 <a class="jxr_linenumber" name="L1334" href="#L1334">1334</a> <em class="jxr_javadoccomment">     *</em>
 <a class="jxr_linenumber" name="L1335" href="#L1335">1335</a> <em class="jxr_javadoccomment">     * @param encodedObject The Base64 data to decode</em>
@@ -1588,7 +1588,7 @@
 <a class="jxr_linenumber" name="L1580" href="#L1580">1580</a>         }   <em class="jxr_comment">// end encodeFromFile</em>
 <a class="jxr_linenumber" name="L1581" href="#L1581">1581</a>     
 <a class="jxr_linenumber" name="L1582" href="#L1582">1582</a>     <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L1583" href="#L1583">1583</a> <em class="jxr_javadoccomment">     * Reads &lt;tt&gt;infile&lt;/tt&gt; and encodes it to &lt;tt&gt;outfile&lt;/tt&gt;.</em>
+<a class="jxr_linenumber" name="L1583" href="#L1583">1583</a> <em class="jxr_javadoccomment">     * Reads &lt;code&gt;infile&lt;/code&gt; and encodes it to &lt;code&gt;outfile&lt;/code&gt;.</em>
 <a class="jxr_linenumber" name="L1584" href="#L1584">1584</a> <em class="jxr_javadoccomment">     *</em>
 <a class="jxr_linenumber" name="L1585" href="#L1585">1585</a> <em class="jxr_javadoccomment">     * @param infile Input file</em>
 <a class="jxr_linenumber" name="L1586" href="#L1586">1586</a> <em class="jxr_javadoccomment">     * @param outfile Output file</em>
@@ -1616,7 +1616,7 @@
 <a class="jxr_linenumber" name="L1608" href="#L1608">1608</a> 
 <a class="jxr_linenumber" name="L1609" href="#L1609">1609</a> 
 <a class="jxr_linenumber" name="L1610" href="#L1610">1610</a>     <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L1611" href="#L1611">1611</a> <em class="jxr_javadoccomment">     * Reads &lt;tt&gt;infile&lt;/tt&gt; and decodes it to &lt;tt&gt;outfile&lt;/tt&gt;.</em>
+<a class="jxr_linenumber" name="L1611" href="#L1611">1611</a> <em class="jxr_javadoccomment">     * Reads &lt;code&gt;infile&lt;/code&gt; and decodes it to &lt;code&gt;outfile&lt;/code&gt;.</em>
 <a class="jxr_linenumber" name="L1612" href="#L1612">1612</a> <em class="jxr_javadoccomment">     *</em>
 <a class="jxr_linenumber" name="L1613" href="#L1613">1613</a> <em class="jxr_javadoccomment">     * @param infile Input file</em>
 <a class="jxr_linenumber" name="L1614" href="#L1614">1614</a> <em class="jxr_javadoccomment">     * @param outfile Output file</em>
@@ -1649,7 +1649,7 @@
 <a class="jxr_linenumber" name="L1641" href="#L1641">1641</a>     
 <a class="jxr_linenumber" name="L1642" href="#L1642">1642</a>     <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L1643" href="#L1643">1643</a> <em class="jxr_javadoccomment">     * A {@link Base64.InputStream} will read data from another</em>
-<a class="jxr_linenumber" name="L1644" href="#L1644">1644</a> <em class="jxr_javadoccomment">     * &lt;tt&gt;java.io.InputStream&lt;/tt&gt;, given in the constructor,</em>
+<a class="jxr_linenumber" name="L1644" href="#L1644">1644</a> <em class="jxr_javadoccomment">     * &lt;code&gt;java.io.InputStream&lt;/code&gt;, given in the constructor,</em>
 <a class="jxr_linenumber" name="L1645" href="#L1645">1645</a> <em class="jxr_javadoccomment">     * and encode/decode to/from Base64 notation on the fly.</em>
 <a class="jxr_linenumber" name="L1646" href="#L1646">1646</a> <em class="jxr_javadoccomment">     *</em>
 <a class="jxr_linenumber" name="L1647" href="#L1647">1647</a> <em class="jxr_javadoccomment">     * @see Base64</em>
@@ -1671,7 +1671,7 @@
 <a class="jxr_linenumber" name="L1663" href="#L1663">1663</a>         <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L1664" href="#L1664">1664</a> <em class="jxr_javadoccomment">         * Constructs a {@link Base64.InputStream} in DECODE mode.</em>
 <a class="jxr_linenumber" name="L1665" href="#L1665">1665</a> <em class="jxr_javadoccomment">         *</em>
-<a class="jxr_linenumber" name="L1666" href="#L1666">1666</a> <em class="jxr_javadoccomment">         * @param in the &lt;tt&gt;java.io.InputStream&lt;/tt&gt; from which to read data.</em>
+<a class="jxr_linenumber" name="L1666" href="#L1666">1666</a> <em class="jxr_javadoccomment">         * @param in the &lt;code&gt;java.io.InputStream&lt;/code&gt; from which to read data.</em>
 <a class="jxr_linenumber" name="L1667" href="#L1667">1667</a> <em class="jxr_javadoccomment">         * @since 1.3</em>
 <a class="jxr_linenumber" name="L1668" href="#L1668">1668</a> <em class="jxr_javadoccomment">         */</em>
 <a class="jxr_linenumber" name="L1669" href="#L1669">1669</a>         <strong class="jxr_keyword">public</strong> <a href="../../../com/randomnoun/common/Base64.html">InputStream</a>( java.io.InputStream in ) {
@@ -1686,13 +1686,13 @@
 <a class="jxr_linenumber" name="L1678" href="#L1678">1678</a> <em class="jxr_javadoccomment">         * Valid options:&lt;pre&gt;</em>
 <a class="jxr_linenumber" name="L1679" href="#L1679">1679</a> <em class="jxr_javadoccomment">         *   ENCODE or DECODE: Encode or Decode as data is read.</em>
 <a class="jxr_linenumber" name="L1680" href="#L1680">1680</a> <em class="jxr_javadoccomment">         *   DO_BREAK_LINES: break lines at 76 characters</em>
-<a class="jxr_linenumber" name="L1681" href="#L1681">1681</a> <em class="jxr_javadoccomment">         *     (only meaningful when encoding)&lt;/i&gt;</em>
+<a class="jxr_linenumber" name="L1681" href="#L1681">1681</a> <em class="jxr_javadoccomment">         *     (only meaningful when encoding)</em>
 <a class="jxr_linenumber" name="L1682" href="#L1682">1682</a> <em class="jxr_javadoccomment">         * &lt;/pre&gt;</em>
 <a class="jxr_linenumber" name="L1683" href="#L1683">1683</a> <em class="jxr_javadoccomment">         * &lt;p&gt;</em>
 <a class="jxr_linenumber" name="L1684" href="#L1684">1684</a> <em class="jxr_javadoccomment">         * Example: &lt;code&gt;new Base64.InputStream( in, Base64.DECODE )&lt;/code&gt;</em>
 <a class="jxr_linenumber" name="L1685" href="#L1685">1685</a> <em class="jxr_javadoccomment">         *</em>
 <a class="jxr_linenumber" name="L1686" href="#L1686">1686</a> <em class="jxr_javadoccomment">         *</em>
-<a class="jxr_linenumber" name="L1687" href="#L1687">1687</a> <em class="jxr_javadoccomment">         * @param in the &lt;tt&gt;java.io.InputStream&lt;/tt&gt; from which to read data.</em>
+<a class="jxr_linenumber" name="L1687" href="#L1687">1687</a> <em class="jxr_javadoccomment">         * @param in the &lt;code&gt;java.io.InputStream&lt;/code&gt; from which to read data.</em>
 <a class="jxr_linenumber" name="L1688" href="#L1688">1688</a> <em class="jxr_javadoccomment">         * @param options Specified options</em>
 <a class="jxr_linenumber" name="L1689" href="#L1689">1689</a> <em class="jxr_javadoccomment">         * @see Base64#ENCODE</em>
 <a class="jxr_linenumber" name="L1690" href="#L1690">1690</a> <em class="jxr_javadoccomment">         * @see Base64#DECODE</em>
@@ -1862,7 +1862,7 @@
 <a class="jxr_linenumber" name="L1854" href="#L1854">1854</a>     
 <a class="jxr_linenumber" name="L1855" href="#L1855">1855</a>     <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L1856" href="#L1856">1856</a> <em class="jxr_javadoccomment">     * A {@link Base64.OutputStream} will write data to another</em>
-<a class="jxr_linenumber" name="L1857" href="#L1857">1857</a> <em class="jxr_javadoccomment">     * &lt;tt&gt;java.io.OutputStream&lt;/tt&gt;, given in the constructor,</em>
+<a class="jxr_linenumber" name="L1857" href="#L1857">1857</a> <em class="jxr_javadoccomment">     * &lt;code&gt;java.io.OutputStream&lt;/code&gt;, given in the constructor,</em>
 <a class="jxr_linenumber" name="L1858" href="#L1858">1858</a> <em class="jxr_javadoccomment">     * and encode/decode to/from Base64 notation on the fly.</em>
 <a class="jxr_linenumber" name="L1859" href="#L1859">1859</a> <em class="jxr_javadoccomment">     *</em>
 <a class="jxr_linenumber" name="L1860" href="#L1860">1860</a> <em class="jxr_javadoccomment">     * @see Base64</em>
@@ -1884,7 +1884,7 @@
 <a class="jxr_linenumber" name="L1876" href="#L1876">1876</a>         <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L1877" href="#L1877">1877</a> <em class="jxr_javadoccomment">         * Constructs a {@link Base64.OutputStream} in ENCODE mode.</em>
 <a class="jxr_linenumber" name="L1878" href="#L1878">1878</a> <em class="jxr_javadoccomment">         *</em>
-<a class="jxr_linenumber" name="L1879" href="#L1879">1879</a> <em class="jxr_javadoccomment">         * @param out the &lt;tt&gt;java.io.OutputStream&lt;/tt&gt; to which data will be written.</em>
+<a class="jxr_linenumber" name="L1879" href="#L1879">1879</a> <em class="jxr_javadoccomment">         * @param out the &lt;code&gt;java.io.OutputStream&lt;/code&gt; to which data will be written.</em>
 <a class="jxr_linenumber" name="L1880" href="#L1880">1880</a> <em class="jxr_javadoccomment">         * @since 1.3</em>
 <a class="jxr_linenumber" name="L1881" href="#L1881">1881</a> <em class="jxr_javadoccomment">         */</em>
 <a class="jxr_linenumber" name="L1882" href="#L1882">1882</a>         <strong class="jxr_keyword">public</strong> <a href="../../../com/randomnoun/common/Base64.html">OutputStream</a>( java.io.OutputStream out ) {
@@ -1899,12 +1899,12 @@
 <a class="jxr_linenumber" name="L1891" href="#L1891">1891</a> <em class="jxr_javadoccomment">         * Valid options:&lt;pre&gt;</em>
 <a class="jxr_linenumber" name="L1892" href="#L1892">1892</a> <em class="jxr_javadoccomment">         *   ENCODE or DECODE: Encode or Decode as data is read.</em>
 <a class="jxr_linenumber" name="L1893" href="#L1893">1893</a> <em class="jxr_javadoccomment">         *   DO_BREAK_LINES: don't break lines at 76 characters</em>
-<a class="jxr_linenumber" name="L1894" href="#L1894">1894</a> <em class="jxr_javadoccomment">         *     (only meaningful when encoding)&lt;/i&gt;</em>
+<a class="jxr_linenumber" name="L1894" href="#L1894">1894</a> <em class="jxr_javadoccomment">         *     (only meaningful when encoding)</em>
 <a class="jxr_linenumber" name="L1895" href="#L1895">1895</a> <em class="jxr_javadoccomment">         * &lt;/pre&gt;</em>
 <a class="jxr_linenumber" name="L1896" href="#L1896">1896</a> <em class="jxr_javadoccomment">         * &lt;p&gt;</em>
 <a class="jxr_linenumber" name="L1897" href="#L1897">1897</a> <em class="jxr_javadoccomment">         * Example: &lt;code&gt;new Base64.OutputStream( out, Base64.ENCODE )&lt;/code&gt;</em>
 <a class="jxr_linenumber" name="L1898" href="#L1898">1898</a> <em class="jxr_javadoccomment">         *</em>
-<a class="jxr_linenumber" name="L1899" href="#L1899">1899</a> <em class="jxr_javadoccomment">         * @param out the &lt;tt&gt;java.io.OutputStream&lt;/tt&gt; to which data will be written.</em>
+<a class="jxr_linenumber" name="L1899" href="#L1899">1899</a> <em class="jxr_javadoccomment">         * @param out the &lt;code&gt;java.io.OutputStream&lt;/code&gt; to which data will be written.</em>
 <a class="jxr_linenumber" name="L1900" href="#L1900">1900</a> <em class="jxr_javadoccomment">         * @param options Specified options.</em>
 <a class="jxr_linenumber" name="L1901" href="#L1901">1901</a> <em class="jxr_javadoccomment">         * @see Base64#ENCODE</em>
 <a class="jxr_linenumber" name="L1902" href="#L1902">1902</a> <em class="jxr_javadoccomment">         * @see Base64#DECODE</em>

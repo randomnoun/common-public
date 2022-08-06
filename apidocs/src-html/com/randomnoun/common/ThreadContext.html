@@ -27,8 +27,8 @@
 <span class="sourceLineNo">018</span><a id="line.18"> * &lt;p&gt;In addition, each thread is supplied with a stack context which allows multiple EJBs</a>
 <span class="sourceLineNo">019</span><a id="line.19"> * to run in the same thread (e.g. if one EJB invokes another local EJB which then</a>
 <span class="sourceLineNo">020</span><a id="line.20"> * executes within the same thread). To ensure separation of data, each EJB</a>
-<span class="sourceLineNo">021</span><a id="line.21"> * should invoke {@link #ThreadContext.push()} to create its own context as soon as</a>
-<span class="sourceLineNo">022</span><a id="line.22"> * it is invoked, and call {@link #ThreadContext.pop()} before it terminates to</a>
+<span class="sourceLineNo">021</span><a id="line.21"> * should invoke {@link #push()} to create its own context as soon as</a>
+<span class="sourceLineNo">022</span><a id="line.22"> * it is invoked, and call {@link #pop()} before it terminates to</a>
 <span class="sourceLineNo">023</span><a id="line.23"> * maintain the per-thread data stack. (i.e. the invoked method, not the method caller is</a>
 <span class="sourceLineNo">024</span><a id="line.24"> * responsible for maintaining data integrity).</a>
 <span class="sourceLineNo">025</span><a id="line.25"> *</a>
@@ -76,7 +76,7 @@
 <span class="sourceLineNo">067</span><a id="line.67"></a>
 <span class="sourceLineNo">068</span><a id="line.68">    /** Create a new context for this thread.</a>
 <span class="sourceLineNo">069</span><a id="line.69">     *</a>
-<span class="sourceLineNo">070</span><a id="line.70">     *  @returns The global map for the newly created context.</a>
+<span class="sourceLineNo">070</span><a id="line.70">     *  @return The global map for the newly created context.</a>
 <span class="sourceLineNo">071</span><a id="line.71">     **/</a>
 <span class="sourceLineNo">072</span><a id="line.72">    public static Map&lt;Object, Object&gt; push()</a>
 <span class="sourceLineNo">073</span><a id="line.73">    {</a>
@@ -247,7 +247,7 @@
 <span class="sourceLineNo">238</span><a id="line.238">    }</a>
 <span class="sourceLineNo">239</span><a id="line.239"></a>
 <span class="sourceLineNo">240</span><a id="line.240">    /**</a>
-<span class="sourceLineNo">241</span><a id="line.241">     * As per {@link java.util.Map#isEmpty(java.lang.Object)} for the current thread's context</a>
+<span class="sourceLineNo">241</span><a id="line.241">     * As per {@link java.util.Map#isEmpty()} for the current thread's context</a>
 <span class="sourceLineNo">242</span><a id="line.242">     *</a>
 <span class="sourceLineNo">243</span><a id="line.243">     * @return true if this map contains no key-value mappings</a>
 <span class="sourceLineNo">244</span><a id="line.244">     *</a>
@@ -260,7 +260,7 @@
 <span class="sourceLineNo">251</span><a id="line.251">    }</a>
 <span class="sourceLineNo">252</span><a id="line.252"></a>
 <span class="sourceLineNo">253</span><a id="line.253">    /**</a>
-<span class="sourceLineNo">254</span><a id="line.254">     * As per {@link java.util.Map#keySet(java.lang.Object)} for the current thread's context</a>
+<span class="sourceLineNo">254</span><a id="line.254">     * As per {@link java.util.Map#keySet()} for the current thread's context</a>
 <span class="sourceLineNo">255</span><a id="line.255">     *</a>
 <span class="sourceLineNo">256</span><a id="line.256">     * @return a set view of the keys contained in this map</a>
 <span class="sourceLineNo">257</span><a id="line.257">     *</a>
