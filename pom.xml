@@ -190,7 +190,33 @@
 				</executions>
 			</plugin>
 		</plugins>
+		
+		<pluginManagement>
+		  <plugins>
+		      <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.2.0</version>
+                <!-- 
+                  this configuration is used during the javadoc:jar goal during the release
+                  configuration for the reports is in the <reporting> section  
+                -->
+                <configuration>
+                    <additionalparam>-Xdoclint:none</additionalparam>
+                    <failOnError>false</failOnError>
+                    <sourcepath>src/main/java;target/generated-sources/javacc;target/generated-sources/jtb</sourcepath>
+                    <javadocDirectory>${project.basedir}/src/main/javadoc</javadocDirectory>
+                    <docfilessubdirs>true</docfilessubdirs>
+                    <author>true</author>
+                    <linksource>true</linksource>
+                </configuration>
+            </plugin>
+		      
+		  </plugins>
+		</pluginManagement>
 	</build>
+	
+	
 	
 	<distributionManagement>
 		<site>

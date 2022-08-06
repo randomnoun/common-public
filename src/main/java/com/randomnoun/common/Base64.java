@@ -12,11 +12,11 @@ package com.randomnoun.common;
  * 
  * <p>Example:</p>
  * 
- * <code>String encoded = Base64.encode( myByteArray );</code>
- * <br />
- * <code>byte[] myByteArray = Base64.decode( encoded );</code>
+ * <p><code>String encoded = Base64.encode( myByteArray );</code></p>
+ * 
+ * <p><code>byte[] myByteArray = Base64.decode( encoded );</code></p>
  *
- * <p>The <tt>options</tt> parameter, which appears in a few places, is used to pass 
+ * <p>The <code>options</code> parameter, which appears in a few places, is used to pass 
  * several pieces of information to the encoder. In the "higher level" methods such as 
  * encodeBytes( bytes, options ) the options parameter can be used to indicate such 
  * things as first gzipping the bytes before encoding them, not inserting linefeeds,
@@ -124,9 +124,9 @@ package com.randomnoun.common;
  *   when data that's being decoded is gzip-compressed and will decompress it
  *   automatically. Generally things are cleaner. You'll probably have to
  *   change some method calls that you were making to support the new
- *   options format (<tt>int</tt>s that you "OR" together).</li>
+ *   options format (<code>int</code>s that you "OR" together).</li>
  *  <li>v1.5.1 - Fixed bug when decompressing and decoding to a             
- *   byte[] using <tt>decode( String s, boolean gzipCompressed )</tt>.      
+ *   byte[] using <code>decode( String s, boolean gzipCompressed )</code>.      
  *   Added the ability to "suspend" encoding in the Output Stream so        
  *   you can turn on and off the encoding if you need to embed base64       
  *   data in an otherwise "normal" stream (like an XML file).</li>  
@@ -1243,7 +1243,7 @@ public class Base64
      * @param options encode options such as URL_SAFE
      * @return the decoded data
      * @throws java.io.IOException if there is an error
-     * @throws NullPointerException if <tt>s</tt> is null
+     * @throws NullPointerException if <code>s</code> is null
      * @since 1.4
      */
     public static byte[] decode( String s, int options ) throws java.io.IOException {
@@ -1310,7 +1310,7 @@ public class Base64
 
     /**
      * Attempts to decode Base64 data and deserialize a Java
-     * Object within. Returns <tt>null</tt> if there was an error.
+     * Object within. Returns <code>null</code> if there was an error.
      *
      * @param encodedObject The Base64 data to decode
      * @return The decoded and deserialized object
@@ -1328,8 +1328,8 @@ public class Base64
 
     /**
      * Attempts to decode Base64 data and deserialize a Java
-     * Object within. Returns <tt>null</tt> if there was an error.
-     * If <tt>loader</tt> is not null, it will be the class loader
+     * Object within. Returns <code>null</code> if there was an error.
+     * If <code>loader</code> is not null, it will be the class loader
      * used when deserializing.
      *
      * @param encodedObject The Base64 data to decode
@@ -1580,7 +1580,7 @@ public class Base64
         }   // end encodeFromFile
     
     /**
-     * Reads <tt>infile</tt> and encodes it to <tt>outfile</tt>.
+     * Reads <code>infile</code> and encodes it to <code>outfile</code>.
      *
      * @param infile Input file
      * @param outfile Output file
@@ -1608,7 +1608,7 @@ public class Base64
 
 
     /**
-     * Reads <tt>infile</tt> and decodes it to <tt>outfile</tt>.
+     * Reads <code>infile</code> and decodes it to <code>outfile</code>.
      *
      * @param infile Input file
      * @param outfile Output file
@@ -1641,7 +1641,7 @@ public class Base64
     
     /**
      * A {@link Base64.InputStream} will read data from another
-     * <tt>java.io.InputStream</tt>, given in the constructor,
+     * <code>java.io.InputStream</code>, given in the constructor,
      * and encode/decode to/from Base64 notation on the fly.
      *
      * @see Base64
@@ -1663,7 +1663,7 @@ public class Base64
         /**
          * Constructs a {@link Base64.InputStream} in DECODE mode.
          *
-         * @param in the <tt>java.io.InputStream</tt> from which to read data.
+         * @param in the <code>java.io.InputStream</code> from which to read data.
          * @since 1.3
          */
         public InputStream( java.io.InputStream in ) {
@@ -1684,7 +1684,7 @@ public class Base64
          * Example: <code>new Base64.InputStream( in, Base64.DECODE )</code>
          *
          *
-         * @param in the <tt>java.io.InputStream</tt> from which to read data.
+         * @param in the <code>java.io.InputStream</code> from which to read data.
          * @param options Specified options
          * @see Base64#ENCODE
          * @see Base64#DECODE
@@ -1854,7 +1854,7 @@ public class Base64
     
     /**
      * A {@link Base64.OutputStream} will write data to another
-     * <tt>java.io.OutputStream</tt>, given in the constructor,
+     * <code>java.io.OutputStream</code>, given in the constructor,
      * and encode/decode to/from Base64 notation on the fly.
      *
      * @see Base64
@@ -1876,7 +1876,7 @@ public class Base64
         /**
          * Constructs a {@link Base64.OutputStream} in ENCODE mode.
          *
-         * @param out the <tt>java.io.OutputStream</tt> to which data will be written.
+         * @param out the <code>java.io.OutputStream</code> to which data will be written.
          * @since 1.3
          */
         public OutputStream( java.io.OutputStream out ) {
@@ -1896,7 +1896,7 @@ public class Base64
          * <p>
          * Example: <code>new Base64.OutputStream( out, Base64.ENCODE )</code>
          *
-         * @param out the <tt>java.io.OutputStream</tt> to which data will be written.
+         * @param out the <code>java.io.OutputStream</code> to which data will be written.
          * @param options Specified options.
          * @see Base64#ENCODE
          * @see Base64#DECODE
