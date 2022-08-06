@@ -69,12 +69,11 @@ import org.json.JSONObject;
  * @see <a href="http://www.randomnoun.com/wp/2013/09/24/webapp-versions-v1-0/">http://www.randomnoun.com/wp/2013/09/24/webapp-versions-v1-0/</a>
  * 
  */
-@SuppressWarnings("serial")
 public class VersionServlet extends HttpServlet {
     
+	/** Generated serialVersionUID */
+	private static final long serialVersionUID = -6978469440912690523L;
 	
-    
-
 	/** Logger for this class */
     public static final Logger logger = Logger.getLogger(VersionServlet.class);
 

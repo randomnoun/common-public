@@ -57,7 +57,7 @@ import com.randomnoun.common.Text;
  * <p>This JSP snippet can be reproduced with the following tag:
  *
              <pre class="code">
-             &lt;mm:setJavascriptVar name="columns" value="${columns}" />
+             &lt;mm:setJavascriptVar name="columns" value="${columns}" /&gt;
              </pre>
  *
  * <p>... which produces the slightly more terse, but functionally equivalent:
@@ -77,7 +77,7 @@ import com.randomnoun.common.Text;
  * of the 'y' request attribute
  *
             <pre class="code">
-            &lt;mm:setJavascriptVar name="x" value="${y}" />
+            &lt;mm:setJavascriptVar name="x" value="${y}" /&gt;
             </pre>
  *
  * <p>For a reasonably complex 'y', this would generate the following

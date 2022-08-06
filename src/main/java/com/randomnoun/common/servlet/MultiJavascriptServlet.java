@@ -38,11 +38,11 @@ public class MultiJavascriptServlet extends javax.servlet.http.HttpServlet imple
 	private static final long serialVersionUID = -5425445186806002874L;
 
 	/** Cache of combined js */
-     @SuppressWarnings("unchecked")
+    @SuppressWarnings("unchecked")
 	public static Map<String, String> cache = new MRUCache(100, 0, null);
      
-     /** Logger for this class */
-     public static final Logger logger = Logger.getLogger(MultiJavascriptServlet.class);
+    /** Logger for this class */
+    public static final Logger logger = Logger.getLogger(MultiJavascriptServlet.class);
      
      
 	public MultiJavascriptServlet() {
