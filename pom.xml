@@ -4,7 +4,7 @@
 	<parent>
 		<artifactId>parent-pom</artifactId>
 		<groupId>com.randomnoun.build</groupId>
-		<version>1.26</version>
+		<version>1.27</version>
 	</parent>
 	
 	<groupId>com.randomnoun.common</groupId>
@@ -33,13 +33,19 @@
 
         <!-- keep the log4j 1 interfaces as some downstream projects still use log4j 1 appenders 
              note the LoggingEvent class in log4j-1.2-api is broken, so we supply our own in this project
-        -->
         <dependency>
         	<groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-1.2-api</artifactId>
             <optional>true</optional>
         </dependency>
-
+        -->
+        <dependency>
+            <groupId>com.randomnoun.common</groupId>
+            <artifactId>log4j-one</artifactId>
+            <version>1.0.0</version>
+            <optional>true</optional>
+        </dependency>
+        
 		<dependency>
        		<groupId>com.randomnoun.common</groupId>
 			<artifactId>jessop</artifactId>
@@ -121,15 +127,6 @@
       	</dependency>
 
 		<dependency>
-			<groupId>net.java.dev.jna</groupId>
-			<artifactId>jna</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>net.java.dev.jna</groupId>
-			<artifactId>jna-platform</artifactId>
-		</dependency>	
-		
-		<dependency>
             <groupId>org.mariadb.jdbc</groupId>
             <artifactId>mariadb-java-client</artifactId>
 			<scope>test</scope>
@@ -143,14 +140,6 @@
 			<optional>true</optional>
 		</dependency>
 		
-		<dependency>
-            <groupId>com.randomnoun.common</groupId>
-            <artifactId>log4j-one</artifactId>
-            <version>1.0.0</version>
-            <scope>test</scope>
-        </dependency>
-		
-		
 	</dependencies>
 
 	
@@ -158,7 +147,6 @@
 		<connection>scm:git:http://gitlab.dev.randomnoun/randomnoun/common-public.git</connection>
 		<developerConnection>scm:git:http://gitlab.dev.randomnoun/randomnoun/common-public.git</developerConnection>
 		<url>http://gitlab.dev.randomnoun/randomnoun/common-public</url>
-  	    <tag>common-public-1.0.2</tag>
     </scm>
 	
 	<ciManagement>
@@ -230,6 +218,5 @@
 		<jdk.version>8</jdk.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
-	
 
 </project>
