@@ -15,7 +15,6 @@ com.randomnoun.common.jexl.parser
 com.randomnoun.common.jexl.sql
 com.randomnoun.common.jexl.sql.function
 com.randomnoun.common.jexl.visitor
-com.randomnoun.common.jna
 com.randomnoun.common.log4j2
 com.randomnoun.common.security
 com.randomnoun.common.security.impl
