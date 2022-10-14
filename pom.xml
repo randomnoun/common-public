@@ -33,18 +33,21 @@
 
         <!-- keep the log4j 1 interfaces as some downstream projects still use log4j 1 appenders 
              note the LoggingEvent class in log4j-1.2-api is broken, so we supply our own in this project
+             seems to be OK as of log4j-1.2-api-2.17.2
         <dependency>
         	<groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-1.2-api</artifactId>
             <optional>true</optional>
         </dependency>
-        -->
+        
+        including this dependency causes the log4j2 tests to fail, so should probably split that into a separate jar
         <dependency>
             <groupId>com.randomnoun.common</groupId>
             <artifactId>log4j-one</artifactId>
             <version>1.0.0</version>
             <optional>true</optional>
         </dependency>
+        -->
         
 		<dependency>
        		<groupId>com.randomnoun.common</groupId>
