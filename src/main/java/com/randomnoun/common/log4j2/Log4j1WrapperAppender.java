@@ -145,7 +145,7 @@ public class Log4j1WrapperAppender extends AbstractAppender {
 
     @Override
     public void append(LogEvent event) {
-    	log4j1Appender.doAppend(new LogEventAdapter(event));
+    	log4j1Appender.doAppend(new LogEventAdapter(event)); // org.apache.log4j.bridge.
     }
 
     @Override
