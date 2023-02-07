@@ -69,7 +69,7 @@ public class SqlWithArguments {
 
     @Override
     public int hashCode() {
-        return Objects.hash(sql, args, argTypes);
+        return Objects.hash(sql, Arrays.hashCode(args), Arrays.hashCode(argTypes));
     }
 
     @Override
