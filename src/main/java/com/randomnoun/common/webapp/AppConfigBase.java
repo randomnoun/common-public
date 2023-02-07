@@ -193,7 +193,7 @@ public abstract class AppConfigBase extends Properties {
      * searched for using the standard ResourceBundle.getBundle(name) method (i.e. in the
      * server's classpath); and, if this fails, will return 
      * ResourceBundle("resources.i18n." + name); which will search the i18n tree of the
-     * project. 
+     * eomail project. 
      * 
      * @param i18nBundleName The bundle name to search for (e.g. "user")
      * @param user The user for whom we are retrieving i18ned messages for (the locale of this
