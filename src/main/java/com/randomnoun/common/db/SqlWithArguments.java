@@ -1,5 +1,6 @@
 package com.randomnoun.common.db;
 
+import java.util.Arrays;
 import java.util.Objects;
 
 /** A container class for SQL with positional placeholders, and the arguments to be substituted 
@@ -80,8 +81,8 @@ public class SqlWithArguments {
         } else {
         	SqlWithArguments that = (SqlWithArguments) o;
         	return Objects.equals(sql, that.sql) &&
-    			Objects.equals(args, that.args) &&
-    			Objects.equals(argTypes, that.argTypes);
+    			Arrays.equals(args, that.args) &&
+    			Arrays.equals(argTypes, that.argTypes);
         }
     }
 	
