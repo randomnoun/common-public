@@ -1,5 +1,7 @@
 package com.randomnoun.common.db;
 
+import java.util.Objects;
+
 /** A container class for SQL with positional placeholders, and the arguments to be substituted 
  * into those placeholders, to be used in a JdbcTemplate.
  * 
@@ -62,4 +64,25 @@ public class SqlWithArguments {
 	public void setArgTypes(int[] argTypes) {
 		this.argTypes = argTypes;
 	}
+	
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(sql, args, argTypes);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) { 
+        	return true; 
+        } else if (o == null || getClass() != o.getClass()) { 
+        	return false;
+        } else {
+        	SqlWithArguments that = (SqlWithArguments) o;
+        	return Objects.equals(sql, that.sql) &&
+    			Objects.equals(args, that.args) &&
+    			Objects.equals(argTypes, that.argTypes);
+        }
+    }
+	
 }
