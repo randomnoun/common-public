@@ -38,6 +38,7 @@ public class SqlParser {
 	 * <p>NB: Does not handle escape sequences found within double or single quotes
 	 * (i.e. escape sequences are handled by the underlying database, not by this Parser)
 	 * 
+	 * @param is inputStream to parse
 	 * @param includeComments include comment strings in result
 	 * 
 	 * @throws IOException 
@@ -47,11 +48,32 @@ public class SqlParser {
 		return parseStatements(new InputStreamReader(is), includeComments);
 	}
 	
-	public List<String> parseStatements(Reader is, boolean includeComments) 
+	/** Convert an InputStream of SQL statements into a List of individual
+	 * statements. Statements are delimited by ";" strings that occur outside of strings or comments.
+	 * The delimiter string is not included in the returned list of statements.
+	 * 
+	 * <p>The delimiter string may be changed using the 'delimiter str' command. 
+	 * This command may end with a newline instead of a delimiter.
+	 * 
+	 * <p>Comments may also be returned in the result.
+	 * <p>Comments are defined by '-- to-end-of-line' or '/* within slash-star star-slash *&#42;/' syntax.
+	 * Comments that are created with '--' and that occur within a statement are returned before that statement
+	 * has finished parsing.
+	 * 
+	 * <p>NB: Does not handle escape sequences found within double or single quotes
+	 * (i.e. escape sequences are handled by the underlying database, not by this Parser)
+	 * 
+	 * @param reader Reader to parse
+	 * @param includeComments include comment strings in result
+	 * 
+	 * @throws IOException 
+	 * @throws ParseException unclosed /*-style comment or single/double-quoted string
+	 */
+	public List<String> parseStatements(Reader r, boolean includeComments) 
 		throws IOException, ParseException 
 	{
 		final List<String> allSql = new ArrayList<String>();
-		consumeStatements(is, includeComments, new Consumer<String>() {
+		consumeStatements(r, includeComments, new Consumer<String>() {
 			@Override
 			public void consume(String s) {
 				allSql.add(s);
@@ -97,8 +119,9 @@ public class SqlParser {
 		// 9 // parsed backslash in double quote, next char emitted without changing state [then to state 1]
 		// 10 // parsed backslash in single quote, next char emitted without changing state [then to state 7]
 
-		String s = ""; // current statement
-		String c = ""; // current comment
+		String s = "";   // current statement
+		String snc = ""; // current statment without comments
+		String c = "";   // current comment
 		String delimiter = ";"; // default delimiter
 
 		int intch = is.read();
@@ -165,8 +188,17 @@ public class SqlParser {
 					case '\r' : 
 					case '\n' : 
 						state = 0; 
-						if (includeComments) { consumer.consume("-- " + c.trim()); } 
-						c=""; break;
+						if (includeComments) {
+							// include comments in the statements the comments appear in, unless this is a comment outside of a statement
+							s += "-- " + c.trim();
+							if (s.trim().startsWith("--")) {
+								consumer.consume(s.trim());
+								s = "";
+							} else {
+								s += "\n";
+							}
+						}
+						c = ""; break;
 					default :
 						c = c + ch;
 				}
@@ -184,7 +216,14 @@ public class SqlParser {
 				switch(ch) {
 					case '/' : 
 						state = 0; 
-						if (includeComments) { s += ("/* " + c.trim() + " */"); } // was consumer.consume(...) 
+						if (includeComments) {
+							// include comments in the statements the comments appear in, unless this is a comment outside of a statement
+							s += ("/* " + c.trim() + " */");
+							if (s.startsWith("/*")) {
+								consumer.consume(s);
+								s = "";
+							}
+						} 
 						c=""; break;
 					default: c = c + "*" + ch;
 				}

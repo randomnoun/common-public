@@ -45,12 +45,12 @@ public class SqlParserTest {
 			"eol comments \"-- not this one /* or this */ of course--\" embedded within -- things?\n" +
 			"it;";
 		result = p.parseStatements(new ByteArrayInputStream(s2.getBytes()), true).toArray(new String[]{});
-		expected = new String[] { 
-			"-- things", 
-			"-- more things", 
-			"-- yet more things", 
-			"-- things?", 
-			"a multi-line statement with eol comments \"-- not this one /* or this */ of course--\" embedded within it" };
+		expected = new String[] {
+			"-- things",
+			"a multi-line -- more things\n" +
+			"statement with -- yet more things\n" +
+			"eol comments \"-- not this one /* or this */ of course--\" embedded within -- things?\n" +
+			"it" };
 		assertArrayEquals(expected,  result);
 
 		result = p.parseStatements(new ByteArrayInputStream(s2.getBytes()), false).toArray(new String[]{});
@@ -87,6 +87,18 @@ public class SqlParserTest {
 		result = p.parseStatements(new ByteArrayInputStream(s6.getBytes()), true).toArray(new String[]{});
 		expected = new String[] { 
 			"ending with semi-colon",
+			"and; now",
+			"things are delimited by dollars",
+			"back to semicolon",
+			"hopefully"
+		};
+		assertArrayEquals(expected,  result);
+		
+		String s6b = "ending with semi-colon; -- how about\ndelimiter $$; and; now $$ things are delimited by dollars $$ delimiter ;$$ back to semicolon; hopefully\n";
+		result = p.parseStatements(new ByteArrayInputStream(s6b.getBytes()), true).toArray(new String[]{});
+		expected = new String[] { 
+			"ending with semi-colon",
+			"-- how about",
 			"and; now",
 			"things are delimited by dollars",
 			"back to semicolon",
@@ -134,3 +146,4 @@ public class SqlParserTest {
 	}
 
 }
+
