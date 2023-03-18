@@ -129,8 +129,7 @@ public class HistoryTableGenerator {
 
 		logger.info("Start eval");
 		jessopScript = Text.replaceString(jessopScript, "\r", ""); // jessop has issues with \r\n EOLs
-		if (logger.isDebugEnabled()) { logger.debug(getSource(engine, jessopScript)); }
-		
+		// if (logger.isDebugEnabled()) { logger.debug(getSource(engine, jessopScript)); }
 		
 		// table loop is within the generator now
 		engine.eval(jessopScript, sc);
