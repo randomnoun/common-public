@@ -53,12 +53,12 @@
 <a class="jxr_linenumber" name="L45" href="#L45">45</a>  			<span class="jxr_string">"eol comments \&quot;-- not this one /* or this */ of course--\&quot; embedded within -- things?\n"</span> +
 <a class="jxr_linenumber" name="L46" href="#L46">46</a>  			<span class="jxr_string">"it;"</span>;
 <a class="jxr_linenumber" name="L47" href="#L47">47</a>  		result = p.parseStatements(<strong class="jxr_keyword">new</strong> ByteArrayInputStream(s2.getBytes()), <strong class="jxr_keyword">true</strong>).toArray(<strong class="jxr_keyword">new</strong> String[]{});
-<a class="jxr_linenumber" name="L48" href="#L48">48</a>  		expected = <strong class="jxr_keyword">new</strong> String[] { 
-<a class="jxr_linenumber" name="L49" href="#L49">49</a>  			<span class="jxr_string">"-- things"</span>, 
-<a class="jxr_linenumber" name="L50" href="#L50">50</a>  			<span class="jxr_string">"-- more things"</span>, 
-<a class="jxr_linenumber" name="L51" href="#L51">51</a>  			<span class="jxr_string">"-- yet more things"</span>, 
-<a class="jxr_linenumber" name="L52" href="#L52">52</a>  			<span class="jxr_string">"-- things?"</span>, 
-<a class="jxr_linenumber" name="L53" href="#L53">53</a>  			<span class="jxr_string">"a multi-line statement with eol comments \&quot;-- not this one /* or this */ of course--\&quot; embedded within it"</span> };
+<a class="jxr_linenumber" name="L48" href="#L48">48</a>  		expected = <strong class="jxr_keyword">new</strong> String[] {
+<a class="jxr_linenumber" name="L49" href="#L49">49</a>  			<span class="jxr_string">"-- things"</span>,
+<a class="jxr_linenumber" name="L50" href="#L50">50</a>  			<span class="jxr_string">"a multi-line -- more things\n"</span> +
+<a class="jxr_linenumber" name="L51" href="#L51">51</a>  			<span class="jxr_string">"statement with -- yet more things\n"</span> +
+<a class="jxr_linenumber" name="L52" href="#L52">52</a>  			<span class="jxr_string">"eol comments \&quot;-- not this one /* or this */ of course--\&quot; embedded within -- things?\n"</span> +
+<a class="jxr_linenumber" name="L53" href="#L53">53</a>  			<span class="jxr_string">"it"</span> };
 <a class="jxr_linenumber" name="L54" href="#L54">54</a>  		assertArrayEquals(expected,  result);
 <a class="jxr_linenumber" name="L55" href="#L55">55</a>  
 <a class="jxr_linenumber" name="L56" href="#L56">56</a>  		result = p.parseStatements(<strong class="jxr_keyword">new</strong> ByteArrayInputStream(s2.getBytes()), false).toArray(<strong class="jxr_keyword">new</strong> String[]{});
@@ -102,46 +102,59 @@
 <a class="jxr_linenumber" name="L94" href="#L94">94</a>  		};
 <a class="jxr_linenumber" name="L95" href="#L95">95</a>  		assertArrayEquals(expected,  result);
 <a class="jxr_linenumber" name="L96" href="#L96">96</a>  		
-<a class="jxr_linenumber" name="L97" href="#L97">97</a>  		
-<a class="jxr_linenumber" name="L98" href="#L98">98</a>  		<em class="jxr_comment">// the 'delimiter' command can also end with newlines without it's own delimiter</em>
-<a class="jxr_linenumber" name="L99" href="#L99">99</a>  		String s7 = <span class="jxr_string">"ending with semi-colon; delimiter $$\n"</span> +
-<a class="jxr_linenumber" name="L100" href="#L100">100</a> 		  <span class="jxr_string">"and; now $$ things are delimited by dollars $$ delimiter ;\n"</span> +
-<a class="jxr_linenumber" name="L101" href="#L101">101</a> 		  <span class="jxr_string">"back to semicolon; hopefully\n"</span>;
-<a class="jxr_linenumber" name="L102" href="#L102">102</a> 		result = p.parseStatements(<strong class="jxr_keyword">new</strong> ByteArrayInputStream(s7.getBytes()), <strong class="jxr_keyword">true</strong>).toArray(<strong class="jxr_keyword">new</strong> String[]{});
-<a class="jxr_linenumber" name="L103" href="#L103">103</a> 		expected = <strong class="jxr_keyword">new</strong> String[] { 
-<a class="jxr_linenumber" name="L104" href="#L104">104</a> 			<span class="jxr_string">"ending with semi-colon"</span>,
-<a class="jxr_linenumber" name="L105" href="#L105">105</a> 			<span class="jxr_string">"and; now"</span>,
-<a class="jxr_linenumber" name="L106" href="#L106">106</a> 			<span class="jxr_string">"things are delimited by dollars"</span>,
-<a class="jxr_linenumber" name="L107" href="#L107">107</a> 			<span class="jxr_string">"back to semicolon"</span>,
-<a class="jxr_linenumber" name="L108" href="#L108">108</a> 			<span class="jxr_string">"hopefully"</span>
-<a class="jxr_linenumber" name="L109" href="#L109">109</a> 		};
-<a class="jxr_linenumber" name="L110" href="#L110">110</a> 		assertArrayEquals(expected,  result);
-<a class="jxr_linenumber" name="L111" href="#L111">111</a> 		
-<a class="jxr_linenumber" name="L112" href="#L112">112</a> 		String s8 = <span class="jxr_string">"statement1; a='escaped quotes (&#92;&#92;' and &#92;&#92;\&quot;) in single quotes'; statement3;"</span>;
-<a class="jxr_linenumber" name="L113" href="#L113">113</a> 		result = p.parseStatements(<strong class="jxr_keyword">new</strong> ByteArrayInputStream(s8.getBytes()), <strong class="jxr_keyword">true</strong>).toArray(<strong class="jxr_keyword">new</strong> String[]{});
-<a class="jxr_linenumber" name="L114" href="#L114">114</a> 		expected = <strong class="jxr_keyword">new</strong> String[] { 
-<a class="jxr_linenumber" name="L115" href="#L115">115</a> 			<span class="jxr_string">"statement1"</span>, 
-<a class="jxr_linenumber" name="L116" href="#L116">116</a> 			<span class="jxr_string">"a='escaped quotes (&#92;&#92;' and &#92;&#92;\&quot;) in single quotes'"</span>, 
-<a class="jxr_linenumber" name="L117" href="#L117">117</a> 			<span class="jxr_string">"statement3"</span>};
-<a class="jxr_linenumber" name="L118" href="#L118">118</a> 		assertArrayEquals(expected,  result);
-<a class="jxr_linenumber" name="L119" href="#L119">119</a> 
-<a class="jxr_linenumber" name="L120" href="#L120">120</a> 		String s9 = <span class="jxr_string">"statement1; a=\&quot;escaped quotes (&#92;&#92;' and &#92;&#92;\&quot;) in double quotes\&quot;; statement3;"</span>;
-<a class="jxr_linenumber" name="L121" href="#L121">121</a> 		result = p.parseStatements(<strong class="jxr_keyword">new</strong> ByteArrayInputStream(s9.getBytes()), <strong class="jxr_keyword">true</strong>).toArray(<strong class="jxr_keyword">new</strong> String[]{});
-<a class="jxr_linenumber" name="L122" href="#L122">122</a> 		expected = <strong class="jxr_keyword">new</strong> String[] { 
-<a class="jxr_linenumber" name="L123" href="#L123">123</a> 			<span class="jxr_string">"statement1"</span>, 
-<a class="jxr_linenumber" name="L124" href="#L124">124</a> 			<span class="jxr_string">"a=\&quot;escaped quotes (&#92;&#92;' and &#92;&#92;\&quot;) in double quotes\&quot;"</span>, 
-<a class="jxr_linenumber" name="L125" href="#L125">125</a> 			<span class="jxr_string">"statement3"</span>};
-<a class="jxr_linenumber" name="L126" href="#L126">126</a> 		assertArrayEquals(expected,  result);
-<a class="jxr_linenumber" name="L127" href="#L127">127</a> 
-<a class="jxr_linenumber" name="L128" href="#L128">128</a> 		
-<a class="jxr_linenumber" name="L129" href="#L129">129</a> 	}
-<a class="jxr_linenumber" name="L130" href="#L130">130</a> 
-<a class="jxr_linenumber" name="L131" href="#L131">131</a> 	@Test
-<a class="jxr_linenumber" name="L132" href="#L132">132</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testConsumeStatements() {
-<a class="jxr_linenumber" name="L133" href="#L133">133</a> 		<em class="jxr_comment">//fail("Not yet implemented");</em>
-<a class="jxr_linenumber" name="L134" href="#L134">134</a> 	}
-<a class="jxr_linenumber" name="L135" href="#L135">135</a> 
-<a class="jxr_linenumber" name="L136" href="#L136">136</a> }
+<a class="jxr_linenumber" name="L97" href="#L97">97</a>  		String s6b = <span class="jxr_string">"ending with semi-colon; -- how about\ndelimiter $$; and; now $$ things are delimited by dollars $$ delimiter ;$$ back to semicolon; hopefully\n"</span>;
+<a class="jxr_linenumber" name="L98" href="#L98">98</a>  		result = p.parseStatements(<strong class="jxr_keyword">new</strong> ByteArrayInputStream(s6b.getBytes()), <strong class="jxr_keyword">true</strong>).toArray(<strong class="jxr_keyword">new</strong> String[]{});
+<a class="jxr_linenumber" name="L99" href="#L99">99</a>  		expected = <strong class="jxr_keyword">new</strong> String[] { 
+<a class="jxr_linenumber" name="L100" href="#L100">100</a> 			<span class="jxr_string">"ending with semi-colon"</span>,
+<a class="jxr_linenumber" name="L101" href="#L101">101</a> 			<span class="jxr_string">"-- how about"</span>,
+<a class="jxr_linenumber" name="L102" href="#L102">102</a> 			<span class="jxr_string">"and; now"</span>,
+<a class="jxr_linenumber" name="L103" href="#L103">103</a> 			<span class="jxr_string">"things are delimited by dollars"</span>,
+<a class="jxr_linenumber" name="L104" href="#L104">104</a> 			<span class="jxr_string">"back to semicolon"</span>,
+<a class="jxr_linenumber" name="L105" href="#L105">105</a> 			<span class="jxr_string">"hopefully"</span>
+<a class="jxr_linenumber" name="L106" href="#L106">106</a> 		};
+<a class="jxr_linenumber" name="L107" href="#L107">107</a> 		assertArrayEquals(expected,  result);
+<a class="jxr_linenumber" name="L108" href="#L108">108</a> 		
+<a class="jxr_linenumber" name="L109" href="#L109">109</a> 		
+<a class="jxr_linenumber" name="L110" href="#L110">110</a> 		<em class="jxr_comment">// the 'delimiter' command can also end with newlines without it's own delimiter</em>
+<a class="jxr_linenumber" name="L111" href="#L111">111</a> 		String s7 = <span class="jxr_string">"ending with semi-colon; delimiter $$\n"</span> +
+<a class="jxr_linenumber" name="L112" href="#L112">112</a> 		  <span class="jxr_string">"and; now $$ things are delimited by dollars $$ delimiter ;\n"</span> +
+<a class="jxr_linenumber" name="L113" href="#L113">113</a> 		  <span class="jxr_string">"back to semicolon; hopefully\n"</span>;
+<a class="jxr_linenumber" name="L114" href="#L114">114</a> 		result = p.parseStatements(<strong class="jxr_keyword">new</strong> ByteArrayInputStream(s7.getBytes()), <strong class="jxr_keyword">true</strong>).toArray(<strong class="jxr_keyword">new</strong> String[]{});
+<a class="jxr_linenumber" name="L115" href="#L115">115</a> 		expected = <strong class="jxr_keyword">new</strong> String[] { 
+<a class="jxr_linenumber" name="L116" href="#L116">116</a> 			<span class="jxr_string">"ending with semi-colon"</span>,
+<a class="jxr_linenumber" name="L117" href="#L117">117</a> 			<span class="jxr_string">"and; now"</span>,
+<a class="jxr_linenumber" name="L118" href="#L118">118</a> 			<span class="jxr_string">"things are delimited by dollars"</span>,
+<a class="jxr_linenumber" name="L119" href="#L119">119</a> 			<span class="jxr_string">"back to semicolon"</span>,
+<a class="jxr_linenumber" name="L120" href="#L120">120</a> 			<span class="jxr_string">"hopefully"</span>
+<a class="jxr_linenumber" name="L121" href="#L121">121</a> 		};
+<a class="jxr_linenumber" name="L122" href="#L122">122</a> 		assertArrayEquals(expected,  result);
+<a class="jxr_linenumber" name="L123" href="#L123">123</a> 		
+<a class="jxr_linenumber" name="L124" href="#L124">124</a> 		String s8 = <span class="jxr_string">"statement1; a='escaped quotes (&#92;&#92;' and &#92;&#92;\&quot;) in single quotes'; statement3;"</span>;
+<a class="jxr_linenumber" name="L125" href="#L125">125</a> 		result = p.parseStatements(<strong class="jxr_keyword">new</strong> ByteArrayInputStream(s8.getBytes()), <strong class="jxr_keyword">true</strong>).toArray(<strong class="jxr_keyword">new</strong> String[]{});
+<a class="jxr_linenumber" name="L126" href="#L126">126</a> 		expected = <strong class="jxr_keyword">new</strong> String[] { 
+<a class="jxr_linenumber" name="L127" href="#L127">127</a> 			<span class="jxr_string">"statement1"</span>, 
+<a class="jxr_linenumber" name="L128" href="#L128">128</a> 			<span class="jxr_string">"a='escaped quotes (&#92;&#92;' and &#92;&#92;\&quot;) in single quotes'"</span>, 
+<a class="jxr_linenumber" name="L129" href="#L129">129</a> 			<span class="jxr_string">"statement3"</span>};
+<a class="jxr_linenumber" name="L130" href="#L130">130</a> 		assertArrayEquals(expected,  result);
+<a class="jxr_linenumber" name="L131" href="#L131">131</a> 
+<a class="jxr_linenumber" name="L132" href="#L132">132</a> 		String s9 = <span class="jxr_string">"statement1; a=\&quot;escaped quotes (&#92;&#92;' and &#92;&#92;\&quot;) in double quotes\&quot;; statement3;"</span>;
+<a class="jxr_linenumber" name="L133" href="#L133">133</a> 		result = p.parseStatements(<strong class="jxr_keyword">new</strong> ByteArrayInputStream(s9.getBytes()), <strong class="jxr_keyword">true</strong>).toArray(<strong class="jxr_keyword">new</strong> String[]{});
+<a class="jxr_linenumber" name="L134" href="#L134">134</a> 		expected = <strong class="jxr_keyword">new</strong> String[] { 
+<a class="jxr_linenumber" name="L135" href="#L135">135</a> 			<span class="jxr_string">"statement1"</span>, 
+<a class="jxr_linenumber" name="L136" href="#L136">136</a> 			<span class="jxr_string">"a=\&quot;escaped quotes (&#92;&#92;' and &#92;&#92;\&quot;) in double quotes\&quot;"</span>, 
+<a class="jxr_linenumber" name="L137" href="#L137">137</a> 			<span class="jxr_string">"statement3"</span>};
+<a class="jxr_linenumber" name="L138" href="#L138">138</a> 		assertArrayEquals(expected,  result);
+<a class="jxr_linenumber" name="L139" href="#L139">139</a> 
+<a class="jxr_linenumber" name="L140" href="#L140">140</a> 		
+<a class="jxr_linenumber" name="L141" href="#L141">141</a> 	}
+<a class="jxr_linenumber" name="L142" href="#L142">142</a> 
+<a class="jxr_linenumber" name="L143" href="#L143">143</a> 	@Test
+<a class="jxr_linenumber" name="L144" href="#L144">144</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testConsumeStatements() {
+<a class="jxr_linenumber" name="L145" href="#L145">145</a> 		<em class="jxr_comment">//fail("Not yet implemented");</em>
+<a class="jxr_linenumber" name="L146" href="#L146">146</a> 	}
+<a class="jxr_linenumber" name="L147" href="#L147">147</a> 
+<a class="jxr_linenumber" name="L148" href="#L148">148</a> }
+<a class="jxr_linenumber" name="L149" href="#L149">149</a> 
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2013&#x2013;2023 <a href="http://www.randomnoun.com">randomnoun</a>. All rights reserved.</div>
