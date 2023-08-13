@@ -4,7 +4,7 @@
 	<parent>
 		<artifactId>parent-pom</artifactId>
 		<groupId>com.randomnoun.build</groupId>
-		<version>1.27</version>
+		<version>1.29</version>
 	</parent>
 	
 	<groupId>com.randomnoun.common</groupId>
@@ -30,29 +30,17 @@
             <artifactId>log4j-core</artifactId>
             <optional>true</optional>
         </dependency>
-
-        <!-- keep the log4j 1 interfaces as some downstream projects still use log4j 1 appenders 
-             note the LoggingEvent class in log4j-1.2-api is broken, so we supply our own in this project
-             seems to be OK as of log4j-1.2-api-2.17.2
+        <!-- keep the log4j 1 interfaces as some downstream projects still use log4j 1 appenders -->
         <dependency>
-        	<groupId>org.apache.logging.log4j</groupId>
+            <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-1.2-api</artifactId>
             <optional>true</optional>
         </dependency>
         
-        including this dependency causes the log4j2 tests to fail, so should probably split that into a separate jar
-        <dependency>
-            <groupId>com.randomnoun.common</groupId>
-            <artifactId>log4j-one</artifactId>
-            <version>1.0.0</version>
-            <optional>true</optional>
-        </dependency>
-        -->
-        
 		<dependency>
        		<groupId>com.randomnoun.common</groupId>
 			<artifactId>jessop</artifactId>
-			<version>1.0.16</version>
+			<version>1.0.18</version>
 		</dependency>
 
 		<!-- conflicts with packages in jdk 11 -->
@@ -119,6 +107,11 @@
 			<groupId>xalan</groupId>
 			<artifactId>xalan</artifactId>
 		</dependency>
+        <dependency>
+            <groupId>xalan</groupId>
+            <artifactId>serializer</artifactId>
+            <version>2.7.3</version>
+        </dependency>		
 		<dependency>
 			<groupId>xerces</groupId>
 			<artifactId>xercesImpl</artifactId>
@@ -181,6 +174,8 @@
 					</execution>
 				</executions>
 			</plugin>
+			
+			
 		</plugins>
 		
 		<pluginManagement>
@@ -208,7 +203,16 @@
 		</pluginManagement>
 	</build>
 	
-	
+	<!-- TODO: move to parent-pom, or remove these altogether if sonatype no longer require them -->
+	<mailingLists>
+        <mailingList>
+            <name>${project.name} Mailing List</name>
+            <subscribe>${project.artifactId}-subscribe@lists.randomnoun.com</subscribe>
+            <unsubscribe>${project.artifactId}-unsubscribe@lists.randomnoun.com</unsubscribe>
+            <post>${project.artifactId}@lists.randomnoun.com</post>
+            <archive>http://lists.randomnoun.com/pipermail/${project.artifactId}/</archive>
+        </mailingList>
+    </mailingLists>
 	
 	<distributionManagement>
 		<site>
