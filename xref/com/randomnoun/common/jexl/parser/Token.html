@@ -14,7 +14,7 @@
 <a class="jxr_linenumber" name="L6" href="#L6">6</a>   <em class="jxr_javadoccomment"> * Describes the input token stream.</em>
 <a class="jxr_linenumber" name="L7" href="#L7">7</a>   <em class="jxr_javadoccomment"> */</em>
 <a class="jxr_linenumber" name="L8" href="#L8">8</a>   
-<a class="jxr_linenumber" name="L9" href="#L9">9</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../../com/randomnoun/common/jexl/parser/Token.html">Token</a> {
+<a class="jxr_linenumber" name="L9" href="#L9">9</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a name="Token" href="../../../../../com/randomnoun/common/jexl/parser/Token.html#Token">Token</a> {
 <a class="jxr_linenumber" name="L10" href="#L10">10</a>  
 <a class="jxr_linenumber" name="L11" href="#L11">11</a>    <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L12" href="#L12">12</a>  <em class="jxr_javadoccomment">   * An integer that describes the kind of this token.  This numbering</em>
@@ -45,7 +45,7 @@
 <a class="jxr_linenumber" name="L37" href="#L37">37</a>  <em class="jxr_javadoccomment">   * token.  Otherwise, see below for a description of the contents of</em>
 <a class="jxr_linenumber" name="L38" href="#L38">38</a>  <em class="jxr_javadoccomment">   * this field.</em>
 <a class="jxr_linenumber" name="L39" href="#L39">39</a>  <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="L40" href="#L40">40</a>    <strong class="jxr_keyword">public</strong> <a href="../../../../../com/randomnoun/common/jexl/parser/Token.html">Token</a> next;
+<a class="jxr_linenumber" name="L40" href="#L40">40</a>    <strong class="jxr_keyword">public</strong> <a name="Token" href="../../../../../com/randomnoun/common/jexl/parser/Token.html#Token">Token</a> next;
 <a class="jxr_linenumber" name="L41" href="#L41">41</a>  
 <a class="jxr_linenumber" name="L42" href="#L42">42</a>    <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L43" href="#L43">43</a>  <em class="jxr_javadoccomment">   * This field is used to access special tokens that occur prior to this</em>
@@ -59,7 +59,7 @@
 <a class="jxr_linenumber" name="L51" href="#L51">51</a>  <em class="jxr_javadoccomment">   * immediately follow it (without an intervening regular token).  If there</em>
 <a class="jxr_linenumber" name="L52" href="#L52">52</a>  <em class="jxr_javadoccomment">   * is no such token, this field is null.</em>
 <a class="jxr_linenumber" name="L53" href="#L53">53</a>  <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="L54" href="#L54">54</a>    <strong class="jxr_keyword">public</strong> <a href="../../../../../com/randomnoun/common/jexl/parser/Token.html">Token</a> specialToken;
+<a class="jxr_linenumber" name="L54" href="#L54">54</a>    <strong class="jxr_keyword">public</strong> <a name="Token" href="../../../../../com/randomnoun/common/jexl/parser/Token.html#Token">Token</a> specialToken;
 <a class="jxr_linenumber" name="L55" href="#L55">55</a>  
 <a class="jxr_linenumber" name="L56" href="#L56">56</a>    <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L57" href="#L57">57</a>  <em class="jxr_javadoccomment">   * An optional attribute value of the Token.</em>
@@ -76,12 +76,12 @@
 <a class="jxr_linenumber" name="L68" href="#L68">68</a>    <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L69" href="#L69">69</a>  <em class="jxr_javadoccomment">   * No-argument constructor</em>
 <a class="jxr_linenumber" name="L70" href="#L70">70</a>  <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="L71" href="#L71">71</a>    <strong class="jxr_keyword">public</strong> <a href="../../../../../com/randomnoun/common/jexl/parser/Token.html">Token</a>() {}
+<a class="jxr_linenumber" name="L71" href="#L71">71</a>    <strong class="jxr_keyword">public</strong> <a name="Token" href="../../../../../com/randomnoun/common/jexl/parser/Token.html#Token">Token</a>() {}
 <a class="jxr_linenumber" name="L72" href="#L72">72</a>  
 <a class="jxr_linenumber" name="L73" href="#L73">73</a>    <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L74" href="#L74">74</a>  <em class="jxr_javadoccomment">   * Constructs a new token for the specified Image.</em>
 <a class="jxr_linenumber" name="L75" href="#L75">75</a>  <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="L76" href="#L76">76</a>    <strong class="jxr_keyword">public</strong> <a href="../../../../../com/randomnoun/common/jexl/parser/Token.html">Token</a>(<strong class="jxr_keyword">int</strong> kind)
+<a class="jxr_linenumber" name="L76" href="#L76">76</a>    <strong class="jxr_keyword">public</strong> <a name="Token" href="../../../../../com/randomnoun/common/jexl/parser/Token.html#Token">Token</a>(<strong class="jxr_keyword">int</strong> kind)
 <a class="jxr_linenumber" name="L77" href="#L77">77</a>    {
 <a class="jxr_linenumber" name="L78" href="#L78">78</a>       <strong class="jxr_keyword">this</strong>(kind, <strong class="jxr_keyword">null</strong>);
 <a class="jxr_linenumber" name="L79" href="#L79">79</a>    }
@@ -89,7 +89,7 @@
 <a class="jxr_linenumber" name="L81" href="#L81">81</a>    <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L82" href="#L82">82</a>  <em class="jxr_javadoccomment">   * Constructs a new token for the specified Image and Kind.</em>
 <a class="jxr_linenumber" name="L83" href="#L83">83</a>  <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="L84" href="#L84">84</a>    <strong class="jxr_keyword">public</strong> <a href="../../../../../com/randomnoun/common/jexl/parser/Token.html">Token</a>(<strong class="jxr_keyword">int</strong> kind, String image)
+<a class="jxr_linenumber" name="L84" href="#L84">84</a>    <strong class="jxr_keyword">public</strong> <a name="Token" href="../../../../../com/randomnoun/common/jexl/parser/Token.html#Token">Token</a>(<strong class="jxr_keyword">int</strong> kind, String image)
 <a class="jxr_linenumber" name="L85" href="#L85">85</a>    {
 <a class="jxr_linenumber" name="L86" href="#L86">86</a>       <strong class="jxr_keyword">this</strong>.kind = kind;
 <a class="jxr_linenumber" name="L87" href="#L87">87</a>       <strong class="jxr_keyword">this</strong>.image = image;
@@ -115,15 +115,15 @@
 <a class="jxr_linenumber" name="L107" href="#L107">107</a> <em class="jxr_javadoccomment">   * to the following switch statement. Then you can cast matchedToken</em>
 <a class="jxr_linenumber" name="L108" href="#L108">108</a> <em class="jxr_javadoccomment">   * variable to the appropriate type and use sit in your lexical actions.</em>
 <a class="jxr_linenumber" name="L109" href="#L109">109</a> <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="L110" href="#L110">110</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <a href="../../../../../com/randomnoun/common/jexl/parser/Token.html">Token</a> newToken(<strong class="jxr_keyword">int</strong> ofKind, String image)
+<a class="jxr_linenumber" name="L110" href="#L110">110</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <a name="Token" href="../../../../../com/randomnoun/common/jexl/parser/Token.html#Token">Token</a> newToken(<strong class="jxr_keyword">int</strong> ofKind, String image)
 <a class="jxr_linenumber" name="L111" href="#L111">111</a>   {
 <a class="jxr_linenumber" name="L112" href="#L112">112</a>      <strong class="jxr_keyword">switch</strong>(ofKind)
 <a class="jxr_linenumber" name="L113" href="#L113">113</a>      {
-<a class="jxr_linenumber" name="L114" href="#L114">114</a>        <strong class="jxr_keyword">default</strong> : <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a href="../../../../../com/randomnoun/common/jexl/parser/Token.html">Token</a>(ofKind, image);
+<a class="jxr_linenumber" name="L114" href="#L114">114</a>        <strong class="jxr_keyword">default</strong> : <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a name="Token" href="../../../../../com/randomnoun/common/jexl/parser/Token.html#Token">Token</a>(ofKind, image);
 <a class="jxr_linenumber" name="L115" href="#L115">115</a>      }
 <a class="jxr_linenumber" name="L116" href="#L116">116</a>   }
 <a class="jxr_linenumber" name="L117" href="#L117">117</a> 
-<a class="jxr_linenumber" name="L118" href="#L118">118</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <a href="../../../../../com/randomnoun/common/jexl/parser/Token.html">Token</a> newToken(<strong class="jxr_keyword">int</strong> ofKind)
+<a class="jxr_linenumber" name="L118" href="#L118">118</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <a name="Token" href="../../../../../com/randomnoun/common/jexl/parser/Token.html#Token">Token</a> newToken(<strong class="jxr_keyword">int</strong> ofKind)
 <a class="jxr_linenumber" name="L119" href="#L119">119</a>   {
 <a class="jxr_linenumber" name="L120" href="#L120">120</a>      <strong class="jxr_keyword">return</strong> newToken(ofKind, <strong class="jxr_keyword">null</strong>);
 <a class="jxr_linenumber" name="L121" href="#L121">121</a>   }

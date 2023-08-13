@@ -9,7 +9,7 @@
 <a class="jxr_linenumber" name="L1" href="#L1">1</a>   <strong class="jxr_keyword">package</strong> com.randomnoun.common.security;
 <a class="jxr_linenumber" name="L2" href="#L2">2</a>   
 <a class="jxr_linenumber" name="L3" href="#L3">3</a>   <em class="jxr_comment">/* (c) 2013 randomnoun. All Rights Reserved. This work is licensed under a</em>
-<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <em class="jxr_comment"> * BSD Simplified License. (<a href="http://www.randomnoun.com/bsd-simplified.html" target="alexandria_uri">http://www.randomnoun.com/bsd-simplified.html</a>)</em>
+<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <em class="jxr_comment"> * BSD Simplified License. (<a href="http://www.randomnoun.com/bsd-simplified.html)" target="alexandria_uri">http://www.randomnoun.com/bsd-simplified.html)</a></em>
 <a class="jxr_linenumber" name="L5" href="#L5">5</a>   <em class="jxr_comment"> */</em>
 <a class="jxr_linenumber" name="L6" href="#L6">6</a>   
 <a class="jxr_linenumber" name="L7" href="#L7">7</a>   <strong class="jxr_keyword">import</strong> java.io.*;
@@ -32,7 +32,7 @@
 <a class="jxr_linenumber" name="L24" href="#L24">24</a>  <em class="jxr_javadoccomment"> * </em>
 <a class="jxr_linenumber" name="L25" href="#L25">25</a>  <em class="jxr_javadoccomment"> * @author knoxg</em>
 <a class="jxr_linenumber" name="L26" href="#L26">26</a>  <em class="jxr_javadoccomment"> */</em>
-<a class="jxr_linenumber" name="L27" href="#L27">27</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../com/randomnoun/common/security/Permission.html">Permission</a> <strong class="jxr_keyword">implements</strong> Serializable
+<a class="jxr_linenumber" name="L27" href="#L27">27</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a name="Permission" href="../../../../com/randomnoun/common/security/Permission.html#Permission">Permission</a> <strong class="jxr_keyword">implements</strong> Serializable
 <a class="jxr_linenumber" name="L28" href="#L28">28</a>  {
 <a class="jxr_linenumber" name="L29" href="#L29">29</a>       
 <a class="jxr_linenumber" name="L30" href="#L30">30</a>      <em class="jxr_javadoccomment">/** generated serialVersionUID */</em>
@@ -42,7 +42,7 @@
 <a class="jxr_linenumber" name="L34" href="#L34">34</a>      <strong class="jxr_keyword">private</strong> String role;
 <a class="jxr_linenumber" name="L35" href="#L35">35</a>  
 <a class="jxr_linenumber" name="L36" href="#L36">36</a>      <em class="jxr_javadoccomment">/** The user for this permission. A permission may apply to a role or a user but not both. */</em>
-<a class="jxr_linenumber" name="L37" href="#L37">37</a>      <strong class="jxr_keyword">private</strong> <a href="../../../../com/randomnoun/common/security/User.html">User</a> user;
+<a class="jxr_linenumber" name="L37" href="#L37">37</a>      <strong class="jxr_keyword">private</strong> <a name="User" href="../../../../com/randomnoun/common/security/User.html#User">User</a> user;
 <a class="jxr_linenumber" name="L38" href="#L38">38</a>  
 <a class="jxr_linenumber" name="L39" href="#L39">39</a>      <em class="jxr_javadoccomment">/** The activity for this permission. */</em>
 <a class="jxr_linenumber" name="L40" href="#L40">40</a>      <strong class="jxr_keyword">private</strong> String activity;
@@ -51,7 +51,7 @@
 <a class="jxr_linenumber" name="L43" href="#L43">43</a>      <strong class="jxr_keyword">private</strong> String resource;
 <a class="jxr_linenumber" name="L44" href="#L44">44</a>  
 <a class="jxr_linenumber" name="L45" href="#L45">45</a>      <em class="jxr_javadoccomment">/** The resourceCriteria for this permission. */</em>
-<a class="jxr_linenumber" name="L46" href="#L46">46</a>      <strong class="jxr_keyword">private</strong> <a href="../../../../com/randomnoun/common/security/ResourceCriteria.html">ResourceCriteria</a> resourceCriteria;
+<a class="jxr_linenumber" name="L46" href="#L46">46</a>      <strong class="jxr_keyword">private</strong> <a name="ResourceCriteria" href="../../../../com/randomnoun/common/security/ResourceCriteria.html#ResourceCriteria">ResourceCriteria</a> resourceCriteria;
 <a class="jxr_linenumber" name="L47" href="#L47">47</a>  
 <a class="jxr_linenumber" name="L48" href="#L48">48</a>      <em class="jxr_javadoccomment">/** Create a new role-based permission.</em>
 <a class="jxr_linenumber" name="L49" href="#L49">49</a>  <em class="jxr_javadoccomment">     *</em>
@@ -61,8 +61,8 @@
 <a class="jxr_linenumber" name="L53" href="#L53">53</a>  <em class="jxr_javadoccomment">     * @param resourceCriteria   a criteria which limits the types of resources that this</em>
 <a class="jxr_linenumber" name="L54" href="#L54">54</a>  <em class="jxr_javadoccomment">     *   permission applies to</em>
 <a class="jxr_linenumber" name="L55" href="#L55">55</a>  <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="L56" href="#L56">56</a>      <strong class="jxr_keyword">public</strong> <a href="../../../../com/randomnoun/common/security/Permission.html">Permission</a>(String role, String activity, String resource,
-<a class="jxr_linenumber" name="L57" href="#L57">57</a>          <a href="../../../../com/randomnoun/common/security/ResourceCriteria.html">ResourceCriteria</a> resourceCriteria)
+<a class="jxr_linenumber" name="L56" href="#L56">56</a>      <strong class="jxr_keyword">public</strong> <a name="Permission" href="../../../../com/randomnoun/common/security/Permission.html#Permission">Permission</a>(String role, String activity, String resource,
+<a class="jxr_linenumber" name="L57" href="#L57">57</a>          <a name="ResourceCriteria" href="../../../../com/randomnoun/common/security/ResourceCriteria.html#ResourceCriteria">ResourceCriteria</a> resourceCriteria)
 <a class="jxr_linenumber" name="L58" href="#L58">58</a>      {
 <a class="jxr_linenumber" name="L59" href="#L59">59</a>          <strong class="jxr_keyword">if</strong> (role==<strong class="jxr_keyword">null</strong>) { <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> NullPointerException(<span class="jxr_string">"null role"</span>); }
 <a class="jxr_linenumber" name="L60" href="#L60">60</a>          <strong class="jxr_keyword">if</strong> (activity==<strong class="jxr_keyword">null</strong>) { <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> NullPointerException(<span class="jxr_string">"null activity"</span>); }
@@ -83,8 +83,8 @@
 <a class="jxr_linenumber" name="L75" href="#L75">75</a>  <em class="jxr_javadoccomment">     * @param resourceCriteria   a criteria which limits the types of resources that this</em>
 <a class="jxr_linenumber" name="L76" href="#L76">76</a>  <em class="jxr_javadoccomment">     *   permission applies to</em>
 <a class="jxr_linenumber" name="L77" href="#L77">77</a>  <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="L78" href="#L78">78</a>      <strong class="jxr_keyword">public</strong> <a href="../../../../com/randomnoun/common/security/Permission.html">Permission</a>(<a href="../../../../com/randomnoun/common/security/User.html">User</a> user, String activity, String resource,
-<a class="jxr_linenumber" name="L79" href="#L79">79</a>          <a href="../../../../com/randomnoun/common/security/ResourceCriteria.html">ResourceCriteria</a> resourceCriteria)
+<a class="jxr_linenumber" name="L78" href="#L78">78</a>      <strong class="jxr_keyword">public</strong> <a name="Permission" href="../../../../com/randomnoun/common/security/Permission.html#Permission">Permission</a>(<a name="User" href="../../../../com/randomnoun/common/security/User.html#User">User</a> user, String activity, String resource,
+<a class="jxr_linenumber" name="L79" href="#L79">79</a>          <a name="ResourceCriteria" href="../../../../com/randomnoun/common/security/ResourceCriteria.html#ResourceCriteria">ResourceCriteria</a> resourceCriteria)
 <a class="jxr_linenumber" name="L80" href="#L80">80</a>      {
 <a class="jxr_linenumber" name="L81" href="#L81">81</a>          <strong class="jxr_keyword">if</strong> (user==<strong class="jxr_keyword">null</strong>) { <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> NullPointerException(<span class="jxr_string">"null user"</span>); }
 <a class="jxr_linenumber" name="L82" href="#L82">82</a>          <strong class="jxr_keyword">if</strong> (activity==<strong class="jxr_keyword">null</strong>) { <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> NullPointerException(<span class="jxr_string">"null activity"</span>); }
@@ -102,7 +102,7 @@
 <a class="jxr_linenumber" name="L94" href="#L94">94</a>  <em class="jxr_javadoccomment">	 * @param activity the name of the activity we are permitting</em>
 <a class="jxr_linenumber" name="L95" href="#L95">95</a>  <em class="jxr_javadoccomment">	 * @param resource the resource we are permitting acess to</em>
 <a class="jxr_linenumber" name="L96" href="#L96">96</a>  <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L97" href="#L97">97</a>      <strong class="jxr_keyword">public</strong> <a href="../../../../com/randomnoun/common/security/Permission.html">Permission</a>(String activity, String resource) {
+<a class="jxr_linenumber" name="L97" href="#L97">97</a>      <strong class="jxr_keyword">public</strong> <a name="Permission" href="../../../../com/randomnoun/common/security/Permission.html#Permission">Permission</a>(String activity, String resource) {
 <a class="jxr_linenumber" name="L98" href="#L98">98</a>  		<strong class="jxr_keyword">if</strong> (activity==<strong class="jxr_keyword">null</strong>) { <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> NullPointerException(<span class="jxr_string">"null activity"</span>); }
 <a class="jxr_linenumber" name="L99" href="#L99">99</a>  		<strong class="jxr_keyword">if</strong> (resource==<strong class="jxr_keyword">null</strong>) { <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> NullPointerException(<span class="jxr_string">"null resource"</span>); }
 <a class="jxr_linenumber" name="L100" href="#L100">100</a> 		<strong class="jxr_keyword">this</strong>.activity = activity;
@@ -113,7 +113,7 @@
 <a class="jxr_linenumber" name="L105" href="#L105">105</a> <em class="jxr_javadoccomment">	 * </em>
 <a class="jxr_linenumber" name="L106" href="#L106">106</a> <em class="jxr_javadoccomment">	 * @param permission a permission in 'activity.resource' format</em>
 <a class="jxr_linenumber" name="L107" href="#L107">107</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L108" href="#L108">108</a>     <strong class="jxr_keyword">public</strong> <a href="../../../../com/randomnoun/common/security/Permission.html">Permission</a>(String permission) {
+<a class="jxr_linenumber" name="L108" href="#L108">108</a>     <strong class="jxr_keyword">public</strong> <a name="Permission" href="../../../../com/randomnoun/common/security/Permission.html#Permission">Permission</a>(String permission) {
 <a class="jxr_linenumber" name="L109" href="#L109">109</a> 		<strong class="jxr_keyword">if</strong> (permission==<strong class="jxr_keyword">null</strong>) { <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> NullPointerException(<span class="jxr_string">"null permission"</span>); }
 <a class="jxr_linenumber" name="L110" href="#L110">110</a> 		<strong class="jxr_keyword">int</strong> pos = permission.indexOf('.');
 <a class="jxr_linenumber" name="L111" href="#L111">111</a> 		<strong class="jxr_keyword">if</strong> (pos==-1) { <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalArgumentException(<span class="jxr_string">"permission must be in 'activity.resource' format"</span>); }
@@ -125,7 +125,7 @@
 <a class="jxr_linenumber" name="L117" href="#L117">117</a> <em class="jxr_javadoccomment">	 * </em>
 <a class="jxr_linenumber" name="L118" href="#L118">118</a> <em class="jxr_javadoccomment">	 * @param permission a permission in 'activity.resource' format</em>
 <a class="jxr_linenumber" name="L119" href="#L119">119</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L120" href="#L120">120</a>     <strong class="jxr_keyword">public</strong> <a href="../../../../com/randomnoun/common/security/Permission.html">Permission</a>(String permission, <a href="../../../../com/randomnoun/common/security/ResourceCriteria.html">ResourceCriteria</a> resourceCriteria) {
+<a class="jxr_linenumber" name="L120" href="#L120">120</a>     <strong class="jxr_keyword">public</strong> <a name="Permission" href="../../../../com/randomnoun/common/security/Permission.html#Permission">Permission</a>(String permission, <a name="ResourceCriteria" href="../../../../com/randomnoun/common/security/ResourceCriteria.html#ResourceCriteria">ResourceCriteria</a> resourceCriteria) {
 <a class="jxr_linenumber" name="L121" href="#L121">121</a> 		<strong class="jxr_keyword">if</strong> (permission==<strong class="jxr_keyword">null</strong>) { <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> NullPointerException(<span class="jxr_string">"null permission"</span>); }
 <a class="jxr_linenumber" name="L122" href="#L122">122</a> 		<strong class="jxr_keyword">int</strong> pos = permission.indexOf('.');
 <a class="jxr_linenumber" name="L123" href="#L123">123</a> 		<strong class="jxr_keyword">if</strong> (pos==-1) { <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalArgumentException(<span class="jxr_string">"permission must be in 'activity.resource' format"</span>); }
@@ -182,7 +182,7 @@
 <a class="jxr_linenumber" name="L174" href="#L174">174</a> <em class="jxr_javadoccomment">     *</em>
 <a class="jxr_linenumber" name="L175" href="#L175">175</a> <em class="jxr_javadoccomment">     * @return the user this permission applies to, or null if it is a user-based role</em>
 <a class="jxr_linenumber" name="L176" href="#L176">176</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="L177" href="#L177">177</a>     <strong class="jxr_keyword">public</strong> <a href="../../../../com/randomnoun/common/security/User.html">User</a> getUser()
+<a class="jxr_linenumber" name="L177" href="#L177">177</a>     <strong class="jxr_keyword">public</strong> <a name="User" href="../../../../com/randomnoun/common/security/User.html#User">User</a> getUser()
 <a class="jxr_linenumber" name="L178" href="#L178">178</a>     {
 <a class="jxr_linenumber" name="L179" href="#L179">179</a>         <strong class="jxr_keyword">return</strong> user;
 <a class="jxr_linenumber" name="L180" href="#L180">180</a>     }
@@ -209,7 +209,7 @@
 <a class="jxr_linenumber" name="L201" href="#L201">201</a> <em class="jxr_javadoccomment">     *</em>
 <a class="jxr_linenumber" name="L202" href="#L202">202</a> <em class="jxr_javadoccomment">     * @return the resourceCriteria that applies to this permission</em>
 <a class="jxr_linenumber" name="L203" href="#L203">203</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="L204" href="#L204">204</a>     <strong class="jxr_keyword">public</strong> <a href="../../../../com/randomnoun/common/security/ResourceCriteria.html">ResourceCriteria</a> getResourceCriteria()
+<a class="jxr_linenumber" name="L204" href="#L204">204</a>     <strong class="jxr_keyword">public</strong> <a name="ResourceCriteria" href="../../../../com/randomnoun/common/security/ResourceCriteria.html#ResourceCriteria">ResourceCriteria</a> getResourceCriteria()
 <a class="jxr_linenumber" name="L205" href="#L205">205</a>     {
 <a class="jxr_linenumber" name="L206" href="#L206">206</a>         <strong class="jxr_keyword">return</strong> resourceCriteria;
 <a class="jxr_linenumber" name="L207" href="#L207">207</a>     }

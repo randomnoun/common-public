@@ -24,7 +24,7 @@
 <a class="jxr_linenumber" name="L16" href="#L16">16</a>  <em class="jxr_javadoccomment"> * </em>
 <a class="jxr_linenumber" name="L17" href="#L17">17</a>  <em class="jxr_javadoccomment"> * @author knoxg</em>
 <a class="jxr_linenumber" name="L18" href="#L18">18</a>  <em class="jxr_javadoccomment"> */</em>
-<a class="jxr_linenumber" name="L19" href="#L19">19</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">interface</strong> <a href="../../../../../com/randomnoun/common/jexl/sql/SqlFunction.html">SqlFunction</a> {
+<a class="jxr_linenumber" name="L19" href="#L19">19</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">interface</strong> <a name="SqlFunction" href="../../../../../com/randomnoun/common/jexl/sql/SqlFunction.html#SqlFunction">SqlFunction</a> {
 <a class="jxr_linenumber" name="L20" href="#L20">20</a>  
 <a class="jxr_linenumber" name="L21" href="#L21">21</a>  	<em class="jxr_javadoccomment">/** All SQL functions must implement this method. It returns the SQL required for</em>
 <a class="jxr_linenumber" name="L22" href="#L22">22</a>  <em class="jxr_javadoccomment">	 *  the database to evaluate the function. evalContext can be used to get the</em>
@@ -38,7 +38,7 @@
 <a class="jxr_linenumber" name="L30" href="#L30">30</a>  <em class="jxr_javadoccomment">	 * @throws EvalException If an exception occured during translation (e.g. missing arguments, arguments of wrong type, invalid arguments).</em>
 <a class="jxr_linenumber" name="L31" href="#L31">31</a>  <em class="jxr_javadoccomment">	 * @throws EvalFallbackException If this expression should be evaluated at runtime instead of being translated  </em>
 <a class="jxr_linenumber" name="L32" href="#L32">32</a>  <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L33" href="#L33">33</a>  	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">abstract</strong> String toSql(String functionName, <a href="../../../../../com/randomnoun/common/jexl/eval/EvalContext.html">EvalContext</a> evalContext, List&lt;Object&gt; arguments)
+<a class="jxr_linenumber" name="L33" href="#L33">33</a>  	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">abstract</strong> String toSql(String functionName, <a name="EvalContext" href="../../../../../com/randomnoun/common/jexl/eval/EvalContext.html#EvalContext">EvalContext</a> evalContext, List&lt;Object&gt; arguments)
 <a class="jxr_linenumber" name="L34" href="#L34">34</a>  		<strong class="jxr_keyword">throws</strong> EvalException, EvalFallbackException;
 <a class="jxr_linenumber" name="L35" href="#L35">35</a>  }
 </pre>

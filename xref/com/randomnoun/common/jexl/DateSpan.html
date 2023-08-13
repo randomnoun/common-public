@@ -9,7 +9,7 @@
 <a class="jxr_linenumber" name="L1" href="#L1">1</a>   <strong class="jxr_keyword">package</strong> com.randomnoun.common.jexl;
 <a class="jxr_linenumber" name="L2" href="#L2">2</a>   
 <a class="jxr_linenumber" name="L3" href="#L3">3</a>   <em class="jxr_comment">/* (c) 2013 randomnoun. All Rights Reserved. This work is licensed under a</em>
-<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <em class="jxr_comment"> * BSD Simplified License. (<a href="http://www.randomnoun.com/bsd-simplified.html" target="alexandria_uri">http://www.randomnoun.com/bsd-simplified.html</a>)</em>
+<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <em class="jxr_comment"> * BSD Simplified License. (<a href="http://www.randomnoun.com/bsd-simplified.html)" target="alexandria_uri">http://www.randomnoun.com/bsd-simplified.html)</a></em>
 <a class="jxr_linenumber" name="L5" href="#L5">5</a>   <em class="jxr_comment"> */</em>
 <a class="jxr_linenumber" name="L6" href="#L6">6</a>   
 <a class="jxr_linenumber" name="L7" href="#L7">7</a>   <strong class="jxr_keyword">import</strong> java.io.Serializable;
@@ -68,7 +68,7 @@
 <a class="jxr_linenumber" name="L60" href="#L60">60</a>  <em class="jxr_javadoccomment"> * </em>
 <a class="jxr_linenumber" name="L61" href="#L61">61</a>  <em class="jxr_javadoccomment"> * @author knoxg</em>
 <a class="jxr_linenumber" name="L62" href="#L62">62</a>  <em class="jxr_javadoccomment"> */</em>
-<a class="jxr_linenumber" name="L63" href="#L63">63</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../com/randomnoun/common/jexl/DateSpan.html">DateSpan</a>
+<a class="jxr_linenumber" name="L63" href="#L63">63</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a name="DateSpan" href="../../../../com/randomnoun/common/jexl/DateSpan.html#DateSpan">DateSpan</a>
 <a class="jxr_linenumber" name="L64" href="#L64">64</a>      <strong class="jxr_keyword">implements</strong> Serializable
 <a class="jxr_linenumber" name="L65" href="#L65">65</a>  {
 <a class="jxr_linenumber" name="L66" href="#L66">66</a>      <em class="jxr_javadoccomment">/** Generated serialVersionUID */</em>
@@ -87,7 +87,7 @@
 <a class="jxr_linenumber" name="L79" href="#L79">79</a>      <strong class="jxr_keyword">private</strong> TimeZone defaultTimezone;
 <a class="jxr_linenumber" name="L80" href="#L80">80</a>      
 <a class="jxr_linenumber" name="L81" href="#L81">81</a>      <em class="jxr_javadoccomment">/** A single timestamp instant, without timezone. Equivalent to DateSpan(Date, false, null) */</em>
-<a class="jxr_linenumber" name="L82" href="#L82">82</a>      <strong class="jxr_keyword">public</strong> <a href="../../../../com/randomnoun/common/jexl/DateSpan.html">DateSpan</a>(Date timestamp) {
+<a class="jxr_linenumber" name="L82" href="#L82">82</a>      <strong class="jxr_keyword">public</strong> <a name="DateSpan" href="../../../../com/randomnoun/common/jexl/DateSpan.html#DateSpan">DateSpan</a>(Date timestamp) {
 <a class="jxr_linenumber" name="L83" href="#L83">83</a>          <strong class="jxr_keyword">this</strong>(timestamp, false, <strong class="jxr_keyword">null</strong>);
 <a class="jxr_linenumber" name="L84" href="#L84">84</a>      }
 <a class="jxr_linenumber" name="L85" href="#L85">85</a>  
@@ -101,7 +101,7 @@
 <a class="jxr_linenumber" name="L93" href="#L93">93</a>  <em class="jxr_javadoccomment">     *</em>
 <a class="jxr_linenumber" name="L94" href="#L94">94</a>  <em class="jxr_javadoccomment">     * @throws NullPointerException if the dateSpan passed to this method is null</em>
 <a class="jxr_linenumber" name="L95" href="#L95">95</a>  <em class="jxr_javadoccomment">     **/</em>
-<a class="jxr_linenumber" name="L96" href="#L96">96</a>      <strong class="jxr_keyword">public</strong> <a href="../../../../com/randomnoun/common/jexl/DateSpan.html">DateSpan</a>(String dateSpan, TimeZone defaultTimezone)
+<a class="jxr_linenumber" name="L96" href="#L96">96</a>      <strong class="jxr_keyword">public</strong> <a name="DateSpan" href="../../../../com/randomnoun/common/jexl/DateSpan.html#DateSpan">DateSpan</a>(String dateSpan, TimeZone defaultTimezone)
 <a class="jxr_linenumber" name="L97" href="#L97">97</a>      {
 <a class="jxr_linenumber" name="L98" href="#L98">98</a>          <em class="jxr_comment">// ensure this is a date we can accept</em>
 <a class="jxr_linenumber" name="L99" href="#L99">99</a>          <strong class="jxr_keyword">if</strong> (dateSpan == <strong class="jxr_keyword">null</strong>) {
@@ -161,7 +161,7 @@
 <a class="jxr_linenumber" name="L153" href="#L153">153</a> <em class="jxr_javadoccomment">     *</em>
 <a class="jxr_linenumber" name="L154" href="#L154">154</a> <em class="jxr_javadoccomment">     * @throws NullPointerException if the dateSpanStart parameter passed to this method is null</em>
 <a class="jxr_linenumber" name="L155" href="#L155">155</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="L156" href="#L156">156</a>     <strong class="jxr_keyword">public</strong> <a href="../../../../com/randomnoun/common/jexl/DateSpan.html">DateSpan</a>(Date dateSpanStart, <strong class="jxr_keyword">boolean</strong> isDay, TimeZone defaultTimezone)
+<a class="jxr_linenumber" name="L156" href="#L156">156</a>     <strong class="jxr_keyword">public</strong> <a name="DateSpan" href="../../../../com/randomnoun/common/jexl/DateSpan.html#DateSpan">DateSpan</a>(Date dateSpanStart, <strong class="jxr_keyword">boolean</strong> isDay, TimeZone defaultTimezone)
 <a class="jxr_linenumber" name="L157" href="#L157">157</a>     {
 <a class="jxr_linenumber" name="L158" href="#L158">158</a>         <strong class="jxr_keyword">if</strong> (dateSpanStart == <strong class="jxr_keyword">null</strong>) {
 <a class="jxr_linenumber" name="L159" href="#L159">159</a>             <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> NullPointerException(<span class="jxr_string">"null dateSpanStart"</span>);
@@ -338,7 +338,7 @@
 <a class="jxr_linenumber" name="L330" href="#L330">330</a> <em class="jxr_javadoccomment">     * </em>
 <a class="jxr_linenumber" name="L331" href="#L331">331</a> <em class="jxr_javadoccomment">     * @return an instance of a DateSpan</em>
 <a class="jxr_linenumber" name="L332" href="#L332">332</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="L333" href="#L333">333</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <a href="../../../../com/randomnoun/common/jexl/DateSpan.html">DateSpan</a> valueOf(String text) <strong class="jxr_keyword">throws</strong> ParseException {
+<a class="jxr_linenumber" name="L333" href="#L333">333</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <a name="DateSpan" href="../../../../com/randomnoun/common/jexl/DateSpan.html#DateSpan">DateSpan</a> valueOf(String text) <strong class="jxr_keyword">throws</strong> ParseException {
 <a class="jxr_linenumber" name="L334" href="#L334">334</a>         <strong class="jxr_keyword">if</strong> (!(text.startsWith(<span class="jxr_string">"("</span>) &amp;&amp; text.endsWith(<span class="jxr_string">")"</span>))) {
 <a class="jxr_linenumber" name="L335" href="#L335">335</a>             <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> ParseException(<span class="jxr_string">"DateSpan representation must begin and end with brackets"</span>, 0);
 <a class="jxr_linenumber" name="L336" href="#L336">336</a>         }
@@ -357,10 +357,10 @@
 <a class="jxr_linenumber" name="L349" href="#L349">349</a>             SimpleDateFormat sdf = <strong class="jxr_keyword">new</strong> SimpleDateFormat(<span class="jxr_string">"yyyy-MM-dd'T'HH:mm:ss'+00:00'"</span>);
 <a class="jxr_linenumber" name="L350" href="#L350">350</a>             sdf.setTimeZone(TimeZone.getTimeZone(<span class="jxr_string">"UTC"</span>));
 <a class="jxr_linenumber" name="L351" href="#L351">351</a>             Date date = sdf.parse(time.substring(2));
-<a class="jxr_linenumber" name="L352" href="#L352">352</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a href="../../../../com/randomnoun/common/jexl/DateSpan.html">DateSpan</a>(date, isDay.substring(6).equals(<span class="jxr_string">"true"</span>), timezone);
+<a class="jxr_linenumber" name="L352" href="#L352">352</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a name="DateSpan" href="../../../../com/randomnoun/common/jexl/DateSpan.html#DateSpan">DateSpan</a>(date, isDay.substring(6).equals(<span class="jxr_string">"true"</span>), timezone);
 <a class="jxr_linenumber" name="L353" href="#L353">353</a>                  
 <a class="jxr_linenumber" name="L354" href="#L354">354</a>         } <strong class="jxr_keyword">else</strong> {
-<a class="jxr_linenumber" name="L355" href="#L355">355</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a href="../../../../com/randomnoun/common/jexl/DateSpan.html">DateSpan</a>(time, timezone);
+<a class="jxr_linenumber" name="L355" href="#L355">355</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a name="DateSpan" href="../../../../com/randomnoun/common/jexl/DateSpan.html#DateSpan">DateSpan</a>(time, timezone);
 <a class="jxr_linenumber" name="L356" href="#L356">356</a>             
 <a class="jxr_linenumber" name="L357" href="#L357">357</a>         }
 <a class="jxr_linenumber" name="L358" href="#L358">358</a>     }
@@ -374,8 +374,8 @@
 <a class="jxr_linenumber" name="L366" href="#L366">366</a> <em class="jxr_javadoccomment">     *  @return true if the other object is identical to this one, false otherwise</em>
 <a class="jxr_linenumber" name="L367" href="#L367">367</a> <em class="jxr_javadoccomment">     */</em>
 <a class="jxr_linenumber" name="L368" href="#L368">368</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> equals(Object obj) {
-<a class="jxr_linenumber" name="L369" href="#L369">369</a>         <strong class="jxr_keyword">if</strong> (!(obj instanceof DateSpan)) { <strong class="jxr_keyword">return</strong> false; }
-<a class="jxr_linenumber" name="L370" href="#L370">370</a>         <a href="../../../../com/randomnoun/common/jexl/DateSpan.html">DateSpan</a> other = (DateSpan) obj;
+<a class="jxr_linenumber" name="L369" href="#L369">369</a>         <strong class="jxr_keyword">if</strong> (!(obj instanceof <a name="DateSpan" href="../../../../com/randomnoun/common/jexl/DateSpan.html#DateSpan">DateSpan</a>)) { <strong class="jxr_keyword">return</strong> false; }
+<a class="jxr_linenumber" name="L370" href="#L370">370</a>         <a name="DateSpan" href="../../../../com/randomnoun/common/jexl/DateSpan.html#DateSpan">DateSpan</a> other = (<a name="DateSpan" href="../../../../com/randomnoun/common/jexl/DateSpan.html#DateSpan">DateSpan</a>) obj;
 <a class="jxr_linenumber" name="L371" href="#L371">371</a>         <strong class="jxr_keyword">if</strong> ( ((fixedTime == <strong class="jxr_keyword">null</strong> &amp;&amp; other.fixedTime==<strong class="jxr_keyword">null</strong>) ||
 <a class="jxr_linenumber" name="L372" href="#L372">372</a>               (fixedTime != <strong class="jxr_keyword">null</strong> &amp;&amp; fixedTime.equals(other.fixedTime))) &amp;&amp;
 <a class="jxr_linenumber" name="L373" href="#L373">373</a>              ((timezonedTime == <strong class="jxr_keyword">null</strong> &amp;&amp; other.timezonedTime==<strong class="jxr_keyword">null</strong>) ||

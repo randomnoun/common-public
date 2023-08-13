@@ -13,7 +13,7 @@
 <a class="jxr_linenumber" name="L5" href="#L5">5</a>   <strong class="jxr_keyword">import</strong> java.util.Vector;
 <a class="jxr_linenumber" name="L6" href="#L6">6</a>   
 <a class="jxr_linenumber" name="L7" href="#L7">7</a>   <em class="jxr_javadoccomment">/** Token Manager. */</em>
-<a class="jxr_linenumber" name="L8" href="#L8">8</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../../com/randomnoun/common/jexl/parser/ExpressionParserTokenManager.html">ExpressionParserTokenManager</a> <strong class="jxr_keyword">implements</strong> <a href="../../../../../com/randomnoun/common/jexl/parser/ExpressionParserConstants.html">ExpressionParserConstants</a>
+<a class="jxr_linenumber" name="L8" href="#L8">8</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a name="ExpressionParserTokenManager" href="../../../../../com/randomnoun/common/jexl/parser/ExpressionParserTokenManager.html#ExpressionParserTokenManager">ExpressionParserTokenManager</a> <strong class="jxr_keyword">implements</strong> <a name="ExpressionParserConstants" href="../../../../../com/randomnoun/common/jexl/parser/ExpressionParserConstants.html#ExpressionParserConstants">ExpressionParserConstants</a>
 <a class="jxr_linenumber" name="L9" href="#L9">9</a>   {
 <a class="jxr_linenumber" name="L10" href="#L10">10</a>  
 <a class="jxr_linenumber" name="L11" href="#L11">11</a>    <em class="jxr_javadoccomment">/** Debug output. */</em>
@@ -599,25 +599,25 @@
 <a class="jxr_linenumber" name="L591" href="#L591">591</a> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">long</strong>[] jjtoSkip = {
 <a class="jxr_linenumber" name="L592" href="#L592">592</a>    0x3eL, 
 <a class="jxr_linenumber" name="L593" href="#L593">593</a> };
-<a class="jxr_linenumber" name="L594" href="#L594">594</a> <strong class="jxr_keyword">protected</strong> <a href="../../../../../com/randomnoun/common/jexl/parser/JavaCharStream.html">JavaCharStream</a> input_stream;
+<a class="jxr_linenumber" name="L594" href="#L594">594</a> <strong class="jxr_keyword">protected</strong> <a name="JavaCharStream" href="../../../../../com/randomnoun/common/jexl/parser/JavaCharStream.html#JavaCharStream">JavaCharStream</a> input_stream;
 <a class="jxr_linenumber" name="L595" href="#L595">595</a> <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong>[] jjrounds = <strong class="jxr_keyword">new</strong> <strong class="jxr_keyword">int</strong>[32];
 <a class="jxr_linenumber" name="L596" href="#L596">596</a> <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong>[] jjstateSet = <strong class="jxr_keyword">new</strong> <strong class="jxr_keyword">int</strong>[64];
 <a class="jxr_linenumber" name="L597" href="#L597">597</a> <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">char</strong> curChar;
 <a class="jxr_linenumber" name="L598" href="#L598">598</a> <em class="jxr_javadoccomment">/** Constructor. */</em>
-<a class="jxr_linenumber" name="L599" href="#L599">599</a> <strong class="jxr_keyword">public</strong> <a href="../../../../../com/randomnoun/common/jexl/parser/ExpressionParserTokenManager.html">ExpressionParserTokenManager</a>(<a href="../../../../../com/randomnoun/common/jexl/parser/JavaCharStream.html">JavaCharStream</a> stream){
+<a class="jxr_linenumber" name="L599" href="#L599">599</a> <strong class="jxr_keyword">public</strong> <a name="ExpressionParserTokenManager" href="../../../../../com/randomnoun/common/jexl/parser/ExpressionParserTokenManager.html#ExpressionParserTokenManager">ExpressionParserTokenManager</a>(<a name="JavaCharStream" href="../../../../../com/randomnoun/common/jexl/parser/JavaCharStream.html#JavaCharStream">JavaCharStream</a> stream){
 <a class="jxr_linenumber" name="L600" href="#L600">600</a>    <strong class="jxr_keyword">if</strong> (JavaCharStream.staticFlag)
 <a class="jxr_linenumber" name="L601" href="#L601">601</a>       <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> Error(<span class="jxr_string">"ERROR: Cannot use a static CharStream class with a non-static lexical analyzer."</span>);
 <a class="jxr_linenumber" name="L602" href="#L602">602</a>    input_stream = stream;
 <a class="jxr_linenumber" name="L603" href="#L603">603</a> }
 <a class="jxr_linenumber" name="L604" href="#L604">604</a> 
 <a class="jxr_linenumber" name="L605" href="#L605">605</a> <em class="jxr_javadoccomment">/** Constructor. */</em>
-<a class="jxr_linenumber" name="L606" href="#L606">606</a> <strong class="jxr_keyword">public</strong> <a href="../../../../../com/randomnoun/common/jexl/parser/ExpressionParserTokenManager.html">ExpressionParserTokenManager</a>(<a href="../../../../../com/randomnoun/common/jexl/parser/JavaCharStream.html">JavaCharStream</a> stream, <strong class="jxr_keyword">int</strong> lexState){
+<a class="jxr_linenumber" name="L606" href="#L606">606</a> <strong class="jxr_keyword">public</strong> <a name="ExpressionParserTokenManager" href="../../../../../com/randomnoun/common/jexl/parser/ExpressionParserTokenManager.html#ExpressionParserTokenManager">ExpressionParserTokenManager</a>(<a name="JavaCharStream" href="../../../../../com/randomnoun/common/jexl/parser/JavaCharStream.html#JavaCharStream">JavaCharStream</a> stream, <strong class="jxr_keyword">int</strong> lexState){
 <a class="jxr_linenumber" name="L607" href="#L607">607</a>    <strong class="jxr_keyword">this</strong>(stream);
 <a class="jxr_linenumber" name="L608" href="#L608">608</a>    SwitchTo(lexState);
 <a class="jxr_linenumber" name="L609" href="#L609">609</a> }
 <a class="jxr_linenumber" name="L610" href="#L610">610</a> 
 <a class="jxr_linenumber" name="L611" href="#L611">611</a> <em class="jxr_javadoccomment">/** Reinitialise parser. */</em>
-<a class="jxr_linenumber" name="L612" href="#L612">612</a> <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> ReInit(<a href="../../../../../com/randomnoun/common/jexl/parser/JavaCharStream.html">JavaCharStream</a> stream)
+<a class="jxr_linenumber" name="L612" href="#L612">612</a> <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> ReInit(<a name="JavaCharStream" href="../../../../../com/randomnoun/common/jexl/parser/JavaCharStream.html#JavaCharStream">JavaCharStream</a> stream)
 <a class="jxr_linenumber" name="L613" href="#L613">613</a> {
 <a class="jxr_linenumber" name="L614" href="#L614">614</a>    jjmatchedPos = jjnewStateCnt = 0;
 <a class="jxr_linenumber" name="L615" href="#L615">615</a>    curLexState = defaultLexState;
@@ -633,7 +633,7 @@
 <a class="jxr_linenumber" name="L625" href="#L625">625</a> }
 <a class="jxr_linenumber" name="L626" href="#L626">626</a> 
 <a class="jxr_linenumber" name="L627" href="#L627">627</a> <em class="jxr_javadoccomment">/** Reinitialise parser. */</em>
-<a class="jxr_linenumber" name="L628" href="#L628">628</a> <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> ReInit(<a href="../../../../../com/randomnoun/common/jexl/parser/JavaCharStream.html">JavaCharStream</a> stream, <strong class="jxr_keyword">int</strong> lexState)
+<a class="jxr_linenumber" name="L628" href="#L628">628</a> <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> ReInit(<a name="JavaCharStream" href="../../../../../com/randomnoun/common/jexl/parser/JavaCharStream.html#JavaCharStream">JavaCharStream</a> stream, <strong class="jxr_keyword">int</strong> lexState)
 <a class="jxr_linenumber" name="L629" href="#L629">629</a> {
 <a class="jxr_linenumber" name="L630" href="#L630">630</a>    ReInit(stream);
 <a class="jxr_linenumber" name="L631" href="#L631">631</a>    SwitchTo(lexState);
@@ -643,14 +643,14 @@
 <a class="jxr_linenumber" name="L635" href="#L635">635</a> <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> SwitchTo(<strong class="jxr_keyword">int</strong> lexState)
 <a class="jxr_linenumber" name="L636" href="#L636">636</a> {
 <a class="jxr_linenumber" name="L637" href="#L637">637</a>    <strong class="jxr_keyword">if</strong> (lexState &gt;= 1 || lexState &lt; 0)
-<a class="jxr_linenumber" name="L638" href="#L638">638</a>       <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> <a href="../../../../../com/randomnoun/common/jexl/parser/TokenMgrError.html">TokenMgrError</a>(<span class="jxr_string">"Error: Ignoring invalid lexical state : "</span> + lexState + <span class="jxr_string">". State unchanged."</span>, TokenMgrError.INVALID_LEXICAL_STATE);
+<a class="jxr_linenumber" name="L638" href="#L638">638</a>       <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> <a name="TokenMgrError" href="../../../../../com/randomnoun/common/jexl/parser/TokenMgrError.html#TokenMgrError">TokenMgrError</a>(<span class="jxr_string">"Error: Ignoring invalid lexical state : "</span> + lexState + <span class="jxr_string">". State unchanged."</span>, TokenMgrError.INVALID_LEXICAL_STATE);
 <a class="jxr_linenumber" name="L639" href="#L639">639</a>    <strong class="jxr_keyword">else</strong>
 <a class="jxr_linenumber" name="L640" href="#L640">640</a>       curLexState = lexState;
 <a class="jxr_linenumber" name="L641" href="#L641">641</a> }
 <a class="jxr_linenumber" name="L642" href="#L642">642</a> 
-<a class="jxr_linenumber" name="L643" href="#L643">643</a> <strong class="jxr_keyword">protected</strong> <a href="../../../../../com/randomnoun/common/jexl/parser/Token.html">Token</a> jjFillToken()
+<a class="jxr_linenumber" name="L643" href="#L643">643</a> <strong class="jxr_keyword">protected</strong> <a name="Token" href="../../../../../com/randomnoun/common/jexl/parser/Token.html#Token">Token</a> jjFillToken()
 <a class="jxr_linenumber" name="L644" href="#L644">644</a> {
-<a class="jxr_linenumber" name="L645" href="#L645">645</a>    <strong class="jxr_keyword">final</strong> <a href="../../../../../com/randomnoun/common/jexl/parser/Token.html">Token</a> t;
+<a class="jxr_linenumber" name="L645" href="#L645">645</a>    <strong class="jxr_keyword">final</strong> <a name="Token" href="../../../../../com/randomnoun/common/jexl/parser/Token.html#Token">Token</a> t;
 <a class="jxr_linenumber" name="L646" href="#L646">646</a>    <strong class="jxr_keyword">final</strong> String curTokenImage;
 <a class="jxr_linenumber" name="L647" href="#L647">647</a>    <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong> beginLine;
 <a class="jxr_linenumber" name="L648" href="#L648">648</a>    <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong> endLine;
@@ -680,9 +680,9 @@
 <a class="jxr_linenumber" name="L672" href="#L672">672</a> <strong class="jxr_keyword">int</strong> jjmatchedKind;
 <a class="jxr_linenumber" name="L673" href="#L673">673</a> 
 <a class="jxr_linenumber" name="L674" href="#L674">674</a> <em class="jxr_javadoccomment">/** Get the next Token. */</em>
-<a class="jxr_linenumber" name="L675" href="#L675">675</a> <strong class="jxr_keyword">public</strong> <a href="../../../../../com/randomnoun/common/jexl/parser/Token.html">Token</a> getNextToken() 
+<a class="jxr_linenumber" name="L675" href="#L675">675</a> <strong class="jxr_keyword">public</strong> <a name="Token" href="../../../../../com/randomnoun/common/jexl/parser/Token.html#Token">Token</a> getNextToken() 
 <a class="jxr_linenumber" name="L676" href="#L676">676</a> {
-<a class="jxr_linenumber" name="L677" href="#L677">677</a>   <a href="../../../../../com/randomnoun/common/jexl/parser/Token.html">Token</a> matchedToken;
+<a class="jxr_linenumber" name="L677" href="#L677">677</a>   <a name="Token" href="../../../../../com/randomnoun/common/jexl/parser/Token.html#Token">Token</a> matchedToken;
 <a class="jxr_linenumber" name="L678" href="#L678">678</a>   <strong class="jxr_keyword">int</strong> curPos = 0;
 <a class="jxr_linenumber" name="L679" href="#L679">679</a> 
 <a class="jxr_linenumber" name="L680" href="#L680">680</a>   EOFLoop :
@@ -740,7 +740,7 @@
 <a class="jxr_linenumber" name="L732" href="#L732">732</a>       input_stream.backup(1);
 <a class="jxr_linenumber" name="L733" href="#L733">733</a>       error_after = curPos &lt;= 1 ? <span class="jxr_string">""</span> : input_stream.GetImage();
 <a class="jxr_linenumber" name="L734" href="#L734">734</a>    }
-<a class="jxr_linenumber" name="L735" href="#L735">735</a>    <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> <a href="../../../../../com/randomnoun/common/jexl/parser/TokenMgrError.html">TokenMgrError</a>(EOFSeen, curLexState, error_line, error_column, error_after, curChar, TokenMgrError.LEXICAL_ERROR);
+<a class="jxr_linenumber" name="L735" href="#L735">735</a>    <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> <a name="TokenMgrError" href="../../../../../com/randomnoun/common/jexl/parser/TokenMgrError.html#TokenMgrError">TokenMgrError</a>(EOFSeen, curLexState, error_line, error_column, error_after, curChar, TokenMgrError.LEXICAL_ERROR);
 <a class="jxr_linenumber" name="L736" href="#L736">736</a>   }
 <a class="jxr_linenumber" name="L737" href="#L737">737</a> }
 <a class="jxr_linenumber" name="L738" href="#L738">738</a> 

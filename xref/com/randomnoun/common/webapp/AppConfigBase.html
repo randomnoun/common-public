@@ -9,7 +9,7 @@
 <a class="jxr_linenumber" name="L1" href="#L1">1</a>   <strong class="jxr_keyword">package</strong> com.randomnoun.common.webapp;
 <a class="jxr_linenumber" name="L2" href="#L2">2</a>   
 <a class="jxr_linenumber" name="L3" href="#L3">3</a>   <em class="jxr_comment">/* (c) 2013-15 randomnoun. All Rights Reserved. This work is licensed under a</em>
-<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <em class="jxr_comment"> * BSD Simplified License. (<a href="http://www.randomnoun.com/bsd-simplified.html" target="alexandria_uri">http://www.randomnoun.com/bsd-simplified.html</a>)</em>
+<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <em class="jxr_comment"> * BSD Simplified License. (<a href="http://www.randomnoun.com/bsd-simplified.html)" target="alexandria_uri">http://www.randomnoun.com/bsd-simplified.html)</a></em>
 <a class="jxr_linenumber" name="L5" href="#L5">5</a>   <em class="jxr_comment"> */</em>
 <a class="jxr_linenumber" name="L6" href="#L6">6</a>   
 <a class="jxr_linenumber" name="L7" href="#L7">7</a>   <strong class="jxr_keyword">import</strong> java.beans.PropertyVetoException;
@@ -69,7 +69,7 @@
 <a class="jxr_linenumber" name="L61" href="#L61">61</a>  <em class="jxr_javadoccomment"> * @author Greg</em>
 <a class="jxr_linenumber" name="L62" href="#L62">62</a>  <em class="jxr_javadoccomment"> * </em>
 <a class="jxr_linenumber" name="L63" href="#L63">63</a>  <em class="jxr_javadoccomment"> */</em>
-<a class="jxr_linenumber" name="L64" href="#L64">64</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">abstract</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../com/randomnoun/common/webapp/AppConfigBase.html">AppConfigBase</a> <strong class="jxr_keyword">extends</strong> Properties {
+<a class="jxr_linenumber" name="L64" href="#L64">64</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">abstract</strong> <strong class="jxr_keyword">class</strong> <a name="AppConfigBase" href="../../../../com/randomnoun/common/webapp/AppConfigBase.html#AppConfigBase">AppConfigBase</a> <strong class="jxr_keyword">extends</strong> Properties {
 <a class="jxr_linenumber" name="L65" href="#L65">65</a>  
 <a class="jxr_linenumber" name="L66" href="#L66">66</a>  	<em class="jxr_javadoccomment">/** Generated serialVersionUID */</em>
 <a class="jxr_linenumber" name="L67" href="#L67">67</a>  	<strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">long</strong> serialVersionUID = -5375559262217993785L;
@@ -78,7 +78,7 @@
 <a class="jxr_linenumber" name="L70" href="#L70">70</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> Logger logger = Logger.getLogger(AppConfigBase.<strong class="jxr_keyword">class</strong>);
 <a class="jxr_linenumber" name="L71" href="#L71">71</a>      
 <a class="jxr_linenumber" name="L72" href="#L72">72</a>      <em class="jxr_javadoccomment">/** Global instance */</em>
-<a class="jxr_linenumber" name="L73" href="#L73">73</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <a href="../../../../com/randomnoun/common/webapp/AppConfigBase.html">AppConfigBase</a> instance = <strong class="jxr_keyword">null</strong>;
+<a class="jxr_linenumber" name="L73" href="#L73">73</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <a name="AppConfigBase" href="../../../../com/randomnoun/common/webapp/AppConfigBase.html#AppConfigBase">AppConfigBase</a> instance = <strong class="jxr_keyword">null</strong>;
 <a class="jxr_linenumber" name="L74" href="#L74">74</a>  
 <a class="jxr_linenumber" name="L75" href="#L75">75</a>      <em class="jxr_javadoccomment">/** JdbcTemplates for this AppConfig */</em>
 <a class="jxr_linenumber" name="L76" href="#L76">76</a>      <strong class="jxr_keyword">private</strong> Map&lt;String, JdbcTemplate&gt; jdbcTemplates = <strong class="jxr_keyword">new</strong> HashMap&lt;String, JdbcTemplate&gt;();
@@ -87,7 +87,7 @@
 <a class="jxr_linenumber" name="L79" href="#L79">79</a>      <strong class="jxr_keyword">private</strong> Map&lt;String, DataSource&gt; dataSources = <strong class="jxr_keyword">new</strong> HashMap&lt;String, DataSource&gt;();
 <a class="jxr_linenumber" name="L80" href="#L80">80</a>      
 <a class="jxr_linenumber" name="L81" href="#L81">81</a>  	<em class="jxr_javadoccomment">/** Security context used for authentication and authorisation */</em>
-<a class="jxr_linenumber" name="L82" href="#L82">82</a>      <strong class="jxr_keyword">protected</strong> <a href="../../../../com/randomnoun/common/security/SecurityContext.html">SecurityContext</a> securityContext;
+<a class="jxr_linenumber" name="L82" href="#L82">82</a>      <strong class="jxr_keyword">protected</strong> <a name="SecurityContext" href="../../../../com/randomnoun/common/security/SecurityContext.html#SecurityContext">SecurityContext</a> securityContext;
 <a class="jxr_linenumber" name="L83" href="#L83">83</a>      
 <a class="jxr_linenumber" name="L84" href="#L84">84</a>  	<em class="jxr_javadoccomment">/** If set to non-null, indicates an exception that occurred during initialisation. */</em>
 <a class="jxr_linenumber" name="L85" href="#L85">85</a>  	<strong class="jxr_keyword">protected</strong> Throwable initialisationFailure = <strong class="jxr_keyword">null</strong>;
@@ -170,15 +170,15 @@
 <a class="jxr_linenumber" name="L162" href="#L162">162</a> 				securityProperties.put(SecurityContext.INIT_USER_CACHE_SIZE, <strong class="jxr_keyword">this</strong>.get(<span class="jxr_string">"securityContext.userCacheSize"</span>));
 <a class="jxr_linenumber" name="L163" href="#L163">163</a> 				securityProperties.put(SecurityContext.INIT_USER_CACHE_EXPIRY, <strong class="jxr_keyword">this</strong>.get(<span class="jxr_string">"securityContext.userCacheExpiry"</span>));
 <a class="jxr_linenumber" name="L164" href="#L164">164</a> 				
-<a class="jxr_linenumber" name="L165" href="#L165">165</a> 				SecurityLoader securityLoader = <strong class="jxr_keyword">new</strong> <a href="../../../../com/randomnoun/common/security/impl/SpringSecurityLoaderImpl.html">SpringSecurityLoaderImpl</a>();
-<a class="jxr_linenumber" name="L166" href="#L166">166</a> 				SecurityAuthenticator securityAuthenticator = <strong class="jxr_keyword">new</strong> <a href="../../../../com/randomnoun/common/security/impl/SpringSecurityAuthenticatorImpl.html">SpringSecurityAuthenticatorImpl</a>();
+<a class="jxr_linenumber" name="L165" href="#L165">165</a> 				SecurityLoader securityLoader = <strong class="jxr_keyword">new</strong> <a name="SpringSecurityLoaderImpl" href="../../../../com/randomnoun/common/security/impl/SpringSecurityLoaderImpl.html#SpringSecurityLoaderImpl">SpringSecurityLoaderImpl</a>();
+<a class="jxr_linenumber" name="L166" href="#L166">166</a> 				SecurityAuthenticator securityAuthenticator = <strong class="jxr_keyword">new</strong> <a name="SpringSecurityAuthenticatorImpl" href="../../../../com/randomnoun/common/security/impl/SpringSecurityAuthenticatorImpl.html#SpringSecurityAuthenticatorImpl">SpringSecurityAuthenticatorImpl</a>();
 <a class="jxr_linenumber" name="L167" href="#L167">167</a> 				
-<a class="jxr_linenumber" name="L168" href="#L168">168</a> 				securityContext = <strong class="jxr_keyword">new</strong> <a href="../../../../com/randomnoun/common/security/SecurityContext.html">SecurityContext</a>(securityProperties, securityLoader, securityAuthenticator);
+<a class="jxr_linenumber" name="L168" href="#L168">168</a> 				securityContext = <strong class="jxr_keyword">new</strong> <a name="SecurityContext" href="../../../../com/randomnoun/common/security/SecurityContext.html#SecurityContext">SecurityContext</a>(securityProperties, securityLoader, securityAuthenticator);
 <a class="jxr_linenumber" name="L169" href="#L169">169</a> 			} <strong class="jxr_keyword">else</strong> {
 <a class="jxr_linenumber" name="L170" href="#L170">170</a> 				Map&lt;String, Object&gt; securityProperties  = <strong class="jxr_keyword">new</strong> HashMap&lt;String, Object&gt;();
-<a class="jxr_linenumber" name="L171" href="#L171">171</a> 				SecurityLoader securityLoader = <strong class="jxr_keyword">new</strong> <a href="../../../../com/randomnoun/common/security/impl/NullSecurityLoaderImpl.html">NullSecurityLoaderImpl</a>();
-<a class="jxr_linenumber" name="L172" href="#L172">172</a> 				SecurityAuthenticator securityAuthenticator = <strong class="jxr_keyword">new</strong> <a href="../../../../com/randomnoun/common/security/impl/NullSecurityAuthenticatorImpl.html">NullSecurityAuthenticatorImpl</a>();
-<a class="jxr_linenumber" name="L173" href="#L173">173</a> 				securityContext = <strong class="jxr_keyword">new</strong> <a href="../../../../com/randomnoun/common/security/SecurityContext.html">SecurityContext</a>(securityProperties, securityLoader, securityAuthenticator);
+<a class="jxr_linenumber" name="L171" href="#L171">171</a> 				SecurityLoader securityLoader = <strong class="jxr_keyword">new</strong> <a name="NullSecurityLoaderImpl" href="../../../../com/randomnoun/common/security/impl/NullSecurityLoaderImpl.html#NullSecurityLoaderImpl">NullSecurityLoaderImpl</a>();
+<a class="jxr_linenumber" name="L172" href="#L172">172</a> 				SecurityAuthenticator securityAuthenticator = <strong class="jxr_keyword">new</strong> <a name="NullSecurityAuthenticatorImpl" href="../../../../com/randomnoun/common/security/impl/NullSecurityAuthenticatorImpl.html#NullSecurityAuthenticatorImpl">NullSecurityAuthenticatorImpl</a>();
+<a class="jxr_linenumber" name="L173" href="#L173">173</a> 				securityContext = <strong class="jxr_keyword">new</strong> <a name="SecurityContext" href="../../../../com/randomnoun/common/security/SecurityContext.html#SecurityContext">SecurityContext</a>(securityProperties, securityLoader, securityAuthenticator);
 <a class="jxr_linenumber" name="L174" href="#L174">174</a> 			}
 <a class="jxr_linenumber" name="L175" href="#L175">175</a>     	}
 <a class="jxr_linenumber" name="L176" href="#L176">176</a>     }
@@ -208,7 +208,7 @@
 <a class="jxr_linenumber" name="L200" href="#L200">200</a> <em class="jxr_javadoccomment">     *   user will be used to determine which resource bundle to use)</em>
 <a class="jxr_linenumber" name="L201" href="#L201">201</a> <em class="jxr_javadoccomment">     * @return The ResourceBundle requested.</em>
 <a class="jxr_linenumber" name="L202" href="#L202">202</a> <em class="jxr_javadoccomment">     */</em>    
-<a class="jxr_linenumber" name="L203" href="#L203">203</a>     <strong class="jxr_keyword">public</strong> ResourceBundle getBundle(String i18nBundleName, <a href="../../../../com/randomnoun/common/security/User.html">User</a> user) {
+<a class="jxr_linenumber" name="L203" href="#L203">203</a>     <strong class="jxr_keyword">public</strong> ResourceBundle getBundle(String i18nBundleName, <a name="User" href="../../../../com/randomnoun/common/security/User.html#User">User</a> user) {
 <a class="jxr_linenumber" name="L204" href="#L204">204</a>         <strong class="jxr_keyword">if</strong> (i18nBundleName.startsWith(<span class="jxr_string">"resources"</span>)) {
 <a class="jxr_linenumber" name="L205" href="#L205">205</a>             <strong class="jxr_keyword">return</strong> ResourceBundle.getBundle(i18nBundleName, user.getLocale());    
 <a class="jxr_linenumber" name="L206" href="#L206">206</a>         } <strong class="jxr_keyword">else</strong> {
@@ -233,7 +233,7 @@
 <a class="jxr_linenumber" name="L225" href="#L225">225</a>         <strong class="jxr_keyword">try</strong> {
 <a class="jxr_linenumber" name="L226" href="#L226">226</a>             <em class="jxr_comment">// load from resources</em>
 <a class="jxr_linenumber" name="L227" href="#L227">227</a>             System.out.println(<span class="jxr_string">"Loading properties file for environment '"</span> + <strong class="jxr_keyword">this</strong>.getProperty(<span class="jxr_string">"hostname"</span>) + <span class="jxr_string">"'"</span>);
-<a class="jxr_linenumber" name="L228" href="#L228">228</a>             <a href="../../../../com/randomnoun/common/Base64.html">InputStream</a> is = <strong class="jxr_keyword">this</strong>.getClass().getClassLoader().getResourceAsStream(getConfigResourceLocation());
+<a class="jxr_linenumber" name="L228" href="#L228">228</a>             InputStream is = <strong class="jxr_keyword">this</strong>.getClass().getClassLoader().getResourceAsStream(getConfigResourceLocation());
 <a class="jxr_linenumber" name="L229" href="#L229">229</a>             <strong class="jxr_keyword">if</strong> (is==<strong class="jxr_keyword">null</strong> &amp;&amp; getConfigResourceLocation().charAt(0)=='/') {
 <a class="jxr_linenumber" name="L230" href="#L230">230</a>             	<em class="jxr_comment">// command-line support</em>
 <a class="jxr_linenumber" name="L231" href="#L231">231</a>             	is = <strong class="jxr_keyword">this</strong>.getClass().getClassLoader().getResourceAsStream(getConfigResourceLocation().substring(1));
@@ -241,7 +241,7 @@
 <a class="jxr_linenumber" name="L233" href="#L233">233</a>             <strong class="jxr_keyword">if</strong> (is==<strong class="jxr_keyword">null</strong>) {
 <a class="jxr_linenumber" name="L234" href="#L234">234</a>                 System.out.println(<span class="jxr_string">"Could not find internal property file"</span>);
 <a class="jxr_linenumber" name="L235" href="#L235">235</a>             } <strong class="jxr_keyword">else</strong> {
-<a class="jxr_linenumber" name="L236" href="#L236">236</a>                 <a href="../../../../com/randomnoun/common/PropertyParser.html">PropertyParser</a> parser = <strong class="jxr_keyword">new</strong> <a href="../../../../com/randomnoun/common/PropertyParser.html">PropertyParser</a>(<strong class="jxr_keyword">new</strong> InputStreamReader(is), <strong class="jxr_keyword">this</strong>.getProperty(<span class="jxr_string">"hostname"</span>));
+<a class="jxr_linenumber" name="L236" href="#L236">236</a>                 <a name="PropertyParser" href="../../../../com/randomnoun/common/PropertyParser.html#PropertyParser">PropertyParser</a> parser = <strong class="jxr_keyword">new</strong> <a name="PropertyParser" href="../../../../com/randomnoun/common/PropertyParser.html#PropertyParser">PropertyParser</a>(<strong class="jxr_keyword">new</strong> InputStreamReader(is), <strong class="jxr_keyword">this</strong>.getProperty(<span class="jxr_string">"hostname"</span>));
 <a class="jxr_linenumber" name="L237" href="#L237">237</a>                 Properties props = parser.parse();
 <a class="jxr_linenumber" name="L238" href="#L238">238</a>                 is.close();
 <a class="jxr_linenumber" name="L239" href="#L239">239</a>                 <strong class="jxr_keyword">this</strong>.putAll(props);
@@ -251,7 +251,7 @@
 <a class="jxr_linenumber" name="L243" href="#L243">243</a>             <strong class="jxr_keyword">if</strong> (configFile.exists()) {
 <a class="jxr_linenumber" name="L244" href="#L244">244</a>                 System.out.println(<span class="jxr_string">"Loading properties file from '"</span> + configFile.getCanonicalPath() + <span class="jxr_string">"'"</span>);
 <a class="jxr_linenumber" name="L245" href="#L245">245</a>                 is = <strong class="jxr_keyword">new</strong> BufferedInputStream(<strong class="jxr_keyword">new</strong> FileInputStream(configFile));
-<a class="jxr_linenumber" name="L246" href="#L246">246</a>                 <a href="../../../../com/randomnoun/common/PropertyParser.html">PropertyParser</a> parser = <strong class="jxr_keyword">new</strong> <a href="../../../../com/randomnoun/common/PropertyParser.html">PropertyParser</a>(<strong class="jxr_keyword">new</strong> InputStreamReader(is), <strong class="jxr_keyword">this</strong>.getProperty(<span class="jxr_string">"hostname"</span>));
+<a class="jxr_linenumber" name="L246" href="#L246">246</a>                 <a name="PropertyParser" href="../../../../com/randomnoun/common/PropertyParser.html#PropertyParser">PropertyParser</a> parser = <strong class="jxr_keyword">new</strong> <a name="PropertyParser" href="../../../../com/randomnoun/common/PropertyParser.html#PropertyParser">PropertyParser</a>(<strong class="jxr_keyword">new</strong> InputStreamReader(is), <strong class="jxr_keyword">this</strong>.getProperty(<span class="jxr_string">"hostname"</span>));
 <a class="jxr_linenumber" name="L247" href="#L247">247</a>                 Properties props = parser.parse();
 <a class="jxr_linenumber" name="L248" href="#L248">248</a>                 is.close();
 <a class="jxr_linenumber" name="L249" href="#L249">249</a>                 <strong class="jxr_keyword">this</strong>.putAll(props);
@@ -371,7 +371,7 @@
 <a class="jxr_linenumber" name="L363" href="#L363">363</a> <em class="jxr_javadoccomment">	 * </em>
 <a class="jxr_linenumber" name="L364" href="#L364">364</a> <em class="jxr_javadoccomment">	 * @return the security context for this application</em>
 <a class="jxr_linenumber" name="L365" href="#L365">365</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L366" href="#L366">366</a>     <strong class="jxr_keyword">public</strong> <a href="../../../../com/randomnoun/common/security/SecurityContext.html">SecurityContext</a> getSecurityContext() {
+<a class="jxr_linenumber" name="L366" href="#L366">366</a>     <strong class="jxr_keyword">public</strong> <a name="SecurityContext" href="../../../../com/randomnoun/common/security/SecurityContext.html#SecurityContext">SecurityContext</a> getSecurityContext() {
 <a class="jxr_linenumber" name="L367" href="#L367">367</a>     	<strong class="jxr_keyword">if</strong> (securityContext==<strong class="jxr_keyword">null</strong>) {
 <a class="jxr_linenumber" name="L368" href="#L368">368</a>     		<strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalStateException(<span class="jxr_string">"Security context not initialised"</span>);
 <a class="jxr_linenumber" name="L369" href="#L369">369</a>     	}
@@ -387,7 +387,7 @@
 <a class="jxr_linenumber" name="L379" href="#L379">379</a> <em class="jxr_javadoccomment">	 * @return 'true' if the user may be authorised to perform the permission,</em>
 <a class="jxr_linenumber" name="L380" href="#L380">380</a> <em class="jxr_javadoccomment">	 *   false otherwise</em>
 <a class="jxr_linenumber" name="L381" href="#L381">381</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L382" href="#L382">382</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> hasPermission(<a href="../../../../com/randomnoun/common/security/User.html">User</a> user, String permission)
+<a class="jxr_linenumber" name="L382" href="#L382">382</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> hasPermission(<a name="User" href="../../../../com/randomnoun/common/security/User.html#User">User</a> user, String permission)
 <a class="jxr_linenumber" name="L383" href="#L383">383</a> 	{
 <a class="jxr_linenumber" name="L384" href="#L384">384</a> 		<strong class="jxr_keyword">if</strong> (<span class="jxr_string">"false"</span>.equals(getProperty(<span class="jxr_string">"auth.enableSecurityContext"</span>))) { <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">true</strong>; }
 <a class="jxr_linenumber" name="L385" href="#L385">385</a> 		SecurityContext securityContext = getSecurityContext();
@@ -405,7 +405,7 @@
 <a class="jxr_linenumber" name="L397" href="#L397">397</a> <em class="jxr_javadoccomment">	 * </em>
 <a class="jxr_linenumber" name="L398" href="#L398">398</a> <em class="jxr_javadoccomment">	 * @throws SecurityException if the user does not have the supplied permission </em>
 <a class="jxr_linenumber" name="L399" href="#L399">399</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L400" href="#L400">400</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> checkPermission(<a href="../../../../com/randomnoun/common/security/User.html">User</a> user, String permission) <strong class="jxr_keyword">throws</strong> SecurityException {
+<a class="jxr_linenumber" name="L400" href="#L400">400</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> checkPermission(<a name="User" href="../../../../com/randomnoun/common/security/User.html#User">User</a> user, String permission) <strong class="jxr_keyword">throws</strong> SecurityException {
 <a class="jxr_linenumber" name="L401" href="#L401">401</a> 		<strong class="jxr_keyword">if</strong> (!hasPermission(user,  permission)) {
 <a class="jxr_linenumber" name="L402" href="#L402">402</a> 			<strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> SecurityException(<span class="jxr_string">"User does not have '"</span> + permission + <span class="jxr_string">"' permission"</span>);
 <a class="jxr_linenumber" name="L403" href="#L403">403</a> 		}
@@ -420,7 +420,7 @@
 <a class="jxr_linenumber" name="L412" href="#L412">412</a> <em class="jxr_javadoccomment">	 * @return 'true' if the user is authorised to perform the permission,</em>
 <a class="jxr_linenumber" name="L413" href="#L413">413</a> <em class="jxr_javadoccomment">	 *   false otherwise</em>
 <a class="jxr_linenumber" name="L414" href="#L414">414</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L415" href="#L415">415</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> hasPermission(<a href="../../../../com/randomnoun/common/security/User.html">User</a> user, String permission, Map&lt;String, Object&gt; resourceContext)
+<a class="jxr_linenumber" name="L415" href="#L415">415</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> hasPermission(<a name="User" href="../../../../com/randomnoun/common/security/User.html#User">User</a> user, String permission, Map&lt;String, Object&gt; resourceContext)
 <a class="jxr_linenumber" name="L416" href="#L416">416</a> 	{
 <a class="jxr_linenumber" name="L417" href="#L417">417</a> 		<strong class="jxr_keyword">if</strong> (<span class="jxr_string">"false"</span>.equals(getProperty(<span class="jxr_string">"auth.enableSecurityContext"</span>))) { <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">true</strong>; }
 <a class="jxr_linenumber" name="L418" href="#L418">418</a> 		SecurityContext securityContext = getSecurityContext();

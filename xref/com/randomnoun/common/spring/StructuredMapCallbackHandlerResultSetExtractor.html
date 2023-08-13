@@ -9,7 +9,7 @@
 <a class="jxr_linenumber" name="L1" href="#L1">1</a>   <strong class="jxr_keyword">package</strong> com.randomnoun.common.spring;
 <a class="jxr_linenumber" name="L2" href="#L2">2</a>   
 <a class="jxr_linenumber" name="L3" href="#L3">3</a>   <em class="jxr_comment">/* (c) 2013 randomnoun. All Rights Reserved. This work is licensed under a</em>
-<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <em class="jxr_comment"> * BSD Simplified License. (<a href="http://www.randomnoun.com/bsd-simplified.html" target="alexandria_uri">http://www.randomnoun.com/bsd-simplified.html</a>)</em>
+<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <em class="jxr_comment"> * BSD Simplified License. (<a href="http://www.randomnoun.com/bsd-simplified.html)" target="alexandria_uri">http://www.randomnoun.com/bsd-simplified.html)</a></em>
 <a class="jxr_linenumber" name="L5" href="#L5">5</a>   <em class="jxr_comment"> */</em>
 <a class="jxr_linenumber" name="L6" href="#L6">6</a>   
 <a class="jxr_linenumber" name="L7" href="#L7">7</a>   <strong class="jxr_keyword">import</strong> java.sql.ResultSet;
@@ -29,7 +29,7 @@
 <a class="jxr_linenumber" name="L21" href="#L21">21</a>  <em class="jxr_javadoccomment"> * </em>
 <a class="jxr_linenumber" name="L22" href="#L22">22</a>  <em class="jxr_javadoccomment"> * @author knoxg</em>
 <a class="jxr_linenumber" name="L23" href="#L23">23</a>  <em class="jxr_javadoccomment"> */</em>
-<a class="jxr_linenumber" name="L24" href="#L24">24</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../com/randomnoun/common/spring/StructuredMapCallbackHandlerResultSetExtractor.html">StructuredMapCallbackHandlerResultSetExtractor</a> 
+<a class="jxr_linenumber" name="L24" href="#L24">24</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a name="StructuredMapCallbackHandlerResultSetExtractor" href="../../../../com/randomnoun/common/spring/StructuredMapCallbackHandlerResultSetExtractor.html#StructuredMapCallbackHandlerResultSetExtractor">StructuredMapCallbackHandlerResultSetExtractor</a> 
 <a class="jxr_linenumber" name="L25" href="#L25">25</a>      <strong class="jxr_keyword">implements</strong> ResultSetExtractor&lt;Object&gt; {
 <a class="jxr_linenumber" name="L26" href="#L26">26</a>      
 <a class="jxr_linenumber" name="L27" href="#L27">27</a>      
@@ -48,9 +48,9 @@
 <a class="jxr_linenumber" name="L40" href="#L40">40</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> RowMapper&lt;Map&lt;String, Object&gt;&gt; rowMapper;
 <a class="jxr_linenumber" name="L41" href="#L41">41</a>      <strong class="jxr_keyword">private</strong> Map&lt;String, Object&gt; lastResultRow = <strong class="jxr_keyword">null</strong>;
 <a class="jxr_linenumber" name="L42" href="#L42">42</a>      
-<a class="jxr_linenumber" name="L43" href="#L43">43</a>      <strong class="jxr_keyword">private</strong> <a href="../../../../com/randomnoun/common/spring/StructuredMapCallbackHandlerResultSetExtractor.html">StructuredMapCallbackHandler</a> smch;
+<a class="jxr_linenumber" name="L43" href="#L43">43</a>      <strong class="jxr_keyword">private</strong> StructuredMapCallbackHandler smch;
 <a class="jxr_linenumber" name="L44" href="#L44">44</a>  
-<a class="jxr_linenumber" name="L45" href="#L45">45</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">interface</strong> <a href="../../../../com/randomnoun/common/spring/StructuredMapCallbackHandlerResultSetExtractor.html">StructuredMapCallbackHandler</a> {
+<a class="jxr_linenumber" name="L45" href="#L45">45</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">interface</strong> StructuredMapCallbackHandler {
 <a class="jxr_linenumber" name="L46" href="#L46">46</a>      	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> processMap(Map&lt;String, Object&gt; row);
 <a class="jxr_linenumber" name="L47" href="#L47">47</a>      }
 <a class="jxr_linenumber" name="L48" href="#L48">48</a>      
@@ -62,7 +62,7 @@
 <a class="jxr_linenumber" name="L54" href="#L54">54</a>  <em class="jxr_javadoccomment">     * </em>
 <a class="jxr_linenumber" name="L55" href="#L55">55</a>  <em class="jxr_javadoccomment">     * @param jt jdbcTemplate for some reason</em>
 <a class="jxr_linenumber" name="L56" href="#L56">56</a>  <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="L57" href="#L57">57</a>      <strong class="jxr_keyword">public</strong> <a href="../../../../com/randomnoun/common/spring/StructuredMapCallbackHandlerResultSetExtractor.html">StructuredMapCallbackHandlerResultSetExtractor</a>(JdbcTemplate jt, String mappings, <a href="../../../../com/randomnoun/common/spring/StructuredMapCallbackHandlerResultSetExtractor.html">StructuredMapCallbackHandler</a> smch) {
+<a class="jxr_linenumber" name="L57" href="#L57">57</a>      <strong class="jxr_keyword">public</strong> <a name="StructuredMapCallbackHandlerResultSetExtractor" href="../../../../com/randomnoun/common/spring/StructuredMapCallbackHandlerResultSetExtractor.html#StructuredMapCallbackHandlerResultSetExtractor">StructuredMapCallbackHandlerResultSetExtractor</a>(JdbcTemplate jt, String mappings, StructuredMapCallbackHandler smch) {
 <a class="jxr_linenumber" name="L58" href="#L58">58</a>          <strong class="jxr_keyword">this</strong>(<strong class="jxr_keyword">new</strong> ColumnMapRowMapper(), mappings, smch);
 <a class="jxr_linenumber" name="L59" href="#L59">59</a>      }
 <a class="jxr_linenumber" name="L60" href="#L60">60</a>      
@@ -72,7 +72,7 @@
 <a class="jxr_linenumber" name="L64" href="#L64">64</a>  <em class="jxr_javadoccomment">     * </em>
 <a class="jxr_linenumber" name="L65" href="#L65">65</a>  <em class="jxr_javadoccomment">     * @param rowMapper the RowMapper which creates an object for each row</em>
 <a class="jxr_linenumber" name="L66" href="#L66">66</a>  <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="L67" href="#L67">67</a>      <strong class="jxr_keyword">private</strong> <a href="../../../../com/randomnoun/common/spring/StructuredMapCallbackHandlerResultSetExtractor.html">StructuredMapCallbackHandlerResultSetExtractor</a>(RowMapper&lt;Map&lt;String, Object&gt;&gt; rowMapper, String mappings, <a href="../../../../com/randomnoun/common/spring/StructuredMapCallbackHandlerResultSetExtractor.html">StructuredMapCallbackHandler</a> smch) {
+<a class="jxr_linenumber" name="L67" href="#L67">67</a>      <strong class="jxr_keyword">private</strong> <a name="StructuredMapCallbackHandlerResultSetExtractor" href="../../../../com/randomnoun/common/spring/StructuredMapCallbackHandlerResultSetExtractor.html#StructuredMapCallbackHandlerResultSetExtractor">StructuredMapCallbackHandlerResultSetExtractor</a>(RowMapper&lt;Map&lt;String, Object&gt;&gt; rowMapper, String mappings, StructuredMapCallbackHandler smch) {
 <a class="jxr_linenumber" name="L68" href="#L68">68</a>          <strong class="jxr_keyword">this</strong>.smch = smch;
 <a class="jxr_linenumber" name="L69" href="#L69">69</a>          <strong class="jxr_keyword">if</strong> (mappings == <strong class="jxr_keyword">null</strong>) { <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> NullPointerException(<span class="jxr_string">"mappings cannot be null"</span>); }
 <a class="jxr_linenumber" name="L70" href="#L70">70</a>  

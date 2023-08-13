@@ -9,7 +9,7 @@
 <a class="jxr_linenumber" name="L1" href="#L1">1</a>   <strong class="jxr_keyword">package</strong> com.randomnoun.common;
 <a class="jxr_linenumber" name="L2" href="#L2">2</a>   
 <a class="jxr_linenumber" name="L3" href="#L3">3</a>   <em class="jxr_comment">/* (c) 2013 randomnoun. All Rights Reserved. This work is licensed under a</em>
-<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <em class="jxr_comment"> * BSD Simplified License. (<a href="http://www.randomnoun.com/bsd-simplified.html" target="alexandria_uri">http://www.randomnoun.com/bsd-simplified.html</a>)</em>
+<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <em class="jxr_comment"> * BSD Simplified License. (<a href="http://www.randomnoun.com/bsd-simplified.html)" target="alexandria_uri">http://www.randomnoun.com/bsd-simplified.html)</a></em>
 <a class="jxr_linenumber" name="L5" href="#L5">5</a>   <em class="jxr_comment"> */</em>
 <a class="jxr_linenumber" name="L6" href="#L6">6</a>   
 <a class="jxr_linenumber" name="L7" href="#L7">7</a>   <strong class="jxr_keyword">import</strong> java.io.*;
@@ -47,7 +47,7 @@
 <a class="jxr_linenumber" name="L39" href="#L39">39</a>  <em class="jxr_javadoccomment"> * @author knoxg</em>
 <a class="jxr_linenumber" name="L40" href="#L40">40</a>  <em class="jxr_javadoccomment"> * @see &lt;a href="<a href="http://www.randomnoun.com/wp/2013/01/25/exciting-things-with-xml/" target="alexandria_uri">http://www.randomnoun.com/wp/2013/01/25/exciting-things-with-xml/</a>"&gt;<a href="http://www.randomnoun.com/wp/2013/01/25/exciting-things-with-xml/" target="alexandria_uri">http://www.randomnoun.com/wp/2013/01/25/exciting-things-with-xml/</a>&lt;/a&gt;</em>
 <a class="jxr_linenumber" name="L41" href="#L41">41</a>  <em class="jxr_javadoccomment"> */</em>
-<a class="jxr_linenumber" name="L42" href="#L42">42</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../com/randomnoun/common/XmlUtil.html">XmlUtil</a> {
+<a class="jxr_linenumber" name="L42" href="#L42">42</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a name="XmlUtil" href="../../../com/randomnoun/common/XmlUtil.html#XmlUtil">XmlUtil</a> {
 <a class="jxr_linenumber" name="L43" href="#L43">43</a>  	
 <a class="jxr_linenumber" name="L44" href="#L44">44</a>  	<em class="jxr_javadoccomment">/** Clean some HTML text through the tagsoup filter. The returned string is guaranteed to be </em>
 <a class="jxr_linenumber" name="L45" href="#L45">45</a>  <em class="jxr_javadoccomment">	 * well-formed XML (and can therefore be used by other tools that expect valid XML). </em>
@@ -71,7 +71,7 @@
 <a class="jxr_linenumber" name="L63" href="#L63">63</a>  <em class="jxr_javadoccomment">	 * @throws SAXException if the tagsoup library could not parse the input string</em>
 <a class="jxr_linenumber" name="L64" href="#L64">64</a>  <em class="jxr_javadoccomment">	 * @throws IllegalStateException if an error occurred reading from a string (should never occur)</em>
 <a class="jxr_linenumber" name="L65" href="#L65">65</a>  <em class="jxr_javadoccomment">	 */</em> 
-<a class="jxr_linenumber" name="L66" href="#L66">66</a>  	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> String getCleanXml(<a href="../../../com/randomnoun/common/Base64.html">InputStream</a> inputStream, <strong class="jxr_keyword">boolean</strong> isHtml) <strong class="jxr_keyword">throws</strong> SAXException {
+<a class="jxr_linenumber" name="L66" href="#L66">66</a>  	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> String getCleanXml(InputStream inputStream, <strong class="jxr_keyword">boolean</strong> isHtml) <strong class="jxr_keyword">throws</strong> SAXException {
 <a class="jxr_linenumber" name="L67" href="#L67">67</a>  		<strong class="jxr_keyword">try</strong> {
 <a class="jxr_linenumber" name="L68" href="#L68">68</a>  			ByteArrayOutputStream baos = <strong class="jxr_keyword">new</strong> ByteArrayOutputStream();
 <a class="jxr_linenumber" name="L69" href="#L69">69</a>  			InputSource is = <strong class="jxr_keyword">new</strong> InputSource();
@@ -221,7 +221,7 @@
 <a class="jxr_linenumber" name="L213" href="#L213">213</a> <em class="jxr_javadoccomment">	 * </em>
 <a class="jxr_linenumber" name="L214" href="#L214">214</a> <em class="jxr_javadoccomment">	 * @param is the InputStream containing the XML to parse </em>
 <a class="jxr_linenumber" name="L215" href="#L215">215</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L216" href="#L216">216</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> Document toDocument(<a href="../../../com/randomnoun/common/Base64.html">InputStream</a> is) <strong class="jxr_keyword">throws</strong> SAXException {
+<a class="jxr_linenumber" name="L216" href="#L216">216</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> Document toDocument(InputStream is) <strong class="jxr_keyword">throws</strong> SAXException {
 <a class="jxr_linenumber" name="L217" href="#L217">217</a> 		<strong class="jxr_keyword">try</strong> {
 <a class="jxr_linenumber" name="L218" href="#L218">218</a> 			DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
 <a class="jxr_linenumber" name="L219" href="#L219">219</a> 			DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
@@ -323,7 +323,7 @@
 <a class="jxr_linenumber" name="L315" href="#L315">315</a> <em class="jxr_javadoccomment">	 * </em>
 <a class="jxr_linenumber" name="L316" href="#L316">316</a> <em class="jxr_javadoccomment">	 * &lt;p&gt;This class will probably not work when tables are embedded within other tables</em>
 <a class="jxr_linenumber" name="L317" href="#L317">317</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L318" href="#L318">318</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">class</strong> <a href="../../../com/randomnoun/common/XmlUtil.html">SimpleTableContentHandler</a>
+<a class="jxr_linenumber" name="L318" href="#L318">318</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">class</strong> SimpleTableContentHandler
 <a class="jxr_linenumber" name="L319" href="#L319">319</a> 		<strong class="jxr_keyword">implements</strong> ContentHandler 
 <a class="jxr_linenumber" name="L320" href="#L320">320</a> 	{
 <a class="jxr_linenumber" name="L321" href="#L321">321</a> 		<em class="jxr_javadoccomment">/** Logger instance for this class */</em>
@@ -337,7 +337,7 @@
 <a class="jxr_linenumber" name="L329" href="#L329">329</a> 		String thisCell = <span class="jxr_string">""</span>;
 <a class="jxr_linenumber" name="L330" href="#L330">330</a> 
 <a class="jxr_linenumber" name="L331" href="#L331">331</a> 		<em class="jxr_javadoccomment">/** The state of this parser */</em>
-<a class="jxr_linenumber" name="L332" href="#L332">332</a> 		<strong class="jxr_keyword">private</strong> enum <a href="../../../com/randomnoun/common/XmlUtil.html">State</a> {
+<a class="jxr_linenumber" name="L332" href="#L332">332</a> 		<strong class="jxr_keyword">private</strong> enum State {
 <a class="jxr_linenumber" name="L333" href="#L333">333</a> 			<em class="jxr_javadoccomment">/** start of doc, expecting 'table' */</em>
 <a class="jxr_linenumber" name="L334" href="#L334">334</a> 			START,
 <a class="jxr_linenumber" name="L335" href="#L335">335</a> 			<em class="jxr_javadoccomment">/** in table element, expecting 'tr' */</em>
@@ -429,7 +429,7 @@
 <a class="jxr_linenumber" name="L421" href="#L421">421</a> <em class="jxr_javadoccomment">	 * &lt;p&gt;Mixed text/element nodes are not parsed by this class.</em>
 <a class="jxr_linenumber" name="L422" href="#L422">422</a> <em class="jxr_javadoccomment">	 * </em>
 <a class="jxr_linenumber" name="L423" href="#L423">423</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L424" href="#L424">424</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">abstract</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">class</strong> <a href="../../../com/randomnoun/common/XmlUtil.html">AbstractStackContentHandler</a> <strong class="jxr_keyword">implements</strong> ContentHandler 
+<a class="jxr_linenumber" name="L424" href="#L424">424</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">abstract</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">class</strong> AbstractStackContentHandler <strong class="jxr_keyword">implements</strong> ContentHandler 
 <a class="jxr_linenumber" name="L425" href="#L425">425</a> 	{
 <a class="jxr_linenumber" name="L426" href="#L426">426</a> 		<em class="jxr_javadoccomment">/** Logger instance for this class */</em>
 <a class="jxr_linenumber" name="L427" href="#L427">427</a> 		<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> Logger logger = Logger.getLogger(AbstractStackContentHandler.<strong class="jxr_keyword">class</strong>);
@@ -479,9 +479,9 @@
 <a class="jxr_linenumber" name="L471" href="#L471">471</a> <em class="jxr_javadoccomment">	 * &lt;p&gt;(org.w3c.dom.traversal.NodeListIterator doesn't currently implement Iterable)</em>
 <a class="jxr_linenumber" name="L472" href="#L472">472</a> <em class="jxr_javadoccomment">	 * </em>
 <a class="jxr_linenumber" name="L473" href="#L473">473</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L474" href="#L474">474</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">class</strong> <a href="../../../com/randomnoun/common/XmlUtil.html">NodeListIterator</a> <strong class="jxr_keyword">implements</strong> Iterable&lt;org.w3c.dom.Node&gt; {
+<a class="jxr_linenumber" name="L474" href="#L474">474</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">class</strong> NodeListIterator <strong class="jxr_keyword">implements</strong> Iterable&lt;org.w3c.dom.Node&gt; {
 <a class="jxr_linenumber" name="L475" href="#L475">475</a> 		<strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> NodeList nodeList;
-<a class="jxr_linenumber" name="L476" href="#L476">476</a> 		<strong class="jxr_keyword">public</strong> <a href="../../../com/randomnoun/common/XmlUtil.html">NodeListIterator</a>(NodeList nodeList) {
+<a class="jxr_linenumber" name="L476" href="#L476">476</a> 		<strong class="jxr_keyword">public</strong> NodeListIterator(NodeList nodeList) {
 <a class="jxr_linenumber" name="L477" href="#L477">477</a> 			<strong class="jxr_keyword">this</strong>.nodeList = nodeList;
 <a class="jxr_linenumber" name="L478" href="#L478">478</a> 		}
 <a class="jxr_linenumber" name="L479" href="#L479">479</a> 		<strong class="jxr_keyword">public</strong> Iterator&lt;org.w3c.dom.Node&gt; iterator() {

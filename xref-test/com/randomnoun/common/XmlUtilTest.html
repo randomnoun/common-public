@@ -9,7 +9,7 @@
 <a class="jxr_linenumber" name="L1" href="#L1">1</a>   <strong class="jxr_keyword">package</strong> com.randomnoun.common;
 <a class="jxr_linenumber" name="L2" href="#L2">2</a>   
 <a class="jxr_linenumber" name="L3" href="#L3">3</a>   <em class="jxr_comment">/* (c) 2013 randomnoun. All Rights Reserved. This work is licensed under a</em>
-<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <em class="jxr_comment"> * BSD Simplified License. (<a href="http://www.randomnoun.com/bsd-simplified.html" target="alexandria_uri">http://www.randomnoun.com/bsd-simplified.html</a>)</em>
+<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <em class="jxr_comment"> * BSD Simplified License. (<a href="http://www.randomnoun.com/bsd-simplified.html)" target="alexandria_uri">http://www.randomnoun.com/bsd-simplified.html)</a></em>
 <a class="jxr_linenumber" name="L5" href="#L5">5</a>   <em class="jxr_comment"> */</em>
 <a class="jxr_linenumber" name="L6" href="#L6">6</a>   
 <a class="jxr_linenumber" name="L7" href="#L7">7</a>   <strong class="jxr_keyword">import</strong> java.io.ByteArrayInputStream;
@@ -37,11 +37,11 @@
 <a class="jxr_linenumber" name="L29" href="#L29">29</a>  <em class="jxr_javadoccomment">/** Test the XmlUtil class.</em>
 <a class="jxr_linenumber" name="L30" href="#L30">30</a>  <em class="jxr_javadoccomment"> * </em>
 <a class="jxr_linenumber" name="L31" href="#L31">31</a>  <em class="jxr_javadoccomment"> * @author knoxg</em>
-<a class="jxr_linenumber" name="L32" href="#L32">32</a>  <em class="jxr_javadoccomment"> * @blog <a href="http://www.randomnoun.com/wp/2013/01/25/exciting-things-with-xml" target="alexandria_uri">http://www.randomnoun.com/wp/2013/01/25/exciting-things-with-xml</a>/</em>
+<a class="jxr_linenumber" name="L32" href="#L32">32</a>  <em class="jxr_javadoccomment"> * @blog <a href="http://www.randomnoun.com/wp/2013/01/25/exciting-things-with-xml/" target="alexandria_uri">http://www.randomnoun.com/wp/2013/01/25/exciting-things-with-xml/</a></em>
 <a class="jxr_linenumber" name="L33" href="#L33">33</a>  <em class="jxr_javadoccomment"> * </em>
 <a class="jxr_linenumber" name="L34" href="#L34">34</a>  <em class="jxr_javadoccomment"> *</em>
 <a class="jxr_linenumber" name="L35" href="#L35">35</a>  <em class="jxr_javadoccomment"> */</em>
-<a class="jxr_linenumber" name="L36" href="#L36">36</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../com/randomnoun/common/XmlUtilTest.html">XmlUtilTest</a> <strong class="jxr_keyword">extends</strong> TestCase {
+<a class="jxr_linenumber" name="L36" href="#L36">36</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a name="XmlUtilTest" href="../../../com/randomnoun/common/XmlUtilTest.html#XmlUtilTest">XmlUtilTest</a> <strong class="jxr_keyword">extends</strong> TestCase {
 <a class="jxr_linenumber" name="L37" href="#L37">37</a>  
 <a class="jxr_linenumber" name="L38" href="#L38">38</a>  	<strong class="jxr_keyword">private</strong> String getResourceAsString(String name) <strong class="jxr_keyword">throws</strong> IOException {
 <a class="jxr_linenumber" name="L39" href="#L39">39</a>  		ByteArrayOutputStream baos = <strong class="jxr_keyword">new</strong> ByteArrayOutputStream();
@@ -209,7 +209,7 @@
 <a class="jxr_linenumber" name="L201" href="#L201">201</a> <em class="jxr_javadoccomment">	 * but for the purposes of this unit test, I'm just storing the result in </em>
 <a class="jxr_linenumber" name="L202" href="#L202">202</a> <em class="jxr_javadoccomment">	 * structured Lists of Maps.   </em>
 <a class="jxr_linenumber" name="L203" href="#L203">203</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L204" href="#L204">204</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">class</strong> <a href="../../../com/randomnoun/common/XmlUtilTest.html">DeviceContentHandler</a> <strong class="jxr_keyword">extends</strong> XmlUtil.AbstractStackContentHandler {
+<a class="jxr_linenumber" name="L204" href="#L204">204</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">class</strong> DeviceContentHandler <strong class="jxr_keyword">extends</strong> XmlUtil.AbstractStackContentHandler {
 <a class="jxr_linenumber" name="L205" href="#L205">205</a> 		List&lt;Map&lt;String, Object&gt;&gt; result = <strong class="jxr_keyword">new</strong> ArrayList&lt;Map&lt;String, Object&gt;&gt;();
 <a class="jxr_linenumber" name="L206" href="#L206">206</a> 		Map&lt;String, Object&gt; d = <strong class="jxr_keyword">null</strong>;  <em class="jxr_comment">// current device</em>
 <a class="jxr_linenumber" name="L207" href="#L207">207</a> 		Map&lt;String, String&gt; prop = <strong class="jxr_keyword">null</strong>;  <em class="jxr_comment">// current property</em>
@@ -253,7 +253,7 @@
 <a class="jxr_linenumber" name="L245" href="#L245">245</a> 	
 <a class="jxr_linenumber" name="L246" href="#L246">246</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testProcessContentHandler_AbstractStack() <strong class="jxr_keyword">throws</strong> SAXException, IOException {
 <a class="jxr_linenumber" name="L247" href="#L247">247</a> 		String input = getResourceAsString(<span class="jxr_string">"/device.xml"</span>);
-<a class="jxr_linenumber" name="L248" href="#L248">248</a>     	DeviceContentHandler dch = <strong class="jxr_keyword">new</strong> <a href="../../../com/randomnoun/common/XmlUtilTest.html">DeviceContentHandler</a>();
+<a class="jxr_linenumber" name="L248" href="#L248">248</a>     	DeviceContentHandler dch = <strong class="jxr_keyword">new</strong> DeviceContentHandler();
 <a class="jxr_linenumber" name="L249" href="#L249">249</a>     	XmlUtil.processContentHandler(dch, input);
 <a class="jxr_linenumber" name="L250" href="#L250">250</a>     	
 <a class="jxr_linenumber" name="L251" href="#L251">251</a>     	List&lt;Map&lt;String, Object&gt;&gt; devices = dch.result;

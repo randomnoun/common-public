@@ -9,7 +9,7 @@
 <a class="jxr_linenumber" name="L1" href="#L1">1</a>   <strong class="jxr_keyword">package</strong> com.randomnoun.common;
 <a class="jxr_linenumber" name="L2" href="#L2">2</a>   
 <a class="jxr_linenumber" name="L3" href="#L3">3</a>   <em class="jxr_comment">/* (c) 2013 randomnoun. All Rights Reserved. This work is licensed under a</em>
-<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <em class="jxr_comment"> * BSD Simplified License. (<a href="http://www.randomnoun.com/bsd-simplified.html" target="alexandria_uri">http://www.randomnoun.com/bsd-simplified.html</a>)</em>
+<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <em class="jxr_comment"> * BSD Simplified License. (<a href="http://www.randomnoun.com/bsd-simplified.html)" target="alexandria_uri">http://www.randomnoun.com/bsd-simplified.html)</a></em>
 <a class="jxr_linenumber" name="L5" href="#L5">5</a>   <em class="jxr_comment"> */</em>
 <a class="jxr_linenumber" name="L6" href="#L6">6</a>   
 <a class="jxr_linenumber" name="L7" href="#L7">7</a>   <strong class="jxr_keyword">import</strong> java.io.*;
@@ -44,7 +44,7 @@
 <a class="jxr_linenumber" name="L36" href="#L36">36</a>  <em class="jxr_javadoccomment"> * @see &lt;a href="<a href="http://www.randomnoun.com/wp/2012/12/17/marginally-better-stack-traces/" target="alexandria_uri">http://www.randomnoun.com/wp/2012/12/17/marginally-better-stack-traces/</a>"&gt;<a href="http://www.randomnoun.com/wp/2012/12/17/marginally-better-stack-traces/" target="alexandria_uri">http://www.randomnoun.com/wp/2012/12/17/marginally-better-stack-traces/</a>&lt;/a&gt;</em>
 <a class="jxr_linenumber" name="L37" href="#L37">37</a>  <em class="jxr_javadoccomment"> * @author knoxg</em>
 <a class="jxr_linenumber" name="L38" href="#L38">38</a>  <em class="jxr_javadoccomment"> */</em>
-<a class="jxr_linenumber" name="L39" href="#L39">39</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../com/randomnoun/common/ExceptionUtil.html">ExceptionUtil</a> {
+<a class="jxr_linenumber" name="L39" href="#L39">39</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a name="ExceptionUtil" href="../../../com/randomnoun/common/ExceptionUtil.html#ExceptionUtil">ExceptionUtil</a> {
 <a class="jxr_linenumber" name="L40" href="#L40">40</a>      
 <a class="jxr_linenumber" name="L41" href="#L41">41</a>  
 <a class="jxr_linenumber" name="L42" href="#L42">42</a>      <em class="jxr_javadoccomment">/** Perform no stack trace element highlighting */</em>
@@ -67,7 +67,7 @@
 <a class="jxr_linenumber" name="L59" href="#L59">59</a>      <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L60" href="#L60">60</a>  <em class="jxr_javadoccomment">     * Private constructor to prevent instantiation of this class</em>
 <a class="jxr_linenumber" name="L61" href="#L61">61</a>  <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="L62" href="#L62">62</a>      <strong class="jxr_keyword">private</strong> <a href="../../../com/randomnoun/common/ExceptionUtil.html">ExceptionUtil</a>() {
+<a class="jxr_linenumber" name="L62" href="#L62">62</a>      <strong class="jxr_keyword">private</strong> <a name="ExceptionUtil" href="../../../com/randomnoun/common/ExceptionUtil.html#ExceptionUtil">ExceptionUtil</a>() {
 <a class="jxr_linenumber" name="L63" href="#L63">63</a>      }
 <a class="jxr_linenumber" name="L64" href="#L64">64</a>  
 <a class="jxr_linenumber" name="L65" href="#L65">65</a>      <em class="jxr_javadoccomment">/**</em>
@@ -282,7 +282,7 @@
 <a class="jxr_linenumber" name="L274" href="#L274">274</a>             <strong class="jxr_keyword">try</strong> {
 <a class="jxr_linenumber" name="L275" href="#L275">275</a>                 <em class="jxr_comment">// add maven, git and cvs revision info</em>
 <a class="jxr_linenumber" name="L276" href="#L276">276</a>                 String className = ste.getClassName();
-<a class="jxr_linenumber" name="L277" href="#L277">277</a>                 <a href="../../../com/randomnoun/common/ExceptionUtil.html">JarMetadata</a> jarMetadata = getJarMetadata(jarMetadataCache, loader, className);
+<a class="jxr_linenumber" name="L277" href="#L277">277</a>                 JarMetadata jarMetadata = getJarMetadata(jarMetadataCache, loader, className);
 <a class="jxr_linenumber" name="L278" href="#L278">278</a>                 String revision = getClassRevision(loader, className);
 <a class="jxr_linenumber" name="L279" href="#L279">279</a>                 <strong class="jxr_keyword">if</strong> (revision != <strong class="jxr_keyword">null</strong>) {
 <a class="jxr_linenumber" name="L280" href="#L280">280</a>                 	<strong class="jxr_keyword">if</strong> (highlight==HIGHLIGHT_HTML_WITH_CSS) {
@@ -350,7 +350,7 @@
 <a class="jxr_linenumber" name="L342" href="#L342">342</a>     }
 <a class="jxr_linenumber" name="L343" href="#L343">343</a>     
 <a class="jxr_linenumber" name="L344" href="#L344">344</a>     <em class="jxr_javadoccomment">/** Jar-level metadata is cached for the duration of a single ExceptionUtils method call */</em>
-<a class="jxr_linenumber" name="L345" href="#L345">345</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">class</strong> <a href="../../../com/randomnoun/common/ExceptionUtil.html">JarMetadata</a> {
+<a class="jxr_linenumber" name="L345" href="#L345">345</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">class</strong> JarMetadata {
 <a class="jxr_linenumber" name="L346" href="#L346">346</a>     	String gitRevision;
 <a class="jxr_linenumber" name="L347" href="#L347">347</a>     	String groupId;
 <a class="jxr_linenumber" name="L348" href="#L348">348</a>     	String artifactId;
@@ -371,7 +371,7 @@
 <a class="jxr_linenumber" name="L363" href="#L363">363</a> <em class="jxr_javadoccomment">     * @throws IllegalArgumentException</em>
 <a class="jxr_linenumber" name="L364" href="#L364">364</a> <em class="jxr_javadoccomment">     * @throws IllegalAccessException</em>
 <a class="jxr_linenumber" name="L365" href="#L365">365</a> <em class="jxr_javadoccomment">     */</em>    
-<a class="jxr_linenumber" name="L366" href="#L366">366</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <a href="../../../com/randomnoun/common/ExceptionUtil.html">JarMetadata</a> getJarMetadata(Map&lt;String, JarMetadata&gt; jarMetadataCache, ClassLoader loader, String className) 
+<a class="jxr_linenumber" name="L366" href="#L366">366</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> JarMetadata getJarMetadata(Map&lt;String, JarMetadata&gt; jarMetadataCache, ClassLoader loader, String className) 
 <a class="jxr_linenumber" name="L367" href="#L367">367</a>         	<strong class="jxr_keyword">throws</strong> ClassNotFoundException, SecurityException, NoSuchFieldException, 
 <a class="jxr_linenumber" name="L368" href="#L368">368</a>         	IllegalArgumentException, IllegalAccessException 
 <a class="jxr_linenumber" name="L369" href="#L369">369</a>     {
@@ -400,10 +400,10 @@
 <a class="jxr_linenumber" name="L392" href="#L392">392</a>             revisionMethod = -1;
 <a class="jxr_linenumber" name="L393" href="#L393">393</a>         }
 <a class="jxr_linenumber" name="L394" href="#L394">394</a> 
-<a class="jxr_linenumber" name="L395" href="#L395">395</a>         <a href="../../../com/randomnoun/common/ExceptionUtil.html">JarMetadata</a> md = <strong class="jxr_keyword">null</strong>;
+<a class="jxr_linenumber" name="L395" href="#L395">395</a>         JarMetadata md = <strong class="jxr_keyword">null</strong>;
 <a class="jxr_linenumber" name="L396" href="#L396">396</a>         <strong class="jxr_keyword">if</strong> (revisionMethod == 1) {
 <a class="jxr_linenumber" name="L397" href="#L397">397</a>         	<em class="jxr_comment">// get the revision from the supplied class loader's build.properties, if there is one</em>
-<a class="jxr_linenumber" name="L398" href="#L398">398</a>         	md = <strong class="jxr_keyword">new</strong> <a href="../../../com/randomnoun/common/ExceptionUtil.html">JarMetadata</a>();
+<a class="jxr_linenumber" name="L398" href="#L398">398</a>         	md = <strong class="jxr_keyword">new</strong> JarMetadata();
 <a class="jxr_linenumber" name="L399" href="#L399">399</a>         	InputStream is = loader.getResourceAsStream(<span class="jxr_string">"/build.properties"</span>);
 <a class="jxr_linenumber" name="L400" href="#L400">400</a>         	<strong class="jxr_keyword">if</strong> (is==<strong class="jxr_keyword">null</strong>) {
 <a class="jxr_linenumber" name="L401" href="#L401">401</a>         		<em class="jxr_comment">// logger.warn("missing build.properties");</em>
@@ -440,7 +440,7 @@
 <a class="jxr_linenumber" name="L432" href="#L432">432</a>         		md = jarMetadataCache.get(fileName);
 <a class="jxr_linenumber" name="L433" href="#L433">433</a>         	}
 <a class="jxr_linenumber" name="L434" href="#L434">434</a>         	<strong class="jxr_keyword">if</strong> (md==<strong class="jxr_keyword">null</strong>) {
-<a class="jxr_linenumber" name="L435" href="#L435">435</a>         		md = <strong class="jxr_keyword">new</strong> <a href="../../../com/randomnoun/common/ExceptionUtil.html">JarMetadata</a>();
+<a class="jxr_linenumber" name="L435" href="#L435">435</a>         		md = <strong class="jxr_keyword">new</strong> JarMetadata();
 <a class="jxr_linenumber" name="L436" href="#L436">436</a>         		jarMetadataCache.put(fileName, md);
 <a class="jxr_linenumber" name="L437" href="#L437">437</a>         		File f = <strong class="jxr_keyword">new</strong> File(fileName); <em class="jxr_comment">// .getAbsolutePath();</em>
 <a class="jxr_linenumber" name="L438" href="#L438">438</a> 		        

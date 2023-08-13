@@ -53,11 +53,11 @@
 <a class="jxr_linenumber" name="L45" href="#L45">45</a>  <em class="jxr_javadoccomment"> * </em>
 <a class="jxr_linenumber" name="L46" href="#L46">46</a>  <em class="jxr_javadoccomment"> * @author knoxg</em>
 <a class="jxr_linenumber" name="L47" href="#L47">47</a>  <em class="jxr_javadoccomment"> */</em>
-<a class="jxr_linenumber" name="L48" href="#L48">48</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../com/randomnoun/common/spring/JdbcTemplateWithArguments.html">JdbcTemplateWithArguments</a> <strong class="jxr_keyword">extends</strong> JdbcTemplate {
+<a class="jxr_linenumber" name="L48" href="#L48">48</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a name="JdbcTemplateWithArguments" href="../../../../com/randomnoun/common/spring/JdbcTemplateWithArguments.html#JdbcTemplateWithArguments">JdbcTemplateWithArguments</a> <strong class="jxr_keyword">extends</strong> JdbcTemplate {
 <a class="jxr_linenumber" name="L49" href="#L49">49</a>  
 <a class="jxr_linenumber" name="L50" href="#L50">50</a>  	JdbcTemplate jt;
-<a class="jxr_linenumber" name="L51" href="#L51">51</a>  	<strong class="jxr_keyword">public</strong> <a href="../../../../com/randomnoun/common/spring/JdbcTemplateWithArguments.html">JdbcTemplateWithArguments</a>(JdbcTemplate jt) {
-<a class="jxr_linenumber" name="L52" href="#L52">52</a>  		<strong class="jxr_keyword">if</strong> (jt instanceof JdbcTemplateWithArguments) {
+<a class="jxr_linenumber" name="L51" href="#L51">51</a>  	<strong class="jxr_keyword">public</strong> <a name="JdbcTemplateWithArguments" href="../../../../com/randomnoun/common/spring/JdbcTemplateWithArguments.html#JdbcTemplateWithArguments">JdbcTemplateWithArguments</a>(JdbcTemplate jt) {
+<a class="jxr_linenumber" name="L52" href="#L52">52</a>  		<strong class="jxr_keyword">if</strong> (jt instanceof <a name="JdbcTemplateWithArguments" href="../../../../com/randomnoun/common/spring/JdbcTemplateWithArguments.html#JdbcTemplateWithArguments">JdbcTemplateWithArguments</a>) {
 <a class="jxr_linenumber" name="L53" href="#L53">53</a>  			<strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalStateException(<span class="jxr_string">"Cannot wrap a JdbcTemplateWithArguments with a JdbcTemplateWithArguments"</span>); 
 <a class="jxr_linenumber" name="L54" href="#L54">54</a>  		}
 <a class="jxr_linenumber" name="L55" href="#L55">55</a>  		<strong class="jxr_keyword">this</strong>.jt = jt;
@@ -65,7 +65,7 @@
 <a class="jxr_linenumber" name="L57" href="#L57">57</a>  
 <a class="jxr_linenumber" name="L58" href="#L58">58</a>  	<em class="jxr_javadoccomment">/** Adds 'SELECT' and 'FROM' clauses to the supplied SQL if the caller has also supplied a SelectFromResultSetExtractor */</em> 
 <a class="jxr_linenumber" name="L59" href="#L59">59</a>  	<strong class="jxr_keyword">private</strong> &lt;T&gt; String getSelectFromSql(String sql, ResultSetExtractor&lt;T&gt; rse) {
-<a class="jxr_linenumber" name="L60" href="#L60">60</a>  		<strong class="jxr_keyword">if</strong> (rse instanceof SelectFromResultSetExtractor) {
+<a class="jxr_linenumber" name="L60" href="#L60">60</a>  		<strong class="jxr_keyword">if</strong> (rse instanceof <a name="SelectFromResultSetExtractor" href="../../../../com/randomnoun/common/spring/SelectFromResultSetExtractor.html#SelectFromResultSetExtractor">SelectFromResultSetExtractor</a>) {
 <a class="jxr_linenumber" name="L61" href="#L61">61</a>  			SelectFromResultSetExtractor&lt;T&gt; sfrse = (SelectFromResultSetExtractor&lt;T&gt;) rse;
 <a class="jxr_linenumber" name="L62" href="#L62">62</a>  			sql = <span class="jxr_string">"SELECT "</span> + sfrse.getSelect() + <span class="jxr_string">" FROM "</span> + sfrse.getFrom() + <span class="jxr_string">" "</span> + sql;
 <a class="jxr_linenumber" name="L63" href="#L63">63</a>  		}
@@ -74,7 +74,7 @@
 <a class="jxr_linenumber" name="L66" href="#L66">66</a>  	
 <a class="jxr_linenumber" name="L67" href="#L67">67</a>  	<em class="jxr_javadoccomment">/** Adds 'SELECT' and 'FROM' clauses to the supplied SQL if the caller has also supplied a SelectFromRowMapper */</em>
 <a class="jxr_linenumber" name="L68" href="#L68">68</a>  	<strong class="jxr_keyword">private</strong> &lt;T&gt; String getSelectFromSql(String sql, RowMapper&lt;T&gt; rowMapper) {
-<a class="jxr_linenumber" name="L69" href="#L69">69</a>  		<strong class="jxr_keyword">if</strong> (rowMapper instanceof SelectFromRowMapper) {
+<a class="jxr_linenumber" name="L69" href="#L69">69</a>  		<strong class="jxr_keyword">if</strong> (rowMapper instanceof <a name="SelectFromRowMapper" href="../../../../com/randomnoun/common/spring/SelectFromRowMapper.html#SelectFromRowMapper">SelectFromRowMapper</a>) {
 <a class="jxr_linenumber" name="L70" href="#L70">70</a>  			SelectFromRowMapper&lt;T&gt; sfRowMapper = (SelectFromRowMapper&lt;T&gt;) rowMapper;
 <a class="jxr_linenumber" name="L71" href="#L71">71</a>  			sql = <span class="jxr_string">"SELECT "</span> + sfRowMapper.getSelect() + <span class="jxr_string">" FROM "</span> + sfRowMapper.getFrom() + <span class="jxr_string">" "</span> + sql;
 <a class="jxr_linenumber" name="L72" href="#L72">72</a>  		}
@@ -224,7 +224,7 @@
 <a class="jxr_linenumber" name="L216" href="#L216">216</a> 	<em class="jxr_javadoccomment">/** Calls {@link JdbcTemplate#query(String, Object[], ResultSetExtractor)}</em>
 <a class="jxr_linenumber" name="L217" href="#L217">217</a> <em class="jxr_javadoccomment">	 * @see JdbcTemplate#query(String, Object[], ResultSetExtractor)</em>
 <a class="jxr_linenumber" name="L218" href="#L218">218</a> <em class="jxr_javadoccomment">	 */</em> 
-<a class="jxr_linenumber" name="L219" href="#L219">219</a> 	<strong class="jxr_keyword">public</strong> &lt;T&gt; T query(<a href="../../../../com/randomnoun/common/db/SqlWithArguments.html">SqlWithArguments</a> sqlWithArgs, ResultSetExtractor&lt;T&gt; rse)
+<a class="jxr_linenumber" name="L219" href="#L219">219</a> 	<strong class="jxr_keyword">public</strong> &lt;T&gt; T query(<a name="SqlWithArguments" href="../../../../com/randomnoun/common/db/SqlWithArguments.html#SqlWithArguments">SqlWithArguments</a> sqlWithArgs, ResultSetExtractor&lt;T&gt; rse)
 <a class="jxr_linenumber" name="L220" href="#L220">220</a> 			<strong class="jxr_keyword">throws</strong> DataAccessException {
 <a class="jxr_linenumber" name="L221" href="#L221">221</a> 		String sql = getSelectFromSql(sqlWithArgs.getSql(), rse);
 <a class="jxr_linenumber" name="L222" href="#L222">222</a> 		<strong class="jxr_keyword">return</strong> jt.query(sql, sqlWithArgs.getArgs(), sqlWithArgs.getArgTypes(), rse);
@@ -251,7 +251,7 @@
 <a class="jxr_linenumber" name="L243" href="#L243">243</a> 	<em class="jxr_javadoccomment">/** Calls {@link JdbcTemplate#query(String, Object[], int[], RowCallbackHandler)}</em>
 <a class="jxr_linenumber" name="L244" href="#L244">244</a> <em class="jxr_javadoccomment">	 * @see JdbcTemplate#query(String, Object[], int[], RowCallbackHandler)</em>
 <a class="jxr_linenumber" name="L245" href="#L245">245</a> <em class="jxr_javadoccomment">	 */</em> 
-<a class="jxr_linenumber" name="L246" href="#L246">246</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> query(<a href="../../../../com/randomnoun/common/db/SqlWithArguments.html">SqlWithArguments</a> sqlWithArgs, RowCallbackHandler rch) <strong class="jxr_keyword">throws</strong> DataAccessException {
+<a class="jxr_linenumber" name="L246" href="#L246">246</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> query(<a name="SqlWithArguments" href="../../../../com/randomnoun/common/db/SqlWithArguments.html#SqlWithArguments">SqlWithArguments</a> sqlWithArgs, RowCallbackHandler rch) <strong class="jxr_keyword">throws</strong> DataAccessException {
 <a class="jxr_linenumber" name="L247" href="#L247">247</a> 		jt.query(sqlWithArgs.getSql(), sqlWithArgs.getArgs(), sqlWithArgs.getArgTypes(), rch);
 <a class="jxr_linenumber" name="L248" href="#L248">248</a> 	}
 <a class="jxr_linenumber" name="L249" href="#L249">249</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> query(String sql, Object[] args, <strong class="jxr_keyword">int</strong>[] argTypes, RowCallbackHandler rch) <strong class="jxr_keyword">throws</strong> DataAccessException {
@@ -274,7 +274,7 @@
 <a class="jxr_linenumber" name="L266" href="#L266">266</a> 	
 <a class="jxr_linenumber" name="L267" href="#L267">267</a> 	<em class="jxr_javadoccomment">/** Calls {@link JdbcTemplate#query(String, Object[], RowMapper)}</em>
 <a class="jxr_linenumber" name="L268" href="#L268">268</a> <em class="jxr_javadoccomment">	 * @see JdbcTemplate#query(String, Object[], RowMapper) */</em> 
-<a class="jxr_linenumber" name="L269" href="#L269">269</a> 	<strong class="jxr_keyword">public</strong> &lt;T&gt; List&lt;T&gt; query(<a href="../../../../com/randomnoun/common/db/SqlWithArguments.html">SqlWithArguments</a> sqlWithArgs, RowMapper&lt;T&gt; rowMapper)
+<a class="jxr_linenumber" name="L269" href="#L269">269</a> 	<strong class="jxr_keyword">public</strong> &lt;T&gt; List&lt;T&gt; query(<a name="SqlWithArguments" href="../../../../com/randomnoun/common/db/SqlWithArguments.html#SqlWithArguments">SqlWithArguments</a> sqlWithArgs, RowMapper&lt;T&gt; rowMapper)
 <a class="jxr_linenumber" name="L270" href="#L270">270</a> 			<strong class="jxr_keyword">throws</strong> DataAccessException {
 <a class="jxr_linenumber" name="L271" href="#L271">271</a> 		String sql = getSelectFromSql(sqlWithArgs.getSql(), rowMapper);
 <a class="jxr_linenumber" name="L272" href="#L272">272</a> 		<strong class="jxr_keyword">return</strong> jt.query(sql, sqlWithArgs.getArgs(), sqlWithArgs.getArgTypes(), rowMapper);
@@ -308,7 +308,7 @@
 <a class="jxr_linenumber" name="L300" href="#L300">300</a> 	<em class="jxr_javadoccomment">/** Calls {@link JdbcTemplate#queryForObject(String, Object[], int[], Class)}</em>
 <a class="jxr_linenumber" name="L301" href="#L301">301</a> <em class="jxr_javadoccomment">	 * @see JdbcTemplate#queryForObject(String, Object[], int[], Class) </em>
 <a class="jxr_linenumber" name="L302" href="#L302">302</a> <em class="jxr_javadoccomment">	 */</em> 
-<a class="jxr_linenumber" name="L303" href="#L303">303</a> 	<strong class="jxr_keyword">public</strong> &lt;T&gt; T queryForObject(<a href="../../../../com/randomnoun/common/db/SqlWithArguments.html">SqlWithArguments</a> sqlWithArgs, Class&lt;T&gt; requiredType)
+<a class="jxr_linenumber" name="L303" href="#L303">303</a> 	<strong class="jxr_keyword">public</strong> &lt;T&gt; T queryForObject(<a name="SqlWithArguments" href="../../../../com/randomnoun/common/db/SqlWithArguments.html#SqlWithArguments">SqlWithArguments</a> sqlWithArgs, Class&lt;T&gt; requiredType)
 <a class="jxr_linenumber" name="L304" href="#L304">304</a> 			<strong class="jxr_keyword">throws</strong> DataAccessException {
 <a class="jxr_linenumber" name="L305" href="#L305">305</a> 		<strong class="jxr_keyword">return</strong> jt.queryForObject(sqlWithArgs.getSql(), sqlWithArgs.getArgs(), sqlWithArgs.getArgTypes(), requiredType);
 <a class="jxr_linenumber" name="L306" href="#L306">306</a> 	}
@@ -325,7 +325,7 @@
 <a class="jxr_linenumber" name="L317" href="#L317">317</a> 	<em class="jxr_javadoccomment">/** Calls {@link JdbcTemplate#queryForMap(String, Object[], int[])}</em>
 <a class="jxr_linenumber" name="L318" href="#L318">318</a> <em class="jxr_javadoccomment">	 * @see JdbcTemplate#queryForMap(String, Object[], int[]) </em>
 <a class="jxr_linenumber" name="L319" href="#L319">319</a> <em class="jxr_javadoccomment">	 */</em> 
-<a class="jxr_linenumber" name="L320" href="#L320">320</a> 	<strong class="jxr_keyword">public</strong> Map&lt;String, Object&gt; queryForMap(<a href="../../../../com/randomnoun/common/db/SqlWithArguments.html">SqlWithArguments</a> sqlWithArgs) <strong class="jxr_keyword">throws</strong> DataAccessException {
+<a class="jxr_linenumber" name="L320" href="#L320">320</a> 	<strong class="jxr_keyword">public</strong> Map&lt;String, Object&gt; queryForMap(<a name="SqlWithArguments" href="../../../../com/randomnoun/common/db/SqlWithArguments.html#SqlWithArguments">SqlWithArguments</a> sqlWithArgs) <strong class="jxr_keyword">throws</strong> DataAccessException {
 <a class="jxr_linenumber" name="L321" href="#L321">321</a> 		<strong class="jxr_keyword">return</strong> jt.queryForMap(sqlWithArgs.getSql(), sqlWithArgs.getArgs(), sqlWithArgs.getArgTypes());
 <a class="jxr_linenumber" name="L322" href="#L322">322</a> 	}
 <a class="jxr_linenumber" name="L323" href="#L323">323</a> 	<strong class="jxr_keyword">public</strong> Map&lt;String, Object&gt; queryForMap(String sql, Object[] args, <strong class="jxr_keyword">int</strong>[] argTypes) <strong class="jxr_keyword">throws</strong> DataAccessException {
@@ -337,7 +337,7 @@
 <a class="jxr_linenumber" name="L329" href="#L329">329</a> 	<em class="jxr_javadoccomment">/** Calls {@link JdbcTemplate#queryForList(String, Object[], int[], Class)}</em>
 <a class="jxr_linenumber" name="L330" href="#L330">330</a> <em class="jxr_javadoccomment">	 * @see JdbcTemplate#queryForList(String, Object[], int[], Class)) </em>
 <a class="jxr_linenumber" name="L331" href="#L331">331</a> <em class="jxr_javadoccomment">	 */</em> 
-<a class="jxr_linenumber" name="L332" href="#L332">332</a> 	<strong class="jxr_keyword">public</strong> &lt;T&gt; List&lt;T&gt; queryForList(<a href="../../../../com/randomnoun/common/db/SqlWithArguments.html">SqlWithArguments</a> sqlWithArgs, Class&lt;T&gt; elementType)
+<a class="jxr_linenumber" name="L332" href="#L332">332</a> 	<strong class="jxr_keyword">public</strong> &lt;T&gt; List&lt;T&gt; queryForList(<a name="SqlWithArguments" href="../../../../com/randomnoun/common/db/SqlWithArguments.html#SqlWithArguments">SqlWithArguments</a> sqlWithArgs, Class&lt;T&gt; elementType)
 <a class="jxr_linenumber" name="L333" href="#L333">333</a> 			<strong class="jxr_keyword">throws</strong> DataAccessException {
 <a class="jxr_linenumber" name="L334" href="#L334">334</a> 		<strong class="jxr_keyword">return</strong> jt.queryForList(sqlWithArgs.getSql(), sqlWithArgs.getArgs(), sqlWithArgs.getArgTypes(), elementType);
 <a class="jxr_linenumber" name="L335" href="#L335">335</a> 	}
@@ -354,7 +354,7 @@
 <a class="jxr_linenumber" name="L346" href="#L346">346</a> 	<em class="jxr_javadoccomment">/** Calls {@link JdbcTemplate#queryForList(String, Object[], int[])}</em>
 <a class="jxr_linenumber" name="L347" href="#L347">347</a> <em class="jxr_javadoccomment">	 * @see JdbcTemplate#queryForList(String, Object[], int[])}</em>
 <a class="jxr_linenumber" name="L348" href="#L348">348</a> <em class="jxr_javadoccomment">	 */</em> 
-<a class="jxr_linenumber" name="L349" href="#L349">349</a> 	<strong class="jxr_keyword">public</strong> List&lt;Map&lt;String, Object&gt;&gt; queryForList(<a href="../../../../com/randomnoun/common/db/SqlWithArguments.html">SqlWithArguments</a> sqlWithArgs)
+<a class="jxr_linenumber" name="L349" href="#L349">349</a> 	<strong class="jxr_keyword">public</strong> List&lt;Map&lt;String, Object&gt;&gt; queryForList(<a name="SqlWithArguments" href="../../../../com/randomnoun/common/db/SqlWithArguments.html#SqlWithArguments">SqlWithArguments</a> sqlWithArgs)
 <a class="jxr_linenumber" name="L350" href="#L350">350</a> 			<strong class="jxr_keyword">throws</strong> DataAccessException {
 <a class="jxr_linenumber" name="L351" href="#L351">351</a> 		<strong class="jxr_keyword">return</strong> jt.queryForList(sqlWithArgs.getSql(), sqlWithArgs.getArgs(), sqlWithArgs.getArgTypes());
 <a class="jxr_linenumber" name="L352" href="#L352">352</a> 	}
@@ -368,7 +368,7 @@
 <a class="jxr_linenumber" name="L360" href="#L360">360</a> 	<em class="jxr_javadoccomment">/** Calls {@link JdbcTemplate#queryForRowSet(String, Object[], int[])}</em>
 <a class="jxr_linenumber" name="L361" href="#L361">361</a> <em class="jxr_javadoccomment">	 * @see JdbcTemplate#queryForRowSet(String, Object[], int[]) </em>
 <a class="jxr_linenumber" name="L362" href="#L362">362</a> <em class="jxr_javadoccomment">	 */</em> 
-<a class="jxr_linenumber" name="L363" href="#L363">363</a> 	<strong class="jxr_keyword">public</strong> SqlRowSet queryForRowSet(<a href="../../../../com/randomnoun/common/db/SqlWithArguments.html">SqlWithArguments</a> sqlWithArgs) <strong class="jxr_keyword">throws</strong> DataAccessException {
+<a class="jxr_linenumber" name="L363" href="#L363">363</a> 	<strong class="jxr_keyword">public</strong> SqlRowSet queryForRowSet(<a name="SqlWithArguments" href="../../../../com/randomnoun/common/db/SqlWithArguments.html#SqlWithArguments">SqlWithArguments</a> sqlWithArgs) <strong class="jxr_keyword">throws</strong> DataAccessException {
 <a class="jxr_linenumber" name="L364" href="#L364">364</a> 		<strong class="jxr_keyword">return</strong> jt.queryForRowSet(sqlWithArgs.getSql(), sqlWithArgs.getArgs(), sqlWithArgs.getArgTypes());
 <a class="jxr_linenumber" name="L365" href="#L365">365</a> 	}
 <a class="jxr_linenumber" name="L366" href="#L366">366</a> 	<strong class="jxr_keyword">public</strong> SqlRowSet queryForRowSet(String sql, Object[] args, <strong class="jxr_keyword">int</strong>[] argTypes) <strong class="jxr_keyword">throws</strong> DataAccessException {
@@ -389,7 +389,7 @@
 <a class="jxr_linenumber" name="L381" href="#L381">381</a> 	<em class="jxr_javadoccomment">/** Calls {@link JdbcTemplate#update(String, Object[], int[])}</em>
 <a class="jxr_linenumber" name="L382" href="#L382">382</a> <em class="jxr_javadoccomment">	 * @see JdbcTemplate#update(String, Object[], int[]) </em>
 <a class="jxr_linenumber" name="L383" href="#L383">383</a> <em class="jxr_javadoccomment">	 */</em> 
-<a class="jxr_linenumber" name="L384" href="#L384">384</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">int</strong> update(<a href="../../../../com/randomnoun/common/db/SqlWithArguments.html">SqlWithArguments</a> sqlWithArgs) <strong class="jxr_keyword">throws</strong> DataAccessException {
+<a class="jxr_linenumber" name="L384" href="#L384">384</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">int</strong> update(<a name="SqlWithArguments" href="../../../../com/randomnoun/common/db/SqlWithArguments.html#SqlWithArguments">SqlWithArguments</a> sqlWithArgs) <strong class="jxr_keyword">throws</strong> DataAccessException {
 <a class="jxr_linenumber" name="L385" href="#L385">385</a> 		<strong class="jxr_keyword">return</strong> jt.update(sqlWithArgs.getSql(), sqlWithArgs.getArgs(), sqlWithArgs.getArgTypes());
 <a class="jxr_linenumber" name="L386" href="#L386">386</a> 	}
 <a class="jxr_linenumber" name="L387" href="#L387">387</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">int</strong> update(String sql, Object[] args, <strong class="jxr_keyword">int</strong>[] argTypes) <strong class="jxr_keyword">throws</strong> DataAccessException {

@@ -9,7 +9,7 @@
 <a class="jxr_linenumber" name="L1" href="#L1">1</a>   <strong class="jxr_keyword">package</strong> com.randomnoun.common.email;
 <a class="jxr_linenumber" name="L2" href="#L2">2</a>   
 <a class="jxr_linenumber" name="L3" href="#L3">3</a>   <em class="jxr_comment">/* (c) 2013 randomnoun. All Rights Reserved. This work is licensed under a</em>
-<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <em class="jxr_comment"> * BSD Simplified License. (<a href="http://www.randomnoun.com/bsd-simplified.html" target="alexandria_uri">http://www.randomnoun.com/bsd-simplified.html</a>)</em>
+<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <em class="jxr_comment"> * BSD Simplified License. (<a href="http://www.randomnoun.com/bsd-simplified.html)" target="alexandria_uri">http://www.randomnoun.com/bsd-simplified.html)</a></em>
 <a class="jxr_linenumber" name="L5" href="#L5">5</a>   <em class="jxr_comment"> */</em>
 <a class="jxr_linenumber" name="L6" href="#L6">6</a>   <strong class="jxr_keyword">import</strong> java.io.IOException;
 <a class="jxr_linenumber" name="L7" href="#L7">7</a>   <strong class="jxr_keyword">import</strong> java.io.InputStream;
@@ -54,7 +54,7 @@
 <a class="jxr_linenumber" name="L46" href="#L46">46</a>  <em class="jxr_javadoccomment"> *</em>
 <a class="jxr_linenumber" name="L47" href="#L47">47</a>  <em class="jxr_javadoccomment"> * @author knoxg</em>
 <a class="jxr_linenumber" name="L48" href="#L48">48</a>  <em class="jxr_javadoccomment"> */</em>
-<a class="jxr_linenumber" name="L49" href="#L49">49</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../com/randomnoun/common/email/EmailWrapper.html">EmailWrapper</a> {
+<a class="jxr_linenumber" name="L49" href="#L49">49</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a name="EmailWrapper" href="../../../../com/randomnoun/common/email/EmailWrapper.html#EmailWrapper">EmailWrapper</a> {
 <a class="jxr_linenumber" name="L50" href="#L50">50</a>      
 <a class="jxr_linenumber" name="L51" href="#L51">51</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> Logger logger = Logger.getLogger(EmailWrapper.<strong class="jxr_keyword">class</strong>);
 <a class="jxr_linenumber" name="L52" href="#L52">52</a>  
@@ -307,7 +307,7 @@
 <a class="jxr_linenumber" name="L299" href="#L299">299</a>         <strong class="jxr_keyword">if</strong> (isBlank(client) || isBlank(suffix)) {
 <a class="jxr_linenumber" name="L300" href="#L300">300</a>         	msg = <strong class="jxr_keyword">new</strong> MimeMessage(session);
 <a class="jxr_linenumber" name="L301" href="#L301">301</a>         } <strong class="jxr_keyword">else</strong> {
-<a class="jxr_linenumber" name="L302" href="#L302">302</a>         	msg = <strong class="jxr_keyword">new</strong> <a href="../../../../com/randomnoun/common/email/CustomMimeMessage.html">CustomMimeMessage</a>(session, client, suffix);
+<a class="jxr_linenumber" name="L302" href="#L302">302</a>         	msg = <strong class="jxr_keyword">new</strong> <a name="CustomMimeMessage" href="../../../../com/randomnoun/common/email/CustomMimeMessage.html#CustomMimeMessage">CustomMimeMessage</a>(session, client, suffix);
 <a class="jxr_linenumber" name="L303" href="#L303">303</a>         }
 <a class="jxr_linenumber" name="L304" href="#L304">304</a> 
 <a class="jxr_linenumber" name="L305" href="#L305">305</a>         <strong class="jxr_keyword">if</strong> (!isBlank(from)) {
@@ -414,9 +414,9 @@
 <a class="jxr_linenumber" name="L406" href="#L406">406</a>                         classLoader = classLoaderObject.getClass().getClassLoader();
 <a class="jxr_linenumber" name="L407" href="#L407">407</a>                     }
 <a class="jxr_linenumber" name="L408" href="#L408">408</a> 
-<a class="jxr_linenumber" name="L409" href="#L409">409</a>                     <a href="../../../../com/randomnoun/common/Base64.html">InputStream</a> inputStream = classLoader.getResourceAsStream(resource);
+<a class="jxr_linenumber" name="L409" href="#L409">409</a>                     InputStream inputStream = classLoader.getResourceAsStream(resource);
 <a class="jxr_linenumber" name="L410" href="#L410">410</a>                     byte[] attachmentData = StreamUtil.getByteArray(inputStream);
-<a class="jxr_linenumber" name="L411" href="#L411">411</a>                     DataSource dataSource = <strong class="jxr_keyword">new</strong> <a href="../../../../com/randomnoun/common/email/ByteArrayDataSource.html">ByteArrayDataSource</a>(attachmentData, attachFilename, contentType);
+<a class="jxr_linenumber" name="L411" href="#L411">411</a>                     DataSource dataSource = <strong class="jxr_keyword">new</strong> <a name="ByteArrayDataSource" href="../../../../com/randomnoun/common/email/ByteArrayDataSource.html#ByteArrayDataSource">ByteArrayDataSource</a>(attachmentData, attachFilename, contentType);
 <a class="jxr_linenumber" name="L412" href="#L412">412</a>                     MimeBodyPart attachment = <strong class="jxr_keyword">new</strong> MimeBodyPart();
 <a class="jxr_linenumber" name="L413" href="#L413">413</a> 
 <a class="jxr_linenumber" name="L414" href="#L414">414</a>                     attachment.setDataHandler(<strong class="jxr_keyword">new</strong> DataHandler(dataSource));
@@ -453,7 +453,7 @@
 <a class="jxr_linenumber" name="L445" href="#L445">445</a>                     attachmentData = data.toString().getBytes();
 <a class="jxr_linenumber" name="L446" href="#L446">446</a>                 }
 <a class="jxr_linenumber" name="L447" href="#L447">447</a> 
-<a class="jxr_linenumber" name="L448" href="#L448">448</a>                 DataSource dataSource = <strong class="jxr_keyword">new</strong> <a href="../../../../com/randomnoun/common/email/ByteArrayDataSource.html">ByteArrayDataSource</a>(attachmentData, attachFilename, contentType);
+<a class="jxr_linenumber" name="L448" href="#L448">448</a>                 DataSource dataSource = <strong class="jxr_keyword">new</strong> <a name="ByteArrayDataSource" href="../../../../com/randomnoun/common/email/ByteArrayDataSource.html#ByteArrayDataSource">ByteArrayDataSource</a>(attachmentData, attachFilename, contentType);
 <a class="jxr_linenumber" name="L449" href="#L449">449</a>                 MimeBodyPart attachment = <strong class="jxr_keyword">new</strong> MimeBodyPart();
 <a class="jxr_linenumber" name="L450" href="#L450">450</a> 
 <a class="jxr_linenumber" name="L451" href="#L451">451</a>                 attachment.setDataHandler(<strong class="jxr_keyword">new</strong> DataHandler(dataSource));

@@ -23,7 +23,7 @@
 <a class="jxr_linenumber" name="L15" href="#L15">15</a>  <em class="jxr_javadoccomment"> * Pass your syntax tree to this visitor, and then to the TreeDumper</em>
 <a class="jxr_linenumber" name="L16" href="#L16">16</a>  <em class="jxr_javadoccomment"> * visitor in order to "pretty print" your tree.</em>
 <a class="jxr_linenumber" name="L17" href="#L17">17</a>  <em class="jxr_javadoccomment"> */</em>
-<a class="jxr_linenumber" name="L18" href="#L18">18</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../../com/randomnoun/common/jexl/visitor/TreeFormatter.html">TreeFormatter</a> <strong class="jxr_keyword">extends</strong> <a href="../../../../../com/randomnoun/common/jexl/visitor/DepthFirstVisitor.html">DepthFirstVisitor</a> {
+<a class="jxr_linenumber" name="L18" href="#L18">18</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a name="TreeFormatter" href="../../../../../com/randomnoun/common/jexl/visitor/TreeFormatter.html#TreeFormatter">TreeFormatter</a> <strong class="jxr_keyword">extends</strong> <a name="DepthFirstVisitor" href="../../../../../com/randomnoun/common/jexl/visitor/DepthFirstVisitor.html#DepthFirstVisitor">DepthFirstVisitor</a> {
 <a class="jxr_linenumber" name="L19" href="#L19">19</a>     <strong class="jxr_keyword">private</strong> Vector&lt;FormatCommand&gt; cmdQueue = <strong class="jxr_keyword">new</strong> Vector&lt;FormatCommand&gt;();
 <a class="jxr_linenumber" name="L20" href="#L20">20</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">boolean</strong> lineWrap;
 <a class="jxr_linenumber" name="L21" href="#L21">21</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">int</strong> wrapWidth;
@@ -37,7 +37,7 @@
 <a class="jxr_linenumber" name="L29" href="#L29">29</a>  <em class="jxr_javadoccomment">    * and no line-wrap.  You may alternately use the other constructor to</em>
 <a class="jxr_linenumber" name="L30" href="#L30">30</a>  <em class="jxr_javadoccomment">    * specify your own indentation amount and line width.</em>
 <a class="jxr_linenumber" name="L31" href="#L31">31</a>  <em class="jxr_javadoccomment">    */</em>
-<a class="jxr_linenumber" name="L32" href="#L32">32</a>     <strong class="jxr_keyword">public</strong> <a href="../../../../../com/randomnoun/common/jexl/visitor/TreeFormatter.html">TreeFormatter</a>() { <strong class="jxr_keyword">this</strong>(3, 0); }
+<a class="jxr_linenumber" name="L32" href="#L32">32</a>     <strong class="jxr_keyword">public</strong> <a name="TreeFormatter" href="../../../../../com/randomnoun/common/jexl/visitor/TreeFormatter.html#TreeFormatter">TreeFormatter</a>() { <strong class="jxr_keyword">this</strong>(3, 0); }
 <a class="jxr_linenumber" name="L33" href="#L33">33</a>  
 <a class="jxr_linenumber" name="L34" href="#L34">34</a>     <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L35" href="#L35">35</a>  <em class="jxr_javadoccomment">    * This constructor accepts an indent amount and a line width which is</em>
@@ -49,7 +49,7 @@
 <a class="jxr_linenumber" name="L41" href="#L41">41</a>  <em class="jxr_javadoccomment">    * @param   indentAmt   Amount of spaces per indentation level.</em>
 <a class="jxr_linenumber" name="L42" href="#L42">42</a>  <em class="jxr_javadoccomment">    * @param   wrapWidth   Wrap lines longer than wrapWidth.  0 for no wrap.</em>
 <a class="jxr_linenumber" name="L43" href="#L43">43</a>  <em class="jxr_javadoccomment">    */</em>
-<a class="jxr_linenumber" name="L44" href="#L44">44</a>     <strong class="jxr_keyword">public</strong> <a href="../../../../../com/randomnoun/common/jexl/visitor/TreeFormatter.html">TreeFormatter</a>(<strong class="jxr_keyword">int</strong> indentAmt, <strong class="jxr_keyword">int</strong> wrapWidth) {
+<a class="jxr_linenumber" name="L44" href="#L44">44</a>     <strong class="jxr_keyword">public</strong> <a name="TreeFormatter" href="../../../../../com/randomnoun/common/jexl/visitor/TreeFormatter.html#TreeFormatter">TreeFormatter</a>(<strong class="jxr_keyword">int</strong> indentAmt, <strong class="jxr_keyword">int</strong> wrapWidth) {
 <a class="jxr_linenumber" name="L45" href="#L45">45</a>        <strong class="jxr_keyword">this</strong>.indentAmt = indentAmt;
 <a class="jxr_linenumber" name="L46" href="#L46">46</a>        <strong class="jxr_keyword">this</strong>.wrapWidth = wrapWidth;
 <a class="jxr_linenumber" name="L47" href="#L47">47</a>  
@@ -63,11 +63,11 @@
 <a class="jxr_linenumber" name="L55" href="#L55">55</a>  <em class="jxr_javadoccomment">    * Accepts a NodeListInterface object and performs an optional format</em>
 <a class="jxr_linenumber" name="L56" href="#L56">56</a>  <em class="jxr_javadoccomment">    * command between each node in the list (but not after the last node).</em>
 <a class="jxr_linenumber" name="L57" href="#L57">57</a>  <em class="jxr_javadoccomment">    */</em>
-<a class="jxr_linenumber" name="L58" href="#L58">58</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> processList(<a href="../../../../../com/randomnoun/common/jexl/ast/NodeListInterface.html">NodeListInterface</a> n) {
+<a class="jxr_linenumber" name="L58" href="#L58">58</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> processList(<a name="NodeListInterface" href="../../../../../com/randomnoun/common/jexl/ast/NodeListInterface.html#NodeListInterface">NodeListInterface</a> n) {
 <a class="jxr_linenumber" name="L59" href="#L59">59</a>        processList(n, <strong class="jxr_keyword">null</strong>);
 <a class="jxr_linenumber" name="L60" href="#L60">60</a>     }
 <a class="jxr_linenumber" name="L61" href="#L61">61</a>  
-<a class="jxr_linenumber" name="L62" href="#L62">62</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> processList(<a href="../../../../../com/randomnoun/common/jexl/ast/NodeListInterface.html">NodeListInterface</a> n, <a href="../../../../../com/randomnoun/common/jexl/visitor/TreeFormatter.html">FormatCommand</a> cmd) {
+<a class="jxr_linenumber" name="L62" href="#L62">62</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> processList(<a name="NodeListInterface" href="../../../../../com/randomnoun/common/jexl/ast/NodeListInterface.html#NodeListInterface">NodeListInterface</a> n, <a name="FormatCommand" href="../../../../../com/randomnoun/common/jexl/visitor/TreeFormatter.html#FormatCommand">FormatCommand</a> cmd) {
 <a class="jxr_linenumber" name="L63" href="#L63">63</a>        <strong class="jxr_keyword">for</strong> ( Enumeration&lt;Node&gt; e = n.elements(); e.hasMoreElements(); ) {
 <a class="jxr_linenumber" name="L64" href="#L64">64</a>           e.nextElement().accept(<strong class="jxr_keyword">this</strong>);
 <a class="jxr_linenumber" name="L65" href="#L65">65</a>           <strong class="jxr_keyword">if</strong> ( cmd != <strong class="jxr_keyword">null</strong> &amp;&amp; e.hasMoreElements() )
@@ -79,43 +79,43 @@
 <a class="jxr_linenumber" name="L71" href="#L71">71</a>  <em class="jxr_javadoccomment">    * A Force command inserts a line break and indents the next line to</em>
 <a class="jxr_linenumber" name="L72" href="#L72">72</a>  <em class="jxr_javadoccomment">    * the current indentation level.  Use "add(force());".</em>
 <a class="jxr_linenumber" name="L73" href="#L73">73</a>  <em class="jxr_javadoccomment">    */</em>
-<a class="jxr_linenumber" name="L74" href="#L74">74</a>     <strong class="jxr_keyword">protected</strong> <a href="../../../../../com/randomnoun/common/jexl/visitor/TreeFormatter.html">FormatCommand</a> force() { <strong class="jxr_keyword">return</strong> force(1); }
-<a class="jxr_linenumber" name="L75" href="#L75">75</a>     <strong class="jxr_keyword">protected</strong> <a href="../../../../../com/randomnoun/common/jexl/visitor/TreeFormatter.html">FormatCommand</a> force(<strong class="jxr_keyword">int</strong> i) {
-<a class="jxr_linenumber" name="L76" href="#L76">76</a>        <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a href="../../../../../com/randomnoun/common/jexl/visitor/TreeFormatter.html">FormatCommand</a>(FormatCommand.FORCE, i);
+<a class="jxr_linenumber" name="L74" href="#L74">74</a>     <strong class="jxr_keyword">protected</strong> <a name="FormatCommand" href="../../../../../com/randomnoun/common/jexl/visitor/TreeFormatter.html#FormatCommand">FormatCommand</a> force() { <strong class="jxr_keyword">return</strong> force(1); }
+<a class="jxr_linenumber" name="L75" href="#L75">75</a>     <strong class="jxr_keyword">protected</strong> <a name="FormatCommand" href="../../../../../com/randomnoun/common/jexl/visitor/TreeFormatter.html#FormatCommand">FormatCommand</a> force(<strong class="jxr_keyword">int</strong> i) {
+<a class="jxr_linenumber" name="L76" href="#L76">76</a>        <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a name="FormatCommand" href="../../../../../com/randomnoun/common/jexl/visitor/TreeFormatter.html#FormatCommand">FormatCommand</a>(FormatCommand.FORCE, i);
 <a class="jxr_linenumber" name="L77" href="#L77">77</a>     }
 <a class="jxr_linenumber" name="L78" href="#L78">78</a>  
 <a class="jxr_linenumber" name="L79" href="#L79">79</a>     <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L80" href="#L80">80</a>  <em class="jxr_javadoccomment">    * An Indent command increases the indentation level by one (or a</em>
 <a class="jxr_linenumber" name="L81" href="#L81">81</a>  <em class="jxr_javadoccomment">    * user-specified amount).  Use "add(indent());".</em>
 <a class="jxr_linenumber" name="L82" href="#L82">82</a>  <em class="jxr_javadoccomment">    */</em>
-<a class="jxr_linenumber" name="L83" href="#L83">83</a>     <strong class="jxr_keyword">protected</strong> <a href="../../../../../com/randomnoun/common/jexl/visitor/TreeFormatter.html">FormatCommand</a> indent() { <strong class="jxr_keyword">return</strong> indent(1); }
-<a class="jxr_linenumber" name="L84" href="#L84">84</a>     <strong class="jxr_keyword">protected</strong> <a href="../../../../../com/randomnoun/common/jexl/visitor/TreeFormatter.html">FormatCommand</a> indent(<strong class="jxr_keyword">int</strong> i) {
-<a class="jxr_linenumber" name="L85" href="#L85">85</a>        <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a href="../../../../../com/randomnoun/common/jexl/visitor/TreeFormatter.html">FormatCommand</a>(FormatCommand.INDENT, i);
+<a class="jxr_linenumber" name="L83" href="#L83">83</a>     <strong class="jxr_keyword">protected</strong> <a name="FormatCommand" href="../../../../../com/randomnoun/common/jexl/visitor/TreeFormatter.html#FormatCommand">FormatCommand</a> indent() { <strong class="jxr_keyword">return</strong> indent(1); }
+<a class="jxr_linenumber" name="L84" href="#L84">84</a>     <strong class="jxr_keyword">protected</strong> <a name="FormatCommand" href="../../../../../com/randomnoun/common/jexl/visitor/TreeFormatter.html#FormatCommand">FormatCommand</a> indent(<strong class="jxr_keyword">int</strong> i) {
+<a class="jxr_linenumber" name="L85" href="#L85">85</a>        <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a name="FormatCommand" href="../../../../../com/randomnoun/common/jexl/visitor/TreeFormatter.html#FormatCommand">FormatCommand</a>(FormatCommand.INDENT, i);
 <a class="jxr_linenumber" name="L86" href="#L86">86</a>     }
 <a class="jxr_linenumber" name="L87" href="#L87">87</a>  
 <a class="jxr_linenumber" name="L88" href="#L88">88</a>     <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L89" href="#L89">89</a>  <em class="jxr_javadoccomment">    * An Outdent command is the reverse of the Indent command: it reduces</em>
 <a class="jxr_linenumber" name="L90" href="#L90">90</a>  <em class="jxr_javadoccomment">    * the indentation level.  Use "add(outdent());".</em>
 <a class="jxr_linenumber" name="L91" href="#L91">91</a>  <em class="jxr_javadoccomment">    */</em>
-<a class="jxr_linenumber" name="L92" href="#L92">92</a>     <strong class="jxr_keyword">protected</strong> <a href="../../../../../com/randomnoun/common/jexl/visitor/TreeFormatter.html">FormatCommand</a> outdent() { <strong class="jxr_keyword">return</strong> outdent(1); }
-<a class="jxr_linenumber" name="L93" href="#L93">93</a>     <strong class="jxr_keyword">protected</strong> <a href="../../../../../com/randomnoun/common/jexl/visitor/TreeFormatter.html">FormatCommand</a> outdent(<strong class="jxr_keyword">int</strong> i) {
-<a class="jxr_linenumber" name="L94" href="#L94">94</a>        <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a href="../../../../../com/randomnoun/common/jexl/visitor/TreeFormatter.html">FormatCommand</a>(FormatCommand.OUTDENT, i);
+<a class="jxr_linenumber" name="L92" href="#L92">92</a>     <strong class="jxr_keyword">protected</strong> <a name="FormatCommand" href="../../../../../com/randomnoun/common/jexl/visitor/TreeFormatter.html#FormatCommand">FormatCommand</a> outdent() { <strong class="jxr_keyword">return</strong> outdent(1); }
+<a class="jxr_linenumber" name="L93" href="#L93">93</a>     <strong class="jxr_keyword">protected</strong> <a name="FormatCommand" href="../../../../../com/randomnoun/common/jexl/visitor/TreeFormatter.html#FormatCommand">FormatCommand</a> outdent(<strong class="jxr_keyword">int</strong> i) {
+<a class="jxr_linenumber" name="L94" href="#L94">94</a>        <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a name="FormatCommand" href="../../../../../com/randomnoun/common/jexl/visitor/TreeFormatter.html#FormatCommand">FormatCommand</a>(FormatCommand.OUTDENT, i);
 <a class="jxr_linenumber" name="L95" href="#L95">95</a>     }
 <a class="jxr_linenumber" name="L96" href="#L96">96</a>  
 <a class="jxr_linenumber" name="L97" href="#L97">97</a>     <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L98" href="#L98">98</a>  <em class="jxr_javadoccomment">    * A Space command simply adds one or a user-specified number of</em>
 <a class="jxr_linenumber" name="L99" href="#L99">99</a>  <em class="jxr_javadoccomment">    * spaces between tokens.  Use "add(space());".</em>
 <a class="jxr_linenumber" name="L100" href="#L100">100</a> <em class="jxr_javadoccomment">    */</em>
-<a class="jxr_linenumber" name="L101" href="#L101">101</a>    <strong class="jxr_keyword">protected</strong> <a href="../../../../../com/randomnoun/common/jexl/visitor/TreeFormatter.html">FormatCommand</a> space() { <strong class="jxr_keyword">return</strong> space(1); }
-<a class="jxr_linenumber" name="L102" href="#L102">102</a>    <strong class="jxr_keyword">protected</strong> <a href="../../../../../com/randomnoun/common/jexl/visitor/TreeFormatter.html">FormatCommand</a> space(<strong class="jxr_keyword">int</strong> i) {
-<a class="jxr_linenumber" name="L103" href="#L103">103</a>       <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a href="../../../../../com/randomnoun/common/jexl/visitor/TreeFormatter.html">FormatCommand</a>(FormatCommand.SPACE, i);
+<a class="jxr_linenumber" name="L101" href="#L101">101</a>    <strong class="jxr_keyword">protected</strong> <a name="FormatCommand" href="../../../../../com/randomnoun/common/jexl/visitor/TreeFormatter.html#FormatCommand">FormatCommand</a> space() { <strong class="jxr_keyword">return</strong> space(1); }
+<a class="jxr_linenumber" name="L102" href="#L102">102</a>    <strong class="jxr_keyword">protected</strong> <a name="FormatCommand" href="../../../../../com/randomnoun/common/jexl/visitor/TreeFormatter.html#FormatCommand">FormatCommand</a> space(<strong class="jxr_keyword">int</strong> i) {
+<a class="jxr_linenumber" name="L103" href="#L103">103</a>       <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a name="FormatCommand" href="../../../../../com/randomnoun/common/jexl/visitor/TreeFormatter.html#FormatCommand">FormatCommand</a>(FormatCommand.SPACE, i);
 <a class="jxr_linenumber" name="L104" href="#L104">104</a>    }
 <a class="jxr_linenumber" name="L105" href="#L105">105</a> 
 <a class="jxr_linenumber" name="L106" href="#L106">106</a>    <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L107" href="#L107">107</a> <em class="jxr_javadoccomment">    * Use this method to add FormatCommands to the command queue to be</em>
 <a class="jxr_linenumber" name="L108" href="#L108">108</a> <em class="jxr_javadoccomment">    * executed when the next token in the tree is visited.</em>
 <a class="jxr_linenumber" name="L109" href="#L109">109</a> <em class="jxr_javadoccomment">    */</em>
-<a class="jxr_linenumber" name="L110" href="#L110">110</a>    <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> add(<a href="../../../../../com/randomnoun/common/jexl/visitor/TreeFormatter.html">FormatCommand</a> cmd) {
+<a class="jxr_linenumber" name="L110" href="#L110">110</a>    <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> add(<a name="FormatCommand" href="../../../../../com/randomnoun/common/jexl/visitor/TreeFormatter.html#FormatCommand">FormatCommand</a> cmd) {
 <a class="jxr_linenumber" name="L111" href="#L111">111</a>       cmdQueue.addElement(cmd);
 <a class="jxr_linenumber" name="L112" href="#L112">112</a>    }
 <a class="jxr_linenumber" name="L113" href="#L113">113</a> 
@@ -129,9 +129,9 @@
 <a class="jxr_linenumber" name="L121" href="#L121">121</a> <em class="jxr_javadoccomment">    * behavior you want from special tokens, feel free to modify this</em>
 <a class="jxr_linenumber" name="L122" href="#L122">122</a> <em class="jxr_javadoccomment">    * method.</em>
 <a class="jxr_linenumber" name="L123" href="#L123">123</a> <em class="jxr_javadoccomment">    */</em>
-<a class="jxr_linenumber" name="L124" href="#L124">124</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> visit(<a href="../../../../../com/randomnoun/common/jexl/ast/NodeToken.html">NodeToken</a> n) {
+<a class="jxr_linenumber" name="L124" href="#L124">124</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> visit(<a name="NodeToken" href="../../../../../com/randomnoun/common/jexl/ast/NodeToken.html#NodeToken">NodeToken</a> n) {
 <a class="jxr_linenumber" name="L125" href="#L125">125</a>       <strong class="jxr_keyword">for</strong> ( Enumeration&lt;FormatCommand&gt; e = cmdQueue.elements(); e.hasMoreElements(); ) {
-<a class="jxr_linenumber" name="L126" href="#L126">126</a>          <a href="../../../../../com/randomnoun/common/jexl/visitor/TreeFormatter.html">FormatCommand</a> cmd = e.nextElement();
+<a class="jxr_linenumber" name="L126" href="#L126">126</a>          <a name="FormatCommand" href="../../../../../com/randomnoun/common/jexl/visitor/TreeFormatter.html#FormatCommand">FormatCommand</a> cmd = e.nextElement();
 <a class="jxr_linenumber" name="L127" href="#L127">127</a>          <strong class="jxr_keyword">switch</strong> ( cmd.getCommand() ) {
 <a class="jxr_linenumber" name="L128" href="#L128">128</a>          <strong class="jxr_keyword">case</strong> FormatCommand.FORCE :
 <a class="jxr_linenumber" name="L129" href="#L129">129</a>             curLine += cmd.getNumCommands();
@@ -148,7 +148,7 @@
 <a class="jxr_linenumber" name="L140" href="#L140">140</a>             curColumn += cmd.getNumCommands();
 <a class="jxr_linenumber" name="L141" href="#L141">141</a>             <strong class="jxr_keyword">break</strong>;
 <a class="jxr_linenumber" name="L142" href="#L142">142</a>          <strong class="jxr_keyword">default</strong> :
-<a class="jxr_linenumber" name="L143" href="#L143">143</a>             <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> <a href="../../../../../com/randomnoun/common/jexl/visitor/TreeFormatter.html">TreeFormatterException</a>(
+<a class="jxr_linenumber" name="L143" href="#L143">143</a>             <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> <a name="TreeFormatterException" href="../../../../../com/randomnoun/common/jexl/visitor/TreeFormatter.html#TreeFormatterException">TreeFormatterException</a>(
 <a class="jxr_linenumber" name="L144" href="#L144">144</a>                <span class="jxr_string">"Invalid value in command queue."</span>);
 <a class="jxr_linenumber" name="L145" href="#L145">145</a>          }
 <a class="jxr_linenumber" name="L146" href="#L146">146</a>       }
@@ -161,7 +161,7 @@
 <a class="jxr_linenumber" name="L153" href="#L153">153</a>       <strong class="jxr_keyword">if</strong> ( n.numSpecials() &gt; 0 )
 <a class="jxr_linenumber" name="L154" href="#L154">154</a>          <strong class="jxr_keyword">for</strong> ( Enumeration&lt;NodeToken&gt; e = n.specialTokens.elements();
 <a class="jxr_linenumber" name="L155" href="#L155">155</a>                e.hasMoreElements(); ) {
-<a class="jxr_linenumber" name="L156" href="#L156">156</a>             <a href="../../../../../com/randomnoun/common/jexl/ast/NodeToken.html">NodeToken</a> special = e.nextElement();
+<a class="jxr_linenumber" name="L156" href="#L156">156</a>             <a name="NodeToken" href="../../../../../com/randomnoun/common/jexl/ast/NodeToken.html#NodeToken">NodeToken</a> special = e.nextElement();
 <a class="jxr_linenumber" name="L157" href="#L157">157</a> 
 <a class="jxr_linenumber" name="L158" href="#L158">158</a>             <em class="jxr_comment">//</em>
 <a class="jxr_linenumber" name="L159" href="#L159">159</a>             <em class="jxr_comment">// -Place the token.</em>
@@ -182,7 +182,7 @@
 <a class="jxr_linenumber" name="L174" href="#L174">174</a> <em class="jxr_javadoccomment">    * information into the NodeToken.  Takes into account line-wrap.</em>
 <a class="jxr_linenumber" name="L175" href="#L175">175</a> <em class="jxr_javadoccomment">    * Does not update curLine and curColumn.</em>
 <a class="jxr_linenumber" name="L176" href="#L176">176</a> <em class="jxr_javadoccomment">    */</em>
-<a class="jxr_linenumber" name="L177" href="#L177">177</a>    <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">void</strong> placeToken(<a href="../../../../../com/randomnoun/common/jexl/ast/NodeToken.html">NodeToken</a> n, <strong class="jxr_keyword">int</strong> line, <strong class="jxr_keyword">int</strong> column) {
+<a class="jxr_linenumber" name="L177" href="#L177">177</a>    <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">void</strong> placeToken(<a name="NodeToken" href="../../../../../com/randomnoun/common/jexl/ast/NodeToken.html#NodeToken">NodeToken</a> n, <strong class="jxr_keyword">int</strong> line, <strong class="jxr_keyword">int</strong> column) {
 <a class="jxr_linenumber" name="L178" href="#L178">178</a>       <strong class="jxr_keyword">int</strong> length = n.tokenImage.length();
 <a class="jxr_linenumber" name="L179" href="#L179">179</a> 
 <a class="jxr_linenumber" name="L180" href="#L180">180</a>       <em class="jxr_comment">//</em>
@@ -225,7 +225,7 @@
 <a class="jxr_linenumber" name="L217" href="#L217">217</a> <em class="jxr_javadoccomment">    * nodeToken -&gt; &amp;lt;EOF&amp;gt;</em>
 <a class="jxr_linenumber" name="L218" href="#L218">218</a> <em class="jxr_javadoccomment">    * &lt;/PRE&gt;</em>
 <a class="jxr_linenumber" name="L219" href="#L219">219</a> <em class="jxr_javadoccomment">    */</em>
-<a class="jxr_linenumber" name="L220" href="#L220">220</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> visit(<a href="../../../../../com/randomnoun/common/jexl/ast/TopLevelExpression.html">TopLevelExpression</a> n) {
+<a class="jxr_linenumber" name="L220" href="#L220">220</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> visit(<a name="TopLevelExpression" href="../../../../../com/randomnoun/common/jexl/ast/TopLevelExpression.html#TopLevelExpression">TopLevelExpression</a> n) {
 <a class="jxr_linenumber" name="L221" href="#L221">221</a>       n.expression.accept(<strong class="jxr_keyword">this</strong>);
 <a class="jxr_linenumber" name="L222" href="#L222">222</a>       n.nodeToken.accept(<strong class="jxr_keyword">this</strong>);
 <a class="jxr_linenumber" name="L223" href="#L223">223</a>    }
@@ -236,7 +236,7 @@
 <a class="jxr_linenumber" name="L228" href="#L228">228</a> <em class="jxr_javadoccomment">    * nodeListOptional -&gt; ( "||" ConditionalAndExpression() )*</em>
 <a class="jxr_linenumber" name="L229" href="#L229">229</a> <em class="jxr_javadoccomment">    * &lt;/PRE&gt;</em>
 <a class="jxr_linenumber" name="L230" href="#L230">230</a> <em class="jxr_javadoccomment">    */</em>
-<a class="jxr_linenumber" name="L231" href="#L231">231</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> visit(<a href="../../../../../com/randomnoun/common/jexl/ast/Expression.html">Expression</a> n) {
+<a class="jxr_linenumber" name="L231" href="#L231">231</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> visit(<a name="Expression" href="../../../../../com/randomnoun/common/jexl/ast/Expression.html#Expression">Expression</a> n) {
 <a class="jxr_linenumber" name="L232" href="#L232">232</a>       n.conditionalAndExpression.accept(<strong class="jxr_keyword">this</strong>);
 <a class="jxr_linenumber" name="L233" href="#L233">233</a>       <strong class="jxr_keyword">if</strong> ( n.nodeListOptional.present() ) {
 <a class="jxr_linenumber" name="L234" href="#L234">234</a>          processList(n.nodeListOptional);
@@ -249,7 +249,7 @@
 <a class="jxr_linenumber" name="L241" href="#L241">241</a> <em class="jxr_javadoccomment">    * nodeListOptional -&gt; ( "&amp;&amp;" EqualityExpression() )*</em>
 <a class="jxr_linenumber" name="L242" href="#L242">242</a> <em class="jxr_javadoccomment">    * &lt;/PRE&gt;</em>
 <a class="jxr_linenumber" name="L243" href="#L243">243</a> <em class="jxr_javadoccomment">    */</em>
-<a class="jxr_linenumber" name="L244" href="#L244">244</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> visit(<a href="../../../../../com/randomnoun/common/jexl/ast/ConditionalAndExpression.html">ConditionalAndExpression</a> n) {
+<a class="jxr_linenumber" name="L244" href="#L244">244</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> visit(<a name="ConditionalAndExpression" href="../../../../../com/randomnoun/common/jexl/ast/ConditionalAndExpression.html#ConditionalAndExpression">ConditionalAndExpression</a> n) {
 <a class="jxr_linenumber" name="L245" href="#L245">245</a>       n.equalityExpression.accept(<strong class="jxr_keyword">this</strong>);
 <a class="jxr_linenumber" name="L246" href="#L246">246</a>       <strong class="jxr_keyword">if</strong> ( n.nodeListOptional.present() ) {
 <a class="jxr_linenumber" name="L247" href="#L247">247</a>          processList(n.nodeListOptional);
@@ -262,7 +262,7 @@
 <a class="jxr_linenumber" name="L254" href="#L254">254</a> <em class="jxr_javadoccomment">    * nodeListOptional -&gt; ( ( "==" | "!=" ) RelationalExpression() )*</em>
 <a class="jxr_linenumber" name="L255" href="#L255">255</a> <em class="jxr_javadoccomment">    * &lt;/PRE&gt;</em>
 <a class="jxr_linenumber" name="L256" href="#L256">256</a> <em class="jxr_javadoccomment">    */</em>
-<a class="jxr_linenumber" name="L257" href="#L257">257</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> visit(<a href="../../../../../com/randomnoun/common/jexl/ast/EqualityExpression.html">EqualityExpression</a> n) {
+<a class="jxr_linenumber" name="L257" href="#L257">257</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> visit(<a name="EqualityExpression" href="../../../../../com/randomnoun/common/jexl/ast/EqualityExpression.html#EqualityExpression">EqualityExpression</a> n) {
 <a class="jxr_linenumber" name="L258" href="#L258">258</a>       n.relationalExpression.accept(<strong class="jxr_keyword">this</strong>);
 <a class="jxr_linenumber" name="L259" href="#L259">259</a>       <strong class="jxr_keyword">if</strong> ( n.nodeListOptional.present() ) {
 <a class="jxr_linenumber" name="L260" href="#L260">260</a>          processList(n.nodeListOptional);
@@ -275,7 +275,7 @@
 <a class="jxr_linenumber" name="L267" href="#L267">267</a> <em class="jxr_javadoccomment">    * nodeListOptional -&gt; ( ( "&amp;lt;" | "&amp;gt;" | "&amp;lt;=" | "&amp;gt;=" ) AdditiveExpression() )*</em>
 <a class="jxr_linenumber" name="L268" href="#L268">268</a> <em class="jxr_javadoccomment">    * &lt;/PRE&gt;</em>
 <a class="jxr_linenumber" name="L269" href="#L269">269</a> <em class="jxr_javadoccomment">    */</em>
-<a class="jxr_linenumber" name="L270" href="#L270">270</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> visit(<a href="../../../../../com/randomnoun/common/jexl/ast/RelationalExpression.html">RelationalExpression</a> n) {
+<a class="jxr_linenumber" name="L270" href="#L270">270</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> visit(<a name="RelationalExpression" href="../../../../../com/randomnoun/common/jexl/ast/RelationalExpression.html#RelationalExpression">RelationalExpression</a> n) {
 <a class="jxr_linenumber" name="L271" href="#L271">271</a>       n.additiveExpression.accept(<strong class="jxr_keyword">this</strong>);
 <a class="jxr_linenumber" name="L272" href="#L272">272</a>       <strong class="jxr_keyword">if</strong> ( n.nodeListOptional.present() ) {
 <a class="jxr_linenumber" name="L273" href="#L273">273</a>          processList(n.nodeListOptional);
@@ -288,7 +288,7 @@
 <a class="jxr_linenumber" name="L280" href="#L280">280</a> <em class="jxr_javadoccomment">    * nodeListOptional -&gt; ( ( "+" | "-" ) MultiplicativeExpression() )*</em>
 <a class="jxr_linenumber" name="L281" href="#L281">281</a> <em class="jxr_javadoccomment">    * &lt;/PRE&gt;</em>
 <a class="jxr_linenumber" name="L282" href="#L282">282</a> <em class="jxr_javadoccomment">    */</em>
-<a class="jxr_linenumber" name="L283" href="#L283">283</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> visit(<a href="../../../../../com/randomnoun/common/jexl/ast/AdditiveExpression.html">AdditiveExpression</a> n) {
+<a class="jxr_linenumber" name="L283" href="#L283">283</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> visit(<a name="AdditiveExpression" href="../../../../../com/randomnoun/common/jexl/ast/AdditiveExpression.html#AdditiveExpression">AdditiveExpression</a> n) {
 <a class="jxr_linenumber" name="L284" href="#L284">284</a>       n.multiplicativeExpression.accept(<strong class="jxr_keyword">this</strong>);
 <a class="jxr_linenumber" name="L285" href="#L285">285</a>       <strong class="jxr_keyword">if</strong> ( n.nodeListOptional.present() ) {
 <a class="jxr_linenumber" name="L286" href="#L286">286</a>          processList(n.nodeListOptional);
@@ -301,7 +301,7 @@
 <a class="jxr_linenumber" name="L293" href="#L293">293</a> <em class="jxr_javadoccomment">    * nodeListOptional -&gt; ( ( "*" | "/" | "%" ) UnaryExpression() )*</em>
 <a class="jxr_linenumber" name="L294" href="#L294">294</a> <em class="jxr_javadoccomment">    * &lt;/PRE&gt;</em>
 <a class="jxr_linenumber" name="L295" href="#L295">295</a> <em class="jxr_javadoccomment">    */</em>
-<a class="jxr_linenumber" name="L296" href="#L296">296</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> visit(<a href="../../../../../com/randomnoun/common/jexl/ast/MultiplicativeExpression.html">MultiplicativeExpression</a> n) {
+<a class="jxr_linenumber" name="L296" href="#L296">296</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> visit(<a name="MultiplicativeExpression" href="../../../../../com/randomnoun/common/jexl/ast/MultiplicativeExpression.html#MultiplicativeExpression">MultiplicativeExpression</a> n) {
 <a class="jxr_linenumber" name="L297" href="#L297">297</a>       n.unaryExpression.accept(<strong class="jxr_keyword">this</strong>);
 <a class="jxr_linenumber" name="L298" href="#L298">298</a>       <strong class="jxr_keyword">if</strong> ( n.nodeListOptional.present() ) {
 <a class="jxr_linenumber" name="L299" href="#L299">299</a>          processList(n.nodeListOptional);
@@ -314,7 +314,7 @@
 <a class="jxr_linenumber" name="L306" href="#L306">306</a> <em class="jxr_javadoccomment">    *       | PrimaryExpression()</em>
 <a class="jxr_linenumber" name="L307" href="#L307">307</a> <em class="jxr_javadoccomment">    * &lt;/PRE&gt;</em>
 <a class="jxr_linenumber" name="L308" href="#L308">308</a> <em class="jxr_javadoccomment">    */</em>
-<a class="jxr_linenumber" name="L309" href="#L309">309</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> visit(<a href="../../../../../com/randomnoun/common/jexl/ast/UnaryExpression.html">UnaryExpression</a> n) {
+<a class="jxr_linenumber" name="L309" href="#L309">309</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> visit(<a name="UnaryExpression" href="../../../../../com/randomnoun/common/jexl/ast/UnaryExpression.html#UnaryExpression">UnaryExpression</a> n) {
 <a class="jxr_linenumber" name="L310" href="#L310">310</a>       n.nodeChoice.accept(<strong class="jxr_keyword">this</strong>);
 <a class="jxr_linenumber" name="L311" href="#L311">311</a>    }
 <a class="jxr_linenumber" name="L312" href="#L312">312</a> 
@@ -326,7 +326,7 @@
 <a class="jxr_linenumber" name="L318" href="#L318">318</a> <em class="jxr_javadoccomment">    *       | "(" Expression() ")"</em>
 <a class="jxr_linenumber" name="L319" href="#L319">319</a> <em class="jxr_javadoccomment">    * &lt;/PRE&gt;</em>
 <a class="jxr_linenumber" name="L320" href="#L320">320</a> <em class="jxr_javadoccomment">    */</em>
-<a class="jxr_linenumber" name="L321" href="#L321">321</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> visit(<a href="../../../../../com/randomnoun/common/jexl/ast/PrimaryExpression.html">PrimaryExpression</a> n) {
+<a class="jxr_linenumber" name="L321" href="#L321">321</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> visit(<a name="PrimaryExpression" href="../../../../../com/randomnoun/common/jexl/ast/PrimaryExpression.html#PrimaryExpression">PrimaryExpression</a> n) {
 <a class="jxr_linenumber" name="L322" href="#L322">322</a>       n.nodeChoice.accept(<strong class="jxr_keyword">this</strong>);
 <a class="jxr_linenumber" name="L323" href="#L323">323</a>    }
 <a class="jxr_linenumber" name="L324" href="#L324">324</a> 
@@ -336,7 +336,7 @@
 <a class="jxr_linenumber" name="L328" href="#L328">328</a> <em class="jxr_javadoccomment">    * nodeListOptional -&gt; ( "." &amp;lt;IDENTIFIER&amp;gt; )*</em>
 <a class="jxr_linenumber" name="L329" href="#L329">329</a> <em class="jxr_javadoccomment">    * &lt;/PRE&gt;</em>
 <a class="jxr_linenumber" name="L330" href="#L330">330</a> <em class="jxr_javadoccomment">    */</em>
-<a class="jxr_linenumber" name="L331" href="#L331">331</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> visit(<a href="../../../../../com/randomnoun/common/jexl/ast/Name.html">Name</a> n) {
+<a class="jxr_linenumber" name="L331" href="#L331">331</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> visit(<a name="Name" href="../../../../../com/randomnoun/common/jexl/ast/Name.html#Name">Name</a> n) {
 <a class="jxr_linenumber" name="L332" href="#L332">332</a>       n.nodeToken.accept(<strong class="jxr_keyword">this</strong>);
 <a class="jxr_linenumber" name="L333" href="#L333">333</a>       <strong class="jxr_keyword">if</strong> ( n.nodeListOptional.present() ) {
 <a class="jxr_linenumber" name="L334" href="#L334">334</a>          processList(n.nodeListOptional);
@@ -349,7 +349,7 @@
 <a class="jxr_linenumber" name="L341" href="#L341">341</a> <em class="jxr_javadoccomment">    * arguments -&gt; Arguments()</em>
 <a class="jxr_linenumber" name="L342" href="#L342">342</a> <em class="jxr_javadoccomment">    * &lt;/PRE&gt;</em>
 <a class="jxr_linenumber" name="L343" href="#L343">343</a> <em class="jxr_javadoccomment">    */</em>
-<a class="jxr_linenumber" name="L344" href="#L344">344</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> visit(<a href="../../../../../com/randomnoun/common/jexl/ast/FunctionCall.html">FunctionCall</a> n) {
+<a class="jxr_linenumber" name="L344" href="#L344">344</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> visit(<a name="FunctionCall" href="../../../../../com/randomnoun/common/jexl/ast/FunctionCall.html#FunctionCall">FunctionCall</a> n) {
 <a class="jxr_linenumber" name="L345" href="#L345">345</a>       n.nodeToken.accept(<strong class="jxr_keyword">this</strong>);
 <a class="jxr_linenumber" name="L346" href="#L346">346</a>       n.arguments.accept(<strong class="jxr_keyword">this</strong>);
 <a class="jxr_linenumber" name="L347" href="#L347">347</a>    }
@@ -361,7 +361,7 @@
 <a class="jxr_linenumber" name="L353" href="#L353">353</a> <em class="jxr_javadoccomment">    * nodeToken1 -&gt; ")"</em>
 <a class="jxr_linenumber" name="L354" href="#L354">354</a> <em class="jxr_javadoccomment">    * &lt;/PRE&gt;</em>
 <a class="jxr_linenumber" name="L355" href="#L355">355</a> <em class="jxr_javadoccomment">    */</em>
-<a class="jxr_linenumber" name="L356" href="#L356">356</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> visit(<a href="../../../../../com/randomnoun/common/jexl/ast/Arguments.html">Arguments</a> n) {
+<a class="jxr_linenumber" name="L356" href="#L356">356</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> visit(<a name="Arguments" href="../../../../../com/randomnoun/common/jexl/ast/Arguments.html#Arguments">Arguments</a> n) {
 <a class="jxr_linenumber" name="L357" href="#L357">357</a>       n.nodeToken.accept(<strong class="jxr_keyword">this</strong>);
 <a class="jxr_linenumber" name="L358" href="#L358">358</a>       <strong class="jxr_keyword">if</strong> ( n.nodeOptional.present() ) {
 <a class="jxr_linenumber" name="L359" href="#L359">359</a>          n.nodeOptional.accept(<strong class="jxr_keyword">this</strong>);
@@ -375,7 +375,7 @@
 <a class="jxr_linenumber" name="L367" href="#L367">367</a> <em class="jxr_javadoccomment">    * nodeListOptional -&gt; ( "," Expression() )*</em>
 <a class="jxr_linenumber" name="L368" href="#L368">368</a> <em class="jxr_javadoccomment">    * &lt;/PRE&gt;</em>
 <a class="jxr_linenumber" name="L369" href="#L369">369</a> <em class="jxr_javadoccomment">    */</em>
-<a class="jxr_linenumber" name="L370" href="#L370">370</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> visit(<a href="../../../../../com/randomnoun/common/jexl/ast/ArgumentList.html">ArgumentList</a> n) {
+<a class="jxr_linenumber" name="L370" href="#L370">370</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> visit(<a name="ArgumentList" href="../../../../../com/randomnoun/common/jexl/ast/ArgumentList.html#ArgumentList">ArgumentList</a> n) {
 <a class="jxr_linenumber" name="L371" href="#L371">371</a>       n.expression.accept(<strong class="jxr_keyword">this</strong>);
 <a class="jxr_linenumber" name="L372" href="#L372">372</a>       <strong class="jxr_keyword">if</strong> ( n.nodeListOptional.present() ) {
 <a class="jxr_linenumber" name="L373" href="#L373">373</a>          processList(n.nodeListOptional);
@@ -392,7 +392,7 @@
 <a class="jxr_linenumber" name="L384" href="#L384">384</a> <em class="jxr_javadoccomment">    *       | NullLiteral()</em>
 <a class="jxr_linenumber" name="L385" href="#L385">385</a> <em class="jxr_javadoccomment">    * &lt;/PRE&gt;</em>
 <a class="jxr_linenumber" name="L386" href="#L386">386</a> <em class="jxr_javadoccomment">    */</em>
-<a class="jxr_linenumber" name="L387" href="#L387">387</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> visit(<a href="../../../../../com/randomnoun/common/jexl/ast/Literal.html">Literal</a> n) {
+<a class="jxr_linenumber" name="L387" href="#L387">387</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> visit(<a name="Literal" href="../../../../../com/randomnoun/common/jexl/ast/Literal.html#Literal">Literal</a> n) {
 <a class="jxr_linenumber" name="L388" href="#L388">388</a>       n.nodeChoice.accept(<strong class="jxr_keyword">this</strong>);
 <a class="jxr_linenumber" name="L389" href="#L389">389</a>    }
 <a class="jxr_linenumber" name="L390" href="#L390">390</a> 
@@ -402,7 +402,7 @@
 <a class="jxr_linenumber" name="L394" href="#L394">394</a> <em class="jxr_javadoccomment">    *       | "false"</em>
 <a class="jxr_linenumber" name="L395" href="#L395">395</a> <em class="jxr_javadoccomment">    * &lt;/PRE&gt;</em>
 <a class="jxr_linenumber" name="L396" href="#L396">396</a> <em class="jxr_javadoccomment">    */</em>
-<a class="jxr_linenumber" name="L397" href="#L397">397</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> visit(<a href="../../../../../com/randomnoun/common/jexl/ast/BooleanLiteral.html">BooleanLiteral</a> n) {
+<a class="jxr_linenumber" name="L397" href="#L397">397</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> visit(<a name="BooleanLiteral" href="../../../../../com/randomnoun/common/jexl/ast/BooleanLiteral.html#BooleanLiteral">BooleanLiteral</a> n) {
 <a class="jxr_linenumber" name="L398" href="#L398">398</a>       n.nodeChoice.accept(<strong class="jxr_keyword">this</strong>);
 <a class="jxr_linenumber" name="L399" href="#L399">399</a>    }
 <a class="jxr_linenumber" name="L400" href="#L400">400</a> 
@@ -411,13 +411,13 @@
 <a class="jxr_linenumber" name="L403" href="#L403">403</a> <em class="jxr_javadoccomment">    * nodeToken -&gt; "null"</em>
 <a class="jxr_linenumber" name="L404" href="#L404">404</a> <em class="jxr_javadoccomment">    * &lt;/PRE&gt;</em>
 <a class="jxr_linenumber" name="L405" href="#L405">405</a> <em class="jxr_javadoccomment">    */</em>
-<a class="jxr_linenumber" name="L406" href="#L406">406</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> visit(<a href="../../../../../com/randomnoun/common/jexl/ast/NullLiteral.html">NullLiteral</a> n) {
+<a class="jxr_linenumber" name="L406" href="#L406">406</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> visit(<a name="NullLiteral" href="../../../../../com/randomnoun/common/jexl/ast/NullLiteral.html#NullLiteral">NullLiteral</a> n) {
 <a class="jxr_linenumber" name="L407" href="#L407">407</a>       n.nodeToken.accept(<strong class="jxr_keyword">this</strong>);
 <a class="jxr_linenumber" name="L408" href="#L408">408</a>    }
 <a class="jxr_linenumber" name="L409" href="#L409">409</a> 
 <a class="jxr_linenumber" name="L410" href="#L410">410</a> }
 <a class="jxr_linenumber" name="L411" href="#L411">411</a> 
-<a class="jxr_linenumber" name="L412" href="#L412">412</a> <strong class="jxr_keyword">class</strong> <a href="../../../../../com/randomnoun/common/jexl/visitor/TreeFormatter.html">FormatCommand</a> {
+<a class="jxr_linenumber" name="L412" href="#L412">412</a> <strong class="jxr_keyword">class</strong> <a name="FormatCommand" href="../../../../../com/randomnoun/common/jexl/visitor/TreeFormatter.html#FormatCommand">FormatCommand</a> {
 <a class="jxr_linenumber" name="L413" href="#L413">413</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong> FORCE = 0;
 <a class="jxr_linenumber" name="L414" href="#L414">414</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong> INDENT = 1;
 <a class="jxr_linenumber" name="L415" href="#L415">415</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong> OUTDENT = 2;
@@ -426,7 +426,7 @@
 <a class="jxr_linenumber" name="L418" href="#L418">418</a>    <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">int</strong> command;
 <a class="jxr_linenumber" name="L419" href="#L419">419</a>    <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">int</strong> numCommands;
 <a class="jxr_linenumber" name="L420" href="#L420">420</a> 
-<a class="jxr_linenumber" name="L421" href="#L421">421</a>    <a href="../../../../../com/randomnoun/common/jexl/visitor/TreeFormatter.html">FormatCommand</a>(<strong class="jxr_keyword">int</strong> command, <strong class="jxr_keyword">int</strong> numCommands) {
+<a class="jxr_linenumber" name="L421" href="#L421">421</a>    <a name="FormatCommand" href="../../../../../com/randomnoun/common/jexl/visitor/TreeFormatter.html#FormatCommand">FormatCommand</a>(<strong class="jxr_keyword">int</strong> command, <strong class="jxr_keyword">int</strong> numCommands) {
 <a class="jxr_linenumber" name="L422" href="#L422">422</a>       <strong class="jxr_keyword">this</strong>.command = command;
 <a class="jxr_linenumber" name="L423" href="#L423">423</a>       <strong class="jxr_keyword">this</strong>.numCommands = numCommands;
 <a class="jxr_linenumber" name="L424" href="#L424">424</a>    }
@@ -437,9 +437,9 @@
 <a class="jxr_linenumber" name="L429" href="#L429">429</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setNumCommands(<strong class="jxr_keyword">int</strong> i)   { numCommands = i; }
 <a class="jxr_linenumber" name="L430" href="#L430">430</a> }
 <a class="jxr_linenumber" name="L431" href="#L431">431</a> 
-<a class="jxr_linenumber" name="L432" href="#L432">432</a> <strong class="jxr_keyword">class</strong> <a href="../../../../../com/randomnoun/common/jexl/visitor/TreeFormatter.html">TreeFormatterException</a> <strong class="jxr_keyword">extends</strong> RuntimeException {
-<a class="jxr_linenumber" name="L433" href="#L433">433</a>    <a href="../../../../../com/randomnoun/common/jexl/visitor/TreeFormatter.html">TreeFormatterException</a>()         { <strong class="jxr_keyword">super</strong>(); }
-<a class="jxr_linenumber" name="L434" href="#L434">434</a>    <a href="../../../../../com/randomnoun/common/jexl/visitor/TreeFormatter.html">TreeFormatterException</a>(String s) { <strong class="jxr_keyword">super</strong>(s); }
+<a class="jxr_linenumber" name="L432" href="#L432">432</a> <strong class="jxr_keyword">class</strong> <a name="TreeFormatterException" href="../../../../../com/randomnoun/common/jexl/visitor/TreeFormatter.html#TreeFormatterException">TreeFormatterException</a> <strong class="jxr_keyword">extends</strong> RuntimeException {
+<a class="jxr_linenumber" name="L433" href="#L433">433</a>    <a name="TreeFormatterException" href="../../../../../com/randomnoun/common/jexl/visitor/TreeFormatter.html#TreeFormatterException">TreeFormatterException</a>()         { <strong class="jxr_keyword">super</strong>(); }
+<a class="jxr_linenumber" name="L434" href="#L434">434</a>    <a name="TreeFormatterException" href="../../../../../com/randomnoun/common/jexl/visitor/TreeFormatter.html#TreeFormatterException">TreeFormatterException</a>(String s) { <strong class="jxr_keyword">super</strong>(s); }
 <a class="jxr_linenumber" name="L435" href="#L435">435</a> }
 </pre>
 <hr/>

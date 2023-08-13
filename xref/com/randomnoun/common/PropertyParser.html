@@ -9,7 +9,7 @@
 <a class="jxr_linenumber" name="L1" href="#L1">1</a>   <strong class="jxr_keyword">package</strong> com.randomnoun.common;
 <a class="jxr_linenumber" name="L2" href="#L2">2</a>   
 <a class="jxr_linenumber" name="L3" href="#L3">3</a>   <em class="jxr_comment">/* (c) 2013 randomnoun. All Rights Reserved. This work is licensed under a</em>
-<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <em class="jxr_comment"> * BSD Simplified License. (<a href="http://www.randomnoun.com/bsd-simplified.html" target="alexandria_uri">http://www.randomnoun.com/bsd-simplified.html</a>)</em>
+<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <em class="jxr_comment"> * BSD Simplified License. (<a href="http://www.randomnoun.com/bsd-simplified.html)" target="alexandria_uri">http://www.randomnoun.com/bsd-simplified.html)</a></em>
 <a class="jxr_linenumber" name="L5" href="#L5">5</a>   <em class="jxr_comment"> */</em>
 <a class="jxr_linenumber" name="L6" href="#L6">6</a>   <strong class="jxr_keyword">import</strong> java.io.FileReader;
 <a class="jxr_linenumber" name="L7" href="#L7">7</a>   <strong class="jxr_keyword">import</strong> java.io.IOException;
@@ -148,7 +148,7 @@
 <a class="jxr_linenumber" name="L140" href="#L140">140</a> <em class="jxr_javadoccomment"> * @author  knoxg</em>
 <a class="jxr_linenumber" name="L141" href="#L141">141</a> <em class="jxr_javadoccomment"> * </em>
 <a class="jxr_linenumber" name="L142" href="#L142">142</a> <em class="jxr_javadoccomment"> */</em>
-<a class="jxr_linenumber" name="L143" href="#L143">143</a> <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../com/randomnoun/common/PropertyParser.html">PropertyParser</a> {
+<a class="jxr_linenumber" name="L143" href="#L143">143</a> <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a name="PropertyParser" href="../../../com/randomnoun/common/PropertyParser.html#PropertyParser">PropertyParser</a> {
 <a class="jxr_linenumber" name="L144" href="#L144">144</a> 
 <a class="jxr_linenumber" name="L145" href="#L145">145</a>     <em class="jxr_javadoccomment">/** Logger instance for this class */</em>
 <a class="jxr_linenumber" name="L146" href="#L146">146</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> Logger logger = Logger.getLogger(PropertyParser.<strong class="jxr_keyword">class</strong>.getName());
@@ -181,7 +181,7 @@
 <a class="jxr_linenumber" name="L173" href="#L173">173</a> <em class="jxr_javadoccomment">     * @param reader        The source of the site definition text.</em>
 <a class="jxr_linenumber" name="L174" href="#L174">174</a> <em class="jxr_javadoccomment">     * @param environmentID     The environment ID in which to parse this text.</em>
 <a class="jxr_linenumber" name="L175" href="#L175">175</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="L176" href="#L176">176</a>     <strong class="jxr_keyword">public</strong> <a href="../../../com/randomnoun/common/PropertyParser.html">PropertyParser</a>(Reader reader, String environmentID) {
+<a class="jxr_linenumber" name="L176" href="#L176">176</a>     <strong class="jxr_keyword">public</strong> <a name="PropertyParser" href="../../../com/randomnoun/common/PropertyParser.html#PropertyParser">PropertyParser</a>(Reader reader, String environmentID) {
 <a class="jxr_linenumber" name="L177" href="#L177">177</a>         lineReader = <strong class="jxr_keyword">new</strong> LineNumberReader(reader);
 <a class="jxr_linenumber" name="L178" href="#L178">178</a>         <strong class="jxr_keyword">this</strong>.environmentID = environmentID;
 <a class="jxr_linenumber" name="L179" href="#L179">179</a>     }
@@ -192,7 +192,7 @@
 <a class="jxr_linenumber" name="L184" href="#L184">184</a> <em class="jxr_javadoccomment">     *</em>
 <a class="jxr_linenumber" name="L185" href="#L185">185</a> <em class="jxr_javadoccomment">     * @param reader The source of the site definition text.</em>
 <a class="jxr_linenumber" name="L186" href="#L186">186</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="L187" href="#L187">187</a>     <strong class="jxr_keyword">public</strong> <a href="../../../com/randomnoun/common/PropertyParser.html">PropertyParser</a>(Reader reader) {
+<a class="jxr_linenumber" name="L187" href="#L187">187</a>     <strong class="jxr_keyword">public</strong> <a name="PropertyParser" href="../../../com/randomnoun/common/PropertyParser.html#PropertyParser">PropertyParser</a>(Reader reader) {
 <a class="jxr_linenumber" name="L188" href="#L188">188</a>         <strong class="jxr_keyword">this</strong>(reader, System.getProperty(<span class="jxr_string">"com.randomnoun.common.mode"</span>, <span class="jxr_string">"localhost-dev-unknown"</span>));
 <a class="jxr_linenumber" name="L189" href="#L189">189</a>     }
 <a class="jxr_linenumber" name="L190" href="#L190">190</a> 
@@ -448,7 +448,7 @@
 <a class="jxr_linenumber" name="L440" href="#L440">440</a> 		<strong class="jxr_keyword">if</strong> (inputStream==<strong class="jxr_keyword">null</strong>) {
 <a class="jxr_linenumber" name="L441" href="#L441">441</a> 			<strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> ParseException(<span class="jxr_string">"Could not find included resource '"</span> + resourceName + <span class="jxr_string">"'"</span>, 0);
 <a class="jxr_linenumber" name="L442" href="#L442">442</a> 		}
-<a class="jxr_linenumber" name="L443" href="#L443">443</a> 		PropertyParser propertyParser = <strong class="jxr_keyword">new</strong> <a href="../../../com/randomnoun/common/PropertyParser.html">PropertyParser</a>(<strong class="jxr_keyword">new</strong> InputStreamReader(inputStream), environmentID);
+<a class="jxr_linenumber" name="L443" href="#L443">443</a> 		PropertyParser propertyParser = <strong class="jxr_keyword">new</strong> <a name="PropertyParser" href="../../../com/randomnoun/common/PropertyParser.html#PropertyParser">PropertyParser</a>(<strong class="jxr_keyword">new</strong> InputStreamReader(inputStream), environmentID);
 <a class="jxr_linenumber" name="L444" href="#L444">444</a> 		Properties includedProperties = <strong class="jxr_keyword">new</strong> Properties();
 <a class="jxr_linenumber" name="L445" href="#L445">445</a> 		<strong class="jxr_keyword">try</strong> {
 <a class="jxr_linenumber" name="L446" href="#L446">446</a> 			includedProperties = propertyParser.parse();
@@ -626,7 +626,7 @@
 <a class="jxr_linenumber" name="L618" href="#L618">618</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">void</strong> main(String[] args)
 <a class="jxr_linenumber" name="L619" href="#L619">619</a>         <strong class="jxr_keyword">throws</strong> IOException, ParseException {
 <a class="jxr_linenumber" name="L620" href="#L620">620</a>         String filename = <span class="jxr_string">"test.properties"</span>;
-<a class="jxr_linenumber" name="L621" href="#L621">621</a>         <a href="../../../com/randomnoun/common/PropertyParser.html">PropertyParser</a> propertyParser;
+<a class="jxr_linenumber" name="L621" href="#L621">621</a>         <a name="PropertyParser" href="../../../com/randomnoun/common/PropertyParser.html#PropertyParser">PropertyParser</a> propertyParser;
 <a class="jxr_linenumber" name="L622" href="#L622">622</a> 
 <a class="jxr_linenumber" name="L623" href="#L623">623</a>         <strong class="jxr_keyword">if</strong> (args.length != 1) {
 <a class="jxr_linenumber" name="L624" href="#L624">624</a>             System.out.println(<span class="jxr_string">"Reading from '"</span> + filename + <span class="jxr_string">"' by default..."</span>);
@@ -635,7 +635,7 @@
 <a class="jxr_linenumber" name="L627" href="#L627">627</a>         }
 <a class="jxr_linenumber" name="L628" href="#L628">628</a> 
 <a class="jxr_linenumber" name="L629" href="#L629">629</a>         <strong class="jxr_keyword">try</strong> {
-<a class="jxr_linenumber" name="L630" href="#L630">630</a>             propertyParser = <strong class="jxr_keyword">new</strong> <a href="../../../com/randomnoun/common/PropertyParser.html">PropertyParser</a>(<strong class="jxr_keyword">new</strong> FileReader(filename));
+<a class="jxr_linenumber" name="L630" href="#L630">630</a>             propertyParser = <strong class="jxr_keyword">new</strong> <a name="PropertyParser" href="../../../com/randomnoun/common/PropertyParser.html#PropertyParser">PropertyParser</a>(<strong class="jxr_keyword">new</strong> FileReader(filename));
 <a class="jxr_linenumber" name="L631" href="#L631">631</a>             propertyParser.parse();
 <a class="jxr_linenumber" name="L632" href="#L632">632</a>             System.out.println(<span class="jxr_string">"Parse OK"</span>);
 <a class="jxr_linenumber" name="L633" href="#L633">633</a>         } <strong class="jxr_keyword">catch</strong> (ParseException pe) {

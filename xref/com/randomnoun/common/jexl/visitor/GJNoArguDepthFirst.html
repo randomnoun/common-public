@@ -22,7 +22,7 @@
 <a class="jxr_linenumber" name="L14" href="#L14">14</a>     <em class="jxr_comment">//</em>
 <a class="jxr_linenumber" name="L15" href="#L15">15</a>     <em class="jxr_comment">// Auto class visitors--probably don't need to be overridden.</em>
 <a class="jxr_linenumber" name="L16" href="#L16">16</a>     <em class="jxr_comment">//</em>
-<a class="jxr_linenumber" name="L17" href="#L17">17</a>     <strong class="jxr_keyword">public</strong> R visit(<a href="../../../../../com/randomnoun/common/jexl/ast/NodeList.html">NodeList</a> n) {
+<a class="jxr_linenumber" name="L17" href="#L17">17</a>     <strong class="jxr_keyword">public</strong> R visit(<a name="NodeList" href="../../../../../com/randomnoun/common/jexl/ast/NodeList.html#NodeList">NodeList</a> n) {
 <a class="jxr_linenumber" name="L18" href="#L18">18</a>        R _ret=<strong class="jxr_keyword">null</strong>;
 <a class="jxr_linenumber" name="L19" href="#L19">19</a>        <strong class="jxr_keyword">int</strong> _count=0;
 <a class="jxr_linenumber" name="L20" href="#L20">20</a>        <strong class="jxr_keyword">for</strong> ( Enumeration&lt;Node&gt; e = n.elements(); e.hasMoreElements(); ) {
@@ -32,7 +32,7 @@
 <a class="jxr_linenumber" name="L24" href="#L24">24</a>        <strong class="jxr_keyword">return</strong> _ret;
 <a class="jxr_linenumber" name="L25" href="#L25">25</a>     }
 <a class="jxr_linenumber" name="L26" href="#L26">26</a>  
-<a class="jxr_linenumber" name="L27" href="#L27">27</a>     <strong class="jxr_keyword">public</strong> R visit(<a href="../../../../../com/randomnoun/common/jexl/ast/NodeListOptional.html">NodeListOptional</a> n) {
+<a class="jxr_linenumber" name="L27" href="#L27">27</a>     <strong class="jxr_keyword">public</strong> R visit(<a name="NodeListOptional" href="../../../../../com/randomnoun/common/jexl/ast/NodeListOptional.html#NodeListOptional">NodeListOptional</a> n) {
 <a class="jxr_linenumber" name="L28" href="#L28">28</a>        <strong class="jxr_keyword">if</strong> ( n.present() ) {
 <a class="jxr_linenumber" name="L29" href="#L29">29</a>           R _ret=<strong class="jxr_keyword">null</strong>;
 <a class="jxr_linenumber" name="L30" href="#L30">30</a>           <strong class="jxr_keyword">int</strong> _count=0;
@@ -46,14 +46,14 @@
 <a class="jxr_linenumber" name="L38" href="#L38">38</a>           <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">null</strong>;
 <a class="jxr_linenumber" name="L39" href="#L39">39</a>     }
 <a class="jxr_linenumber" name="L40" href="#L40">40</a>  
-<a class="jxr_linenumber" name="L41" href="#L41">41</a>     <strong class="jxr_keyword">public</strong> R visit(<a href="../../../../../com/randomnoun/common/jexl/ast/NodeOptional.html">NodeOptional</a> n) {
+<a class="jxr_linenumber" name="L41" href="#L41">41</a>     <strong class="jxr_keyword">public</strong> R visit(<a name="NodeOptional" href="../../../../../com/randomnoun/common/jexl/ast/NodeOptional.html#NodeOptional">NodeOptional</a> n) {
 <a class="jxr_linenumber" name="L42" href="#L42">42</a>        <strong class="jxr_keyword">if</strong> ( n.present() )
 <a class="jxr_linenumber" name="L43" href="#L43">43</a>           <strong class="jxr_keyword">return</strong> n.node.accept(<strong class="jxr_keyword">this</strong>);
 <a class="jxr_linenumber" name="L44" href="#L44">44</a>        <strong class="jxr_keyword">else</strong>
 <a class="jxr_linenumber" name="L45" href="#L45">45</a>           <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">null</strong>;
 <a class="jxr_linenumber" name="L46" href="#L46">46</a>     }
 <a class="jxr_linenumber" name="L47" href="#L47">47</a>  
-<a class="jxr_linenumber" name="L48" href="#L48">48</a>     <strong class="jxr_keyword">public</strong> R visit(<a href="../../../../../com/randomnoun/common/jexl/ast/NodeSequence.html">NodeSequence</a> n) {
+<a class="jxr_linenumber" name="L48" href="#L48">48</a>     <strong class="jxr_keyword">public</strong> R visit(<a name="NodeSequence" href="../../../../../com/randomnoun/common/jexl/ast/NodeSequence.html#NodeSequence">NodeSequence</a> n) {
 <a class="jxr_linenumber" name="L49" href="#L49">49</a>        R _ret=<strong class="jxr_keyword">null</strong>;
 <a class="jxr_linenumber" name="L50" href="#L50">50</a>        <strong class="jxr_keyword">int</strong> _count=0;
 <a class="jxr_linenumber" name="L51" href="#L51">51</a>        <strong class="jxr_keyword">for</strong> ( Enumeration&lt;Node&gt; e = n.elements(); e.hasMoreElements(); ) {
@@ -63,7 +63,7 @@
 <a class="jxr_linenumber" name="L55" href="#L55">55</a>        <strong class="jxr_keyword">return</strong> _ret;
 <a class="jxr_linenumber" name="L56" href="#L56">56</a>     }
 <a class="jxr_linenumber" name="L57" href="#L57">57</a>  
-<a class="jxr_linenumber" name="L58" href="#L58">58</a>     <strong class="jxr_keyword">public</strong> R visit(<a href="../../../../../com/randomnoun/common/jexl/ast/NodeToken.html">NodeToken</a> n) { <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">null</strong>; }
+<a class="jxr_linenumber" name="L58" href="#L58">58</a>     <strong class="jxr_keyword">public</strong> R visit(<a name="NodeToken" href="../../../../../com/randomnoun/common/jexl/ast/NodeToken.html#NodeToken">NodeToken</a> n) { <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">null</strong>; }
 <a class="jxr_linenumber" name="L59" href="#L59">59</a>  
 <a class="jxr_linenumber" name="L60" href="#L60">60</a>     <em class="jxr_comment">//</em>
 <a class="jxr_linenumber" name="L61" href="#L61">61</a>     <em class="jxr_comment">// User-generated visitor methods below</em>
@@ -75,7 +75,7 @@
 <a class="jxr_linenumber" name="L67" href="#L67">67</a>  <em class="jxr_javadoccomment">    * nodeToken -&gt; &amp;lt;EOF&amp;gt;</em>
 <a class="jxr_linenumber" name="L68" href="#L68">68</a>  <em class="jxr_javadoccomment">    * &lt;/PRE&gt;</em>
 <a class="jxr_linenumber" name="L69" href="#L69">69</a>  <em class="jxr_javadoccomment">    */</em>
-<a class="jxr_linenumber" name="L70" href="#L70">70</a>     <strong class="jxr_keyword">public</strong> R visit(<a href="../../../../../com/randomnoun/common/jexl/ast/TopLevelExpression.html">TopLevelExpression</a> n) {
+<a class="jxr_linenumber" name="L70" href="#L70">70</a>     <strong class="jxr_keyword">public</strong> R visit(<a name="TopLevelExpression" href="../../../../../com/randomnoun/common/jexl/ast/TopLevelExpression.html#TopLevelExpression">TopLevelExpression</a> n) {
 <a class="jxr_linenumber" name="L71" href="#L71">71</a>        R _ret=<strong class="jxr_keyword">null</strong>;
 <a class="jxr_linenumber" name="L72" href="#L72">72</a>        n.expression.accept(<strong class="jxr_keyword">this</strong>);
 <a class="jxr_linenumber" name="L73" href="#L73">73</a>        n.nodeToken.accept(<strong class="jxr_keyword">this</strong>);
@@ -88,7 +88,7 @@
 <a class="jxr_linenumber" name="L80" href="#L80">80</a>  <em class="jxr_javadoccomment">    * nodeListOptional -&gt; ( "||" ConditionalAndExpression() )*</em>
 <a class="jxr_linenumber" name="L81" href="#L81">81</a>  <em class="jxr_javadoccomment">    * &lt;/PRE&gt;</em>
 <a class="jxr_linenumber" name="L82" href="#L82">82</a>  <em class="jxr_javadoccomment">    */</em>
-<a class="jxr_linenumber" name="L83" href="#L83">83</a>     <strong class="jxr_keyword">public</strong> R visit(<a href="../../../../../com/randomnoun/common/jexl/ast/Expression.html">Expression</a> n) {
+<a class="jxr_linenumber" name="L83" href="#L83">83</a>     <strong class="jxr_keyword">public</strong> R visit(<a name="Expression" href="../../../../../com/randomnoun/common/jexl/ast/Expression.html#Expression">Expression</a> n) {
 <a class="jxr_linenumber" name="L84" href="#L84">84</a>        R _ret=<strong class="jxr_keyword">null</strong>;
 <a class="jxr_linenumber" name="L85" href="#L85">85</a>        n.conditionalAndExpression.accept(<strong class="jxr_keyword">this</strong>);
 <a class="jxr_linenumber" name="L86" href="#L86">86</a>        n.nodeListOptional.accept(<strong class="jxr_keyword">this</strong>);
@@ -101,7 +101,7 @@
 <a class="jxr_linenumber" name="L93" href="#L93">93</a>  <em class="jxr_javadoccomment">    * nodeListOptional -&gt; ( "&amp;&amp;" EqualityExpression() )*</em>
 <a class="jxr_linenumber" name="L94" href="#L94">94</a>  <em class="jxr_javadoccomment">    * &lt;/PRE&gt;</em>
 <a class="jxr_linenumber" name="L95" href="#L95">95</a>  <em class="jxr_javadoccomment">    */</em>
-<a class="jxr_linenumber" name="L96" href="#L96">96</a>     <strong class="jxr_keyword">public</strong> R visit(<a href="../../../../../com/randomnoun/common/jexl/ast/ConditionalAndExpression.html">ConditionalAndExpression</a> n) {
+<a class="jxr_linenumber" name="L96" href="#L96">96</a>     <strong class="jxr_keyword">public</strong> R visit(<a name="ConditionalAndExpression" href="../../../../../com/randomnoun/common/jexl/ast/ConditionalAndExpression.html#ConditionalAndExpression">ConditionalAndExpression</a> n) {
 <a class="jxr_linenumber" name="L97" href="#L97">97</a>        R _ret=<strong class="jxr_keyword">null</strong>;
 <a class="jxr_linenumber" name="L98" href="#L98">98</a>        n.equalityExpression.accept(<strong class="jxr_keyword">this</strong>);
 <a class="jxr_linenumber" name="L99" href="#L99">99</a>        n.nodeListOptional.accept(<strong class="jxr_keyword">this</strong>);
@@ -114,7 +114,7 @@
 <a class="jxr_linenumber" name="L106" href="#L106">106</a> <em class="jxr_javadoccomment">    * nodeListOptional -&gt; ( ( "==" | "!=" ) RelationalExpression() )*</em>
 <a class="jxr_linenumber" name="L107" href="#L107">107</a> <em class="jxr_javadoccomment">    * &lt;/PRE&gt;</em>
 <a class="jxr_linenumber" name="L108" href="#L108">108</a> <em class="jxr_javadoccomment">    */</em>
-<a class="jxr_linenumber" name="L109" href="#L109">109</a>    <strong class="jxr_keyword">public</strong> R visit(<a href="../../../../../com/randomnoun/common/jexl/ast/EqualityExpression.html">EqualityExpression</a> n) {
+<a class="jxr_linenumber" name="L109" href="#L109">109</a>    <strong class="jxr_keyword">public</strong> R visit(<a name="EqualityExpression" href="../../../../../com/randomnoun/common/jexl/ast/EqualityExpression.html#EqualityExpression">EqualityExpression</a> n) {
 <a class="jxr_linenumber" name="L110" href="#L110">110</a>       R _ret=<strong class="jxr_keyword">null</strong>;
 <a class="jxr_linenumber" name="L111" href="#L111">111</a>       n.relationalExpression.accept(<strong class="jxr_keyword">this</strong>);
 <a class="jxr_linenumber" name="L112" href="#L112">112</a>       n.nodeListOptional.accept(<strong class="jxr_keyword">this</strong>);
@@ -127,7 +127,7 @@
 <a class="jxr_linenumber" name="L119" href="#L119">119</a> <em class="jxr_javadoccomment">    * nodeListOptional -&gt; ( ( "&amp;lt;" | "&amp;gt;" | "&amp;lt;=" | "&amp;gt;=" ) AdditiveExpression() )*</em>
 <a class="jxr_linenumber" name="L120" href="#L120">120</a> <em class="jxr_javadoccomment">    * &lt;/PRE&gt;</em>
 <a class="jxr_linenumber" name="L121" href="#L121">121</a> <em class="jxr_javadoccomment">    */</em>
-<a class="jxr_linenumber" name="L122" href="#L122">122</a>    <strong class="jxr_keyword">public</strong> R visit(<a href="../../../../../com/randomnoun/common/jexl/ast/RelationalExpression.html">RelationalExpression</a> n) {
+<a class="jxr_linenumber" name="L122" href="#L122">122</a>    <strong class="jxr_keyword">public</strong> R visit(<a name="RelationalExpression" href="../../../../../com/randomnoun/common/jexl/ast/RelationalExpression.html#RelationalExpression">RelationalExpression</a> n) {
 <a class="jxr_linenumber" name="L123" href="#L123">123</a>       R _ret=<strong class="jxr_keyword">null</strong>;
 <a class="jxr_linenumber" name="L124" href="#L124">124</a>       n.additiveExpression.accept(<strong class="jxr_keyword">this</strong>);
 <a class="jxr_linenumber" name="L125" href="#L125">125</a>       n.nodeListOptional.accept(<strong class="jxr_keyword">this</strong>);
@@ -140,7 +140,7 @@
 <a class="jxr_linenumber" name="L132" href="#L132">132</a> <em class="jxr_javadoccomment">    * nodeListOptional -&gt; ( ( "+" | "-" ) MultiplicativeExpression() )*</em>
 <a class="jxr_linenumber" name="L133" href="#L133">133</a> <em class="jxr_javadoccomment">    * &lt;/PRE&gt;</em>
 <a class="jxr_linenumber" name="L134" href="#L134">134</a> <em class="jxr_javadoccomment">    */</em>
-<a class="jxr_linenumber" name="L135" href="#L135">135</a>    <strong class="jxr_keyword">public</strong> R visit(<a href="../../../../../com/randomnoun/common/jexl/ast/AdditiveExpression.html">AdditiveExpression</a> n) {
+<a class="jxr_linenumber" name="L135" href="#L135">135</a>    <strong class="jxr_keyword">public</strong> R visit(<a name="AdditiveExpression" href="../../../../../com/randomnoun/common/jexl/ast/AdditiveExpression.html#AdditiveExpression">AdditiveExpression</a> n) {
 <a class="jxr_linenumber" name="L136" href="#L136">136</a>       R _ret=<strong class="jxr_keyword">null</strong>;
 <a class="jxr_linenumber" name="L137" href="#L137">137</a>       n.multiplicativeExpression.accept(<strong class="jxr_keyword">this</strong>);
 <a class="jxr_linenumber" name="L138" href="#L138">138</a>       n.nodeListOptional.accept(<strong class="jxr_keyword">this</strong>);
@@ -153,7 +153,7 @@
 <a class="jxr_linenumber" name="L145" href="#L145">145</a> <em class="jxr_javadoccomment">    * nodeListOptional -&gt; ( ( "*" | "/" | "%" ) UnaryExpression() )*</em>
 <a class="jxr_linenumber" name="L146" href="#L146">146</a> <em class="jxr_javadoccomment">    * &lt;/PRE&gt;</em>
 <a class="jxr_linenumber" name="L147" href="#L147">147</a> <em class="jxr_javadoccomment">    */</em>
-<a class="jxr_linenumber" name="L148" href="#L148">148</a>    <strong class="jxr_keyword">public</strong> R visit(<a href="../../../../../com/randomnoun/common/jexl/ast/MultiplicativeExpression.html">MultiplicativeExpression</a> n) {
+<a class="jxr_linenumber" name="L148" href="#L148">148</a>    <strong class="jxr_keyword">public</strong> R visit(<a name="MultiplicativeExpression" href="../../../../../com/randomnoun/common/jexl/ast/MultiplicativeExpression.html#MultiplicativeExpression">MultiplicativeExpression</a> n) {
 <a class="jxr_linenumber" name="L149" href="#L149">149</a>       R _ret=<strong class="jxr_keyword">null</strong>;
 <a class="jxr_linenumber" name="L150" href="#L150">150</a>       n.unaryExpression.accept(<strong class="jxr_keyword">this</strong>);
 <a class="jxr_linenumber" name="L151" href="#L151">151</a>       n.nodeListOptional.accept(<strong class="jxr_keyword">this</strong>);
@@ -166,7 +166,7 @@
 <a class="jxr_linenumber" name="L158" href="#L158">158</a> <em class="jxr_javadoccomment">    *       | PrimaryExpression()</em>
 <a class="jxr_linenumber" name="L159" href="#L159">159</a> <em class="jxr_javadoccomment">    * &lt;/PRE&gt;</em>
 <a class="jxr_linenumber" name="L160" href="#L160">160</a> <em class="jxr_javadoccomment">    */</em>
-<a class="jxr_linenumber" name="L161" href="#L161">161</a>    <strong class="jxr_keyword">public</strong> R visit(<a href="../../../../../com/randomnoun/common/jexl/ast/UnaryExpression.html">UnaryExpression</a> n) {
+<a class="jxr_linenumber" name="L161" href="#L161">161</a>    <strong class="jxr_keyword">public</strong> R visit(<a name="UnaryExpression" href="../../../../../com/randomnoun/common/jexl/ast/UnaryExpression.html#UnaryExpression">UnaryExpression</a> n) {
 <a class="jxr_linenumber" name="L162" href="#L162">162</a>       R _ret=<strong class="jxr_keyword">null</strong>;
 <a class="jxr_linenumber" name="L163" href="#L163">163</a>       n.nodeChoice.accept(<strong class="jxr_keyword">this</strong>);
 <a class="jxr_linenumber" name="L164" href="#L164">164</a>       <strong class="jxr_keyword">return</strong> _ret;
@@ -180,7 +180,7 @@
 <a class="jxr_linenumber" name="L172" href="#L172">172</a> <em class="jxr_javadoccomment">    *       | "(" Expression() ")"</em>
 <a class="jxr_linenumber" name="L173" href="#L173">173</a> <em class="jxr_javadoccomment">    * &lt;/PRE&gt;</em>
 <a class="jxr_linenumber" name="L174" href="#L174">174</a> <em class="jxr_javadoccomment">    */</em>
-<a class="jxr_linenumber" name="L175" href="#L175">175</a>    <strong class="jxr_keyword">public</strong> R visit(<a href="../../../../../com/randomnoun/common/jexl/ast/PrimaryExpression.html">PrimaryExpression</a> n) {
+<a class="jxr_linenumber" name="L175" href="#L175">175</a>    <strong class="jxr_keyword">public</strong> R visit(<a name="PrimaryExpression" href="../../../../../com/randomnoun/common/jexl/ast/PrimaryExpression.html#PrimaryExpression">PrimaryExpression</a> n) {
 <a class="jxr_linenumber" name="L176" href="#L176">176</a>       R _ret=<strong class="jxr_keyword">null</strong>;
 <a class="jxr_linenumber" name="L177" href="#L177">177</a>       n.nodeChoice.accept(<strong class="jxr_keyword">this</strong>);
 <a class="jxr_linenumber" name="L178" href="#L178">178</a>       <strong class="jxr_keyword">return</strong> _ret;
@@ -192,7 +192,7 @@
 <a class="jxr_linenumber" name="L184" href="#L184">184</a> <em class="jxr_javadoccomment">    * nodeListOptional -&gt; ( "." &amp;lt;IDENTIFIER&amp;gt; )*</em>
 <a class="jxr_linenumber" name="L185" href="#L185">185</a> <em class="jxr_javadoccomment">    * &lt;/PRE&gt;</em>
 <a class="jxr_linenumber" name="L186" href="#L186">186</a> <em class="jxr_javadoccomment">    */</em>
-<a class="jxr_linenumber" name="L187" href="#L187">187</a>    <strong class="jxr_keyword">public</strong> R visit(<a href="../../../../../com/randomnoun/common/jexl/ast/Name.html">Name</a> n) {
+<a class="jxr_linenumber" name="L187" href="#L187">187</a>    <strong class="jxr_keyword">public</strong> R visit(<a name="Name" href="../../../../../com/randomnoun/common/jexl/ast/Name.html#Name">Name</a> n) {
 <a class="jxr_linenumber" name="L188" href="#L188">188</a>       R _ret=<strong class="jxr_keyword">null</strong>;
 <a class="jxr_linenumber" name="L189" href="#L189">189</a>       n.nodeToken.accept(<strong class="jxr_keyword">this</strong>);
 <a class="jxr_linenumber" name="L190" href="#L190">190</a>       n.nodeListOptional.accept(<strong class="jxr_keyword">this</strong>);
@@ -205,7 +205,7 @@
 <a class="jxr_linenumber" name="L197" href="#L197">197</a> <em class="jxr_javadoccomment">    * arguments -&gt; Arguments()</em>
 <a class="jxr_linenumber" name="L198" href="#L198">198</a> <em class="jxr_javadoccomment">    * &lt;/PRE&gt;</em>
 <a class="jxr_linenumber" name="L199" href="#L199">199</a> <em class="jxr_javadoccomment">    */</em>
-<a class="jxr_linenumber" name="L200" href="#L200">200</a>    <strong class="jxr_keyword">public</strong> R visit(<a href="../../../../../com/randomnoun/common/jexl/ast/FunctionCall.html">FunctionCall</a> n) {
+<a class="jxr_linenumber" name="L200" href="#L200">200</a>    <strong class="jxr_keyword">public</strong> R visit(<a name="FunctionCall" href="../../../../../com/randomnoun/common/jexl/ast/FunctionCall.html#FunctionCall">FunctionCall</a> n) {
 <a class="jxr_linenumber" name="L201" href="#L201">201</a>       R _ret=<strong class="jxr_keyword">null</strong>;
 <a class="jxr_linenumber" name="L202" href="#L202">202</a>       n.nodeToken.accept(<strong class="jxr_keyword">this</strong>);
 <a class="jxr_linenumber" name="L203" href="#L203">203</a>       n.arguments.accept(<strong class="jxr_keyword">this</strong>);
@@ -219,7 +219,7 @@
 <a class="jxr_linenumber" name="L211" href="#L211">211</a> <em class="jxr_javadoccomment">    * nodeToken1 -&gt; ")"</em>
 <a class="jxr_linenumber" name="L212" href="#L212">212</a> <em class="jxr_javadoccomment">    * &lt;/PRE&gt;</em>
 <a class="jxr_linenumber" name="L213" href="#L213">213</a> <em class="jxr_javadoccomment">    */</em>
-<a class="jxr_linenumber" name="L214" href="#L214">214</a>    <strong class="jxr_keyword">public</strong> R visit(<a href="../../../../../com/randomnoun/common/jexl/ast/Arguments.html">Arguments</a> n) {
+<a class="jxr_linenumber" name="L214" href="#L214">214</a>    <strong class="jxr_keyword">public</strong> R visit(<a name="Arguments" href="../../../../../com/randomnoun/common/jexl/ast/Arguments.html#Arguments">Arguments</a> n) {
 <a class="jxr_linenumber" name="L215" href="#L215">215</a>       R _ret=<strong class="jxr_keyword">null</strong>;
 <a class="jxr_linenumber" name="L216" href="#L216">216</a>       n.nodeToken.accept(<strong class="jxr_keyword">this</strong>);
 <a class="jxr_linenumber" name="L217" href="#L217">217</a>       n.nodeOptional.accept(<strong class="jxr_keyword">this</strong>);
@@ -233,7 +233,7 @@
 <a class="jxr_linenumber" name="L225" href="#L225">225</a> <em class="jxr_javadoccomment">    * nodeListOptional -&gt; ( "," Expression() )*</em>
 <a class="jxr_linenumber" name="L226" href="#L226">226</a> <em class="jxr_javadoccomment">    * &lt;/PRE&gt;</em>
 <a class="jxr_linenumber" name="L227" href="#L227">227</a> <em class="jxr_javadoccomment">    */</em>
-<a class="jxr_linenumber" name="L228" href="#L228">228</a>    <strong class="jxr_keyword">public</strong> R visit(<a href="../../../../../com/randomnoun/common/jexl/ast/ArgumentList.html">ArgumentList</a> n) {
+<a class="jxr_linenumber" name="L228" href="#L228">228</a>    <strong class="jxr_keyword">public</strong> R visit(<a name="ArgumentList" href="../../../../../com/randomnoun/common/jexl/ast/ArgumentList.html#ArgumentList">ArgumentList</a> n) {
 <a class="jxr_linenumber" name="L229" href="#L229">229</a>       R _ret=<strong class="jxr_keyword">null</strong>;
 <a class="jxr_linenumber" name="L230" href="#L230">230</a>       n.expression.accept(<strong class="jxr_keyword">this</strong>);
 <a class="jxr_linenumber" name="L231" href="#L231">231</a>       n.nodeListOptional.accept(<strong class="jxr_keyword">this</strong>);
@@ -250,7 +250,7 @@
 <a class="jxr_linenumber" name="L242" href="#L242">242</a> <em class="jxr_javadoccomment">    *       | NullLiteral()</em>
 <a class="jxr_linenumber" name="L243" href="#L243">243</a> <em class="jxr_javadoccomment">    * &lt;/PRE&gt;</em>
 <a class="jxr_linenumber" name="L244" href="#L244">244</a> <em class="jxr_javadoccomment">    */</em>
-<a class="jxr_linenumber" name="L245" href="#L245">245</a>    <strong class="jxr_keyword">public</strong> R visit(<a href="../../../../../com/randomnoun/common/jexl/ast/Literal.html">Literal</a> n) {
+<a class="jxr_linenumber" name="L245" href="#L245">245</a>    <strong class="jxr_keyword">public</strong> R visit(<a name="Literal" href="../../../../../com/randomnoun/common/jexl/ast/Literal.html#Literal">Literal</a> n) {
 <a class="jxr_linenumber" name="L246" href="#L246">246</a>       R _ret=<strong class="jxr_keyword">null</strong>;
 <a class="jxr_linenumber" name="L247" href="#L247">247</a>       n.nodeChoice.accept(<strong class="jxr_keyword">this</strong>);
 <a class="jxr_linenumber" name="L248" href="#L248">248</a>       <strong class="jxr_keyword">return</strong> _ret;
@@ -262,7 +262,7 @@
 <a class="jxr_linenumber" name="L254" href="#L254">254</a> <em class="jxr_javadoccomment">    *       | "false"</em>
 <a class="jxr_linenumber" name="L255" href="#L255">255</a> <em class="jxr_javadoccomment">    * &lt;/PRE&gt;</em>
 <a class="jxr_linenumber" name="L256" href="#L256">256</a> <em class="jxr_javadoccomment">    */</em>
-<a class="jxr_linenumber" name="L257" href="#L257">257</a>    <strong class="jxr_keyword">public</strong> R visit(<a href="../../../../../com/randomnoun/common/jexl/ast/BooleanLiteral.html">BooleanLiteral</a> n) {
+<a class="jxr_linenumber" name="L257" href="#L257">257</a>    <strong class="jxr_keyword">public</strong> R visit(<a name="BooleanLiteral" href="../../../../../com/randomnoun/common/jexl/ast/BooleanLiteral.html#BooleanLiteral">BooleanLiteral</a> n) {
 <a class="jxr_linenumber" name="L258" href="#L258">258</a>       R _ret=<strong class="jxr_keyword">null</strong>;
 <a class="jxr_linenumber" name="L259" href="#L259">259</a>       n.nodeChoice.accept(<strong class="jxr_keyword">this</strong>);
 <a class="jxr_linenumber" name="L260" href="#L260">260</a>       <strong class="jxr_keyword">return</strong> _ret;
@@ -273,7 +273,7 @@
 <a class="jxr_linenumber" name="L265" href="#L265">265</a> <em class="jxr_javadoccomment">    * nodeToken -&gt; "null"</em>
 <a class="jxr_linenumber" name="L266" href="#L266">266</a> <em class="jxr_javadoccomment">    * &lt;/PRE&gt;</em>
 <a class="jxr_linenumber" name="L267" href="#L267">267</a> <em class="jxr_javadoccomment">    */</em>
-<a class="jxr_linenumber" name="L268" href="#L268">268</a>    <strong class="jxr_keyword">public</strong> R visit(<a href="../../../../../com/randomnoun/common/jexl/ast/NullLiteral.html">NullLiteral</a> n) {
+<a class="jxr_linenumber" name="L268" href="#L268">268</a>    <strong class="jxr_keyword">public</strong> R visit(<a name="NullLiteral" href="../../../../../com/randomnoun/common/jexl/ast/NullLiteral.html#NullLiteral">NullLiteral</a> n) {
 <a class="jxr_linenumber" name="L269" href="#L269">269</a>       R _ret=<strong class="jxr_keyword">null</strong>;
 <a class="jxr_linenumber" name="L270" href="#L270">270</a>       n.nodeToken.accept(<strong class="jxr_keyword">this</strong>);
 <a class="jxr_linenumber" name="L271" href="#L271">271</a>       <strong class="jxr_keyword">return</strong> _ret;

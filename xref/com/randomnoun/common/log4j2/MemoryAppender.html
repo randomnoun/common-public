@@ -9,7 +9,7 @@
 <a class="jxr_linenumber" name="L1" href="#L1">1</a>   <strong class="jxr_keyword">package</strong> com.randomnoun.common.log4j2;
 <a class="jxr_linenumber" name="L2" href="#L2">2</a>   
 <a class="jxr_linenumber" name="L3" href="#L3">3</a>   <em class="jxr_comment">/* (c) 2013 randomnoun. All Rights Reserved. This work is licensed under a</em>
-<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <em class="jxr_comment"> * BSD Simplified License. (<a href="http://www.randomnoun.com/bsd-simplified.html" target="alexandria_uri">http://www.randomnoun.com/bsd-simplified.html</a>)</em>
+<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <em class="jxr_comment"> * BSD Simplified License. (<a href="http://www.randomnoun.com/bsd-simplified.html)" target="alexandria_uri">http://www.randomnoun.com/bsd-simplified.html)</a></em>
 <a class="jxr_linenumber" name="L5" href="#L5">5</a>   <em class="jxr_comment"> */</em>
 <a class="jxr_linenumber" name="L6" href="#L6">6</a>   <strong class="jxr_keyword">import</strong> java.util.ArrayList;
 <a class="jxr_linenumber" name="L7" href="#L7">7</a>   <strong class="jxr_keyword">import</strong> java.util.LinkedList;
@@ -64,7 +64,7 @@
 <a class="jxr_linenumber" name="L56" href="#L56">56</a>  <em class="jxr_javadoccomment"> * @author knoxg</em>
 <a class="jxr_linenumber" name="L57" href="#L57">57</a>  <em class="jxr_javadoccomment"> */</em>
 <a class="jxr_linenumber" name="L58" href="#L58">58</a>  @Plugin(name = MemoryAppender.PLUGIN_NAME, category = Core.CATEGORY_NAME, elementType = Appender.ELEMENT_TYPE, printObject = <strong class="jxr_keyword">true</strong>)
-<a class="jxr_linenumber" name="L59" href="#L59">59</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../com/randomnoun/common/log4j2/MemoryAppender.html">MemoryAppender</a> <strong class="jxr_keyword">extends</strong> AbstractAppender {
+<a class="jxr_linenumber" name="L59" href="#L59">59</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a name="MemoryAppender" href="../../../../com/randomnoun/common/log4j2/MemoryAppender.html#MemoryAppender">MemoryAppender</a> <strong class="jxr_keyword">extends</strong> AbstractAppender {
 <a class="jxr_linenumber" name="L60" href="#L60">60</a>  
 <a class="jxr_linenumber" name="L61" href="#L61">61</a>  	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String PLUGIN_NAME = <span class="jxr_string">"Memory"</span>;
 <a class="jxr_linenumber" name="L62" href="#L62">62</a>  	
@@ -87,8 +87,8 @@
 <a class="jxr_linenumber" name="L79" href="#L79">79</a>          <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">int</strong> maximumLogSize = 1000;
 <a class="jxr_linenumber" name="L80" href="#L80">80</a>  
 <a class="jxr_linenumber" name="L81" href="#L81">81</a>          @Override
-<a class="jxr_linenumber" name="L82" href="#L82">82</a>          <strong class="jxr_keyword">public</strong> <a href="../../../../com/randomnoun/common/log4j2/MemoryAppender.html">MemoryAppender</a> build() {
-<a class="jxr_linenumber" name="L83" href="#L83">83</a>          	MemoryAppender ma = <strong class="jxr_keyword">new</strong> <a href="../../../../com/randomnoun/common/log4j2/MemoryAppender.html">MemoryAppender</a>(getName());
+<a class="jxr_linenumber" name="L82" href="#L82">82</a>          <strong class="jxr_keyword">public</strong> <a name="MemoryAppender" href="../../../../com/randomnoun/common/log4j2/MemoryAppender.html#MemoryAppender">MemoryAppender</a> build() {
+<a class="jxr_linenumber" name="L83" href="#L83">83</a>          	MemoryAppender ma = <strong class="jxr_keyword">new</strong> <a name="MemoryAppender" href="../../../../com/randomnoun/common/log4j2/MemoryAppender.html#MemoryAppender">MemoryAppender</a>(getName());
 <a class="jxr_linenumber" name="L84" href="#L84">84</a>          	ma.setMaximumLogSize(maximumLogSize);
 <a class="jxr_linenumber" name="L85" href="#L85">85</a>          	<strong class="jxr_keyword">return</strong> ma;
 <a class="jxr_linenumber" name="L86" href="#L86">86</a>          }
@@ -114,13 +114,13 @@
 <a class="jxr_linenumber" name="L106" href="#L106">106</a>     <em class="jxr_comment">// well log4j2 went all-in on the annotations, didn't they</em>
 <a class="jxr_linenumber" name="L107" href="#L107">107</a>     
 <a class="jxr_linenumber" name="L108" href="#L108">108</a> 	@PluginFactory
-<a class="jxr_linenumber" name="L109" href="#L109">109</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <a href="../../../../com/randomnoun/common/log4j2/MemoryAppender.html">MemoryAppender</a> createAppender(
+<a class="jxr_linenumber" name="L109" href="#L109">109</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <a name="MemoryAppender" href="../../../../com/randomnoun/common/log4j2/MemoryAppender.html#MemoryAppender">MemoryAppender</a> createAppender(
 <a class="jxr_linenumber" name="L110" href="#L110">110</a> 		@PluginAttribute(value = <span class="jxr_string">"name"</span>, defaultString = <span class="jxr_string">"null"</span>) <strong class="jxr_keyword">final</strong> String name) 
 <a class="jxr_linenumber" name="L111" href="#L111">111</a> 	{
-<a class="jxr_linenumber" name="L112" href="#L112">112</a> 		<strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a href="../../../../com/randomnoun/common/log4j2/MemoryAppender.html">MemoryAppender</a>(name);
+<a class="jxr_linenumber" name="L112" href="#L112">112</a> 		<strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a name="MemoryAppender" href="../../../../com/randomnoun/common/log4j2/MemoryAppender.html#MemoryAppender">MemoryAppender</a>(name);
 <a class="jxr_linenumber" name="L113" href="#L113">113</a> 	}
 <a class="jxr_linenumber" name="L114" href="#L114">114</a> 
-<a class="jxr_linenumber" name="L115" href="#L115">115</a> 	<strong class="jxr_keyword">private</strong> <a href="../../../../com/randomnoun/common/log4j2/MemoryAppender.html">MemoryAppender</a>(<strong class="jxr_keyword">final</strong> String name) {
+<a class="jxr_linenumber" name="L115" href="#L115">115</a> 	<strong class="jxr_keyword">private</strong> <a name="MemoryAppender" href="../../../../com/randomnoun/common/log4j2/MemoryAppender.html#MemoryAppender">MemoryAppender</a>(<strong class="jxr_keyword">final</strong> String name) {
 <a class="jxr_linenumber" name="L116" href="#L116">116</a> 		<strong class="jxr_keyword">super</strong>(name, <strong class="jxr_keyword">null</strong>, <strong class="jxr_keyword">null</strong>, <strong class="jxr_keyword">true</strong>, Property.EMPTY_ARRAY);
 <a class="jxr_linenumber" name="L117" href="#L117">117</a> 		logEvents = <strong class="jxr_keyword">new</strong> LinkedList&lt;LogEvent&gt;();
 <a class="jxr_linenumber" name="L118" href="#L118">118</a> 	}
