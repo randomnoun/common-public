@@ -190,17 +190,6 @@
 		</pluginManagement>
 	</build>
 	
-	<!-- TODO: move to parent-pom, or remove these altogether if sonatype no longer require them -->
-	<mailingLists>
-        <mailingList>
-            <name>${project.name} Mailing List</name>
-            <subscribe>${project.artifactId}-subscribe@lists.randomnoun.com</subscribe>
-            <unsubscribe>${project.artifactId}-unsubscribe@lists.randomnoun.com</unsubscribe>
-            <post>${project.artifactId}@lists.randomnoun.com</post>
-            <archive>http://lists.randomnoun.com/pipermail/${project.artifactId}/</archive>
-        </mailingList>
-    </mailingLists>
-	
 	<distributionManagement>
 		<site>
         	<id>gh-pages</id>
