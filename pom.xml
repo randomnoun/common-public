@@ -4,7 +4,7 @@
 	<parent>
 		<artifactId>parent-pom</artifactId>
 		<groupId>com.randomnoun.build</groupId>
-		<version>1.29</version>
+		<version>1.30</version>
 	</parent>
 	
 	<groupId>com.randomnoun.common</groupId>
@@ -18,6 +18,10 @@
 	<inceptionYear>2013</inceptionYear>
 	<!-- version before 1.0.0 bump was 0.2.29 -->
 
+    <properties>
+        <jdk.version>17</jdk.version><!-- jdk17 for jessop, for historyTableGenerator -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
 	<dependencies>
 		<dependency>
@@ -40,16 +44,9 @@
 		<dependency>
        		<groupId>com.randomnoun.common</groupId>
 			<artifactId>jessop</artifactId>
-			<version>1.0.18</version>
+			<version>1.0.20</version>
 		</dependency>
 
-		<!-- conflicts with packages in jdk 11 -->
-		<dependency>
-       		<groupId>xml-apis</groupId>
-       		<artifactId>xml-apis</artifactId>
-       		<optional>true</optional>
-        </dependency>
-        
         <dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>
@@ -94,7 +91,7 @@
 		<dependency>
 			<groupId>org.json</groupId>
 			<artifactId>json</artifactId>
-			<version>20090211</version>
+			<version>20230618</version>
 			<scope>compile</scope>
 			<optional>true</optional>
 		</dependency>
@@ -102,19 +99,6 @@
 		<dependency>
 			<groupId>org.ccil.cowan.tagsoup</groupId>
 			<artifactId>tagsoup</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>xalan</groupId>
-			<artifactId>xalan</artifactId>
-		</dependency>
-        <dependency>
-            <groupId>xalan</groupId>
-            <artifactId>serializer</artifactId>
-            <version>2.7.3</version>
-        </dependency>		
-		<dependency>
-			<groupId>xerces</groupId>
-			<artifactId>xercesImpl</artifactId>
 		</dependency>
 
 		<dependency>
@@ -154,11 +138,6 @@
 
 	<build>
 		<plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-site-plugin</artifactId>
-                <version>3.12.0</version>
-            </plugin>
             
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
@@ -181,7 +160,7 @@
 				</executions>
 			</plugin>
 			
-			
+          	
 		</plugins>
 		
 		<pluginManagement>
@@ -204,6 +183,8 @@
                     <linksource>true</linksource>
                 </configuration>
             </plugin>
+            
+             
 		      
 		  </plugins>
 		</pluginManagement>
@@ -223,14 +204,14 @@
 	<distributionManagement>
 		<site>
         	<id>gh-pages</id>
-        	<name>common-public Website</name>
+        	<name>common-public website</name>
 	        <url>git:http://gitlab.dev.randomnoun/randomnoun/common-public.git?gh-pages#</url>
     	</site>
+    	<repository>
+          <id>github-maven-pkg</id>
+          <name>gihub package repository</name>
+          <url>https://maven.pkg.github.com/randomnoun/common-public</url>
+        </repository>
 	</distributionManagement>
-	
-	<properties>
-		<jdk.version>8</jdk.version>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	</properties>
 
 </project>
