@@ -10,6 +10,10 @@ import org.springframework.jdbc.core.RowMapper;
  */
 public interface SelectFromRowMapper<T> extends RowMapper<T> {
 
+	// cte can be used to set up common table expressions ('WITH' statements) before the SELECT 
+	
+	default public String getCte() { return null; }
+	
 	public String getSelect();
 	
 	public String getFrom();

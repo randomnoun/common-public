@@ -10,6 +10,8 @@ import org.springframework.jdbc.core.ResultSetExtractor;
  */
 public interface SelectFromResultSetExtractor<T> extends ResultSetExtractor<T> {
 
+	default public String getCte() { return null; }
+
 	public String getSelect();
 	
 	public String getFrom();
