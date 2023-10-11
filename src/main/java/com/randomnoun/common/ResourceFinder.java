@@ -337,8 +337,18 @@ public class ResourceFinder {
 		
 		int resourceIndex = 0;
 		boolean showHashes = false;
+		boolean ignoreErrors = false;
 	
-		public HashingResourceFinderCallback() {
+		public HashingResourceFinderCallback(boolean ignoreErrors) {
+			this.ignoreErrors = ignoreErrors;
+		}
+		
+		public void ignorableException(String message, Exception e) throws ZipException {
+			if (ignoreErrors) {
+				Logger.getLogger(HashingResourceFinderCallback.class).error(message, e);
+			} else {
+				throw (ZipException) new ZipException(message).initCause(e);
+			}
 		}
 		
 		public ResourceFinderCallbackResult preProcess(String resourceName, long filesize, long timestamp, InputStream inputStream) throws IOException {
@@ -350,13 +360,22 @@ public class ResourceFinder {
 		public ResourceFinderCallbackResult postProcess(String resourceName, long filesize, long timestamp, InputStream inputStream, ResourceFinderCallbackResult preProcessResult) throws IOException {
 			ResourceFinderCallbackResult rfcbr = new ResourceFinderCallbackResult();
 			try {
-				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				String md5, sha1;
 				if (inputStream instanceof HashGeneratingInputStream) {
 					HashGeneratingInputStream hgis = (HashGeneratingInputStream) inputStream;
 					// pump the rest of the bits through this stream
 					byte[] buffer = new byte[4096];
-					while (inputStream.read(buffer) != -1) { /* nothing */ }
+					try {
+						
+						while (inputStream.read(buffer) != -1) { /* nothing */ }
+					} catch (EOFException eofe) {
+						ignorableException("Error reading zip resource '" + resourceName + "' for hash", eofe);
+					} catch (ZipException ze) {
+						// can trigger "java.util.zip.ZipException: invalid distance code"
+						ignorableException("Error reading zip resource '" + resourceName + "' for hash", ze);
+					} 
+					
 					md5 = hgis.getMd5();
 					sha1 = hgis.getSha1();
 				} else {
@@ -372,10 +391,17 @@ public class ResourceFinder {
 		    		algorithm2.reset();
 					byte[] buffer = new byte[4096];
 					int bytesRead;
-					while ((bytesRead = inputStream.read(buffer)) != -1) {
-						algorithm1.update(buffer, 0, bytesRead);
-						algorithm2.update(buffer, 0, bytesRead);
-			        }
+					try {
+						while ((bytesRead = inputStream.read(buffer)) != -1) {
+							algorithm1.update(buffer, 0, bytesRead);
+							algorithm2.update(buffer, 0, bytesRead);
+				        }
+					} catch (EOFException eofe) {
+						// can trigger "java.io.EOFException: Unexpected end of ZLIB input stream" errors
+						ignorableException("Error hashing zip resource '" + resourceName + "'", eofe);
+					} catch (ZipException ze) {
+						ignorableException("Error hashing zip resource '" + resourceName + "'", ze);
+					} 
 		    		byte messageDigest1[] = algorithm1.digest();
 		    		byte messageDigest2[] = algorithm2.digest();
 		    		StringBuffer hexString1 = new StringBuffer();
@@ -453,7 +479,7 @@ public class ResourceFinder {
 			   )
 			{
 				if (verbose) {
-					SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 					System.out.println("[" + resourceIndex + "] " + resourceName + " " + (filesize==-1 ? "(unknown)" : String.valueOf(filesize)) + " " + sdf.format(new Date(timestamp)));
 				} else if (searchContents == null) {
 					System.out.println("[" + resourceIndex + "] " + resourceName);
@@ -1222,7 +1248,7 @@ public class ResourceFinder {
 		
 		ResourceFinderCallback callback;
 		if (showHashes) {
-			callback = new HashingResourceFinderCallback();
+			callback = new HashingResourceFinderCallback(ignoreErrors);
 		} else {
 			callback = new DisplayResourceFinderCallback(dumpType, dumpResourceList, verbose, manifests, decompile, 
 			  searchContents, searchContentsIgnoreCase);
