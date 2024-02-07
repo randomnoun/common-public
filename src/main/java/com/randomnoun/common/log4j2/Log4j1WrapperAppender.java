@@ -25,7 +25,7 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 import org.apache.log4j.Layout;
-import org.apache.log4j.bridge.LogEventAdapter;
+import org.apache.log4j.bridge.LogEventAdapter; // need to use our own adapter
 import org.apache.log4j.config.PropertySetter;
 import org.apache.log4j.helpers.OptionConverter;
 import org.apache.log4j.spi.Filter;
