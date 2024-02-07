@@ -3,28 +3,28 @@
 -encoding
 'UTF-8'
 -overview
-'C:/Users/knoxg/workspace-2022-12-randomnoun/git/common-public/target/checkout/src/main/javadoc/overview.html'
+'C:/Users/knoxg/workspace-2023-09-randomnoun/git/common-public/target/checkout/src/main/javadoc/overview.html'
 -protected
 -source
 '17'
 -sourcepath
-'C:/Users/knoxg/workspace-2022-12-randomnoun/git/common-public/target/checkout/src/main/java;C:/Users/knoxg/workspace-2022-12-randomnoun/git/common-public/target/checkout/target/generated-sources/javacc;C:/Users/knoxg/workspace-2022-12-randomnoun/git/common-public/target/checkout/target/generated-sources/jtb;C:/Users/knoxg/workspace-2022-12-randomnoun/git/common-public/target/checkout/src/main/javadoc'
+'C:/Users/knoxg/workspace-2023-09-randomnoun/git/common-public/target/checkout/src/main/java;C:/Users/knoxg/workspace-2023-09-randomnoun/git/common-public/target/checkout/target/generated-sources/javacc;C:/Users/knoxg/workspace-2023-09-randomnoun/git/common-public/target/checkout/target/generated-sources/jtb;C:/Users/knoxg/workspace-2023-09-randomnoun/git/common-public/target/checkout/src/main/javadoc'
 -author
 -bottom
-'Copyright &#169; 2013&#x2013;2023 <a href="http://www.randomnoun.com">randomnoun</a>. All rights reserved.'
+'Copyright &#169; 2013&#x2013;2024 <a href="http://www.randomnoun.com">randomnoun</a>. All rights reserved.'
 -charset
 'UTF-8'
 -d
-'C:/Users/knoxg/workspace-2022-12-randomnoun/git/common-public/target/checkout/target/site/apidocs'
+'C:/Users/knoxg/workspace-2023-09-randomnoun/git/common-public/target/checkout/target/site/apidocs'
 -docencoding
 'UTF-8'
 -docfilessubdirs
 -doctitle
-'randomnoun common classes 1.0.18 API'
+'randomnoun common classes 1.0.19 API'
 -linksource
 -stylesheetfile
-'C:/Users/knoxg/workspace-2022-12-randomnoun/git/common-public/target/checkout/src/main/javadoc/stylesheet.css'
+'C:/Users/knoxg/workspace-2023-09-randomnoun/git/common-public/target/checkout/src/main/javadoc/stylesheet.css'
 -use
 -version
 -windowtitle
-'randomnoun common classes 1.0.18 API'
+'randomnoun common classes 1.0.19 API'
