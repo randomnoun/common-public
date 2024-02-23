@@ -9,7 +9,7 @@
 	
 	<groupId>com.randomnoun.common</groupId>
 	<artifactId>common-public</artifactId>
-	<version>1.0.20-SNAPSHOT</version>
+	<version>1.0.20</version>
 	<packaging>jar</packaging>
 	
 	<name>randomnoun common classes</name>
@@ -127,7 +127,7 @@
 		<connection>scm:git:http://gitlab.dev.randomnoun/randomnoun/common-public.git</connection>
 		<developerConnection>scm:git:http://gitlab.dev.randomnoun/randomnoun/common-public.git</developerConnection>
 		<url>http://gitlab.dev.randomnoun/randomnoun/common-public</url>
-      <tag>HEAD</tag>
+      <tag>common-public-1.0.20</tag>
   </scm>
 	
 	<ciManagement>
