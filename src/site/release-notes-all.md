@@ -21,3 +21,11 @@
 * ResultSetWithNulls
 * ResourceFinder error handling
 * History table improvements
+
+# 1.0.20
+
+## Updates
+ 
+* ProcessUtil, StreamUtil changes
+
+
