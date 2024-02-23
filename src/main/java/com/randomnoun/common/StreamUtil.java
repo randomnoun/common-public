@@ -41,6 +41,30 @@ public class StreamUtil {
             output.flush();
         }
     }
+
+    /** Copies a stream and return number of bytes copied
+     *
+     *  @param input The stream to retrieve information from
+     *  @param output The stream to send data to
+     *  @param bufSize buffer size in bytes
+     *  
+     * @throws IOException
+     */
+    public static long copyStreamCount(InputStream input, OutputStream output, int bufSize)
+        throws IOException 
+    {
+    	long totalBytes = 0;
+        int bytesRead;
+        byte[] buffer = new byte[bufSize];
+
+        while ((bytesRead = input.read(buffer)) != -1) {
+            output.write(buffer, 0, bytesRead);
+            output.flush();
+            totalBytes += bytesRead;
+        }
+        return totalBytes;
+    }
+
     
     /** Copies the data from an inputStream to an outputstream 
     *
