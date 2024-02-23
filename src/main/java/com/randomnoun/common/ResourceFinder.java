@@ -536,7 +536,8 @@ public class ResourceFinder {
 					StreamUtil.copyStream(inputStream, fos, 1024);
 					fos.close();
 					try {
-						String result = ProcessUtil.exec(new String[] { "jad", "-lnc", "-p", tmpFile.getCanonicalPath() });
+						ProcessUtil processUtil = new ProcessUtil();
+						String result = processUtil.exec(new String[] { "jad", "-lnc", "-p", tmpFile.getCanonicalPath() });
 						System.out.println(result);
 					} catch (ProcessUtil.ProcessException pe) {
 						throw (IOException) new IOException("Problem executing jad").initCause(pe);

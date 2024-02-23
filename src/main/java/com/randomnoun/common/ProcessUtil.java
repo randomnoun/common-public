@@ -8,52 +8,34 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.File;
 
 import java.lang.Process;
 
-/** Utility class for running processes, including timeouts, remote
- * execution, and slightly better exceptions that include more information
+/** Utility class for running processes, including timeouts, and slightly better exceptions that include more information
  * about process failure. 
- *  
  * 
  */
 public class ProcessUtil {
     
-    
-
-
 	/// maximum output; if >0, removes passwords & limits to this amount
-	private static int maxOutputChars = 8000;
+	private int maxOutputChars = 8000;
 	
 	public static int NO_MAX_OUTPUT_CHARS = 0;
 	
-	public static String cygPathToWindows(String cygPath) {
-		throw new UnsupportedOperationException("not implemented");
-	}
-
-	public static void setMaxOutputChars(int maxOutputChars) {
-		ProcessUtil.maxOutputChars = maxOutputChars;
-	}
-	
-	public static String windowsPathToCygwin(String winPath) {
-		winPath = winPath.replace('\\', '/');
-		if (winPath.length() > 2 && winPath.charAt(1) == ':') {
-			return "/cygdrive/" + Character.toLowerCase(winPath.charAt(0)) + "/" +
-			  winPath.substring(2);
-		} else if (winPath.length() > 2 && winPath.startsWith("//")) {
-			return winPath;
-		} else {
-			return winPath;
-		}
+	public void setMaxOutputChars(int maxOutputChars) {
+		this.maxOutputChars = maxOutputChars;
 	}
 	
 	/** Encapsulates an error from executing a command through System.exec()
 	 * 
 	 */
-	public static class ProcessException extends Exception {
+	public class ProcessException extends Exception {
+		
+		/** Generated serialVersionUID */
+		private static final long serialVersionUID = -6301630237335589674L;
 		
 		private String command;
-		private String hostname;
 		private int exitCode;
 		private String stdout;
 		private String stderr;
@@ -67,9 +49,9 @@ public class ProcessUtil {
 		 * @param stdout The standard output of the program
 		 * @param stderr The error output of the program
 		 */
-		public ProcessException(String command, String hostname, String exitCause, int exitCode, String stdout, String stderr) {
-			super("Error executing '" + command + "'" + (hostname==null ? "" : " on '" + hostname + "'") + ", cause='" + exitCause + "'");
-			this.hostname = hostname;
+		public ProcessException(String command, String exitCause, int exitCode, String stdout, String stderr) {
+			super("Error executing '" + command + "'" + ", cause='" + exitCause + "'");
+			
 			this.command = command;
 			this.exitCode = exitCode;
 			this.exitCause = exitCause;
@@ -79,7 +61,6 @@ public class ProcessUtil {
 		public String getStdout() { return stdout; }
 		public String getStderr() { return stderr; }
 		public String getCommand() { return command; }
-		public String getHostname() { return hostname; }
 		public int getExitCode() { return exitCode; }
 		public String getExitCause() { return exitCause; }
 		public String getMessage() {
@@ -94,170 +75,31 @@ public class ProcessUtil {
 		}
 	}
 	
-	// @TODO refactor this with the following method, and the method after that :)
-	public static String sshExec(String remoteUser, String hostname, String command, long timeout) throws ProcessException {
-		Process process;
-		try {
-			process = Runtime.getRuntime().exec(new String[] {
-					"ssh", "-T", "-o", "StrictHostKeyChecking=no", remoteUser + "@" + hostname, command });
-		} catch (IOException ioe) {
-			throw (ProcessException) new ProcessException(command, hostname, "IOException", 0, "", "").initCause(ioe);
-		}
-		InputStream stdout = process.getInputStream();
-		InputStream stderr = process.getErrorStream();
-		ByteArrayOutputStream stdoutByteArrayStream = new ByteArrayOutputStream();
-		ByteArrayOutputStream stderrByteArrayStream = new ByteArrayOutputStream();
-		Thread copyThread = StreamUtil.copyThread(stdout, stdoutByteArrayStream, 1024);
-		Thread copyErrorThread = StreamUtil.copyThread(stderr, stderrByteArrayStream, 1024);
-		copyThread.start();
-		copyErrorThread.start();
-		int exitCode = -1;
-		boolean throwException = false;
-		long interval = 100;
-		String cause = "";
-		
-		try {
-			// exitCode = process.waitFor();
-			// if (exitCode != 0) { throwException = true; }
-			// copyThread.join(); // wait for copy thread to complete
-			long	timeWaiting = 0;
-			boolean	processFinished = false;
-			
-			while (timeWaiting < timeout && !processFinished) {
-				processFinished = true;
-				Thread.sleep(interval);
-				try {
-					exitCode = process.exitValue();
-				} catch (IllegalThreadStateException e) {
-					processFinished = false;
-				}
-				timeWaiting += interval;
-			}
-			
-			if (processFinished) {
-				// wait for  copy threads to complete
-				copyThread.join();
-				copyErrorThread.join();  
-				if (exitCode != 0) {
-					cause = "non-0 exitCode";
-					throwException = true;
-				}
-			} else {
-				cause = "timeout";
-				throwException = true;
-				process.destroy();
-				copyErrorThread.join();
-				copyThread.join();
-			}			
-			
-		} catch (InterruptedException ie) {
-			cause = "InterruptedException";
-			throwException = true;
-			process.destroy();
-			copyErrorThread.stop();
-			copyThread.stop();
-		}
-		
-		if (throwException) {
-			throw new ProcessException(
-				command, hostname, cause, exitCode,  
-				stdoutByteArrayStream.toString(), stderrByteArrayStream.toString());
-		}
-		return stdoutByteArrayStream.toString();
+	
+
+	public String exec(String[] command) throws ProcessException {
+		return exec(Text.join(command, " "), -1, null, null, null);
 	}
 	
-	
-	// @TODO refactor this with the following method
-	public static String sshExec(String remoteUser, String hostname, String command) throws ProcessException {
-		Process process;
-		try {
-			process = Runtime.getRuntime().exec(new String[] {
-					"ssh", "-T", "-o", "StrictHostKeyChecking=no", remoteUser + "@" + hostname, command });
-		} catch (IOException ioe) {
-			throw (ProcessException) new ProcessException(command, hostname, "IOException", 0, "", "").initCause(ioe);
-		}
-		InputStream stdout = process.getInputStream();
-		InputStream stderr = process.getErrorStream();
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		ByteArrayOutputStream baos2 = new ByteArrayOutputStream();
-		Thread copyThread = StreamUtil.copyThread(stdout, baos, 1024);
-		Thread copyErrorThread = StreamUtil.copyThread(stderr, baos2, 1024);
-		copyThread.start();
-		copyErrorThread.start();
-		int exitCode = 0;
-		boolean throwException = false;
-		String cause = "";
-		
-		try {
-			exitCode = process.waitFor(); 
-			if (exitCode != 0) { throwException = true; cause = "non-0 exitCode"; }
-			copyThread.join(); 
-			copyErrorThread.join();
-		} catch (InterruptedException ie) {
-			throwException = true;
-			cause = "InterruptedException";
-			process.destroy();
-			copyErrorThread.stop();
-			copyThread.stop();
-		}
-		if (throwException) {
-			throw new ProcessException(
-				command, hostname, cause, exitCode,  
-				baos.toString(), baos2.toString());
-		}
-		return baos.toString();
+	public String exec(String[] command, String[] env) throws ProcessException {
+		return exec(Text.join(command, " "), -1, null, env, null);
 	}
 
-	public static String exec(String[] command) throws ProcessException {
-		return sshExec(null, null, Text.join(command, " "), -1, null, null);
-	}
-	
-	public static String exec(String[] command, String[] env) throws ProcessException {
-		return sshExec(null, null, Text.join(command, " "), -1, null, env);
-	}
-
-	public static String exec(String[] command, long timeout) throws ProcessException {
-		return sshExec(null, null, Text.join(command, " "), timeout, null, null);
-	}
-	
-	public static String exec(String[] command, long timeout, InputStream stdin) throws ProcessException {
-		return sshExec(null, null, Text.join(command, " "), timeout, stdin, null);
-	}	
-
-	public static String sshExec(String remoteUser, String hostname, String command, long timeout, InputStream stdin) throws ProcessException {
-		return sshExec(remoteUser, hostname, command, timeout, stdin, null);
-	}
-	
-	
-	// so Java 1.7 now has this thing called a ProcessBuilder, which
-	// should hopefully make all of this much, much simpler.
-	// Actually, no. No it doesn't.
-	
-	// see https://docs.oracle.com/javase/7/docs/api/java/lang/ProcessBuilder.html
-	private static String sshExec(String remoteUser, String hostname, String command, long timeout, InputStream stdin, String[] env) throws ProcessException {
+	@SuppressWarnings("deprecation")
+	public String exec(String command, long timeout, InputStream stdin, String[] env, File dir) throws ProcessException {
 		Process process;
 		try {
-			if (hostname == null) {
-				if (env==null) {
-					process = Runtime.getRuntime().exec(command);
-				} else {
-					process = Runtime.getRuntime().exec(command, env);
-				}
-			} else {
-				if (env != null) {
-					throw new IllegalArgumentException("Cannot pass environment to remote process");
-				}
-				process = Runtime.getRuntime().exec(new String[] {
-						"ssh", "-T", "-o", "StrictHostKeyChecking=no", remoteUser + "@" + hostname, command }); 
-			}
+			process = Runtime.getRuntime().exec(command, env, dir);
 		} catch (IOException ioe) {
-			throw (ProcessException) new ProcessException(command, hostname, "IOException", 0, "", "").initCause(ioe);
+			throw (ProcessException) new ProcessException(command, "IOException", 0, "", "").initCause(ioe);
 		}
 		InputStream stdout = process.getInputStream();
 		InputStream stderr = process.getErrorStream();
 		OutputStream processStdin = process.getOutputStream();
 		ByteArrayOutputStream stdoutByteArrayStream = new ByteArrayOutputStream();
 		ByteArrayOutputStream stderrByteArrayStream = new ByteArrayOutputStream();
+		
+		// could probably use nio these days to remove the .stop()s below
 		Thread copyStdoutThread = StreamUtil.copyThread(stdout, stdoutByteArrayStream, 1024);
 		Thread copyStderrThread = StreamUtil.copyThread(stderr, stderrByteArrayStream, 1024);
 		Thread copyStdinThread = null;
@@ -274,10 +116,9 @@ public class ProcessUtil {
 		String cause = "";
 		
 		try {
-			// yes, I've tried putting a timeout in here
-			// exitCode = process.waitFor();  // @TODO something with this
-			// if (exitCode != 0) { throwException = true; }
-			// copyThread.join(); // wait for copy thread to complete
+			// this didn't work for some reason, but maybe it does now
+			// exitCode = process.waitFor();
+			
 			long	timeWaiting = 0;
 			boolean	processFinished = false;
 			
@@ -330,7 +171,7 @@ public class ProcessUtil {
 		
 		if (throwException) {
 			throw new ProcessException(
-				command, hostname, cause, exitCode,  
+				command, cause, exitCode,  
 				stdoutByteArrayStream.toString(), stderrByteArrayStream.toString());
 		}
 		return stdoutByteArrayStream.toString();
