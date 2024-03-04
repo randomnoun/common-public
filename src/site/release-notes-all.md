@@ -28,4 +28,9 @@
  
 * ProcessUtil, StreamUtil changes
 
+# 1.0.21
+
+## Updates
+ 
+* Improved Text.parseCsv handling for elements containing newlines
 

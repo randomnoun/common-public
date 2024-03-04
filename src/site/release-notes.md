@@ -1,3 +1,3 @@
 ## Updates
  
-* ProcessUtil, StreamUtil changes
+* Improved Text.parseCsv handling for elements containing newlines
