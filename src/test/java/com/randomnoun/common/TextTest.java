@@ -2,8 +2,12 @@ package com.randomnoun.common;
 
 import static org.junit.Assert.assertArrayEquals;
 
+import java.io.IOException;
+import java.io.Reader;
+import java.io.StringReader;
 import java.text.ParseException;
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 import junit.framework.TestCase;
@@ -336,18 +340,18 @@ public class TextTest
     
 
     public void testParseCsv() throws ParseException {
-    	assertEquals(Arrays.asList(new String[] { "abc" }), Text.parseCsv("abc"));
-    	assertEquals(Arrays.asList(new String[] { "abc","def" }), Text.parseCsv("abc,def"));
-    	assertEquals(Arrays.asList(new String[] { "", "abc", "" }), Text.parseCsv(",abc,"));
-    	assertEquals(Arrays.asList(new String[] { "" }), Text.parseCsv(""));
-    	assertEquals(Arrays.asList(new String[] { "quotes" }), Text.parseCsv("\"quotes\""));
-    	assertEquals(Arrays.asList(new String[] { "q", "a,b", "c" }), Text.parseCsv("\"q\",\"a,b\",c"));
-    	assertEquals(Arrays.asList(new String[] { "q", "a,\"b\",c", "d" }), Text.parseCsv("\"q\",\"a,\"\"b\"\",c\",d"));
-    	assertEquals(Arrays.asList(new String[] { "nq", "q", "a,\"b\",c", "d" }), Text.parseCsv("nq,\"q\",\"a,\"\"b\"\",c\",d"));
-    	assertEquals(Arrays.asList(new String[] { "nq", "q", "a,\"b\",c", "d" }), Text.parseCsv("nq   ,   \"q\",   \"a,\"\"b\"\",c\"   ,d"));
+    	assertEquals(List.of("abc"), Text.parseCsv("abc"));
+    	assertEquals(List.of("abc","def"), Text.parseCsv("abc,def"));
+    	assertEquals(List.of("", "abc", ""), Text.parseCsv(",abc,"));
+    	assertEquals(List.of(""), Text.parseCsv(""));
+    	assertEquals(List.of("quotes"), Text.parseCsv("\"quotes\""));
+    	assertEquals(List.of("q", "a,b", "c"), Text.parseCsv("\"q\",\"a,b\",c"));
+    	assertEquals(List.of("q", "a,\"b\",c", "d"), Text.parseCsv("\"q\",\"a,\"\"b\"\",c\",d"));
+    	assertEquals(List.of("nq", "q", "a,\"b\",c", "d"), Text.parseCsv("nq,\"q\",\"a,\"\"b\"\",c\",d"));
+    	assertEquals(List.of("nq", "q", "a,\"b\",c", "d"), Text.parseCsv("nq   ,   \"q\",   \"a,\"\"b\"\",c\"   ,d"));
     	// whitespace-sensitive
-    	assertEquals(Arrays.asList(new String[] { "nq", "q", "a,\"b\",c", "d" }), Text.parseCsv("nq,\"q\",\"a,\"\"b\"\",c\",d", true));
-    	assertEquals(Arrays.asList(new String[] { "nq   ", "   \"q\"", "  \"a  " }), Text.parseCsv("nq   ,   \"q\",  \"a  ", true));
+    	assertEquals(List.of("nq", "q", "a,\"b\",c", "d"), Text.parseCsv("nq,\"q\",\"a,\"\"b\"\",c\",d", true));
+    	assertEquals(List.of("nq   ", "   \"q\"", "  \"a  "), Text.parseCsv("nq   ,   \"q\",  \"a  ", true));
     	
     	// test failure modes
     	try {
@@ -358,6 +362,57 @@ public class TextTest
     		Text.parseCsv("\"q\",\"a\"  ",true); // whitespace after close quote in whitespace-sensitive mode
     		fail("expected ParseException");
     	} catch (ParseException e) { }
+
+    }
+
+    public List<List<String>> readCsv(String t, boolean whitespace) throws ParseException, IOException {
+    	Reader sr = new StringReader(t); 
+    	Text.CsvLineReader cr = Text.parseCsv(sr, whitespace);
+    	List<List<String>> r = new ArrayList<>();
+    	List<String> s = cr.readLine();
+    	while (s != null) {
+    		r.add(s);
+    		s = cr.readLine();
+    	}
+    	return r;
+    }
+    
+    public void testParseCsv2() throws ParseException, IOException {
+    	// same tests as above
+    	assertEquals(List.of(List.of("abc" )), readCsv("abc", false));
+    	assertEquals(List.of(List.of("abc","def" )), readCsv("abc,def", false));
+    	assertEquals(List.of(List.of("", "abc", "" )), readCsv(",abc,", false));
+    	assertEquals(List.of(List.of("" )), readCsv("", false));
+    	assertEquals(List.of(List.of("quotes" )), readCsv("\"quotes\"", false));
+    	assertEquals(List.of(List.of("q", "a,b", "c" )), readCsv("\"q\",\"a,b\",c", false));
+    	assertEquals(List.of(List.of("q", "a,\"b\",c", "d" )), readCsv("\"q\",\"a,\"\"b\"\",c\",d", false));
+    	assertEquals(List.of(List.of("nq", "q", "a,\"b\",c", "d" )), readCsv("nq,\"q\",\"a,\"\"b\"\",c\",d", false));
+    	assertEquals(List.of(List.of("nq", "q", "a,\"b\",c", "d" )), readCsv("nq   ,   \"q\",   \"a,\"\"b\"\",c\"   ,d", false));
+    	// whitespace-sensitive
+    	assertEquals(List.of(List.of("nq", "q", "a,\"b\",c", "d" )), readCsv("nq,\"q\",\"a,\"\"b\"\",c\",d", true));
+    	assertEquals(List.of(List.of("nq   ", "   \"q\"", "  \"a  " )), readCsv("nq   ,   \"q\",  \"a  ", true));
+    	
+    	// test failure modes
+    	try {
+    		readCsv("\"q\",\"a", false); // unclosed quote
+    		fail("expected ParseException");
+    	} catch (ParseException e) { }
+    	try {
+    		readCsv("\"q\",\"a\"  ",true); // whitespace after close quote in whitespace-sensitive mode
+    		fail("expected ParseException");
+    	} catch (ParseException e) { }
+    	
+
+    	// multi-line
+    	assertEquals(List.of(
+    		List.of("abc"),
+			List.of("def")), readCsv("abc\ndef", false));
+    	// multi-line, different lengths, quotes spanning newlines
+    	assertEquals(List.of(
+    		List.of("abc"),
+			List.of("def", "ghi"), 
+			List.of("a", "thing across\nnewlines", "more")), readCsv("abc\ndef,ghi\na,\"thing across\nnewlines\",more", false));
+
 
     }
 

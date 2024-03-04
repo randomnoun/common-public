@@ -7,6 +7,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -524,6 +525,169 @@ public class Text {
         }
         result.add(element);
         return result;
+    }
+    
+    @FunctionalInterface
+    public interface CsvLineReader { // doesn't extend Supplier<T> as it throws exceptions
+    	/** Returns the next logical line in the CSV ( quoted values can contain newlines )  
+    	 * 
+    	 * @return
+    	 * @throws ParseException
+    	 * @throws IOException
+    	 */
+        List<String> readLine() throws ParseException, IOException;
+    }
+    
+    // same as parseCsv(String, whitespaceSensitive) but can handle newlines in quotes by supplying a Reader
+    // the returned object will return a List<String> or null if EOF is reached
+    // ParseExceptions are wrapped in something, probably
+    static public CsvLineReader parseCsv(Reader r, boolean whitespaceSensitive) {
+        if (r == null) {
+            throw new NullPointerException("null reader");
+        }
+    	return new CsvLineReader() {
+    		// eof if we actually read eof or encouner a parse exception ( cannot recover )
+    		boolean isEOF = false;
+			@Override
+			public List<String> readLine() throws ParseException, IOException {
+				// first read is never null
+				if (isEOF) { return null; }
+				
+				// parse state: 
+		        //   0=searching for new value (at start of line or after comma) 
+		        //   1=consuming non-quoted values
+		        //   2=consuming quoted value
+		        //   3=consumed first quote within a quoted value (may be termining quote or a "" sequence)
+		        //   4=consuming whitespace up to next comma/EOL (after quoted value, not whitespaceSensitive)
+		        int parseState = 0;
+		        // int length = text.length();
+		        String element;
+		        List<String> result = new ArrayList<String>();
+		        char ch;
+		        StringBuilder buffer = new StringBuilder();
+		        int intChar = r.read();
+		        int pos = 1;
+
+		        // @TODO better CRLF handling
+		        while (intChar != -1) {
+		            ch = (char) intChar;
+
+		            // System.out.println("pos " + pos + ", state=" + parseState + ", nextchar=" + ch + ", buf=" + buffer);
+		            switch (parseState) {
+		                case 0:
+		                	if (ch == '\n') {
+		                		// return result so far
+		                		element = buffer.toString();
+		        		        result.add(buffer.toString());
+		                		return result;
+		                	} else if (Character.isSpaceChar(ch)) {
+		                        if (whitespaceSensitive) {
+		                            buffer.append(ch);
+		                            parseState = 1;
+		                        } else {
+		                            // ignore
+		                        }
+		                    } else if (ch == '"') {
+		                        parseState = 2;
+		                    } else if (ch == ',') {
+		                    	result.add(""); // add an empty element; state remains unchanged
+		                    } else {
+		                        buffer.append(ch);
+		                        parseState = 1;
+		                    }
+		                    break;
+		                case 1:
+		                	if (ch == '\n') {
+		                		// return result so far
+		                		element = buffer.toString();
+		        		        if (!whitespaceSensitive) {
+		        		            element = element.trim();
+		        		        }
+		        		        result.add(buffer.toString());
+		                		return result;
+		                	} else if (ch == ',') {
+		                        element = buffer.toString();
+		                        if (!whitespaceSensitive) {
+		                            element = element.trim();
+		                        }
+		                        result.add(element);
+		                        buffer.setLength(0);
+		                        parseState = 0;
+		                    } else {
+		                        buffer.append(ch);
+		                    }
+		                    break;
+		                case 2:
+		                    if (ch == '"') {
+		                        parseState = 3;
+		                    } else {
+		                        buffer.append(ch);
+		                    }
+		                    break;
+		                case 3:
+		                	if (ch == '\n') {
+		                        result.add(buffer.toString());
+		                        buffer.setLength(0);
+		                        parseState = 0;
+		                        return result;
+		                	} else if (ch == '"') {
+		                        buffer.append('"');
+		                        parseState = 2;
+		                    } else if (ch == ',') {
+		                        result.add(buffer.toString());
+		                        buffer.setLength(0);
+		                        parseState = 0;
+		                    } else if (Character.isSpaceChar(ch)) {
+		                        if (whitespaceSensitive) {
+		                        	isEOF = true;
+		                            throw new ParseException("Cannot have trailing whitespace after close quote character", pos);
+		                        }
+		                        parseState = 4;
+		                    } else {
+		                    	isEOF = true;
+		                        throw new ParseException("Cannot have trailing data after close quote character", pos);
+		                    }
+		                    break;
+		                case 4:
+		                	if (ch == '\n') {
+		                		// return result so far
+		                		result.add(buffer.toString());
+		                		return result;
+		                	} else if (Character.isSpaceChar(ch)) {
+		                        // consume and ignore
+		                    } else if (ch == ',') {
+		                        result.add(buffer.toString());
+		                        buffer.setLength(0);
+		                        parseState = 0;
+		                    } else {
+		                    	isEOF = true;
+		                        throw new ParseException("Cannot have trailing data after close quote character", pos);
+		                    }
+		                    break;
+		                    
+		                default:
+		                    throw new IllegalStateException("Illegal state '" + parseState + "' in parseCsv");
+		            }
+		            
+			        intChar = r.read();
+			        pos++;
+		        }
+		        isEOF = true;
+
+		        // if state is 2, we are in the middle of a quoted value
+		        if (parseState == 2) {
+		            throw new ParseException("Missing endquote in csv text", pos);
+		        }
+
+		        // otherwise we still need to add what's left in the buffer into the result list
+		        element = buffer.toString();
+		        if (parseState == 1 && !whitespaceSensitive) {
+		            element = element.trim();
+		        }
+		        result.add(element);
+		        return result;
+			}
+    	};
     }
 
     /**
