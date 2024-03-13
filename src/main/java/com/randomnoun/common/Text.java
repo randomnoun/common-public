@@ -547,10 +547,10 @@ public class Text {
         }
     	return new CsvLineReader() {
     		// eof if we actually read eof or encouner a parse exception ( cannot recover )
+    		boolean isAtStart = true; // for backwards compatibility with Text.parseCsv(""), first readLine() is never null
     		boolean isEOF = false;
 			@Override
 			public List<String> readLine() throws ParseException, IOException {
-				// first read is never null
 				if (isEOF) { return null; }
 				
 				// parse state: 
@@ -567,8 +567,13 @@ public class Text {
 		        StringBuilder buffer = new StringBuilder();
 		        int intChar = r.read();
 		        int pos = 1;
+		        if (intChar == -1 && !isAtStart) {
+		        	isEOF = true;
+		        	return null;
+		        }
 
 		        // @TODO better CRLF handling
+		        isAtStart = false;
 		        while (intChar != -1) {
 		            ch = (char) intChar;
 
