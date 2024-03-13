@@ -34,3 +34,10 @@
  
 * Improved Text.parseCsv handling for elements containing newlines
 
+# 1.0.22
+
+## Updates
+ 
+* Improved Text.parseCsv EOF handling
+* AppendWriter
+

@@ -1,3 +1,4 @@
 ## Updates
  
-* Improved Text.parseCsv handling for elements containing newlines
+* Improved Text.parseCsv EOF handling
+* AppendWriter
