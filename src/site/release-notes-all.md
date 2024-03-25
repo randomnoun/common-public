@@ -41,3 +41,9 @@
 * Improved Text.parseCsv EOF handling
 * AppendWriter
 
+# 1.0.23
+
+## Updates
+
+* AuthCheckTag
+
