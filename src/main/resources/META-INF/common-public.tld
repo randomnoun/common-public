@@ -15,8 +15,8 @@
 
 	<tag>
 		<description>
-    This tag generates a HTML SELECT tag, populated from a structured list.
-    </description>
+    	    This tag generates a HTML SELECT tag, populated from a structured list.
+	    </description>
 		<name>select</name>
 		<tag-class>com.randomnoun.common.webapp.taglib.SelectTag</tag-class>
 		<body-content>empty</body-content>
@@ -435,9 +435,9 @@
 
 	<tag>
 		<description>
-    This tag renders a bit of javascript to set a (possibly quite complex) variable 
-    from a JSTL-visible variable.
-    </description>
+		    This tag renders a bit of javascript to set a (possibly quite complex) variable 
+		    from a JSTL-visible variable.
+        </description>
 		<name>setJavascriptVar</name>
 		<tag-class>com.randomnoun.common.webapp.taglib.SetJavascriptVarTag</tag-class>
 		<body-content>empty</body-content>
@@ -466,8 +466,8 @@
 
 	<tag>
 		<description>
-    This tag renders a javascript expression to extend a javascript object with a java object.
-    </description>
+            This tag renders a javascript expression to extend a javascript object with a java object.
+        </description>
 		<name>extendJavascriptVar</name>
 		<tag-class>com.randomnoun.common.webapp.taglib.ExtendJavascriptVarTag</tag-class>
 		<body-content>empty</body-content>
@@ -509,6 +509,15 @@
 
 	</tag>
 
-
+    <tag>
+        <description>
+		    This tag ensures that the user is authenticated (i.e. has come through the struts
+		    framework). This tag is used to ensure that users don't type in the URL of a .JSP
+		    page directly in order to bypass our security mechanisms.
+	    </description>
+        <name>authCheck</name>
+        <tag-class>com.randomnoun.common.webapp.taglib.AuthCheckTag</tag-class>
+        <body-content>empty</body-content>
+    </tag>
 
 </taglib>
