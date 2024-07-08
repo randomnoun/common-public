@@ -8,15 +8,27 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.LineNumberReader;
+import java.io.OutputStream;
+import java.io.PrintStream;
+import java.io.PrintWriter;
 import java.io.Reader;
+import java.io.Writer;
+import java.nio.charset.Charset;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Enumeration;
+import java.util.InvalidPropertiesFormatException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
+import java.util.Set;
 import java.util.StringTokenizer;
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 
 import org.apache.log4j.Logger;
 
@@ -160,12 +172,224 @@ public class PropertyParser {
     /** currently within correct environment */
     private boolean correctEnvironment = true;
 
+    /** comment parsed so far */
+    private String comment = null;
+
     /** current environment string */
     private String environmentID = "";
 
     /** the properties object we will populate from this InputStream */
     private Properties properties = null;
+    
+    private Properties propertyComments = null; 
 
+    public static class PropertiesWithComments extends Properties {
+    	/** Generated serialVersionUID */
+		private static final long serialVersionUID = -780503047200669250L;
+		Properties p;
+    	Properties c;
+
+    	public PropertiesWithComments(Properties p, Properties c) {
+    		this.p = p;
+    		this.c = c;
+    	}
+    	
+		public String getComment(String key) {
+			return c.getProperty(key);
+		}
+		
+		public Properties getComments() {
+			return c;
+		}
+
+    	
+		public Object setProperty(String key, String value) {
+			return p.setProperty(key, value);
+		}
+
+		public void load(Reader reader) throws IOException {
+			p.load(reader);
+		}
+
+		public void load(InputStream inStream) throws IOException {
+			p.load(inStream);
+		}
+
+		/** @deprecated */
+		public void save(OutputStream out, String comments) {
+			p.save(out, comments);
+		}
+
+		public void store(Writer writer, String comments) throws IOException {
+			p.store(writer, comments);
+		}
+
+		public void store(OutputStream out, String comments) throws IOException {
+			p.store(out, comments);
+		}
+
+		public void loadFromXML(InputStream in) throws IOException, InvalidPropertiesFormatException {
+			p.loadFromXML(in);
+		}
+
+		public void storeToXML(OutputStream os, String comment) throws IOException {
+			p.storeToXML(os, comment);
+		}
+
+		public void storeToXML(OutputStream os, String comment, String encoding) throws IOException {
+			p.storeToXML(os, comment, encoding);
+		}
+
+		public void storeToXML(OutputStream os, String comment, Charset charset) throws IOException {
+			p.storeToXML(os, comment, charset);
+		}
+
+		public String getProperty(String key) {
+			return p.getProperty(key);
+		}
+
+		public String getProperty(String key, String defaultValue) {
+			return p.getProperty(key, defaultValue);
+		}
+
+		public Enumeration<?> propertyNames() {
+			return p.propertyNames();
+		}
+
+		public Set<String> stringPropertyNames() {
+			return p.stringPropertyNames();
+		}
+
+		public void list(PrintStream out) {
+			p.list(out);
+		}
+
+		public void list(PrintWriter out) {
+			p.list(out);
+		}
+
+		public int size() {
+			return p.size();
+		}
+
+		public boolean isEmpty() {
+			return p.isEmpty();
+		}
+
+		public Enumeration<Object> keys() {
+			return p.keys();
+		}
+
+		public Enumeration<Object> elements() {
+			return p.elements();
+		}
+
+		public boolean contains(Object value) {
+			return p.contains(value);
+		}
+
+		public boolean containsValue(Object value) {
+			return p.containsValue(value);
+		}
+
+		public boolean containsKey(Object key) {
+			return p.containsKey(key);
+		}
+
+		public Object get(Object key) {
+			return p.get(key);
+		}
+
+		public Object put(Object key, Object value) {
+			return p.put(key, value);
+		}
+
+		public Object remove(Object key) {
+			return p.remove(key);
+		}
+
+		public void putAll(Map<?, ?> t) {
+			p.putAll(t);
+		}
+
+		public void clear() {
+			p.clear();
+		}
+
+		public String toString() {
+			return p.toString();
+		}
+
+		public Set<Object> keySet() {
+			return p.keySet();
+		}
+
+		public Collection<Object> values() {
+			return p.values();
+		}
+
+		public Set<java.util.Map.Entry<Object, Object>> entrySet() {
+			return p.entrySet();
+		}
+
+		public boolean equals(Object o) {
+			return p.equals(o);
+		}
+
+		public int hashCode() {
+			return p.hashCode();
+		}
+
+		public Object getOrDefault(Object key, Object defaultValue) {
+			return p.getOrDefault(key, defaultValue);
+		}
+
+		public void forEach(BiConsumer<? super Object, ? super Object> action) {
+			p.forEach(action);
+		}
+
+		public void replaceAll(BiFunction<? super Object, ? super Object, ?> function) {
+			p.replaceAll(function);
+		}
+
+		public Object putIfAbsent(Object key, Object value) {
+			return p.putIfAbsent(key, value);
+		}
+
+		public boolean remove(Object key, Object value) {
+			return p.remove(key, value);
+		}
+
+		public boolean replace(Object key, Object oldValue, Object newValue) {
+			return p.replace(key, oldValue, newValue);
+		}
+
+		public Object replace(Object key, Object value) {
+			return p.replace(key, value);
+		}
+
+		public Object computeIfAbsent(Object key, Function<? super Object, ?> mappingFunction) {
+			return p.computeIfAbsent(key, mappingFunction);
+		}
+
+		public Object computeIfPresent(Object key, BiFunction<? super Object, ? super Object, ?> remappingFunction) {
+			return p.computeIfPresent(key, remappingFunction);
+		}
+
+		public Object compute(Object key, BiFunction<? super Object, ? super Object, ?> remappingFunction) {
+			return p.compute(key, remappingFunction);
+		}
+
+		public Object merge(Object key, Object value, BiFunction<? super Object, ? super Object, ?> remappingFunction) {
+			return p.merge(key, value, remappingFunction);
+		}
+
+		public Object clone() {
+			return p.clone();
+		}
+    	
+    }
+    
     /**
      * Create a new Parser object. Note that parsing does not begin until the
      * Parse method is called on this object.
@@ -196,13 +420,16 @@ public class PropertyParser {
      * @throws IOException
      * @throws ParseException
      */
-    public Properties parse()
+    public PropertiesWithComments parse()
         throws ParseException, IOException {
         String line = ""; // current line
         String token = ""; // current token
 
         // ensure that all class fields have been reset
         properties = new Properties();
+        propertyComments = new Properties();
+        PropertiesWithComments pwc = new PropertiesWithComments(properties, propertyComments);
+        
 
         line = lineReader.readLine();
 
@@ -236,7 +463,7 @@ public class PropertyParser {
             line = lineReader.readLine();
         }
 
-        return properties;
+        return pwc;
     }
 
     /**
@@ -252,13 +479,15 @@ public class PropertyParser {
         String lowerCaseToken;
         String nextToken = null;
         String value = null;
+        // String comment = null;
 
         // System.out.println("P " + token + "(" + line + ")");
         lowerCaseToken = token.toLowerCase();
 
-        if (token.startsWith("#")) {
-            // comment
-            // call the appropriate method depending on the keyword...
+        if (token.startsWith("##")) {
+        	comment = (comment == null ? "" : comment + "\n" ) + parseTokenToEOL("property value");
+        } else if (token.startsWith("#")) {
+        	comment = (comment == null ? null : comment + "\n" + parseTokenToEOL("property value"));
         } else if (lowerCaseToken.equals("startenvironment")) {
             parseStartEnvironment();
         } else if (lowerCaseToken.equals("endenvironment")) {
@@ -320,9 +549,15 @@ public class PropertyParser {
                     }
                     
                     Struct.setValue(list, listPart, value, true, true, true);
+                    // don't store comments in lists
+                    comment = null;
                 } else {
                     // no index supplied, just set the property	
                     properties.setProperty(token, value);
+                    if (comment != null) {
+                    	propertyComments.setProperty(token, comment);
+                    	comment = null;
+                    }
                 }
             } else {
                 newParseException("Unknown token '" + nextToken + "', '=' expected");
