@@ -279,81 +279,89 @@ public abstract class AppConfigBase extends Properties {
     	if (jt==null) {
         	String connectionType = getProperty(prefix + "connectionType");
         	if (connectionType==null) { connectionType = "simple"; }
-    		String driver = getProperty(prefix + "driver");
-	        String url = getProperty(prefix + "url");
-	        String username = getProperty(prefix + "username");
-	        String password = getProperty(prefix + "password");
-	        logger.info("Retrieving " + connectionType + " connection for '" + username + "'/'" + password + "' @ '" + url + "'");
-	        DataSource ds = null;
-        	if (!Text.isBlank(driver)) { 
-	        	try {
-	        		Class.forName(driver); 
-	        	} catch (ClassNotFoundException e) {
-					logger.error("Error loading class '" + driver + "' for database '" + connectionName + "'", e);
-				} 
-	        }
-	        if (connectionType.equals("simple")) {
-	        	if (url==null) { throw new NullPointerException(prefix + "url has not been initialised"); }
-		        Connection connection;
-		        try {
-		            if (Text.isBlank(username)) {
-		                connection = DriverManager.getConnection (url);
-		            } else {
-		                connection = DriverManager.getConnection (url, username, password);
-		            }
-		        } catch (SQLException sqle) {
-		            throw new DataAccessResourceFailureException("Could not open connection to database", sqle); 
+        	
+        	if (connectionType.equals("none")) {
+        		if (!jdbcTemplates.containsKey(connectionName)) {
+        			dataSources.put(connectionName, null);
+        			jdbcTemplates.put(connectionName, null);
+        		}
+        	} else {
+	    		String driver = getProperty(prefix + "driver");
+		        String url = getProperty(prefix + "url");
+		        String username = getProperty(prefix + "username");
+		        String password = getProperty(prefix + "password");
+		        logger.info("Retrieving " + connectionType + " connection for '" + username + "'/'" + password + "' @ '" + url + "'");
+		        DataSource ds = null;
+	        	if (!Text.isBlank(driver)) { 
+		        	try {
+		        		Class.forName(driver); 
+		        	} catch (ClassNotFoundException e) {
+						logger.error("Error loading class '" + driver + "' for database '" + connectionName + "'", e);
+					} 
 		        }
-		        ds = new SingleConnectionDataSource(connection, false);
+		        if (connectionType.equals("simple")) {
+		        	if (url==null) { throw new NullPointerException(prefix + "url has not been initialised"); }
+			        Connection connection;
+			        try {
+			            if (Text.isBlank(username)) {
+			                connection = DriverManager.getConnection (url);
+			            } else {
+			                connection = DriverManager.getConnection (url, username, password);
+			            }
+			        } catch (SQLException sqle) {
+			            throw new DataAccessResourceFailureException("Could not open connection to database", sqle); 
+			        }
+			        ds = new SingleConnectionDataSource(connection, false);
+			        
+		        } else if (connectionType.equals("dbcp")) {
+		        	throw new UnsupportedOperationException("dbcp is no longer supported; use c3p0 instead");
+		        	
+		        } else if (connectionType.equals("c3p0")) {
+		        	if (url==null) { throw new NullPointerException(prefix + "url has not been initialised"); }
+		        	ComboPooledDataSource  cpds = new ComboPooledDataSource ();
+		        	try {
+						cpds.setDriverClass(driver);
+					} catch (PropertyVetoException e) {
+						throw new IllegalStateException("Could not set driverClass '" + driver + "' for c3p0 datasource", e);
+					}
+		        	@SuppressWarnings("unchecked")
+					Map<String,String> c3poProps = (Map<String, String>) PropertyParser.restrict(this, prefix + "c3p0", true);
+		        	// remove extensions from props
+		        	for (Iterator<Map.Entry<String,String>> i = c3poProps.entrySet().iterator(); i.hasNext(); ) { 
+		        		Map.Entry<String,String> e=i.next(); 
+		        		if (e.getKey().startsWith("extensions.")) { i.remove(); }
+		        	}
+		        	Struct.setFromMap(cpds, c3poProps, false, true, false);
+		        	
+		        	// set extensions separately
+		        	@SuppressWarnings("unchecked")
+					Map<String,String> c3poExtensionProps = (Map<String, String>) PropertyParser.restrict(this, prefix + "c3p0.extensions", true);
+		        	cpds.setExtensions(c3poExtensionProps);
+		        	cpds.setJdbcUrl(url);
+		        	if (!Text.isBlank(username)) {
+		        		cpds.setUser(username);
+		        		cpds.setPassword(password);
+		        	}
+		        	ds = cpds;
+		        	
+		        } else if (connectionType.equals("jndi")) {
+		        	String jndiName = getProperty(prefix + "jndiName");
+					try {
+						InitialContext ctx = new InitialContext();
+						Context envContext  = (Context) ctx.lookup("java:/comp/env");
+						ds = (DataSource) envContext.lookup(jndiName);
+						// could fallback to global datasource if comp/env is not here
+					} catch (NamingException e) {
+						throw new IllegalStateException("Could not retrieve datasource '" + jndiName + "' from JNDI", e);
+					}
+		        } else {
+		        	throw new IllegalStateException("Unknown " + prefix + "connectionType property '" + connectionType + "')");
+		        }
 		        
-	        } else if (connectionType.equals("dbcp")) {
-	        	throw new UnsupportedOperationException("dbcp is no longer supported; use c3p0 instead");
-	        	
-	        } else if (connectionType.equals("c3p0")) {
-	        	if (url==null) { throw new NullPointerException(prefix + "url has not been initialised"); }
-	        	ComboPooledDataSource  cpds = new ComboPooledDataSource ();
-	        	try {
-					cpds.setDriverClass(driver);
-				} catch (PropertyVetoException e) {
-					throw new IllegalStateException("Could not set driverClass '" + driver + "' for c3p0 datasource", e);
-				}
-	        	@SuppressWarnings("unchecked")
-				Map<String,String> c3poProps = (Map<String, String>) PropertyParser.restrict(this, prefix + "c3p0", true);
-	        	// remove extensions from props
-	        	for (Iterator<Map.Entry<String,String>> i = c3poProps.entrySet().iterator(); i.hasNext(); ) { 
-	        		Map.Entry<String,String> e=i.next(); 
-	        		if (e.getKey().startsWith("extensions.")) { i.remove(); }
-	        	}
-	        	Struct.setFromMap(cpds, c3poProps, false, true, false);
-	        	
-	        	// set extensions separately
-	        	@SuppressWarnings("unchecked")
-				Map<String,String> c3poExtensionProps = (Map<String, String>) PropertyParser.restrict(this, prefix + "c3p0.extensions", true);
-	        	cpds.setExtensions(c3poExtensionProps);
-	        	cpds.setJdbcUrl(url);
-	        	if (!Text.isBlank(username)) {
-	        		cpds.setUser(username);
-	        		cpds.setPassword(password);
-	        	}
-	        	ds = cpds;
-	        	
-	        } else if (connectionType.equals("jndi")) {
-	        	String jndiName = getProperty(prefix + "jndiName");
-				try {
-					InitialContext ctx = new InitialContext();
-					Context envContext  = (Context) ctx.lookup("java:/comp/env");
-					ds = (DataSource) envContext.lookup(jndiName);
-					// could fallback to global datasource if comp/env is not here
-				} catch (NamingException e) {
-					throw new IllegalStateException("Could not retrieve datasource '" + jndiName + "' from JNDI", e);
-				}
-	        } else {
-	        	throw new IllegalStateException("Unknown " + prefix + "connectionType property '" + connectionType + "')");
-	        }
-	        
-	        jt = new JdbcTemplate(ds);
-	        dataSources.put(connectionName, ds);
-	        jdbcTemplates.put(connectionName, jt);
+		        jt = new JdbcTemplate(ds);
+		        dataSources.put(connectionName, ds);
+		        jdbcTemplates.put(connectionName, jt);
+        	}
     	}
     	return jt;
     }
