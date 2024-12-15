@@ -1,3 +1,3 @@
 ## Updates
  
-* AuthCheckTag
+* Update dependencies
