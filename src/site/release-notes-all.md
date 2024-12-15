@@ -1,17 +1,33 @@
-# 1.0.17
+# 1.0.24
 
 ## Updates
 
-* First github package
 * Update dependencies
 
-# 1.0.18
+# 1.0.23
+
+## Updates
+
+* AuthCheckTag
+
+# 1.0.22
 
 ## Updates
  
-* First github release
-* Minimum JDK required bumped from JDK 8 to JDK 17
-* Removed xalan and xerces dependencies
+* Improved Text.parseCsv EOF handling
+* AppendWriter
+
+# 1.0.21
+
+## Updates
+ 
+* Improved Text.parseCsv handling for elements containing newlines
+
+# 1.0.20
+
+## Updates
+ 
+* ProcessUtil, StreamUtil changes
 
 # 1.0.19
 
@@ -22,28 +38,18 @@
 * ResourceFinder error handling
 * History table improvements
 
-# 1.0.20
+# 1.0.18
 
 ## Updates
  
-* ProcessUtil, StreamUtil changes
+* First github release
+* Minimum JDK required bumped from JDK 8 to JDK 17
+* Removed xalan and xerces dependencies
 
-# 1.0.21
-
-## Updates
- 
-* Improved Text.parseCsv handling for elements containing newlines
-
-# 1.0.22
-
-## Updates
- 
-* Improved Text.parseCsv EOF handling
-* AppendWriter
-
-# 1.0.23
+# 1.0.17
 
 ## Updates
 
-* AuthCheckTag
+* First github package
+* Update dependencies
 
