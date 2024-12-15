@@ -287,170 +287,178 @@
 <a class="jxr_linenumber" name="L279" href="#L279">279</a>     	<strong class="jxr_keyword">if</strong> (jt==<strong class="jxr_keyword">null</strong>) {
 <a class="jxr_linenumber" name="L280" href="#L280">280</a>         	String connectionType = getProperty(prefix + <span class="jxr_string">"connectionType"</span>);
 <a class="jxr_linenumber" name="L281" href="#L281">281</a>         	<strong class="jxr_keyword">if</strong> (connectionType==<strong class="jxr_keyword">null</strong>) { connectionType = <span class="jxr_string">"simple"</span>; }
-<a class="jxr_linenumber" name="L282" href="#L282">282</a>     		String driver = getProperty(prefix + <span class="jxr_string">"driver"</span>);
-<a class="jxr_linenumber" name="L283" href="#L283">283</a> 	        String url = getProperty(prefix + <span class="jxr_string">"url"</span>);
-<a class="jxr_linenumber" name="L284" href="#L284">284</a> 	        String username = getProperty(prefix + <span class="jxr_string">"username"</span>);
-<a class="jxr_linenumber" name="L285" href="#L285">285</a> 	        String password = getProperty(prefix + <span class="jxr_string">"password"</span>);
-<a class="jxr_linenumber" name="L286" href="#L286">286</a> 	        logger.info(<span class="jxr_string">"Retrieving "</span> + connectionType + <span class="jxr_string">" connection for '"</span> + username + <span class="jxr_string">"'/'"</span> + password + <span class="jxr_string">"' @ '"</span> + url + <span class="jxr_string">"'"</span>);
-<a class="jxr_linenumber" name="L287" href="#L287">287</a> 	        DataSource ds = <strong class="jxr_keyword">null</strong>;
-<a class="jxr_linenumber" name="L288" href="#L288">288</a>         	<strong class="jxr_keyword">if</strong> (!Text.isBlank(driver)) { 
-<a class="jxr_linenumber" name="L289" href="#L289">289</a> 	        	<strong class="jxr_keyword">try</strong> {
-<a class="jxr_linenumber" name="L290" href="#L290">290</a> 	        		Class.forName(driver); 
-<a class="jxr_linenumber" name="L291" href="#L291">291</a> 	        	} <strong class="jxr_keyword">catch</strong> (ClassNotFoundException e) {
-<a class="jxr_linenumber" name="L292" href="#L292">292</a> 					logger.error(<span class="jxr_string">"Error loading class '"</span> + driver + <span class="jxr_string">"' for database '"</span> + connectionName + <span class="jxr_string">"'"</span>, e);
-<a class="jxr_linenumber" name="L293" href="#L293">293</a> 				} 
-<a class="jxr_linenumber" name="L294" href="#L294">294</a> 	        }
-<a class="jxr_linenumber" name="L295" href="#L295">295</a> 	        <strong class="jxr_keyword">if</strong> (connectionType.equals(<span class="jxr_string">"simple"</span>)) {
-<a class="jxr_linenumber" name="L296" href="#L296">296</a> 	        	<strong class="jxr_keyword">if</strong> (url==<strong class="jxr_keyword">null</strong>) { <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> NullPointerException(prefix + <span class="jxr_string">"url has not been initialised"</span>); }
-<a class="jxr_linenumber" name="L297" href="#L297">297</a> 		        Connection connection;
-<a class="jxr_linenumber" name="L298" href="#L298">298</a> 		        <strong class="jxr_keyword">try</strong> {
-<a class="jxr_linenumber" name="L299" href="#L299">299</a> 		            <strong class="jxr_keyword">if</strong> (Text.isBlank(username)) {
-<a class="jxr_linenumber" name="L300" href="#L300">300</a> 		                connection = DriverManager.getConnection (url);
-<a class="jxr_linenumber" name="L301" href="#L301">301</a> 		            } <strong class="jxr_keyword">else</strong> {
-<a class="jxr_linenumber" name="L302" href="#L302">302</a> 		                connection = DriverManager.getConnection (url, username, password);
-<a class="jxr_linenumber" name="L303" href="#L303">303</a> 		            }
-<a class="jxr_linenumber" name="L304" href="#L304">304</a> 		        } <strong class="jxr_keyword">catch</strong> (SQLException sqle) {
-<a class="jxr_linenumber" name="L305" href="#L305">305</a> 		            <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> DataAccessResourceFailureException(<span class="jxr_string">"Could not open connection to database"</span>, sqle); 
-<a class="jxr_linenumber" name="L306" href="#L306">306</a> 		        }
-<a class="jxr_linenumber" name="L307" href="#L307">307</a> 		        ds = <strong class="jxr_keyword">new</strong> SingleConnectionDataSource(connection, false);
-<a class="jxr_linenumber" name="L308" href="#L308">308</a> 		        
-<a class="jxr_linenumber" name="L309" href="#L309">309</a> 	        } <strong class="jxr_keyword">else</strong> <strong class="jxr_keyword">if</strong> (connectionType.equals(<span class="jxr_string">"dbcp"</span>)) {
-<a class="jxr_linenumber" name="L310" href="#L310">310</a> 	        	<strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> UnsupportedOperationException(<span class="jxr_string">"dbcp is no longer supported; use c3p0 instead"</span>);
-<a class="jxr_linenumber" name="L311" href="#L311">311</a> 	        	
-<a class="jxr_linenumber" name="L312" href="#L312">312</a> 	        } <strong class="jxr_keyword">else</strong> <strong class="jxr_keyword">if</strong> (connectionType.equals(<span class="jxr_string">"c3p0"</span>)) {
-<a class="jxr_linenumber" name="L313" href="#L313">313</a> 	        	<strong class="jxr_keyword">if</strong> (url==<strong class="jxr_keyword">null</strong>) { <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> NullPointerException(prefix + <span class="jxr_string">"url has not been initialised"</span>); }
-<a class="jxr_linenumber" name="L314" href="#L314">314</a> 	        	ComboPooledDataSource  cpds = <strong class="jxr_keyword">new</strong> ComboPooledDataSource ();
-<a class="jxr_linenumber" name="L315" href="#L315">315</a> 	        	<strong class="jxr_keyword">try</strong> {
-<a class="jxr_linenumber" name="L316" href="#L316">316</a> 					cpds.setDriverClass(driver);
-<a class="jxr_linenumber" name="L317" href="#L317">317</a> 				} <strong class="jxr_keyword">catch</strong> (PropertyVetoException e) {
-<a class="jxr_linenumber" name="L318" href="#L318">318</a> 					<strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalStateException(<span class="jxr_string">"Could not set driverClass '"</span> + driver + <span class="jxr_string">"' for c3p0 datasource"</span>, e);
-<a class="jxr_linenumber" name="L319" href="#L319">319</a> 				}
-<a class="jxr_linenumber" name="L320" href="#L320">320</a> 	        	@SuppressWarnings(<span class="jxr_string">"unchecked"</span>)
-<a class="jxr_linenumber" name="L321" href="#L321">321</a> 				Map&lt;String,String&gt; c3poProps = (Map&lt;String, String&gt;) PropertyParser.restrict(<strong class="jxr_keyword">this</strong>, prefix + <span class="jxr_string">"c3p0"</span>, <strong class="jxr_keyword">true</strong>);
-<a class="jxr_linenumber" name="L322" href="#L322">322</a> 	        	<em class="jxr_comment">// remove extensions from props</em>
-<a class="jxr_linenumber" name="L323" href="#L323">323</a> 	        	<strong class="jxr_keyword">for</strong> (Iterator&lt;Map.Entry&lt;String,String&gt;&gt; i = c3poProps.entrySet().iterator(); i.hasNext(); ) { 
-<a class="jxr_linenumber" name="L324" href="#L324">324</a> 	        		Map.Entry&lt;String,String&gt; e=i.next(); 
-<a class="jxr_linenumber" name="L325" href="#L325">325</a> 	        		<strong class="jxr_keyword">if</strong> (e.getKey().startsWith(<span class="jxr_string">"extensions."</span>)) { i.remove(); }
-<a class="jxr_linenumber" name="L326" href="#L326">326</a> 	        	}
-<a class="jxr_linenumber" name="L327" href="#L327">327</a> 	        	Struct.setFromMap(cpds, c3poProps, false, <strong class="jxr_keyword">true</strong>, false);
-<a class="jxr_linenumber" name="L328" href="#L328">328</a> 	        	
-<a class="jxr_linenumber" name="L329" href="#L329">329</a> 	        	<em class="jxr_comment">// set extensions separately</em>
-<a class="jxr_linenumber" name="L330" href="#L330">330</a> 	        	@SuppressWarnings(<span class="jxr_string">"unchecked"</span>)
-<a class="jxr_linenumber" name="L331" href="#L331">331</a> 				Map&lt;String,String&gt; c3poExtensionProps = (Map&lt;String, String&gt;) PropertyParser.restrict(<strong class="jxr_keyword">this</strong>, prefix + <span class="jxr_string">"c3p0.extensions"</span>, <strong class="jxr_keyword">true</strong>);
-<a class="jxr_linenumber" name="L332" href="#L332">332</a> 	        	cpds.setExtensions(c3poExtensionProps);
-<a class="jxr_linenumber" name="L333" href="#L333">333</a> 	        	cpds.setJdbcUrl(url);
-<a class="jxr_linenumber" name="L334" href="#L334">334</a> 	        	<strong class="jxr_keyword">if</strong> (!Text.isBlank(username)) {
-<a class="jxr_linenumber" name="L335" href="#L335">335</a> 	        		cpds.setUser(username);
-<a class="jxr_linenumber" name="L336" href="#L336">336</a> 	        		cpds.setPassword(password);
-<a class="jxr_linenumber" name="L337" href="#L337">337</a> 	        	}
-<a class="jxr_linenumber" name="L338" href="#L338">338</a> 	        	ds = cpds;
-<a class="jxr_linenumber" name="L339" href="#L339">339</a> 	        	
-<a class="jxr_linenumber" name="L340" href="#L340">340</a> 	        } <strong class="jxr_keyword">else</strong> <strong class="jxr_keyword">if</strong> (connectionType.equals(<span class="jxr_string">"jndi"</span>)) {
-<a class="jxr_linenumber" name="L341" href="#L341">341</a> 	        	String jndiName = getProperty(prefix + <span class="jxr_string">"jndiName"</span>);
-<a class="jxr_linenumber" name="L342" href="#L342">342</a> 				<strong class="jxr_keyword">try</strong> {
-<a class="jxr_linenumber" name="L343" href="#L343">343</a> 					InitialContext ctx = <strong class="jxr_keyword">new</strong> InitialContext();
-<a class="jxr_linenumber" name="L344" href="#L344">344</a> 					Context envContext  = (Context) ctx.lookup(<span class="jxr_string">"java:/comp/env"</span>);
-<a class="jxr_linenumber" name="L345" href="#L345">345</a> 					ds = (DataSource) envContext.lookup(jndiName);
-<a class="jxr_linenumber" name="L346" href="#L346">346</a> 					<em class="jxr_comment">// could fallback to global datasource if comp/env is not here</em>
-<a class="jxr_linenumber" name="L347" href="#L347">347</a> 				} <strong class="jxr_keyword">catch</strong> (NamingException e) {
-<a class="jxr_linenumber" name="L348" href="#L348">348</a> 					<strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalStateException(<span class="jxr_string">"Could not retrieve datasource '"</span> + jndiName + <span class="jxr_string">"' from JNDI"</span>, e);
-<a class="jxr_linenumber" name="L349" href="#L349">349</a> 				}
-<a class="jxr_linenumber" name="L350" href="#L350">350</a> 	        } <strong class="jxr_keyword">else</strong> {
-<a class="jxr_linenumber" name="L351" href="#L351">351</a> 	        	<strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalStateException(<span class="jxr_string">"Unknown "</span> + prefix + <span class="jxr_string">"connectionType property '"</span> + connectionType + <span class="jxr_string">"')"</span>);
-<a class="jxr_linenumber" name="L352" href="#L352">352</a> 	        }
-<a class="jxr_linenumber" name="L353" href="#L353">353</a> 	        
-<a class="jxr_linenumber" name="L354" href="#L354">354</a> 	        jt = <strong class="jxr_keyword">new</strong> JdbcTemplate(ds);
-<a class="jxr_linenumber" name="L355" href="#L355">355</a> 	        dataSources.put(connectionName, ds);
-<a class="jxr_linenumber" name="L356" href="#L356">356</a> 	        jdbcTemplates.put(connectionName, jt);
-<a class="jxr_linenumber" name="L357" href="#L357">357</a>     	}
-<a class="jxr_linenumber" name="L358" href="#L358">358</a>     	<strong class="jxr_keyword">return</strong> jt;
-<a class="jxr_linenumber" name="L359" href="#L359">359</a>     }
-<a class="jxr_linenumber" name="L360" href="#L360">360</a>     
-<a class="jxr_linenumber" name="L361" href="#L361">361</a>     
-<a class="jxr_linenumber" name="L362" href="#L362">362</a> 	<em class="jxr_javadoccomment">/** Return the security context for this application</em>
-<a class="jxr_linenumber" name="L363" href="#L363">363</a> <em class="jxr_javadoccomment">	 * </em>
-<a class="jxr_linenumber" name="L364" href="#L364">364</a> <em class="jxr_javadoccomment">	 * @return the security context for this application</em>
-<a class="jxr_linenumber" name="L365" href="#L365">365</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L366" href="#L366">366</a>     <strong class="jxr_keyword">public</strong> <a name="SecurityContext" href="../../../../com/randomnoun/common/security/SecurityContext.html#SecurityContext">SecurityContext</a> getSecurityContext() {
-<a class="jxr_linenumber" name="L367" href="#L367">367</a>     	<strong class="jxr_keyword">if</strong> (securityContext==<strong class="jxr_keyword">null</strong>) {
-<a class="jxr_linenumber" name="L368" href="#L368">368</a>     		<strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalStateException(<span class="jxr_string">"Security context not initialised"</span>);
-<a class="jxr_linenumber" name="L369" href="#L369">369</a>     	}
-<a class="jxr_linenumber" name="L370" href="#L370">370</a>     	<strong class="jxr_keyword">return</strong> securityContext;
-<a class="jxr_linenumber" name="L371" href="#L371">371</a>     }
-<a class="jxr_linenumber" name="L372" href="#L372">372</a>     
-<a class="jxr_linenumber" name="L373" href="#L373">373</a> 
-<a class="jxr_linenumber" name="L374" href="#L374">374</a> 	<em class="jxr_javadoccomment">/** Determines whether a user 'may have' a permission on the application. </em>
-<a class="jxr_linenumber" name="L375" href="#L375">375</a> <em class="jxr_javadoccomment">	 * See the hasPermission method in SecurityContext for more details.</em>
-<a class="jxr_linenumber" name="L376" href="#L376">376</a> <em class="jxr_javadoccomment">	 *</em>
-<a class="jxr_linenumber" name="L377" href="#L377">377</a> <em class="jxr_javadoccomment">	 * @param user The user we are checking permissions for. </em>
-<a class="jxr_linenumber" name="L378" href="#L378">378</a> <em class="jxr_javadoccomment">	 * @param permission The permission we are checking.</em>
-<a class="jxr_linenumber" name="L379" href="#L379">379</a> <em class="jxr_javadoccomment">	 * @return 'true' if the user may be authorised to perform the permission,</em>
-<a class="jxr_linenumber" name="L380" href="#L380">380</a> <em class="jxr_javadoccomment">	 *   false otherwise</em>
-<a class="jxr_linenumber" name="L381" href="#L381">381</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L382" href="#L382">382</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> hasPermission(<a name="User" href="../../../../com/randomnoun/common/security/User.html#User">User</a> user, String permission)
-<a class="jxr_linenumber" name="L383" href="#L383">383</a> 	{
-<a class="jxr_linenumber" name="L384" href="#L384">384</a> 		<strong class="jxr_keyword">if</strong> (<span class="jxr_string">"false"</span>.equals(getProperty(<span class="jxr_string">"auth.enableSecurityContext"</span>))) { <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">true</strong>; }
-<a class="jxr_linenumber" name="L385" href="#L385">385</a> 		SecurityContext securityContext = getSecurityContext();
-<a class="jxr_linenumber" name="L386" href="#L386">386</a> 		<strong class="jxr_keyword">return</strong> securityContext.hasPermission(user, permission);
-<a class="jxr_linenumber" name="L387" href="#L387">387</a> 	}
-<a class="jxr_linenumber" name="L388" href="#L388">388</a> 
-<a class="jxr_linenumber" name="L389" href="#L389">389</a> 	<em class="jxr_javadoccomment">/** Determines whether a user 'may have' a permission on the application. </em>
-<a class="jxr_linenumber" name="L390" href="#L390">390</a> <em class="jxr_javadoccomment">	 * See the hasPermission method in SecurityContext for more details. If the user</em>
-<a class="jxr_linenumber" name="L391" href="#L391">391</a> <em class="jxr_javadoccomment">	 * does not have the permission, then a SecurityException is thrown</em>
-<a class="jxr_linenumber" name="L392" href="#L392">392</a> <em class="jxr_javadoccomment">	 *</em>
-<a class="jxr_linenumber" name="L393" href="#L393">393</a> <em class="jxr_javadoccomment">	 * @see SecurityContext#hasPermission(com.randomnoun.common.security.User, String)</em>
-<a class="jxr_linenumber" name="L394" href="#L394">394</a> <em class="jxr_javadoccomment">	 *</em>
-<a class="jxr_linenumber" name="L395" href="#L395">395</a> <em class="jxr_javadoccomment">	 * @param user The user we are checking permissions for. </em>
-<a class="jxr_linenumber" name="L396" href="#L396">396</a> <em class="jxr_javadoccomment">	 * @param permission The permission we are checking.</em>
-<a class="jxr_linenumber" name="L397" href="#L397">397</a> <em class="jxr_javadoccomment">	 * </em>
-<a class="jxr_linenumber" name="L398" href="#L398">398</a> <em class="jxr_javadoccomment">	 * @throws SecurityException if the user does not have the supplied permission </em>
-<a class="jxr_linenumber" name="L399" href="#L399">399</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L400" href="#L400">400</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> checkPermission(<a name="User" href="../../../../com/randomnoun/common/security/User.html#User">User</a> user, String permission) <strong class="jxr_keyword">throws</strong> SecurityException {
-<a class="jxr_linenumber" name="L401" href="#L401">401</a> 		<strong class="jxr_keyword">if</strong> (!hasPermission(user,  permission)) {
-<a class="jxr_linenumber" name="L402" href="#L402">402</a> 			<strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> SecurityException(<span class="jxr_string">"User does not have '"</span> + permission + <span class="jxr_string">"' permission"</span>);
-<a class="jxr_linenumber" name="L403" href="#L403">403</a> 		}
-<a class="jxr_linenumber" name="L404" href="#L404">404</a>     }
-<a class="jxr_linenumber" name="L405" href="#L405">405</a> 
-<a class="jxr_linenumber" name="L406" href="#L406">406</a> 	<em class="jxr_javadoccomment">/** Determines whether a user has a permission on the application. </em>
-<a class="jxr_linenumber" name="L407" href="#L407">407</a> <em class="jxr_javadoccomment">	 * See the hasPermission method in SecurityContext for more details.</em>
-<a class="jxr_linenumber" name="L408" href="#L408">408</a> <em class="jxr_javadoccomment">	 *</em>
-<a class="jxr_linenumber" name="L409" href="#L409">409</a> <em class="jxr_javadoccomment">	 * @param user The user we are checking permissions for.</em>
-<a class="jxr_linenumber" name="L410" href="#L410">410</a> <em class="jxr_javadoccomment">	 * @param permission The permission we are checking.</em>
-<a class="jxr_linenumber" name="L411" href="#L411">411</a> <em class="jxr_javadoccomment">	 * @param resourceContext Fine-grained resource context</em>
-<a class="jxr_linenumber" name="L412" href="#L412">412</a> <em class="jxr_javadoccomment">	 * @return 'true' if the user is authorised to perform the permission,</em>
-<a class="jxr_linenumber" name="L413" href="#L413">413</a> <em class="jxr_javadoccomment">	 *   false otherwise</em>
-<a class="jxr_linenumber" name="L414" href="#L414">414</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L415" href="#L415">415</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> hasPermission(<a name="User" href="../../../../com/randomnoun/common/security/User.html#User">User</a> user, String permission, Map&lt;String, Object&gt; resourceContext)
-<a class="jxr_linenumber" name="L416" href="#L416">416</a> 	{
-<a class="jxr_linenumber" name="L417" href="#L417">417</a> 		<strong class="jxr_keyword">if</strong> (<span class="jxr_string">"false"</span>.equals(getProperty(<span class="jxr_string">"auth.enableSecurityContext"</span>))) { <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">true</strong>; }
-<a class="jxr_linenumber" name="L418" href="#L418">418</a> 		SecurityContext securityContext = getSecurityContext();
-<a class="jxr_linenumber" name="L419" href="#L419">419</a> 		<strong class="jxr_keyword">return</strong> securityContext.hasPermission(user, permission, resourceContext);
-<a class="jxr_linenumber" name="L420" href="#L420">420</a> 	}
-<a class="jxr_linenumber" name="L421" href="#L421">421</a> 
-<a class="jxr_linenumber" name="L422" href="#L422">422</a> 
-<a class="jxr_linenumber" name="L423" href="#L423">423</a> 	<em class="jxr_javadoccomment">/** Provides direct access to the datasource for this application. Most applications should use the </em>
-<a class="jxr_linenumber" name="L424" href="#L424">424</a> <em class="jxr_javadoccomment">	 * {@link #getJdbcTemplate()} method instead.</em>
-<a class="jxr_linenumber" name="L425" href="#L425">425</a> <em class="jxr_javadoccomment">	 * </em>
-<a class="jxr_linenumber" name="L426" href="#L426">426</a> <em class="jxr_javadoccomment">	 * @return the dataSource underlying the jdbcTemplate to the database</em>
-<a class="jxr_linenumber" name="L427" href="#L427">427</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L428" href="#L428">428</a> 	<strong class="jxr_keyword">public</strong> DataSource getDataSource() {
-<a class="jxr_linenumber" name="L429" href="#L429">429</a> 		getJdbcTemplate(); <em class="jxr_comment">// make sure default dataSource is initialised</em>
-<a class="jxr_linenumber" name="L430" href="#L430">430</a> 		<strong class="jxr_keyword">return</strong> dataSources.get(<strong class="jxr_keyword">null</strong>);
-<a class="jxr_linenumber" name="L431" href="#L431">431</a> 	}
-<a class="jxr_linenumber" name="L432" href="#L432">432</a> 
-<a class="jxr_linenumber" name="L433" href="#L433">433</a> 	<em class="jxr_javadoccomment">/** Provides direct access to a named datasource for this application. Most applications should use the </em>
-<a class="jxr_linenumber" name="L434" href="#L434">434</a> <em class="jxr_javadoccomment">	 * {@link #getJdbcTemplate(String)} method instead.</em>
-<a class="jxr_linenumber" name="L435" href="#L435">435</a> <em class="jxr_javadoccomment">	 * </em>
-<a class="jxr_linenumber" name="L436" href="#L436">436</a> <em class="jxr_javadoccomment">	 * @param connectionName the name of the connection</em>
-<a class="jxr_linenumber" name="L437" href="#L437">437</a> <em class="jxr_javadoccomment">	 * </em>
-<a class="jxr_linenumber" name="L438" href="#L438">438</a> <em class="jxr_javadoccomment">	 * @return the dataSource underlying the named jdbcTemplate to the database </em>
-<a class="jxr_linenumber" name="L439" href="#L439">439</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L440" href="#L440">440</a> 	<strong class="jxr_keyword">public</strong> DataSource getDataSource(String connectionName) {
-<a class="jxr_linenumber" name="L441" href="#L441">441</a> 		getJdbcTemplate(connectionName); <em class="jxr_comment">// make sure default dataSource is initialised</em>
-<a class="jxr_linenumber" name="L442" href="#L442">442</a> 		<strong class="jxr_keyword">return</strong> dataSources.get(connectionName);
-<a class="jxr_linenumber" name="L443" href="#L443">443</a> 	}
-<a class="jxr_linenumber" name="L444" href="#L444">444</a> 
-<a class="jxr_linenumber" name="L445" href="#L445">445</a> }
+<a class="jxr_linenumber" name="L282" href="#L282">282</a>         	
+<a class="jxr_linenumber" name="L283" href="#L283">283</a>         	<strong class="jxr_keyword">if</strong> (connectionType.equals(<span class="jxr_string">"none"</span>)) {
+<a class="jxr_linenumber" name="L284" href="#L284">284</a>         		<strong class="jxr_keyword">if</strong> (!jdbcTemplates.containsKey(connectionName)) {
+<a class="jxr_linenumber" name="L285" href="#L285">285</a>         			dataSources.put(connectionName, <strong class="jxr_keyword">null</strong>);
+<a class="jxr_linenumber" name="L286" href="#L286">286</a>         			jdbcTemplates.put(connectionName, <strong class="jxr_keyword">null</strong>);
+<a class="jxr_linenumber" name="L287" href="#L287">287</a>         		}
+<a class="jxr_linenumber" name="L288" href="#L288">288</a>         	} <strong class="jxr_keyword">else</strong> {
+<a class="jxr_linenumber" name="L289" href="#L289">289</a> 	    		String driver = getProperty(prefix + <span class="jxr_string">"driver"</span>);
+<a class="jxr_linenumber" name="L290" href="#L290">290</a> 		        String url = getProperty(prefix + <span class="jxr_string">"url"</span>);
+<a class="jxr_linenumber" name="L291" href="#L291">291</a> 		        String username = getProperty(prefix + <span class="jxr_string">"username"</span>);
+<a class="jxr_linenumber" name="L292" href="#L292">292</a> 		        String password = getProperty(prefix + <span class="jxr_string">"password"</span>);
+<a class="jxr_linenumber" name="L293" href="#L293">293</a> 		        logger.info(<span class="jxr_string">"Retrieving "</span> + connectionType + <span class="jxr_string">" connection for '"</span> + username + <span class="jxr_string">"'/'"</span> + password + <span class="jxr_string">"' @ '"</span> + url + <span class="jxr_string">"'"</span>);
+<a class="jxr_linenumber" name="L294" href="#L294">294</a> 		        DataSource ds = <strong class="jxr_keyword">null</strong>;
+<a class="jxr_linenumber" name="L295" href="#L295">295</a> 	        	<strong class="jxr_keyword">if</strong> (!Text.isBlank(driver)) { 
+<a class="jxr_linenumber" name="L296" href="#L296">296</a> 		        	<strong class="jxr_keyword">try</strong> {
+<a class="jxr_linenumber" name="L297" href="#L297">297</a> 		        		Class.forName(driver); 
+<a class="jxr_linenumber" name="L298" href="#L298">298</a> 		        	} <strong class="jxr_keyword">catch</strong> (ClassNotFoundException e) {
+<a class="jxr_linenumber" name="L299" href="#L299">299</a> 						logger.error(<span class="jxr_string">"Error loading class '"</span> + driver + <span class="jxr_string">"' for database '"</span> + connectionName + <span class="jxr_string">"'"</span>, e);
+<a class="jxr_linenumber" name="L300" href="#L300">300</a> 					} 
+<a class="jxr_linenumber" name="L301" href="#L301">301</a> 		        }
+<a class="jxr_linenumber" name="L302" href="#L302">302</a> 		        <strong class="jxr_keyword">if</strong> (connectionType.equals(<span class="jxr_string">"simple"</span>)) {
+<a class="jxr_linenumber" name="L303" href="#L303">303</a> 		        	<strong class="jxr_keyword">if</strong> (url==<strong class="jxr_keyword">null</strong>) { <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> NullPointerException(prefix + <span class="jxr_string">"url has not been initialised"</span>); }
+<a class="jxr_linenumber" name="L304" href="#L304">304</a> 			        Connection connection;
+<a class="jxr_linenumber" name="L305" href="#L305">305</a> 			        <strong class="jxr_keyword">try</strong> {
+<a class="jxr_linenumber" name="L306" href="#L306">306</a> 			            <strong class="jxr_keyword">if</strong> (Text.isBlank(username)) {
+<a class="jxr_linenumber" name="L307" href="#L307">307</a> 			                connection = DriverManager.getConnection (url);
+<a class="jxr_linenumber" name="L308" href="#L308">308</a> 			            } <strong class="jxr_keyword">else</strong> {
+<a class="jxr_linenumber" name="L309" href="#L309">309</a> 			                connection = DriverManager.getConnection (url, username, password);
+<a class="jxr_linenumber" name="L310" href="#L310">310</a> 			            }
+<a class="jxr_linenumber" name="L311" href="#L311">311</a> 			        } <strong class="jxr_keyword">catch</strong> (SQLException sqle) {
+<a class="jxr_linenumber" name="L312" href="#L312">312</a> 			            <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> DataAccessResourceFailureException(<span class="jxr_string">"Could not open connection to database"</span>, sqle); 
+<a class="jxr_linenumber" name="L313" href="#L313">313</a> 			        }
+<a class="jxr_linenumber" name="L314" href="#L314">314</a> 			        ds = <strong class="jxr_keyword">new</strong> SingleConnectionDataSource(connection, false);
+<a class="jxr_linenumber" name="L315" href="#L315">315</a> 			        
+<a class="jxr_linenumber" name="L316" href="#L316">316</a> 		        } <strong class="jxr_keyword">else</strong> <strong class="jxr_keyword">if</strong> (connectionType.equals(<span class="jxr_string">"dbcp"</span>)) {
+<a class="jxr_linenumber" name="L317" href="#L317">317</a> 		        	<strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> UnsupportedOperationException(<span class="jxr_string">"dbcp is no longer supported; use c3p0 instead"</span>);
+<a class="jxr_linenumber" name="L318" href="#L318">318</a> 		        	
+<a class="jxr_linenumber" name="L319" href="#L319">319</a> 		        } <strong class="jxr_keyword">else</strong> <strong class="jxr_keyword">if</strong> (connectionType.equals(<span class="jxr_string">"c3p0"</span>)) {
+<a class="jxr_linenumber" name="L320" href="#L320">320</a> 		        	<strong class="jxr_keyword">if</strong> (url==<strong class="jxr_keyword">null</strong>) { <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> NullPointerException(prefix + <span class="jxr_string">"url has not been initialised"</span>); }
+<a class="jxr_linenumber" name="L321" href="#L321">321</a> 		        	ComboPooledDataSource  cpds = <strong class="jxr_keyword">new</strong> ComboPooledDataSource ();
+<a class="jxr_linenumber" name="L322" href="#L322">322</a> 		        	<strong class="jxr_keyword">try</strong> {
+<a class="jxr_linenumber" name="L323" href="#L323">323</a> 						cpds.setDriverClass(driver);
+<a class="jxr_linenumber" name="L324" href="#L324">324</a> 					} <strong class="jxr_keyword">catch</strong> (PropertyVetoException e) {
+<a class="jxr_linenumber" name="L325" href="#L325">325</a> 						<strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalStateException(<span class="jxr_string">"Could not set driverClass '"</span> + driver + <span class="jxr_string">"' for c3p0 datasource"</span>, e);
+<a class="jxr_linenumber" name="L326" href="#L326">326</a> 					}
+<a class="jxr_linenumber" name="L327" href="#L327">327</a> 		        	@SuppressWarnings(<span class="jxr_string">"unchecked"</span>)
+<a class="jxr_linenumber" name="L328" href="#L328">328</a> 					Map&lt;String,String&gt; c3poProps = (Map&lt;String, String&gt;) PropertyParser.restrict(<strong class="jxr_keyword">this</strong>, prefix + <span class="jxr_string">"c3p0"</span>, <strong class="jxr_keyword">true</strong>);
+<a class="jxr_linenumber" name="L329" href="#L329">329</a> 		        	<em class="jxr_comment">// remove extensions from props</em>
+<a class="jxr_linenumber" name="L330" href="#L330">330</a> 		        	<strong class="jxr_keyword">for</strong> (Iterator&lt;Map.Entry&lt;String,String&gt;&gt; i = c3poProps.entrySet().iterator(); i.hasNext(); ) { 
+<a class="jxr_linenumber" name="L331" href="#L331">331</a> 		        		Map.Entry&lt;String,String&gt; e=i.next(); 
+<a class="jxr_linenumber" name="L332" href="#L332">332</a> 		        		<strong class="jxr_keyword">if</strong> (e.getKey().startsWith(<span class="jxr_string">"extensions."</span>)) { i.remove(); }
+<a class="jxr_linenumber" name="L333" href="#L333">333</a> 		        	}
+<a class="jxr_linenumber" name="L334" href="#L334">334</a> 		        	Struct.setFromMap(cpds, c3poProps, false, <strong class="jxr_keyword">true</strong>, false);
+<a class="jxr_linenumber" name="L335" href="#L335">335</a> 		        	
+<a class="jxr_linenumber" name="L336" href="#L336">336</a> 		        	<em class="jxr_comment">// set extensions separately</em>
+<a class="jxr_linenumber" name="L337" href="#L337">337</a> 		        	@SuppressWarnings(<span class="jxr_string">"unchecked"</span>)
+<a class="jxr_linenumber" name="L338" href="#L338">338</a> 					Map&lt;String,String&gt; c3poExtensionProps = (Map&lt;String, String&gt;) PropertyParser.restrict(<strong class="jxr_keyword">this</strong>, prefix + <span class="jxr_string">"c3p0.extensions"</span>, <strong class="jxr_keyword">true</strong>);
+<a class="jxr_linenumber" name="L339" href="#L339">339</a> 		        	cpds.setExtensions(c3poExtensionProps);
+<a class="jxr_linenumber" name="L340" href="#L340">340</a> 		        	cpds.setJdbcUrl(url);
+<a class="jxr_linenumber" name="L341" href="#L341">341</a> 		        	<strong class="jxr_keyword">if</strong> (!Text.isBlank(username)) {
+<a class="jxr_linenumber" name="L342" href="#L342">342</a> 		        		cpds.setUser(username);
+<a class="jxr_linenumber" name="L343" href="#L343">343</a> 		        		cpds.setPassword(password);
+<a class="jxr_linenumber" name="L344" href="#L344">344</a> 		        	}
+<a class="jxr_linenumber" name="L345" href="#L345">345</a> 		        	ds = cpds;
+<a class="jxr_linenumber" name="L346" href="#L346">346</a> 		        	
+<a class="jxr_linenumber" name="L347" href="#L347">347</a> 		        } <strong class="jxr_keyword">else</strong> <strong class="jxr_keyword">if</strong> (connectionType.equals(<span class="jxr_string">"jndi"</span>)) {
+<a class="jxr_linenumber" name="L348" href="#L348">348</a> 		        	String jndiName = getProperty(prefix + <span class="jxr_string">"jndiName"</span>);
+<a class="jxr_linenumber" name="L349" href="#L349">349</a> 					<strong class="jxr_keyword">try</strong> {
+<a class="jxr_linenumber" name="L350" href="#L350">350</a> 						InitialContext ctx = <strong class="jxr_keyword">new</strong> InitialContext();
+<a class="jxr_linenumber" name="L351" href="#L351">351</a> 						Context envContext  = (Context) ctx.lookup(<span class="jxr_string">"java:/comp/env"</span>);
+<a class="jxr_linenumber" name="L352" href="#L352">352</a> 						ds = (DataSource) envContext.lookup(jndiName);
+<a class="jxr_linenumber" name="L353" href="#L353">353</a> 						<em class="jxr_comment">// could fallback to global datasource if comp/env is not here</em>
+<a class="jxr_linenumber" name="L354" href="#L354">354</a> 					} <strong class="jxr_keyword">catch</strong> (NamingException e) {
+<a class="jxr_linenumber" name="L355" href="#L355">355</a> 						<strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalStateException(<span class="jxr_string">"Could not retrieve datasource '"</span> + jndiName + <span class="jxr_string">"' from JNDI"</span>, e);
+<a class="jxr_linenumber" name="L356" href="#L356">356</a> 					}
+<a class="jxr_linenumber" name="L357" href="#L357">357</a> 		        } <strong class="jxr_keyword">else</strong> {
+<a class="jxr_linenumber" name="L358" href="#L358">358</a> 		        	<strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalStateException(<span class="jxr_string">"Unknown "</span> + prefix + <span class="jxr_string">"connectionType property '"</span> + connectionType + <span class="jxr_string">"')"</span>);
+<a class="jxr_linenumber" name="L359" href="#L359">359</a> 		        }
+<a class="jxr_linenumber" name="L360" href="#L360">360</a> 		        
+<a class="jxr_linenumber" name="L361" href="#L361">361</a> 		        jt = <strong class="jxr_keyword">new</strong> JdbcTemplate(ds);
+<a class="jxr_linenumber" name="L362" href="#L362">362</a> 		        dataSources.put(connectionName, ds);
+<a class="jxr_linenumber" name="L363" href="#L363">363</a> 		        jdbcTemplates.put(connectionName, jt);
+<a class="jxr_linenumber" name="L364" href="#L364">364</a>         	}
+<a class="jxr_linenumber" name="L365" href="#L365">365</a>     	}
+<a class="jxr_linenumber" name="L366" href="#L366">366</a>     	<strong class="jxr_keyword">return</strong> jt;
+<a class="jxr_linenumber" name="L367" href="#L367">367</a>     }
+<a class="jxr_linenumber" name="L368" href="#L368">368</a>     
+<a class="jxr_linenumber" name="L369" href="#L369">369</a>     
+<a class="jxr_linenumber" name="L370" href="#L370">370</a> 	<em class="jxr_javadoccomment">/** Return the security context for this application</em>
+<a class="jxr_linenumber" name="L371" href="#L371">371</a> <em class="jxr_javadoccomment">	 * </em>
+<a class="jxr_linenumber" name="L372" href="#L372">372</a> <em class="jxr_javadoccomment">	 * @return the security context for this application</em>
+<a class="jxr_linenumber" name="L373" href="#L373">373</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L374" href="#L374">374</a>     <strong class="jxr_keyword">public</strong> <a name="SecurityContext" href="../../../../com/randomnoun/common/security/SecurityContext.html#SecurityContext">SecurityContext</a> getSecurityContext() {
+<a class="jxr_linenumber" name="L375" href="#L375">375</a>     	<strong class="jxr_keyword">if</strong> (securityContext==<strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="L376" href="#L376">376</a>     		<strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalStateException(<span class="jxr_string">"Security context not initialised"</span>);
+<a class="jxr_linenumber" name="L377" href="#L377">377</a>     	}
+<a class="jxr_linenumber" name="L378" href="#L378">378</a>     	<strong class="jxr_keyword">return</strong> securityContext;
+<a class="jxr_linenumber" name="L379" href="#L379">379</a>     }
+<a class="jxr_linenumber" name="L380" href="#L380">380</a>     
+<a class="jxr_linenumber" name="L381" href="#L381">381</a> 
+<a class="jxr_linenumber" name="L382" href="#L382">382</a> 	<em class="jxr_javadoccomment">/** Determines whether a user 'may have' a permission on the application. </em>
+<a class="jxr_linenumber" name="L383" href="#L383">383</a> <em class="jxr_javadoccomment">	 * See the hasPermission method in SecurityContext for more details.</em>
+<a class="jxr_linenumber" name="L384" href="#L384">384</a> <em class="jxr_javadoccomment">	 *</em>
+<a class="jxr_linenumber" name="L385" href="#L385">385</a> <em class="jxr_javadoccomment">	 * @param user The user we are checking permissions for. </em>
+<a class="jxr_linenumber" name="L386" href="#L386">386</a> <em class="jxr_javadoccomment">	 * @param permission The permission we are checking.</em>
+<a class="jxr_linenumber" name="L387" href="#L387">387</a> <em class="jxr_javadoccomment">	 * @return 'true' if the user may be authorised to perform the permission,</em>
+<a class="jxr_linenumber" name="L388" href="#L388">388</a> <em class="jxr_javadoccomment">	 *   false otherwise</em>
+<a class="jxr_linenumber" name="L389" href="#L389">389</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L390" href="#L390">390</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> hasPermission(<a name="User" href="../../../../com/randomnoun/common/security/User.html#User">User</a> user, String permission)
+<a class="jxr_linenumber" name="L391" href="#L391">391</a> 	{
+<a class="jxr_linenumber" name="L392" href="#L392">392</a> 		<strong class="jxr_keyword">if</strong> (<span class="jxr_string">"false"</span>.equals(getProperty(<span class="jxr_string">"auth.enableSecurityContext"</span>))) { <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">true</strong>; }
+<a class="jxr_linenumber" name="L393" href="#L393">393</a> 		SecurityContext securityContext = getSecurityContext();
+<a class="jxr_linenumber" name="L394" href="#L394">394</a> 		<strong class="jxr_keyword">return</strong> securityContext.hasPermission(user, permission);
+<a class="jxr_linenumber" name="L395" href="#L395">395</a> 	}
+<a class="jxr_linenumber" name="L396" href="#L396">396</a> 
+<a class="jxr_linenumber" name="L397" href="#L397">397</a> 	<em class="jxr_javadoccomment">/** Determines whether a user 'may have' a permission on the application. </em>
+<a class="jxr_linenumber" name="L398" href="#L398">398</a> <em class="jxr_javadoccomment">	 * See the hasPermission method in SecurityContext for more details. If the user</em>
+<a class="jxr_linenumber" name="L399" href="#L399">399</a> <em class="jxr_javadoccomment">	 * does not have the permission, then a SecurityException is thrown</em>
+<a class="jxr_linenumber" name="L400" href="#L400">400</a> <em class="jxr_javadoccomment">	 *</em>
+<a class="jxr_linenumber" name="L401" href="#L401">401</a> <em class="jxr_javadoccomment">	 * @see SecurityContext#hasPermission(com.randomnoun.common.security.User, String)</em>
+<a class="jxr_linenumber" name="L402" href="#L402">402</a> <em class="jxr_javadoccomment">	 *</em>
+<a class="jxr_linenumber" name="L403" href="#L403">403</a> <em class="jxr_javadoccomment">	 * @param user The user we are checking permissions for. </em>
+<a class="jxr_linenumber" name="L404" href="#L404">404</a> <em class="jxr_javadoccomment">	 * @param permission The permission we are checking.</em>
+<a class="jxr_linenumber" name="L405" href="#L405">405</a> <em class="jxr_javadoccomment">	 * </em>
+<a class="jxr_linenumber" name="L406" href="#L406">406</a> <em class="jxr_javadoccomment">	 * @throws SecurityException if the user does not have the supplied permission </em>
+<a class="jxr_linenumber" name="L407" href="#L407">407</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L408" href="#L408">408</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> checkPermission(<a name="User" href="../../../../com/randomnoun/common/security/User.html#User">User</a> user, String permission) <strong class="jxr_keyword">throws</strong> SecurityException {
+<a class="jxr_linenumber" name="L409" href="#L409">409</a> 		<strong class="jxr_keyword">if</strong> (!hasPermission(user,  permission)) {
+<a class="jxr_linenumber" name="L410" href="#L410">410</a> 			<strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> SecurityException(<span class="jxr_string">"User does not have '"</span> + permission + <span class="jxr_string">"' permission"</span>);
+<a class="jxr_linenumber" name="L411" href="#L411">411</a> 		}
+<a class="jxr_linenumber" name="L412" href="#L412">412</a>     }
+<a class="jxr_linenumber" name="L413" href="#L413">413</a> 
+<a class="jxr_linenumber" name="L414" href="#L414">414</a> 	<em class="jxr_javadoccomment">/** Determines whether a user has a permission on the application. </em>
+<a class="jxr_linenumber" name="L415" href="#L415">415</a> <em class="jxr_javadoccomment">	 * See the hasPermission method in SecurityContext for more details.</em>
+<a class="jxr_linenumber" name="L416" href="#L416">416</a> <em class="jxr_javadoccomment">	 *</em>
+<a class="jxr_linenumber" name="L417" href="#L417">417</a> <em class="jxr_javadoccomment">	 * @param user The user we are checking permissions for.</em>
+<a class="jxr_linenumber" name="L418" href="#L418">418</a> <em class="jxr_javadoccomment">	 * @param permission The permission we are checking.</em>
+<a class="jxr_linenumber" name="L419" href="#L419">419</a> <em class="jxr_javadoccomment">	 * @param resourceContext Fine-grained resource context</em>
+<a class="jxr_linenumber" name="L420" href="#L420">420</a> <em class="jxr_javadoccomment">	 * @return 'true' if the user is authorised to perform the permission,</em>
+<a class="jxr_linenumber" name="L421" href="#L421">421</a> <em class="jxr_javadoccomment">	 *   false otherwise</em>
+<a class="jxr_linenumber" name="L422" href="#L422">422</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L423" href="#L423">423</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> hasPermission(<a name="User" href="../../../../com/randomnoun/common/security/User.html#User">User</a> user, String permission, Map&lt;String, Object&gt; resourceContext)
+<a class="jxr_linenumber" name="L424" href="#L424">424</a> 	{
+<a class="jxr_linenumber" name="L425" href="#L425">425</a> 		<strong class="jxr_keyword">if</strong> (<span class="jxr_string">"false"</span>.equals(getProperty(<span class="jxr_string">"auth.enableSecurityContext"</span>))) { <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">true</strong>; }
+<a class="jxr_linenumber" name="L426" href="#L426">426</a> 		SecurityContext securityContext = getSecurityContext();
+<a class="jxr_linenumber" name="L427" href="#L427">427</a> 		<strong class="jxr_keyword">return</strong> securityContext.hasPermission(user, permission, resourceContext);
+<a class="jxr_linenumber" name="L428" href="#L428">428</a> 	}
+<a class="jxr_linenumber" name="L429" href="#L429">429</a> 
+<a class="jxr_linenumber" name="L430" href="#L430">430</a> 
+<a class="jxr_linenumber" name="L431" href="#L431">431</a> 	<em class="jxr_javadoccomment">/** Provides direct access to the datasource for this application. Most applications should use the </em>
+<a class="jxr_linenumber" name="L432" href="#L432">432</a> <em class="jxr_javadoccomment">	 * {@link #getJdbcTemplate()} method instead.</em>
+<a class="jxr_linenumber" name="L433" href="#L433">433</a> <em class="jxr_javadoccomment">	 * </em>
+<a class="jxr_linenumber" name="L434" href="#L434">434</a> <em class="jxr_javadoccomment">	 * @return the dataSource underlying the jdbcTemplate to the database</em>
+<a class="jxr_linenumber" name="L435" href="#L435">435</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L436" href="#L436">436</a> 	<strong class="jxr_keyword">public</strong> DataSource getDataSource() {
+<a class="jxr_linenumber" name="L437" href="#L437">437</a> 		getJdbcTemplate(); <em class="jxr_comment">// make sure default dataSource is initialised</em>
+<a class="jxr_linenumber" name="L438" href="#L438">438</a> 		<strong class="jxr_keyword">return</strong> dataSources.get(<strong class="jxr_keyword">null</strong>);
+<a class="jxr_linenumber" name="L439" href="#L439">439</a> 	}
+<a class="jxr_linenumber" name="L440" href="#L440">440</a> 
+<a class="jxr_linenumber" name="L441" href="#L441">441</a> 	<em class="jxr_javadoccomment">/** Provides direct access to a named datasource for this application. Most applications should use the </em>
+<a class="jxr_linenumber" name="L442" href="#L442">442</a> <em class="jxr_javadoccomment">	 * {@link #getJdbcTemplate(String)} method instead.</em>
+<a class="jxr_linenumber" name="L443" href="#L443">443</a> <em class="jxr_javadoccomment">	 * </em>
+<a class="jxr_linenumber" name="L444" href="#L444">444</a> <em class="jxr_javadoccomment">	 * @param connectionName the name of the connection</em>
+<a class="jxr_linenumber" name="L445" href="#L445">445</a> <em class="jxr_javadoccomment">	 * </em>
+<a class="jxr_linenumber" name="L446" href="#L446">446</a> <em class="jxr_javadoccomment">	 * @return the dataSource underlying the named jdbcTemplate to the database </em>
+<a class="jxr_linenumber" name="L447" href="#L447">447</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L448" href="#L448">448</a> 	<strong class="jxr_keyword">public</strong> DataSource getDataSource(String connectionName) {
+<a class="jxr_linenumber" name="L449" href="#L449">449</a> 		getJdbcTemplate(connectionName); <em class="jxr_comment">// make sure default dataSource is initialised</em>
+<a class="jxr_linenumber" name="L450" href="#L450">450</a> 		<strong class="jxr_keyword">return</strong> dataSources.get(connectionName);
+<a class="jxr_linenumber" name="L451" href="#L451">451</a> 	}
+<a class="jxr_linenumber" name="L452" href="#L452">452</a> 
+<a class="jxr_linenumber" name="L453" href="#L453">453</a> }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2013&#x2013;2024 <a href="http://www.randomnoun.com">randomnoun</a>. All rights reserved.</div>

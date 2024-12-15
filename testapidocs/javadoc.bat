@@ -1,1 +1,1 @@
-cmd.exe /X /C "C:\java\jdk-17.0.9.9-hotspot\bin\javadoc.exe @options @argfile"
+cmd.exe /X /C "C:\java\jdk-21.0.4.7-hotspot\bin\javadoc.exe @options @argfile"
