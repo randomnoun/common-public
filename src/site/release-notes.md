@@ -1,3 +1,3 @@
 ## Updates
  
-* Update dependencies
+* Update spring dependencies
