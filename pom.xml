@@ -130,12 +130,6 @@
       <tag>HEAD</tag>
   </scm>
 	
-	<ciManagement>
-		<system>Bamboo</system>
-		<url>http://bamboo.dev.randomnoun/browse/RANDOMNOUN-COMMONPUBLIC</url>
-	</ciManagement>
-	
-
 	<build>
 		<plugins>
             
