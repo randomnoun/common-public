@@ -240,24 +240,6 @@ public class Text {
     }
 
     /**
-     * Returns the unescaped version of a string. 
-     * Converts &amp;amp; &amp;lt; and &amp;gt; entities to their
-     * characters
-     * 
-     * @TODO all those other ones
-     *
-     * @param string The string to be unescaped.
-     * @return The unescaped version of the string.
-     */
-    private String unescapeHtml(String string)
-    {
-        string = string.replaceAll("&amp;", "&");
-        string = string.replaceAll("&lt;", "<");
-        string = string.replaceAll("&gt;", ">");
-        return string;
-    }    
-    
-    /**
      * Returns a regex-escaped form of a string. That is, the pattern 
      * returned by this method, if compiled into a regex, will match
      * the supplied string exactly. 
@@ -1063,7 +1045,7 @@ public class Text {
      *
      * @throws NullPointerException if elements or delimiter is null
      */
-    public static String join(Iterable elements, String delimiter) {
+    public static String join(Iterable<String> elements, String delimiter) {
     	return joinWithLast(elements, false, delimiter, delimiter);
     }
     
@@ -1579,11 +1561,11 @@ public class Text {
      * @return <p>A string comparator that uses the current locale's order rules and handles embedded numbers
      *         correctly.</p>
      */
-    public static Comparator getNaturalComparator() {
+    public static Comparator<String> getNaturalComparator() {
         final Collator collator = Collator.getInstance();
-        return new Comparator() {
-            public int compare(Object o1, Object o2) {
-                return compareNatural(collator, (String) o1, (String) o2);
+        return new Comparator<String>() {
+            public int compare(String o1, String o2) {
+                return compareNatural(collator, o1, o2);
             }
         };
     }    
@@ -2007,7 +1989,7 @@ public class Text {
 	 * 
 	 * @return text, with placeholders replaced with values in the variables parameter
 	 */
-	public static String substitutePlaceholders(Map variables, String text) {
+	public static String substitutePlaceholders(Map<?, ?> variables, String text) {
 		// escaped version of (\$\{.*?\}|[^$]+|\$.)
 		Pattern p = Pattern.compile("(\\$\\{.*?\\}|[^$]+|\\$)"); // modified regex
 		Matcher m = p.matcher(text);

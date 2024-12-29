@@ -49,6 +49,7 @@ public class TableColumnTO {
 	public long   getDataTypePrecision() { return dataTypePrecision; }
 	public long   getDataScale() { return dataScale; }
 	public boolean getNullable() { return nullable; }
+	public String getDefaultValue() { return defaultValue; }
 	public String getComments() { return comments; }
 	
 	

@@ -9,7 +9,6 @@ import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.script.Compilable;
 import javax.script.ScriptContext;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
@@ -23,7 +22,6 @@ import com.randomnoun.common.Text;
 import com.randomnoun.common.db.DatabaseReader;
 import com.randomnoun.common.db.dao.MysqlDatabaseReader;
 import com.randomnoun.common.db.to.SchemaTO;
-import com.randomnoun.common.jessop.JessopCompiledScript;
 
 /** This class will generate history table and triggers. 
  * 
@@ -86,19 +84,20 @@ public class HistoryTableGenerator {
 	}
 
 	
-	/** When the logger in this class is set to log at DEBUG level, then this method returns the
+	/* * When the logger in this class is set to log at DEBUG level, then this method returns the
 	 * jessop script transpiled to whichever language it's supposed to be in.
 	 * 
 	 * @param engine
 	 * @param jessopSource
 	 * @return
 	 * @throws ScriptException
-	 */
+	 *
 	private String getSource(ScriptEngine engine, String jessopSource) throws ScriptException {
 		Compilable compilable = (Compilable) engine;
 		JessopCompiledScript compiledScript = (JessopCompiledScript) compilable.compile(jessopSource);
 		return compiledScript.getSource();
 	}
+	*/
 	
 	/** Returns the SQL that will create history tables, triggers and stored procedures.
 	 * 

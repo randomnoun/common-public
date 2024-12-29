@@ -36,9 +36,8 @@ public class DatabaseReaderTest extends TestCase {
 		String hostname = InetAddress.getLocalHost().getHostName();
 		System.out.println("Running on " + hostname);
 		if (!TEST_HOSTS.contains(hostname)) { return; }
+		
 		LogManager.shutdown(); // ok so if I do this I need to reconstruct the Logger instances, which is annoying
-		logger.info("setUp()");
-		logger.fatal("For christ sake");
 	}
 	
 	public void dumpSchema(SchemaTO s) {

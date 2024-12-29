@@ -63,13 +63,14 @@ import org.apache.log4j.Logger;
 // you'd still need a way of keeping a sorted list of timestamped entries anyway,
 // now that I think about it (to choose the next expiry candidate), so this may not 
 // be so bad after all. 
-public class MRUCache
-    extends HashMap
+public class MRUCache<K, V>
+    extends HashMap<K, V>
 {
     
-    
-    
-    /** Logger instance for this class */
+    /** Generated serialVersionUID */
+    private static final long serialVersionUID = -6826049000932880050L;
+
+	/** Logger instance for this class */
     public static Logger logger = Logger.getLogger(MRUCache.class);
     
     /** The callback interface. Caches should provide one of these classes to 
@@ -77,7 +78,7 @@ public class MRUCache
      * If the time taken to generate a value isn't time-consuming, then perhaps
      * you shouldn't be using a cache to store them.
      */
-    public static interface RetrievalCallback {
+    public static interface RetrievalCallback<K, V> {
         
         /** Dynamically generates the value of an entity in a cache
          * 
@@ -85,7 +86,7 @@ public class MRUCache
          * 
          * @return The newly generated (or updated) cached object
          */ 
-        public Object get(Object key);
+        public V get(K key);
     }
     
     /** If set to true, expires data from the time it was <i>entered</i> into the cache,
@@ -98,7 +99,7 @@ public class MRUCache
     /** An ordered list of the objects in this cache. Objects at position 0 on the list
      *  have been the most recently accessed (i.e. objects will be expired from the
      * end of this list). */
-    private LinkedList mruList;
+    private LinkedList<K> mruList;
 
     /** The maximum number of elements that this cache can hold. If &lt;= 0, then the
      * size of the map is unlimited. */
@@ -106,11 +107,11 @@ public class MRUCache
 
     /** A callback which can be used to populate entries in the cache that are unknown,
      *  or have expired. */
-    private RetrievalCallback callbackInstance;
+    private RetrievalCallback<K, V> callbackInstance;
 
     /** A Map whose keys are elements in this cache, and who's entries are the last time
      *  that entry was 'touched' (i.e. added to or retrieved from the cache) */
-    private Map lastUpdatedTimes;
+    private Map<K, Long> lastUpdatedTimes;
 
     /** The amount of time an entry can remain valid, measured from when the element
      *  is first added to the cache. If expiryTime is set to &lt;= 0, then items never expire. */
@@ -130,10 +131,10 @@ public class MRUCache
      *    two-parameter {@link #get(Object, RetrievalCallback)} method is used to retrieve
      *    elements from the map.
      */
-    public MRUCache(int cacheSize, int expiryTime, RetrievalCallback callback)
+    public MRUCache(int cacheSize, int expiryTime, RetrievalCallback<K, V> callback)
     {
-        mruList = new LinkedList();
-        lastUpdatedTimes = new HashMap();
+        mruList = new LinkedList<>();
+        lastUpdatedTimes = new HashMap<>();
         this.cacheSize = cacheSize;
         this.callbackInstance = callback;
         this.expiryTime = expiryTime;
@@ -149,9 +150,11 @@ public class MRUCache
      * @return the value to which this map maps the specified key, or
      *   null if the map contains no mapping for this key.
      */
-    public synchronized Object get(Object key)
+    @SuppressWarnings("unchecked")
+	@Override
+    public synchronized V get(Object key)
     {
-        return get(key, callbackInstance);
+        return get((K) key, callbackInstance);
     }
 
     /**
@@ -166,7 +169,7 @@ public class MRUCache
      * @return the value to which this map maps the specified key, or
      *   null if the map contains no mapping for this key.
      */
-    public synchronized Object get(Object key, RetrievalCallback callback)
+    public synchronized V get(K key, RetrievalCallback<K, V> callback)
     {
         long now = System.currentTimeMillis();
 
@@ -183,7 +186,7 @@ public class MRUCache
                     }
 
                     super.put(key, callback.get(key));
-                    lastUpdatedTimes.put(key, new Long(now));
+                    lastUpdatedTimes.put(key, Long.valueOf(now));
                     mruList.addFirst(key);
                 }
             }
@@ -194,7 +197,7 @@ public class MRUCache
             if (expiryTime > 0) {
                 
                 // expire this element if it's old
-                Long lastUpdatedTime = (Long)lastUpdatedTimes.get(key);
+                Long lastUpdatedTime = (Long) lastUpdatedTimes.get(key);
                 if (lastUpdatedTime==null) {
                 	logger.warn("MRUCache contains key '" + key + "' with no lastUpdatedTime set");
                 }
@@ -208,8 +211,8 @@ public class MRUCache
 
                             return null;
                         } else {
-                            super.put(key, callback.get(key));
-                            lastUpdatedTimes.put(key, new Long(now));
+                            super.put((K) key, callback.get((K) key));
+                            lastUpdatedTimes.put(key, Long.valueOf(now));
                         }
                     }
                 }
@@ -271,11 +274,12 @@ public class MRUCache
      * 
      * @return the previous value of this map entry, if one exists, otherwise null
      */
-    public synchronized Object put(Object key, Object value) {
+    @Override
+    public synchronized V put(K key, V value) {
     	
         synchronized (this) {
-			Object lastValue = super.put(key, value);
-            lastUpdatedTimes.put(key, new Long(System.currentTimeMillis()));
+			V lastValue = super.put(key, value);
+            lastUpdatedTimes.put(key, Long.valueOf(System.currentTimeMillis()));
             return lastValue;
         }
     }
