@@ -18,182 +18,185 @@
 <span class="source-line-no">005</span><span id="line-5"> */</span>
 <span class="source-line-no">006</span><span id="line-6"></span>
 <span class="source-line-no">007</span><span id="line-7">import java.io.ByteArrayOutputStream;</span>
-<span class="source-line-no">008</span><span id="line-8">import java.io.IOException;</span>
-<span class="source-line-no">009</span><span id="line-9">import java.io.InputStream;</span>
-<span class="source-line-no">010</span><span id="line-10">import java.io.OutputStream;</span>
-<span class="source-line-no">011</span><span id="line-11">import java.io.File;</span>
-<span class="source-line-no">012</span><span id="line-12"></span>
-<span class="source-line-no">013</span><span id="line-13">import java.lang.Process;</span>
-<span class="source-line-no">014</span><span id="line-14"></span>
-<span class="source-line-no">015</span><span id="line-15">/** Utility class for running processes, including timeouts, and slightly better exceptions that include more information</span>
-<span class="source-line-no">016</span><span id="line-16"> * about process failure. </span>
-<span class="source-line-no">017</span><span id="line-17"> * </span>
-<span class="source-line-no">018</span><span id="line-18"> */</span>
-<span class="source-line-no">019</span><span id="line-19">public class ProcessUtil {</span>
-<span class="source-line-no">020</span><span id="line-20">    </span>
-<span class="source-line-no">021</span><span id="line-21">        /// maximum output; if &gt;0, removes passwords &amp; limits to this amount</span>
-<span class="source-line-no">022</span><span id="line-22">        private int maxOutputChars = 8000;</span>
-<span class="source-line-no">023</span><span id="line-23">        </span>
-<span class="source-line-no">024</span><span id="line-24">        public static int NO_MAX_OUTPUT_CHARS = 0;</span>
-<span class="source-line-no">025</span><span id="line-25">        </span>
-<span class="source-line-no">026</span><span id="line-26">        public void setMaxOutputChars(int maxOutputChars) {</span>
-<span class="source-line-no">027</span><span id="line-27">                this.maxOutputChars = maxOutputChars;</span>
-<span class="source-line-no">028</span><span id="line-28">        }</span>
-<span class="source-line-no">029</span><span id="line-29">        </span>
-<span class="source-line-no">030</span><span id="line-30">        /** Encapsulates an error from executing a command through System.exec()</span>
-<span class="source-line-no">031</span><span id="line-31">         * </span>
-<span class="source-line-no">032</span><span id="line-32">         */</span>
-<span class="source-line-no">033</span><span id="line-33">        public class ProcessException extends Exception {</span>
-<span class="source-line-no">034</span><span id="line-34">                </span>
-<span class="source-line-no">035</span><span id="line-35">                /** Generated serialVersionUID */</span>
-<span class="source-line-no">036</span><span id="line-36">                private static final long serialVersionUID = -6301630237335589674L;</span>
-<span class="source-line-no">037</span><span id="line-37">                </span>
-<span class="source-line-no">038</span><span id="line-38">                private String command;</span>
-<span class="source-line-no">039</span><span id="line-39">                private int exitCode;</span>
-<span class="source-line-no">040</span><span id="line-40">                private String stdout;</span>
-<span class="source-line-no">041</span><span id="line-41">                private String stderr;</span>
-<span class="source-line-no">042</span><span id="line-42">                private String exitCause;</span>
-<span class="source-line-no">043</span><span id="line-43"></span>
-<span class="source-line-no">044</span><span id="line-44">                /** Create a new executable exception</span>
-<span class="source-line-no">045</span><span id="line-45">                 * </span>
-<span class="source-line-no">046</span><span id="line-46">                 * @param command Command being executed</span>
-<span class="source-line-no">047</span><span id="line-47">                 * @param hostname The host the command was being executed on</span>
-<span class="source-line-no">048</span><span id="line-48">                 * @param exitCode The exit code of the program</span>
-<span class="source-line-no">049</span><span id="line-49">                 * @param stdout The standard output of the program</span>
-<span class="source-line-no">050</span><span id="line-50">                 * @param stderr The error output of the program</span>
-<span class="source-line-no">051</span><span id="line-51">                 */</span>
-<span class="source-line-no">052</span><span id="line-52">                public ProcessException(String command, String exitCause, int exitCode, String stdout, String stderr) {</span>
-<span class="source-line-no">053</span><span id="line-53">                        super("Error executing '" + command + "'" + ", cause='" + exitCause + "'");</span>
-<span class="source-line-no">054</span><span id="line-54">                        </span>
-<span class="source-line-no">055</span><span id="line-55">                        this.command = command;</span>
-<span class="source-line-no">056</span><span id="line-56">                        this.exitCode = exitCode;</span>
-<span class="source-line-no">057</span><span id="line-57">                        this.exitCause = exitCause;</span>
-<span class="source-line-no">058</span><span id="line-58">                        this.stdout = stdout;</span>
-<span class="source-line-no">059</span><span id="line-59">                        this.stderr = stderr;</span>
-<span class="source-line-no">060</span><span id="line-60">                }</span>
-<span class="source-line-no">061</span><span id="line-61">                public String getStdout() { return stdout; }</span>
-<span class="source-line-no">062</span><span id="line-62">                public String getStderr() { return stderr; }</span>
-<span class="source-line-no">063</span><span id="line-63">                public String getCommand() { return command; }</span>
-<span class="source-line-no">064</span><span id="line-64">                public int getExitCode() { return exitCode; }</span>
-<span class="source-line-no">065</span><span id="line-65">                public String getExitCause() { return exitCause; }</span>
-<span class="source-line-no">066</span><span id="line-66">                public String getMessage() {</span>
-<span class="source-line-no">067</span><span id="line-67">                        // trim stdout/stderr</span>
-<span class="source-line-no">068</span><span id="line-68">                        if (maxOutputChars&gt;0) { stdout = Text.getDisplayString("stdout", stdout, 8000); }</span>
-<span class="source-line-no">069</span><span id="line-69">                        if (maxOutputChars&gt;0) { stderr = Text.getDisplayString("stderr", stderr, 8000); }</span>
-<span class="source-line-no">070</span><span id="line-70">                        return super.getMessage() +</span>
-<span class="source-line-no">071</span><span id="line-71">                          "; " + </span>
-<span class="source-line-no">072</span><span id="line-72">                          (stdout==null ? "" : ", stdout='" + stdout + "'\n") +</span>
-<span class="source-line-no">073</span><span id="line-73">                      (stderr==null ? "" : ", stderr='" + stderr + "'\n") +</span>
-<span class="source-line-no">074</span><span id="line-74">                      "exitCode=" + exitCode;</span>
-<span class="source-line-no">075</span><span id="line-75">                }</span>
-<span class="source-line-no">076</span><span id="line-76">        }</span>
+<span class="source-line-no">008</span><span id="line-8">import java.io.File;</span>
+<span class="source-line-no">009</span><span id="line-9">import java.io.IOException;</span>
+<span class="source-line-no">010</span><span id="line-10">import java.io.InputStream;</span>
+<span class="source-line-no">011</span><span id="line-11">import java.io.OutputStream;</span>
+<span class="source-line-no">012</span><span id="line-12">import java.util.Map;</span>
+<span class="source-line-no">013</span><span id="line-13"></span>
+<span class="source-line-no">014</span><span id="line-14">/** Utility class for running processes, including timeouts, and slightly better exceptions that include more information</span>
+<span class="source-line-no">015</span><span id="line-15"> * about process failure. </span>
+<span class="source-line-no">016</span><span id="line-16"> * </span>
+<span class="source-line-no">017</span><span id="line-17"> */</span>
+<span class="source-line-no">018</span><span id="line-18">public class ProcessUtil {</span>
+<span class="source-line-no">019</span><span id="line-19">    </span>
+<span class="source-line-no">020</span><span id="line-20">        /// maximum output; if &gt;0, removes passwords &amp; limits to this amount</span>
+<span class="source-line-no">021</span><span id="line-21">        private int maxOutputChars = 8000;</span>
+<span class="source-line-no">022</span><span id="line-22">        </span>
+<span class="source-line-no">023</span><span id="line-23">        public static int NO_MAX_OUTPUT_CHARS = 0;</span>
+<span class="source-line-no">024</span><span id="line-24">        </span>
+<span class="source-line-no">025</span><span id="line-25">        public void setMaxOutputChars(int maxOutputChars) {</span>
+<span class="source-line-no">026</span><span id="line-26">                this.maxOutputChars = maxOutputChars;</span>
+<span class="source-line-no">027</span><span id="line-27">        }</span>
+<span class="source-line-no">028</span><span id="line-28">        </span>
+<span class="source-line-no">029</span><span id="line-29">        /** Encapsulates an error from executing a command through System.exec()</span>
+<span class="source-line-no">030</span><span id="line-30">         * </span>
+<span class="source-line-no">031</span><span id="line-31">         */</span>
+<span class="source-line-no">032</span><span id="line-32">        public class ProcessException extends Exception {</span>
+<span class="source-line-no">033</span><span id="line-33">                </span>
+<span class="source-line-no">034</span><span id="line-34">                /** Generated serialVersionUID */</span>
+<span class="source-line-no">035</span><span id="line-35">                private static final long serialVersionUID = -6301630237335589674L;</span>
+<span class="source-line-no">036</span><span id="line-36">                </span>
+<span class="source-line-no">037</span><span id="line-37">                private String command;</span>
+<span class="source-line-no">038</span><span id="line-38">                private int exitCode;</span>
+<span class="source-line-no">039</span><span id="line-39">                private String stdout;</span>
+<span class="source-line-no">040</span><span id="line-40">                private String stderr;</span>
+<span class="source-line-no">041</span><span id="line-41">                private String exitCause;</span>
+<span class="source-line-no">042</span><span id="line-42"></span>
+<span class="source-line-no">043</span><span id="line-43">                /** Create a new executable exception</span>
+<span class="source-line-no">044</span><span id="line-44">                 * </span>
+<span class="source-line-no">045</span><span id="line-45">                 * @param command Command being executed</span>
+<span class="source-line-no">046</span><span id="line-46">                 * @param hostname The host the command was being executed on</span>
+<span class="source-line-no">047</span><span id="line-47">                 * @param exitCode The exit code of the program</span>
+<span class="source-line-no">048</span><span id="line-48">                 * @param stdout The standard output of the program</span>
+<span class="source-line-no">049</span><span id="line-49">                 * @param stderr The error output of the program</span>
+<span class="source-line-no">050</span><span id="line-50">                 */</span>
+<span class="source-line-no">051</span><span id="line-51">                public ProcessException(String command, String exitCause, int exitCode, String stdout, String stderr) {</span>
+<span class="source-line-no">052</span><span id="line-52">                        super("Error executing '" + command + "'" + ", cause='" + exitCause + "'");</span>
+<span class="source-line-no">053</span><span id="line-53">                        </span>
+<span class="source-line-no">054</span><span id="line-54">                        this.command = command;</span>
+<span class="source-line-no">055</span><span id="line-55">                        this.exitCode = exitCode;</span>
+<span class="source-line-no">056</span><span id="line-56">                        this.exitCause = exitCause;</span>
+<span class="source-line-no">057</span><span id="line-57">                        this.stdout = stdout;</span>
+<span class="source-line-no">058</span><span id="line-58">                        this.stderr = stderr;</span>
+<span class="source-line-no">059</span><span id="line-59">                }</span>
+<span class="source-line-no">060</span><span id="line-60">                public String getStdout() { return stdout; }</span>
+<span class="source-line-no">061</span><span id="line-61">                public String getStderr() { return stderr; }</span>
+<span class="source-line-no">062</span><span id="line-62">                public String getCommand() { return command; }</span>
+<span class="source-line-no">063</span><span id="line-63">                public int getExitCode() { return exitCode; }</span>
+<span class="source-line-no">064</span><span id="line-64">                public String getExitCause() { return exitCause; }</span>
+<span class="source-line-no">065</span><span id="line-65">                public String getMessage() {</span>
+<span class="source-line-no">066</span><span id="line-66">                        // trim stdout/stderr</span>
+<span class="source-line-no">067</span><span id="line-67">                        if (maxOutputChars&gt;0) { stdout = Text.getDisplayString("stdout", stdout, 8000); }</span>
+<span class="source-line-no">068</span><span id="line-68">                        if (maxOutputChars&gt;0) { stderr = Text.getDisplayString("stderr", stderr, 8000); }</span>
+<span class="source-line-no">069</span><span id="line-69">                        return super.getMessage() +</span>
+<span class="source-line-no">070</span><span id="line-70">                          "; " + </span>
+<span class="source-line-no">071</span><span id="line-71">                          (stdout==null ? "" : ", stdout='" + stdout + "'\n") +</span>
+<span class="source-line-no">072</span><span id="line-72">                      (stderr==null ? "" : ", stderr='" + stderr + "'\n") +</span>
+<span class="source-line-no">073</span><span id="line-73">                      "exitCode=" + exitCode;</span>
+<span class="source-line-no">074</span><span id="line-74">                }</span>
+<span class="source-line-no">075</span><span id="line-75">        }</span>
+<span class="source-line-no">076</span><span id="line-76">        </span>
 <span class="source-line-no">077</span><span id="line-77">        </span>
-<span class="source-line-no">078</span><span id="line-78">        </span>
-<span class="source-line-no">079</span><span id="line-79"></span>
-<span class="source-line-no">080</span><span id="line-80">        public String exec(String[] command) throws ProcessException {</span>
-<span class="source-line-no">081</span><span id="line-81">                return exec(Text.join(command, " "), -1, null, null, null);</span>
-<span class="source-line-no">082</span><span id="line-82">        }</span>
-<span class="source-line-no">083</span><span id="line-83">        </span>
-<span class="source-line-no">084</span><span id="line-84">        public String exec(String[] command, String[] env) throws ProcessException {</span>
-<span class="source-line-no">085</span><span id="line-85">                return exec(Text.join(command, " "), -1, null, env, null);</span>
-<span class="source-line-no">086</span><span id="line-86">        }</span>
-<span class="source-line-no">087</span><span id="line-87"></span>
-<span class="source-line-no">088</span><span id="line-88">        @SuppressWarnings("deprecation")</span>
-<span class="source-line-no">089</span><span id="line-89">        public String exec(String command, long timeout, InputStream stdin, String[] env, File dir) throws ProcessException {</span>
-<span class="source-line-no">090</span><span id="line-90">                Process process;</span>
-<span class="source-line-no">091</span><span id="line-91">                try {</span>
-<span class="source-line-no">092</span><span id="line-92">                        process = Runtime.getRuntime().exec(command, env, dir);</span>
-<span class="source-line-no">093</span><span id="line-93">                } catch (IOException ioe) {</span>
-<span class="source-line-no">094</span><span id="line-94">                        throw (ProcessException) new ProcessException(command, "IOException", 0, "", "").initCause(ioe);</span>
-<span class="source-line-no">095</span><span id="line-95">                }</span>
-<span class="source-line-no">096</span><span id="line-96">                InputStream stdout = process.getInputStream();</span>
-<span class="source-line-no">097</span><span id="line-97">                InputStream stderr = process.getErrorStream();</span>
-<span class="source-line-no">098</span><span id="line-98">                OutputStream processStdin = process.getOutputStream();</span>
-<span class="source-line-no">099</span><span id="line-99">                ByteArrayOutputStream stdoutByteArrayStream = new ByteArrayOutputStream();</span>
-<span class="source-line-no">100</span><span id="line-100">                ByteArrayOutputStream stderrByteArrayStream = new ByteArrayOutputStream();</span>
-<span class="source-line-no">101</span><span id="line-101">                </span>
-<span class="source-line-no">102</span><span id="line-102">                // could probably use nio these days to remove the .stop()s below</span>
-<span class="source-line-no">103</span><span id="line-103">                Thread copyStdoutThread = StreamUtil.copyThread(stdout, stdoutByteArrayStream, 1024);</span>
-<span class="source-line-no">104</span><span id="line-104">                Thread copyStderrThread = StreamUtil.copyThread(stderr, stderrByteArrayStream, 1024);</span>
-<span class="source-line-no">105</span><span id="line-105">                Thread copyStdinThread = null;</span>
-<span class="source-line-no">106</span><span id="line-106">                if (stdin!=null) { </span>
-<span class="source-line-no">107</span><span id="line-107">                        copyStdinThread = StreamUtil.copyAndCloseThread(stdin, processStdin, 1024);</span>
-<span class="source-line-no">108</span><span id="line-108">                        copyStdinThread.start();</span>
-<span class="source-line-no">109</span><span id="line-109">                }</span>
-<span class="source-line-no">110</span><span id="line-110">                </span>
-<span class="source-line-no">111</span><span id="line-111">                copyStdoutThread.start();</span>
-<span class="source-line-no">112</span><span id="line-112">                copyStderrThread.start();</span>
-<span class="source-line-no">113</span><span id="line-113">                int exitCode = -1;</span>
-<span class="source-line-no">114</span><span id="line-114">                boolean throwException = false;</span>
-<span class="source-line-no">115</span><span id="line-115">                long interval = 100;</span>
-<span class="source-line-no">116</span><span id="line-116">                String cause = "";</span>
-<span class="source-line-no">117</span><span id="line-117">                </span>
-<span class="source-line-no">118</span><span id="line-118">                try {</span>
-<span class="source-line-no">119</span><span id="line-119">                        // this didn't work for some reason, but maybe it does now</span>
-<span class="source-line-no">120</span><span id="line-120">                        // exitCode = process.waitFor();</span>
-<span class="source-line-no">121</span><span id="line-121">                        </span>
-<span class="source-line-no">122</span><span id="line-122">                        long    timeWaiting = 0;</span>
-<span class="source-line-no">123</span><span id="line-123">                        boolean processFinished = false;</span>
-<span class="source-line-no">124</span><span id="line-124">                        </span>
-<span class="source-line-no">125</span><span id="line-125">                        while ((timeout == -1 || timeWaiting &lt; timeout) &amp;&amp; !processFinished) {</span>
-<span class="source-line-no">126</span><span id="line-126">                                processFinished = true;</span>
-<span class="source-line-no">127</span><span id="line-127">                                Thread.sleep(interval);  // caught below</span>
-<span class="source-line-no">128</span><span id="line-128">                                </span>
-<span class="source-line-no">129</span><span id="line-129">                                try {</span>
-<span class="source-line-no">130</span><span id="line-130">                                        exitCode = process.exitValue();</span>
-<span class="source-line-no">131</span><span id="line-131">                                } catch (IllegalThreadStateException e) {</span>
-<span class="source-line-no">132</span><span id="line-132">                                        // process hasn't finished yet</span>
-<span class="source-line-no">133</span><span id="line-133">                                        processFinished = false;</span>
-<span class="source-line-no">134</span><span id="line-134">                                }</span>
-<span class="source-line-no">135</span><span id="line-135">                                timeWaiting += interval;</span>
-<span class="source-line-no">136</span><span id="line-136">                        }</span>
-<span class="source-line-no">137</span><span id="line-137">                        </span>
-<span class="source-line-no">138</span><span id="line-138">                        if (processFinished) {</span>
-<span class="source-line-no">139</span><span id="line-139">                                // wait for  copy threads to complete</span>
-<span class="source-line-no">140</span><span id="line-140">                                copyStdoutThread.join();</span>
-<span class="source-line-no">141</span><span id="line-141">                                copyStderrThread.join();  </span>
-<span class="source-line-no">142</span><span id="line-142">                                if (copyStdinThread!=null) {</span>
-<span class="source-line-no">143</span><span id="line-143">                                        copyStdinThread.stop();   // can't do much about stdin</span>
-<span class="source-line-no">144</span><span id="line-144">                                }</span>
-<span class="source-line-no">145</span><span id="line-145">                                if (exitCode != 0) {</span>
-<span class="source-line-no">146</span><span id="line-146">                                        cause = "non-0 exitCode";</span>
-<span class="source-line-no">147</span><span id="line-147">                                        throwException = true;</span>
+<span class="source-line-no">078</span><span id="line-78"></span>
+<span class="source-line-no">079</span><span id="line-79">        public String exec(String[] command) throws ProcessException {</span>
+<span class="source-line-no">080</span><span id="line-80">                return exec(command, -1, null, null, null);</span>
+<span class="source-line-no">081</span><span id="line-81">        }</span>
+<span class="source-line-no">082</span><span id="line-82">        </span>
+<span class="source-line-no">083</span><span id="line-83">        public String exec(String[] command, Map&lt;String, String&gt; env) throws ProcessException {</span>
+<span class="source-line-no">084</span><span id="line-84">                return exec(command, -1, null, env, null);</span>
+<span class="source-line-no">085</span><span id="line-85">        }</span>
+<span class="source-line-no">086</span><span id="line-86"></span>
+<span class="source-line-no">087</span><span id="line-87">        public String exec(String[] command, long timeout, InputStream stdin, Map&lt;String, String&gt; envMap, /*String[] env, */ File dir) throws ProcessException {</span>
+<span class="source-line-no">088</span><span id="line-88">                Process process;</span>
+<span class="source-line-no">089</span><span id="line-89">                try {</span>
+<span class="source-line-no">090</span><span id="line-90">                        ProcessBuilder pb = new ProcessBuilder(command);</span>
+<span class="source-line-no">091</span><span id="line-91">                        if (dir != null) {</span>
+<span class="source-line-no">092</span><span id="line-92">                                pb.directory(dir);</span>
+<span class="source-line-no">093</span><span id="line-93">                        }</span>
+<span class="source-line-no">094</span><span id="line-94">                        pb.environment().clear();</span>
+<span class="source-line-no">095</span><span id="line-95">                        pb.environment().putAll(envMap);</span>
+<span class="source-line-no">096</span><span id="line-96">                        process = pb.start();</span>
+<span class="source-line-no">097</span><span id="line-97">                } catch (IOException ioe) {</span>
+<span class="source-line-no">098</span><span id="line-98">                        throw (ProcessException) new ProcessException(Text.join(command, " "), "IOException", 0, "", "").initCause(ioe);</span>
+<span class="source-line-no">099</span><span id="line-99">                }</span>
+<span class="source-line-no">100</span><span id="line-100">                InputStream stdout = process.getInputStream();</span>
+<span class="source-line-no">101</span><span id="line-101">                InputStream stderr = process.getErrorStream();</span>
+<span class="source-line-no">102</span><span id="line-102">                OutputStream processStdin = process.getOutputStream();</span>
+<span class="source-line-no">103</span><span id="line-103">                ByteArrayOutputStream stdoutByteArrayStream = new ByteArrayOutputStream();</span>
+<span class="source-line-no">104</span><span id="line-104">                ByteArrayOutputStream stderrByteArrayStream = new ByteArrayOutputStream();</span>
+<span class="source-line-no">105</span><span id="line-105">                OutputStream stdoutStream = stdoutByteArrayStream;</span>
+<span class="source-line-no">106</span><span id="line-106">                OutputStream stderrStream = stderrByteArrayStream;</span>
+<span class="source-line-no">107</span><span id="line-107">                // OutputStream stdoutStream = new TeeOutputStream(stdoutByteArrayStream, new LoggingOutputStream(stdoutLogger));</span>
+<span class="source-line-no">108</span><span id="line-108">                // OutputStream stderrStream = new TeeOutputStream(stderrByteArrayStream, new LoggingOutputStream(stderrLogger));</span>
+<span class="source-line-no">109</span><span id="line-109">                </span>
+<span class="source-line-no">110</span><span id="line-110">                // could probably use nio these days</span>
+<span class="source-line-no">111</span><span id="line-111">                Thread copyStdoutThread = StreamUtil.copyThread(stdout, stdoutStream, 1024);</span>
+<span class="source-line-no">112</span><span id="line-112">                Thread copyStderrThread = StreamUtil.copyThread(stderr, stderrStream, 1024);</span>
+<span class="source-line-no">113</span><span id="line-113">                Thread copyStdinThread = null;</span>
+<span class="source-line-no">114</span><span id="line-114">                if (stdin!=null) { </span>
+<span class="source-line-no">115</span><span id="line-115">                        copyStdinThread = StreamUtil.copyAndCloseThread(stdin, processStdin, 1024);</span>
+<span class="source-line-no">116</span><span id="line-116">                        copyStdinThread.start();</span>
+<span class="source-line-no">117</span><span id="line-117">                }</span>
+<span class="source-line-no">118</span><span id="line-118">                </span>
+<span class="source-line-no">119</span><span id="line-119">                copyStdoutThread.start();</span>
+<span class="source-line-no">120</span><span id="line-120">                copyStderrThread.start();</span>
+<span class="source-line-no">121</span><span id="line-121">                int exitCode = -1;</span>
+<span class="source-line-no">122</span><span id="line-122">                boolean throwException = false;</span>
+<span class="source-line-no">123</span><span id="line-123">                long interval = 100;</span>
+<span class="source-line-no">124</span><span id="line-124">                String cause = "";</span>
+<span class="source-line-no">125</span><span id="line-125">                </span>
+<span class="source-line-no">126</span><span id="line-126">                try {</span>
+<span class="source-line-no">127</span><span id="line-127">                        // timeouts</span>
+<span class="source-line-no">128</span><span id="line-128">                        long    timeWaiting = 0;</span>
+<span class="source-line-no">129</span><span id="line-129">                        boolean processFinished = false;</span>
+<span class="source-line-no">130</span><span id="line-130">                        while ((timeout == -1 || timeWaiting &lt; timeout) &amp;&amp; !processFinished) {</span>
+<span class="source-line-no">131</span><span id="line-131">                                processFinished = true;</span>
+<span class="source-line-no">132</span><span id="line-132">                                Thread.sleep(interval);</span>
+<span class="source-line-no">133</span><span id="line-133">                                try {</span>
+<span class="source-line-no">134</span><span id="line-134">                                        exitCode = process.exitValue();</span>
+<span class="source-line-no">135</span><span id="line-135">                                } catch (IllegalThreadStateException e) {</span>
+<span class="source-line-no">136</span><span id="line-136">                                        // process hasn't finished yet</span>
+<span class="source-line-no">137</span><span id="line-137">                                        processFinished = false;</span>
+<span class="source-line-no">138</span><span id="line-138">                                }</span>
+<span class="source-line-no">139</span><span id="line-139">                                timeWaiting += interval;</span>
+<span class="source-line-no">140</span><span id="line-140">                        }</span>
+<span class="source-line-no">141</span><span id="line-141">                        </span>
+<span class="source-line-no">142</span><span id="line-142">                        if (processFinished) {</span>
+<span class="source-line-no">143</span><span id="line-143">                                // wait for copy threads to complete</span>
+<span class="source-line-no">144</span><span id="line-144">                                copyStdoutThread.join();</span>
+<span class="source-line-no">145</span><span id="line-145">                                copyStderrThread.join();  </span>
+<span class="source-line-no">146</span><span id="line-146">                                if (copyStdinThread != null) {</span>
+<span class="source-line-no">147</span><span id="line-147">                                        copyStdinThread.interrupt();</span>
 <span class="source-line-no">148</span><span id="line-148">                                }</span>
-<span class="source-line-no">149</span><span id="line-149">                        } else {</span>
-<span class="source-line-no">150</span><span id="line-150">                                cause = "timeout";</span>
-<span class="source-line-no">151</span><span id="line-151">                                throwException = true;</span>
-<span class="source-line-no">152</span><span id="line-152">                                process.destroy(); </span>
-<span class="source-line-no">153</span><span id="line-153">                                if (copyStdinThread!=null) {</span>
-<span class="source-line-no">154</span><span id="line-154">                                        copyStdinThread.stop();</span>
-<span class="source-line-no">155</span><span id="line-155">                                }</span>
-<span class="source-line-no">156</span><span id="line-156">                                copyStderrThread.stop(); // .join() here hangs. should probably set a flag here instead</span>
-<span class="source-line-no">157</span><span id="line-157">                                copyStdoutThread.stop(); // maybe stop these ?</span>
-<span class="source-line-no">158</span><span id="line-158">                        }                       </span>
-<span class="source-line-no">159</span><span id="line-159">                        </span>
-<span class="source-line-no">160</span><span id="line-160">                } catch (InterruptedException ie) {</span>
-<span class="source-line-no">161</span><span id="line-161">                        // should probably clean things up here.</span>
-<span class="source-line-no">162</span><span id="line-162">                        cause = "InterruptedException";</span>
-<span class="source-line-no">163</span><span id="line-163">                        throwException = true;</span>
-<span class="source-line-no">164</span><span id="line-164">                        process.destroy();</span>
-<span class="source-line-no">165</span><span id="line-165">                        if (copyStdinThread!=null) {</span>
-<span class="source-line-no">166</span><span id="line-166">                                copyStdinThread.stop();</span>
-<span class="source-line-no">167</span><span id="line-167">                        }</span>
-<span class="source-line-no">168</span><span id="line-168">                        copyStderrThread.stop();</span>
-<span class="source-line-no">169</span><span id="line-169">                        copyStdoutThread.stop(); // maybe allow these to continue to completion ?                       </span>
-<span class="source-line-no">170</span><span id="line-170">                }</span>
-<span class="source-line-no">171</span><span id="line-171">                </span>
-<span class="source-line-no">172</span><span id="line-172">                if (throwException) {</span>
-<span class="source-line-no">173</span><span id="line-173">                        throw new ProcessException(</span>
-<span class="source-line-no">174</span><span id="line-174">                                command, cause, exitCode,  </span>
-<span class="source-line-no">175</span><span id="line-175">                                stdoutByteArrayStream.toString(), stderrByteArrayStream.toString());</span>
-<span class="source-line-no">176</span><span id="line-176">                }</span>
-<span class="source-line-no">177</span><span id="line-177">                return stdoutByteArrayStream.toString();</span>
-<span class="source-line-no">178</span><span id="line-178">        }       </span>
-<span class="source-line-no">179</span><span id="line-179">        </span>
-<span class="source-line-no">180</span><span id="line-180">        </span>
-<span class="source-line-no">181</span><span id="line-181">        </span>
+<span class="source-line-no">149</span><span id="line-149">                                if (exitCode != 0) {</span>
+<span class="source-line-no">150</span><span id="line-150">                                        cause = "non-0 exitCode";</span>
+<span class="source-line-no">151</span><span id="line-151">                                        throwException = true;</span>
+<span class="source-line-no">152</span><span id="line-152">                                }</span>
+<span class="source-line-no">153</span><span id="line-153">                        } else {</span>
+<span class="source-line-no">154</span><span id="line-154">                                cause = "timeout";</span>
+<span class="source-line-no">155</span><span id="line-155">                                throwException = true;</span>
+<span class="source-line-no">156</span><span id="line-156">                                process.destroy(); </span>
+<span class="source-line-no">157</span><span id="line-157">                                if (copyStdinThread != null) {</span>
+<span class="source-line-no">158</span><span id="line-158">                                        copyStdinThread.interrupt();</span>
+<span class="source-line-no">159</span><span id="line-159">                                }</span>
+<span class="source-line-no">160</span><span id="line-160">                                copyStderrThread.interrupt();</span>
+<span class="source-line-no">161</span><span id="line-161">                                copyStdoutThread.interrupt();</span>
+<span class="source-line-no">162</span><span id="line-162">                        }                       </span>
+<span class="source-line-no">163</span><span id="line-163">                        </span>
+<span class="source-line-no">164</span><span id="line-164">                } catch (InterruptedException ie) {</span>
+<span class="source-line-no">165</span><span id="line-165">                        cause = "InterruptedException";</span>
+<span class="source-line-no">166</span><span id="line-166">                        throwException = true;</span>
+<span class="source-line-no">167</span><span id="line-167">                        process.destroy();</span>
+<span class="source-line-no">168</span><span id="line-168">                        if (copyStdinThread!=null) {</span>
+<span class="source-line-no">169</span><span id="line-169">                                copyStdinThread.interrupt();</span>
+<span class="source-line-no">170</span><span id="line-170">                        }</span>
+<span class="source-line-no">171</span><span id="line-171">                        copyStderrThread.interrupt();</span>
+<span class="source-line-no">172</span><span id="line-172">                        copyStdoutThread.interrupt();                   </span>
+<span class="source-line-no">173</span><span id="line-173">                }</span>
+<span class="source-line-no">174</span><span id="line-174">                </span>
+<span class="source-line-no">175</span><span id="line-175">                if (throwException) {</span>
+<span class="source-line-no">176</span><span id="line-176">                        throw new ProcessException(</span>
+<span class="source-line-no">177</span><span id="line-177">                                Text.join(command, " "), cause, exitCode,  </span>
+<span class="source-line-no">178</span><span id="line-178">                                stdoutByteArrayStream.toString(), stderrByteArrayStream.toString());</span>
+<span class="source-line-no">179</span><span id="line-179">                }</span>
+<span class="source-line-no">180</span><span id="line-180">                return stdoutByteArrayStream.toString();</span>
+<span class="source-line-no">181</span><span id="line-181">        }       </span>
 <span class="source-line-no">182</span><span id="line-182">        </span>
-<span class="source-line-no">183</span><span id="line-183">}</span>
+<span class="source-line-no">183</span><span id="line-183">        </span>
+<span class="source-line-no">184</span><span id="line-184">        </span>
+<span class="source-line-no">185</span><span id="line-185">        </span>
+<span class="source-line-no">186</span><span id="line-186">}</span>
 
 
 

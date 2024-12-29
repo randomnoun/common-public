@@ -1381,7 +1381,7 @@
 <span class="source-line-no">1368</span><span id="line-1368">                    @Override</span>
 <span class="source-line-no">1369</span><span id="line-1369">                    public Class&lt;?&gt; resolveClass(java.io.ObjectStreamClass streamClass)</span>
 <span class="source-line-no">1370</span><span id="line-1370">                    throws java.io.IOException, ClassNotFoundException {</span>
-<span class="source-line-no">1371</span><span id="line-1371">                        Class c = Class.forName(streamClass.getName(), false, loader);</span>
+<span class="source-line-no">1371</span><span id="line-1371">                        Class&lt;?&gt; c = Class.forName(streamClass.getName(), false, loader);</span>
 <span class="source-line-no">1372</span><span id="line-1372">                        if( c == null ){</span>
 <span class="source-line-no">1373</span><span id="line-1373">                            return super.resolveClass(streamClass);</span>
 <span class="source-line-no">1374</span><span id="line-1374">                        } else {</span>
