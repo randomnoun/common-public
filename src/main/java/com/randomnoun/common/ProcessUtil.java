@@ -5,12 +5,11 @@ package com.randomnoun.common;
  */
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.File;
-
-import java.lang.Process;
+import java.util.Map;
 
 /** Utility class for running processes, including timeouts, and slightly better exceptions that include more information
  * about process failure. 
@@ -78,30 +77,39 @@ public class ProcessUtil {
 	
 
 	public String exec(String[] command) throws ProcessException {
-		return exec(Text.join(command, " "), -1, null, null, null);
+		return exec(command, -1, null, null, null);
 	}
 	
-	public String exec(String[] command, String[] env) throws ProcessException {
-		return exec(Text.join(command, " "), -1, null, env, null);
+	public String exec(String[] command, Map<String, String> env) throws ProcessException {
+		return exec(command, -1, null, env, null);
 	}
 
-	@SuppressWarnings("deprecation")
-	public String exec(String command, long timeout, InputStream stdin, String[] env, File dir) throws ProcessException {
+	public String exec(String[] command, long timeout, InputStream stdin, Map<String, String> envMap, /*String[] env, */ File dir) throws ProcessException {
 		Process process;
 		try {
-			process = Runtime.getRuntime().exec(command, env, dir);
+			ProcessBuilder pb = new ProcessBuilder(command);
+			if (dir != null) {
+				pb.directory(dir);
+			}
+			pb.environment().clear();
+			pb.environment().putAll(envMap);
+			process = pb.start();
 		} catch (IOException ioe) {
-			throw (ProcessException) new ProcessException(command, "IOException", 0, "", "").initCause(ioe);
+			throw (ProcessException) new ProcessException(Text.join(command, " "), "IOException", 0, "", "").initCause(ioe);
 		}
 		InputStream stdout = process.getInputStream();
 		InputStream stderr = process.getErrorStream();
 		OutputStream processStdin = process.getOutputStream();
 		ByteArrayOutputStream stdoutByteArrayStream = new ByteArrayOutputStream();
 		ByteArrayOutputStream stderrByteArrayStream = new ByteArrayOutputStream();
+		OutputStream stdoutStream = stdoutByteArrayStream;
+		OutputStream stderrStream = stderrByteArrayStream;
+		// OutputStream stdoutStream = new TeeOutputStream(stdoutByteArrayStream, new LoggingOutputStream(stdoutLogger));
+		// OutputStream stderrStream = new TeeOutputStream(stderrByteArrayStream, new LoggingOutputStream(stderrLogger));
 		
-		// could probably use nio these days to remove the .stop()s below
-		Thread copyStdoutThread = StreamUtil.copyThread(stdout, stdoutByteArrayStream, 1024);
-		Thread copyStderrThread = StreamUtil.copyThread(stderr, stderrByteArrayStream, 1024);
+		// could probably use nio these days
+		Thread copyStdoutThread = StreamUtil.copyThread(stdout, stdoutStream, 1024);
+		Thread copyStderrThread = StreamUtil.copyThread(stderr, stderrStream, 1024);
 		Thread copyStdinThread = null;
 		if (stdin!=null) { 
 			copyStdinThread = StreamUtil.copyAndCloseThread(stdin, processStdin, 1024);
@@ -116,16 +124,12 @@ public class ProcessUtil {
 		String cause = "";
 		
 		try {
-			// this didn't work for some reason, but maybe it does now
-			// exitCode = process.waitFor();
-			
+			// timeouts
 			long	timeWaiting = 0;
 			boolean	processFinished = false;
-			
 			while ((timeout == -1 || timeWaiting < timeout) && !processFinished) {
 				processFinished = true;
-				Thread.sleep(interval);  // caught below
-				
+				Thread.sleep(interval);
 				try {
 					exitCode = process.exitValue();
 				} catch (IllegalThreadStateException e) {
@@ -136,11 +140,11 @@ public class ProcessUtil {
 			}
 			
 			if (processFinished) {
-				// wait for  copy threads to complete
+				// wait for copy threads to complete
 				copyStdoutThread.join();
 				copyStderrThread.join();  
-				if (copyStdinThread!=null) {
-					copyStdinThread.stop();   // can't do much about stdin
+				if (copyStdinThread != null) {
+					copyStdinThread.interrupt();
 				}
 				if (exitCode != 0) {
 					cause = "non-0 exitCode";
@@ -150,28 +154,27 @@ public class ProcessUtil {
 				cause = "timeout";
 				throwException = true;
 				process.destroy(); 
-				if (copyStdinThread!=null) {
-					copyStdinThread.stop();
+				if (copyStdinThread != null) {
+					copyStdinThread.interrupt();
 				}
-				copyStderrThread.stop(); // .join() here hangs. should probably set a flag here instead
-				copyStdoutThread.stop(); // maybe stop these ?
+				copyStderrThread.interrupt();
+				copyStdoutThread.interrupt();
 			}			
 			
 		} catch (InterruptedException ie) {
-			// should probably clean things up here.
 			cause = "InterruptedException";
 			throwException = true;
 			process.destroy();
 			if (copyStdinThread!=null) {
-				copyStdinThread.stop();
+				copyStdinThread.interrupt();
 			}
-			copyStderrThread.stop();
-			copyStdoutThread.stop(); // maybe allow these to continue to completion ?			
+			copyStderrThread.interrupt();
+			copyStdoutThread.interrupt();			
 		}
 		
 		if (throwException) {
 			throw new ProcessException(
-				command, cause, exitCode,  
+				Text.join(command, " "), cause, exitCode,  
 				stdoutByteArrayStream.toString(), stderrByteArrayStream.toString());
 		}
 		return stdoutByteArrayStream.toString();
