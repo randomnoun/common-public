@@ -9,7 +9,9 @@ import java.nio.charset.Charset;
 
 import org.apache.logging.log4j.Logger;
 
-/** An outputstream that writes to a log4j Logger
+/** An outputstream that writes to a log4j Logger.
+ * 
+ * Lines are terminated by CRLF or LF. 
  *
  * @author knoxg
  */
@@ -19,6 +21,7 @@ public class LoggingOutputStream extends OutputStream {
 	PipedOutputStream pos;
 	PipedInputStream pis;
 	InputStreamReader isr;
+	boolean wasCr; // last character was a CR (to convert CRLFs)
 	
 	public LoggingOutputStream(Logger logger, Charset charset) throws IOException {
 		this.logger = logger;
@@ -35,15 +38,21 @@ public class LoggingOutputStream extends OutputStream {
 	
 	@Override
 	public void write(int b) throws IOException {
-		
 		pos.write(b);
 		int ch = isr.read();
 		if (ch == -1) {
-			// not a full character
-		} else if (ch == 10) {
+			// EOF
+		} else if (ch == 13) { // \r
 			logger.info(line); line.setLength(0);
+			wasCr = true;
+		} else if (ch == 10) { // \n
+			if (!wasCr) {
+				logger.info(line); line.setLength(0);
+			}
+			wasCr = false;
 		} else { 
 			line.append((char) b);
+			wasCr = false;
 		}
 	}
 }
