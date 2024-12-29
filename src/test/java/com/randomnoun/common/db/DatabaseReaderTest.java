@@ -7,7 +7,6 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Properties;
 
 import javax.sql.DataSource;
 
@@ -20,7 +19,6 @@ import com.randomnoun.common.db.to.ConstraintTO;
 import com.randomnoun.common.db.to.SchemaTO;
 import com.randomnoun.common.db.to.TableColumnTO;
 import com.randomnoun.common.db.to.TableTO;
-import com.randomnoun.common.log4j2.Log4j2CliConfiguration;
 
 import junit.framework.TestCase;
 
@@ -38,12 +36,7 @@ public class DatabaseReaderTest extends TestCase {
 		String hostname = InetAddress.getLocalHost().getHostName();
 		System.out.println("Running on " + hostname);
 		if (!TEST_HOSTS.contains(hostname)) { return; }
-		
 		LogManager.shutdown(); // ok so if I do this I need to reconstruct the Logger instances, which is annoying
-        Log4j2CliConfiguration lcc = new Log4j2CliConfiguration();
-        Properties props = new Properties();
-        lcc.init("[DatabaseReaderTest]", props);
-        
 		logger.info("setUp()");
 		logger.fatal("For christ sake");
 	}
