@@ -91,8 +91,10 @@ public class ProcessUtil {
 			if (dir != null) {
 				pb.directory(dir);
 			}
-			pb.environment().clear();
-			pb.environment().putAll(envMap);
+			if (envMap != null) {
+				pb.environment().clear();
+				pb.environment().putAll(envMap);
+			}
 			process = pb.start();
 		} catch (IOException ioe) {
 			throw (ProcessException) new ProcessException(Text.join(command, " "), "IOException", 0, "", "").initCause(ioe);
