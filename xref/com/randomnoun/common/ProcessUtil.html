@@ -99,101 +99,103 @@
 <a class="jxr_linenumber" name="L91" href="#L91">91</a>  			<strong class="jxr_keyword">if</strong> (dir != <strong class="jxr_keyword">null</strong>) {
 <a class="jxr_linenumber" name="L92" href="#L92">92</a>  				pb.directory(dir);
 <a class="jxr_linenumber" name="L93" href="#L93">93</a>  			}
-<a class="jxr_linenumber" name="L94" href="#L94">94</a>  			pb.environment().clear();
-<a class="jxr_linenumber" name="L95" href="#L95">95</a>  			pb.environment().putAll(envMap);
-<a class="jxr_linenumber" name="L96" href="#L96">96</a>  			process = pb.start();
-<a class="jxr_linenumber" name="L97" href="#L97">97</a>  		} <strong class="jxr_keyword">catch</strong> (IOException ioe) {
-<a class="jxr_linenumber" name="L98" href="#L98">98</a>  			<strong class="jxr_keyword">throw</strong> (ProcessException) <strong class="jxr_keyword">new</strong> ProcessException(Text.join(command, <span class="jxr_string">" "</span>), <span class="jxr_string">"IOException"</span>, 0, <span class="jxr_string">""</span>, <span class="jxr_string">""</span>).initCause(ioe);
-<a class="jxr_linenumber" name="L99" href="#L99">99</a>  		}
-<a class="jxr_linenumber" name="L100" href="#L100">100</a> 		InputStream stdout = process.getInputStream();
-<a class="jxr_linenumber" name="L101" href="#L101">101</a> 		InputStream stderr = process.getErrorStream();
-<a class="jxr_linenumber" name="L102" href="#L102">102</a> 		OutputStream processStdin = process.getOutputStream();
-<a class="jxr_linenumber" name="L103" href="#L103">103</a> 		ByteArrayOutputStream stdoutByteArrayStream = <strong class="jxr_keyword">new</strong> ByteArrayOutputStream();
-<a class="jxr_linenumber" name="L104" href="#L104">104</a> 		ByteArrayOutputStream stderrByteArrayStream = <strong class="jxr_keyword">new</strong> ByteArrayOutputStream();
-<a class="jxr_linenumber" name="L105" href="#L105">105</a> 		OutputStream stdoutStream = stdoutByteArrayStream;
-<a class="jxr_linenumber" name="L106" href="#L106">106</a> 		OutputStream stderrStream = stderrByteArrayStream;
-<a class="jxr_linenumber" name="L107" href="#L107">107</a> 		<em class="jxr_comment">// OutputStream stdoutStream = new TeeOutputStream(stdoutByteArrayStream, new LoggingOutputStream(stdoutLogger));</em>
-<a class="jxr_linenumber" name="L108" href="#L108">108</a> 		<em class="jxr_comment">// OutputStream stderrStream = new TeeOutputStream(stderrByteArrayStream, new LoggingOutputStream(stderrLogger));</em>
-<a class="jxr_linenumber" name="L109" href="#L109">109</a> 		
-<a class="jxr_linenumber" name="L110" href="#L110">110</a> 		<em class="jxr_comment">// could probably use nio these days</em>
-<a class="jxr_linenumber" name="L111" href="#L111">111</a> 		Thread copyStdoutThread = StreamUtil.copyThread(stdout, stdoutStream, 1024);
-<a class="jxr_linenumber" name="L112" href="#L112">112</a> 		Thread copyStderrThread = StreamUtil.copyThread(stderr, stderrStream, 1024);
-<a class="jxr_linenumber" name="L113" href="#L113">113</a> 		Thread copyStdinThread = <strong class="jxr_keyword">null</strong>;
-<a class="jxr_linenumber" name="L114" href="#L114">114</a> 		<strong class="jxr_keyword">if</strong> (stdin!=<strong class="jxr_keyword">null</strong>) { 
-<a class="jxr_linenumber" name="L115" href="#L115">115</a> 			copyStdinThread = StreamUtil.copyAndCloseThread(stdin, processStdin, 1024);
-<a class="jxr_linenumber" name="L116" href="#L116">116</a> 			copyStdinThread.start();
-<a class="jxr_linenumber" name="L117" href="#L117">117</a> 		}
-<a class="jxr_linenumber" name="L118" href="#L118">118</a> 		
-<a class="jxr_linenumber" name="L119" href="#L119">119</a> 		copyStdoutThread.start();
-<a class="jxr_linenumber" name="L120" href="#L120">120</a> 		copyStderrThread.start();
-<a class="jxr_linenumber" name="L121" href="#L121">121</a> 		<strong class="jxr_keyword">int</strong> exitCode = -1;
-<a class="jxr_linenumber" name="L122" href="#L122">122</a> 		<strong class="jxr_keyword">boolean</strong> throwException = false;
-<a class="jxr_linenumber" name="L123" href="#L123">123</a> 		<strong class="jxr_keyword">long</strong> interval = 100;
-<a class="jxr_linenumber" name="L124" href="#L124">124</a> 		String cause = <span class="jxr_string">""</span>;
-<a class="jxr_linenumber" name="L125" href="#L125">125</a> 		
-<a class="jxr_linenumber" name="L126" href="#L126">126</a> 		<strong class="jxr_keyword">try</strong> {
-<a class="jxr_linenumber" name="L127" href="#L127">127</a> 			<em class="jxr_comment">// timeouts</em>
-<a class="jxr_linenumber" name="L128" href="#L128">128</a> 			<strong class="jxr_keyword">long</strong>	timeWaiting = 0;
-<a class="jxr_linenumber" name="L129" href="#L129">129</a> 			<strong class="jxr_keyword">boolean</strong>	processFinished = false;
-<a class="jxr_linenumber" name="L130" href="#L130">130</a> 			<strong class="jxr_keyword">while</strong> ((timeout == -1 || timeWaiting &lt; timeout) &amp;&amp; !processFinished) {
-<a class="jxr_linenumber" name="L131" href="#L131">131</a> 				processFinished = <strong class="jxr_keyword">true</strong>;
-<a class="jxr_linenumber" name="L132" href="#L132">132</a> 				Thread.sleep(interval);
-<a class="jxr_linenumber" name="L133" href="#L133">133</a> 				<strong class="jxr_keyword">try</strong> {
-<a class="jxr_linenumber" name="L134" href="#L134">134</a> 					exitCode = process.exitValue();
-<a class="jxr_linenumber" name="L135" href="#L135">135</a> 				} <strong class="jxr_keyword">catch</strong> (IllegalThreadStateException e) {
-<a class="jxr_linenumber" name="L136" href="#L136">136</a> 					<em class="jxr_comment">// process hasn't finished yet</em>
-<a class="jxr_linenumber" name="L137" href="#L137">137</a> 					processFinished = false;
-<a class="jxr_linenumber" name="L138" href="#L138">138</a> 				}
-<a class="jxr_linenumber" name="L139" href="#L139">139</a> 				timeWaiting += interval;
-<a class="jxr_linenumber" name="L140" href="#L140">140</a> 			}
-<a class="jxr_linenumber" name="L141" href="#L141">141</a> 			
-<a class="jxr_linenumber" name="L142" href="#L142">142</a> 			<strong class="jxr_keyword">if</strong> (processFinished) {
-<a class="jxr_linenumber" name="L143" href="#L143">143</a> 				<em class="jxr_comment">// wait for copy threads to complete</em>
-<a class="jxr_linenumber" name="L144" href="#L144">144</a> 				copyStdoutThread.join();
-<a class="jxr_linenumber" name="L145" href="#L145">145</a> 				copyStderrThread.join();  
-<a class="jxr_linenumber" name="L146" href="#L146">146</a> 				<strong class="jxr_keyword">if</strong> (copyStdinThread != <strong class="jxr_keyword">null</strong>) {
-<a class="jxr_linenumber" name="L147" href="#L147">147</a> 					copyStdinThread.interrupt();
-<a class="jxr_linenumber" name="L148" href="#L148">148</a> 				}
-<a class="jxr_linenumber" name="L149" href="#L149">149</a> 				<strong class="jxr_keyword">if</strong> (exitCode != 0) {
-<a class="jxr_linenumber" name="L150" href="#L150">150</a> 					cause = <span class="jxr_string">"non-0 exitCode"</span>;
-<a class="jxr_linenumber" name="L151" href="#L151">151</a> 					throwException = <strong class="jxr_keyword">true</strong>;
-<a class="jxr_linenumber" name="L152" href="#L152">152</a> 				}
-<a class="jxr_linenumber" name="L153" href="#L153">153</a> 			} <strong class="jxr_keyword">else</strong> {
-<a class="jxr_linenumber" name="L154" href="#L154">154</a> 				cause = <span class="jxr_string">"timeout"</span>;
-<a class="jxr_linenumber" name="L155" href="#L155">155</a> 				throwException = <strong class="jxr_keyword">true</strong>;
-<a class="jxr_linenumber" name="L156" href="#L156">156</a> 				process.destroy(); 
-<a class="jxr_linenumber" name="L157" href="#L157">157</a> 				<strong class="jxr_keyword">if</strong> (copyStdinThread != <strong class="jxr_keyword">null</strong>) {
-<a class="jxr_linenumber" name="L158" href="#L158">158</a> 					copyStdinThread.interrupt();
-<a class="jxr_linenumber" name="L159" href="#L159">159</a> 				}
-<a class="jxr_linenumber" name="L160" href="#L160">160</a> 				copyStderrThread.interrupt();
-<a class="jxr_linenumber" name="L161" href="#L161">161</a> 				copyStdoutThread.interrupt();
-<a class="jxr_linenumber" name="L162" href="#L162">162</a> 			}			
-<a class="jxr_linenumber" name="L163" href="#L163">163</a> 			
-<a class="jxr_linenumber" name="L164" href="#L164">164</a> 		} <strong class="jxr_keyword">catch</strong> (InterruptedException ie) {
-<a class="jxr_linenumber" name="L165" href="#L165">165</a> 			cause = <span class="jxr_string">"InterruptedException"</span>;
-<a class="jxr_linenumber" name="L166" href="#L166">166</a> 			throwException = <strong class="jxr_keyword">true</strong>;
-<a class="jxr_linenumber" name="L167" href="#L167">167</a> 			process.destroy();
-<a class="jxr_linenumber" name="L168" href="#L168">168</a> 			<strong class="jxr_keyword">if</strong> (copyStdinThread!=<strong class="jxr_keyword">null</strong>) {
-<a class="jxr_linenumber" name="L169" href="#L169">169</a> 				copyStdinThread.interrupt();
-<a class="jxr_linenumber" name="L170" href="#L170">170</a> 			}
-<a class="jxr_linenumber" name="L171" href="#L171">171</a> 			copyStderrThread.interrupt();
-<a class="jxr_linenumber" name="L172" href="#L172">172</a> 			copyStdoutThread.interrupt();			
-<a class="jxr_linenumber" name="L173" href="#L173">173</a> 		}
-<a class="jxr_linenumber" name="L174" href="#L174">174</a> 		
-<a class="jxr_linenumber" name="L175" href="#L175">175</a> 		<strong class="jxr_keyword">if</strong> (throwException) {
-<a class="jxr_linenumber" name="L176" href="#L176">176</a> 			<strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> ProcessException(
-<a class="jxr_linenumber" name="L177" href="#L177">177</a> 				Text.join(command, <span class="jxr_string">" "</span>), cause, exitCode,  
-<a class="jxr_linenumber" name="L178" href="#L178">178</a> 				stdoutByteArrayStream.toString(), stderrByteArrayStream.toString());
-<a class="jxr_linenumber" name="L179" href="#L179">179</a> 		}
-<a class="jxr_linenumber" name="L180" href="#L180">180</a> 		<strong class="jxr_keyword">return</strong> stdoutByteArrayStream.toString();
-<a class="jxr_linenumber" name="L181" href="#L181">181</a> 	}	
-<a class="jxr_linenumber" name="L182" href="#L182">182</a> 	
-<a class="jxr_linenumber" name="L183" href="#L183">183</a> 	
+<a class="jxr_linenumber" name="L94" href="#L94">94</a>  			<strong class="jxr_keyword">if</strong> (envMap != <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="L95" href="#L95">95</a>  				pb.environment().clear();
+<a class="jxr_linenumber" name="L96" href="#L96">96</a>  				pb.environment().putAll(envMap);
+<a class="jxr_linenumber" name="L97" href="#L97">97</a>  			}
+<a class="jxr_linenumber" name="L98" href="#L98">98</a>  			process = pb.start();
+<a class="jxr_linenumber" name="L99" href="#L99">99</a>  		} <strong class="jxr_keyword">catch</strong> (IOException ioe) {
+<a class="jxr_linenumber" name="L100" href="#L100">100</a> 			<strong class="jxr_keyword">throw</strong> (ProcessException) <strong class="jxr_keyword">new</strong> ProcessException(Text.join(command, <span class="jxr_string">" "</span>), <span class="jxr_string">"IOException"</span>, 0, <span class="jxr_string">""</span>, <span class="jxr_string">""</span>).initCause(ioe);
+<a class="jxr_linenumber" name="L101" href="#L101">101</a> 		}
+<a class="jxr_linenumber" name="L102" href="#L102">102</a> 		InputStream stdout = process.getInputStream();
+<a class="jxr_linenumber" name="L103" href="#L103">103</a> 		InputStream stderr = process.getErrorStream();
+<a class="jxr_linenumber" name="L104" href="#L104">104</a> 		OutputStream processStdin = process.getOutputStream();
+<a class="jxr_linenumber" name="L105" href="#L105">105</a> 		ByteArrayOutputStream stdoutByteArrayStream = <strong class="jxr_keyword">new</strong> ByteArrayOutputStream();
+<a class="jxr_linenumber" name="L106" href="#L106">106</a> 		ByteArrayOutputStream stderrByteArrayStream = <strong class="jxr_keyword">new</strong> ByteArrayOutputStream();
+<a class="jxr_linenumber" name="L107" href="#L107">107</a> 		OutputStream stdoutStream = stdoutByteArrayStream;
+<a class="jxr_linenumber" name="L108" href="#L108">108</a> 		OutputStream stderrStream = stderrByteArrayStream;
+<a class="jxr_linenumber" name="L109" href="#L109">109</a> 		<em class="jxr_comment">// OutputStream stdoutStream = new TeeOutputStream(stdoutByteArrayStream, new LoggingOutputStream(stdoutLogger));</em>
+<a class="jxr_linenumber" name="L110" href="#L110">110</a> 		<em class="jxr_comment">// OutputStream stderrStream = new TeeOutputStream(stderrByteArrayStream, new LoggingOutputStream(stderrLogger));</em>
+<a class="jxr_linenumber" name="L111" href="#L111">111</a> 		
+<a class="jxr_linenumber" name="L112" href="#L112">112</a> 		<em class="jxr_comment">// could probably use nio these days</em>
+<a class="jxr_linenumber" name="L113" href="#L113">113</a> 		Thread copyStdoutThread = StreamUtil.copyThread(stdout, stdoutStream, 1024);
+<a class="jxr_linenumber" name="L114" href="#L114">114</a> 		Thread copyStderrThread = StreamUtil.copyThread(stderr, stderrStream, 1024);
+<a class="jxr_linenumber" name="L115" href="#L115">115</a> 		Thread copyStdinThread = <strong class="jxr_keyword">null</strong>;
+<a class="jxr_linenumber" name="L116" href="#L116">116</a> 		<strong class="jxr_keyword">if</strong> (stdin!=<strong class="jxr_keyword">null</strong>) { 
+<a class="jxr_linenumber" name="L117" href="#L117">117</a> 			copyStdinThread = StreamUtil.copyAndCloseThread(stdin, processStdin, 1024);
+<a class="jxr_linenumber" name="L118" href="#L118">118</a> 			copyStdinThread.start();
+<a class="jxr_linenumber" name="L119" href="#L119">119</a> 		}
+<a class="jxr_linenumber" name="L120" href="#L120">120</a> 		
+<a class="jxr_linenumber" name="L121" href="#L121">121</a> 		copyStdoutThread.start();
+<a class="jxr_linenumber" name="L122" href="#L122">122</a> 		copyStderrThread.start();
+<a class="jxr_linenumber" name="L123" href="#L123">123</a> 		<strong class="jxr_keyword">int</strong> exitCode = -1;
+<a class="jxr_linenumber" name="L124" href="#L124">124</a> 		<strong class="jxr_keyword">boolean</strong> throwException = false;
+<a class="jxr_linenumber" name="L125" href="#L125">125</a> 		<strong class="jxr_keyword">long</strong> interval = 100;
+<a class="jxr_linenumber" name="L126" href="#L126">126</a> 		String cause = <span class="jxr_string">""</span>;
+<a class="jxr_linenumber" name="L127" href="#L127">127</a> 		
+<a class="jxr_linenumber" name="L128" href="#L128">128</a> 		<strong class="jxr_keyword">try</strong> {
+<a class="jxr_linenumber" name="L129" href="#L129">129</a> 			<em class="jxr_comment">// timeouts</em>
+<a class="jxr_linenumber" name="L130" href="#L130">130</a> 			<strong class="jxr_keyword">long</strong>	timeWaiting = 0;
+<a class="jxr_linenumber" name="L131" href="#L131">131</a> 			<strong class="jxr_keyword">boolean</strong>	processFinished = false;
+<a class="jxr_linenumber" name="L132" href="#L132">132</a> 			<strong class="jxr_keyword">while</strong> ((timeout == -1 || timeWaiting &lt; timeout) &amp;&amp; !processFinished) {
+<a class="jxr_linenumber" name="L133" href="#L133">133</a> 				processFinished = <strong class="jxr_keyword">true</strong>;
+<a class="jxr_linenumber" name="L134" href="#L134">134</a> 				Thread.sleep(interval);
+<a class="jxr_linenumber" name="L135" href="#L135">135</a> 				<strong class="jxr_keyword">try</strong> {
+<a class="jxr_linenumber" name="L136" href="#L136">136</a> 					exitCode = process.exitValue();
+<a class="jxr_linenumber" name="L137" href="#L137">137</a> 				} <strong class="jxr_keyword">catch</strong> (IllegalThreadStateException e) {
+<a class="jxr_linenumber" name="L138" href="#L138">138</a> 					<em class="jxr_comment">// process hasn't finished yet</em>
+<a class="jxr_linenumber" name="L139" href="#L139">139</a> 					processFinished = false;
+<a class="jxr_linenumber" name="L140" href="#L140">140</a> 				}
+<a class="jxr_linenumber" name="L141" href="#L141">141</a> 				timeWaiting += interval;
+<a class="jxr_linenumber" name="L142" href="#L142">142</a> 			}
+<a class="jxr_linenumber" name="L143" href="#L143">143</a> 			
+<a class="jxr_linenumber" name="L144" href="#L144">144</a> 			<strong class="jxr_keyword">if</strong> (processFinished) {
+<a class="jxr_linenumber" name="L145" href="#L145">145</a> 				<em class="jxr_comment">// wait for copy threads to complete</em>
+<a class="jxr_linenumber" name="L146" href="#L146">146</a> 				copyStdoutThread.join();
+<a class="jxr_linenumber" name="L147" href="#L147">147</a> 				copyStderrThread.join();  
+<a class="jxr_linenumber" name="L148" href="#L148">148</a> 				<strong class="jxr_keyword">if</strong> (copyStdinThread != <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="L149" href="#L149">149</a> 					copyStdinThread.interrupt();
+<a class="jxr_linenumber" name="L150" href="#L150">150</a> 				}
+<a class="jxr_linenumber" name="L151" href="#L151">151</a> 				<strong class="jxr_keyword">if</strong> (exitCode != 0) {
+<a class="jxr_linenumber" name="L152" href="#L152">152</a> 					cause = <span class="jxr_string">"non-0 exitCode"</span>;
+<a class="jxr_linenumber" name="L153" href="#L153">153</a> 					throwException = <strong class="jxr_keyword">true</strong>;
+<a class="jxr_linenumber" name="L154" href="#L154">154</a> 				}
+<a class="jxr_linenumber" name="L155" href="#L155">155</a> 			} <strong class="jxr_keyword">else</strong> {
+<a class="jxr_linenumber" name="L156" href="#L156">156</a> 				cause = <span class="jxr_string">"timeout"</span>;
+<a class="jxr_linenumber" name="L157" href="#L157">157</a> 				throwException = <strong class="jxr_keyword">true</strong>;
+<a class="jxr_linenumber" name="L158" href="#L158">158</a> 				process.destroy(); 
+<a class="jxr_linenumber" name="L159" href="#L159">159</a> 				<strong class="jxr_keyword">if</strong> (copyStdinThread != <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="L160" href="#L160">160</a> 					copyStdinThread.interrupt();
+<a class="jxr_linenumber" name="L161" href="#L161">161</a> 				}
+<a class="jxr_linenumber" name="L162" href="#L162">162</a> 				copyStderrThread.interrupt();
+<a class="jxr_linenumber" name="L163" href="#L163">163</a> 				copyStdoutThread.interrupt();
+<a class="jxr_linenumber" name="L164" href="#L164">164</a> 			}			
+<a class="jxr_linenumber" name="L165" href="#L165">165</a> 			
+<a class="jxr_linenumber" name="L166" href="#L166">166</a> 		} <strong class="jxr_keyword">catch</strong> (InterruptedException ie) {
+<a class="jxr_linenumber" name="L167" href="#L167">167</a> 			cause = <span class="jxr_string">"InterruptedException"</span>;
+<a class="jxr_linenumber" name="L168" href="#L168">168</a> 			throwException = <strong class="jxr_keyword">true</strong>;
+<a class="jxr_linenumber" name="L169" href="#L169">169</a> 			process.destroy();
+<a class="jxr_linenumber" name="L170" href="#L170">170</a> 			<strong class="jxr_keyword">if</strong> (copyStdinThread!=<strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="L171" href="#L171">171</a> 				copyStdinThread.interrupt();
+<a class="jxr_linenumber" name="L172" href="#L172">172</a> 			}
+<a class="jxr_linenumber" name="L173" href="#L173">173</a> 			copyStderrThread.interrupt();
+<a class="jxr_linenumber" name="L174" href="#L174">174</a> 			copyStdoutThread.interrupt();			
+<a class="jxr_linenumber" name="L175" href="#L175">175</a> 		}
+<a class="jxr_linenumber" name="L176" href="#L176">176</a> 		
+<a class="jxr_linenumber" name="L177" href="#L177">177</a> 		<strong class="jxr_keyword">if</strong> (throwException) {
+<a class="jxr_linenumber" name="L178" href="#L178">178</a> 			<strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> ProcessException(
+<a class="jxr_linenumber" name="L179" href="#L179">179</a> 				Text.join(command, <span class="jxr_string">" "</span>), cause, exitCode,  
+<a class="jxr_linenumber" name="L180" href="#L180">180</a> 				stdoutByteArrayStream.toString(), stderrByteArrayStream.toString());
+<a class="jxr_linenumber" name="L181" href="#L181">181</a> 		}
+<a class="jxr_linenumber" name="L182" href="#L182">182</a> 		<strong class="jxr_keyword">return</strong> stdoutByteArrayStream.toString();
+<a class="jxr_linenumber" name="L183" href="#L183">183</a> 	}	
 <a class="jxr_linenumber" name="L184" href="#L184">184</a> 	
 <a class="jxr_linenumber" name="L185" href="#L185">185</a> 	
-<a class="jxr_linenumber" name="L186" href="#L186">186</a> }
+<a class="jxr_linenumber" name="L186" href="#L186">186</a> 	
+<a class="jxr_linenumber" name="L187" href="#L187">187</a> 	
+<a class="jxr_linenumber" name="L188" href="#L188">188</a> }
 </pre>
 <hr/>
-<div id="footer">Copyright &#169; 2013&#x2013;2024 <a href="http://www.randomnoun.com">randomnoun</a>. All rights reserved.</div>
+<div id="footer">Copyright &#169; 2013&#x2013;2025 <a href="http://www.randomnoun.com">randomnoun</a>. All rights reserved.</div>
 </body>
 </html>

@@ -11,7 +11,7 @@
 'C:/Users/knoxg/workspace-2024-09-randomnoun/git/common-public/target/checkout/src/main/java;C:/Users/knoxg/workspace-2024-09-randomnoun/git/common-public/target/checkout/target/generated-sources/javacc;C:/Users/knoxg/workspace-2024-09-randomnoun/git/common-public/target/checkout/target/generated-sources/jtb;C:/Users/knoxg/workspace-2024-09-randomnoun/git/common-public/target/checkout/src/main/javadoc'
 -author
 -bottom
-'Copyright &#169; 2013&#x2013;2024 <a href="http://www.randomnoun.com">randomnoun</a>. All rights reserved.'
+'Copyright &#169; 2013&#x2013;2025 <a href="http://www.randomnoun.com">randomnoun</a>. All rights reserved.'
 -charset
 'UTF-8'
 -d
@@ -20,11 +20,11 @@
 'UTF-8'
 -docfilessubdirs
 -doctitle
-'randomnoun common classes 1.0.26 API'
+'randomnoun common classes 1.0.27 API'
 -linksource
 -stylesheetfile
 'C:/Users/knoxg/workspace-2024-09-randomnoun/git/common-public/target/checkout/src/main/javadoc/stylesheet.css'
 -use
 -version
 -windowtitle
-'randomnoun common classes 1.0.26 API'
+'randomnoun common classes 1.0.27 API'
