@@ -1045,7 +1045,7 @@ public class Text {
      *
      * @throws NullPointerException if elements or delimiter is null
      */
-    public static String join(Iterable<String> elements, String delimiter) {
+    public static String join(Iterable<?> elements, String delimiter) {
     	return joinWithLast(elements, false, delimiter, delimiter);
     }
     

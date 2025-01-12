@@ -1,3 +1,9 @@
+# 1.0.27
+
+## Updates
+
+* ProcessUtil allows null environment map parameter
+
 # 1.0.26
 
 ## Updates
