@@ -1,3 +1,9 @@
+# 1.0.28
+
+## Updates
+
+* Protected fields in AppConfigBase
+
 # 1.0.27
 
 ## Updates

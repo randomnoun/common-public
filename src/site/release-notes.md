@@ -1,3 +1,3 @@
 ## Updates
 
-* ProcessUtil allows null environment map parameter
+* Protected fields in AppConfigBase

@@ -73,10 +73,10 @@ public abstract class AppConfigBase extends Properties {
     public static AppConfigBase instance = null;
 
     /** JdbcTemplates for this AppConfig */
-    private Map<String, JdbcTemplate> jdbcTemplates = new HashMap<String, JdbcTemplate>();
+    protected Map<String, JdbcTemplate> jdbcTemplates = new HashMap<String, JdbcTemplate>();
     
     /** Datasource underlying the jdbcTemplates */
-    private Map<String, DataSource> dataSources = new HashMap<String, DataSource>();
+    protected Map<String, DataSource> dataSources = new HashMap<String, DataSource>();
     
 	/** Security context used for authentication and authorisation */
     protected SecurityContext securityContext;
