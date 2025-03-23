@@ -20,8 +20,8 @@
 <span class="source-line-no">007</span><span id="line-7">import java.io.*;</span>
 <span class="source-line-no">008</span><span id="line-8">import java.util.*;</span>
 <span class="source-line-no">009</span><span id="line-9"></span>
-<span class="source-line-no">010</span><span id="line-10">import javax.servlet.jsp.*;</span>
-<span class="source-line-no">011</span><span id="line-11">import javax.servlet.jsp.tagext.*;</span>
+<span class="source-line-no">010</span><span id="line-10">import jakarta.servlet.jsp.*;</span>
+<span class="source-line-no">011</span><span id="line-11">import jakarta.servlet.jsp.tagext.*;</span>
 <span class="source-line-no">012</span><span id="line-12"></span>
 <span class="source-line-no">013</span><span id="line-13">import com.randomnoun.common.Struct;</span>
 <span class="source-line-no">014</span><span id="line-14">import com.randomnoun.common.Text;</span>
@@ -176,7 +176,7 @@
 <span class="source-line-no">163</span><span id="line-163">     */</span>
 <span class="source-line-no">164</span><span id="line-164">    @SuppressWarnings("rawtypes")</span>
 <span class="source-line-no">165</span><span id="line-165">        public int doStartTag()</span>
-<span class="source-line-no">166</span><span id="line-166">        throws javax.servlet.jsp.JspException</span>
+<span class="source-line-no">166</span><span id="line-166">        throws jakarta.servlet.jsp.JspException</span>
 <span class="source-line-no">167</span><span id="line-167">    {</span>
 <span class="source-line-no">168</span><span id="line-168">        try {</span>
 <span class="source-line-no">169</span><span id="line-169">                JspWriter out = pageContext.getOut();</span>
@@ -251,7 +251,7 @@
 <span class="source-line-no">238</span><span id="line-238">     * @return BodyTag.EVAL_PAGE</span>
 <span class="source-line-no">239</span><span id="line-239">     */</span>
 <span class="source-line-no">240</span><span id="line-240">    public int doEndTag()</span>
-<span class="source-line-no">241</span><span id="line-241">        throws javax.servlet.jsp.JspException</span>
+<span class="source-line-no">241</span><span id="line-241">        throws jakarta.servlet.jsp.JspException</span>
 <span class="source-line-no">242</span><span id="line-242">    {</span>
 <span class="source-line-no">243</span><span id="line-243">        name = null;</span>
 <span class="source-line-no">244</span><span id="line-244">        value = null;</span>
