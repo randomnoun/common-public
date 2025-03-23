@@ -7,7 +7,7 @@ package com.randomnoun.common;
 import java.text.ParseException;
 import java.util.*;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * The ErrorList class is a a fairly generic class for containing validation errors for

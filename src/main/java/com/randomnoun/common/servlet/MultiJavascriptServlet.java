@@ -12,10 +12,10 @@ import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.ServletConfig;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
@@ -32,7 +32,7 @@ import com.randomnoun.common.Text;
  *      files will be retrieved from "/js" relative directory 
  * 
  */
-public class MultiJavascriptServlet extends javax.servlet.http.HttpServlet implements javax.servlet.Servlet {
+public class MultiJavascriptServlet extends jakarta.servlet.http.HttpServlet implements jakarta.servlet.Servlet {
     
      /** Generated serialVersionUID */
 	private static final long serialVersionUID = -5425445186806002874L;
@@ -56,7 +56,7 @@ public class MultiJavascriptServlet extends javax.servlet.http.HttpServlet imple
 	
 	/** Post method; just defers to get
 	 * 
-	 * @see javax.servlet.http.HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see jakarta.servlet.http.HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
@@ -64,7 +64,7 @@ public class MultiJavascriptServlet extends javax.servlet.http.HttpServlet imple
     
 	/** Lets get this turkey stand on the road
 	 * 
-	 * @see javax.servlet.http.HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see jakarta.servlet.http.HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
     {

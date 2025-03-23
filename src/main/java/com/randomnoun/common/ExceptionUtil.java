@@ -242,7 +242,7 @@ public class ExceptionUtil {
         int highlight, String highlightPrefix) 
     {
         // s should be something like:
-        // javax.servlet.http.HttpServlet.service(HttpServlet.java:740) or
+        // jakarta.servlet.http.HttpServlet.service(HttpServlet.java:740) or
     	// java.net.Socket.<init>(Socket.java:425), which should be HTML escaped
         String s;
         if (highlightPrefix==null || highlight==HIGHLIGHT_NONE) {

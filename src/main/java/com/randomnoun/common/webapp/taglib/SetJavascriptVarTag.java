@@ -7,8 +7,8 @@ package com.randomnoun.common.webapp.taglib;
 import java.io.*;
 import java.util.*;
 
-import javax.servlet.jsp.*;
-import javax.servlet.jsp.tagext.*;
+import jakarta.servlet.jsp.*;
+import jakarta.servlet.jsp.tagext.*;
 
 import com.randomnoun.common.Struct;
 import com.randomnoun.common.Text;
@@ -197,7 +197,7 @@ public class SetJavascriptVarTag
      */
     @SuppressWarnings("rawtypes")
 	public int doStartTag()
-        throws javax.servlet.jsp.JspException
+        throws jakarta.servlet.jsp.JspException
     {
         try {
         	JspWriter out = pageContext.getOut();
@@ -259,7 +259,7 @@ public class SetJavascriptVarTag
      * @return BodyTag.EVAL_PAGE
      */
     public int doEndTag()
-        throws javax.servlet.jsp.JspException
+        throws jakarta.servlet.jsp.JspException
     {
         name = null;
         value = null;
