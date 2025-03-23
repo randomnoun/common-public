@@ -1,3 +1,9 @@
+# 1.0.29
+
+## Updates
+
+* Update pom.xml and imports to use jakarta dependencies (Jakarta EE)
+
 # 1.0.28
 
 ## Updates
