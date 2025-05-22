@@ -1,29 +1,39 @@
 package com.randomnoun.common;
 
-/* (c) 2013 randomnoun. All Rights Reserved. This work is licensed under a
- * BSD Simplified License. (http://www.randomnoun.com/bsd-simplified.html)
- */
-
-import java.text.ParseException;
-import java.util.*;
-
-import jakarta.servlet.http.HttpServletRequest;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Set;
+import java.util.Spliterator;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
+import java.util.function.UnaryOperator;
+import java.util.stream.Stream;
 
 /**
  * The ErrorList class is a a fairly generic class for containing validation errors for
- * input forms, similar to the struts ActionErrors class. Each error within this class can
- * contain a 'short' and 'long' description, where the short description is normally a 
- * categorisation of the error and the longer description describes what has happened and
- * how to fix the problem; (e.g. shortText="Missing field", 
- * longText="The field 'id' is mandatory. Please enter a value for this field."). The short
- * description is normally rendered by <code>errorHeader.jsp</code> in bold before the long
- * description. An individual error also may contain a list of fields that it applies to
- * (e.g. a 'mandatory inclusive' error may apply to several fields at once), and a
- * severity (normally set to {@link #SEVERITY_INVALID}. Errors are displayed by the
- * <code>errorHeader.jsp</code> JSP, which is typically included at the top of any page
- * that contains an input form. An error without a severity supplied is assumed to be 
- * of SEVERITY_INVALID, and an error without any fields supplied is assumed to be
- * associated with the entire form, rather than a specific set of fields.
+ * input forms, similar to the struts ActionErrors class. 
+ * 
+ * <p>Each error within this class can contain a 'short' and 'long' description, 
+ * where the short description is normally two-word categorisation of the error 
+ * and the longer description describes what has happened and how to fix the problem; 
+ * (e.g. shortText="Missing field", longText="The field 'id' is mandatory. Please enter a value for this field."). 
+ * 
+ * <p>In the UI, the short description is normally rendered in bold before the long
+ * description. 
+ * 
+ * <p>An individual error also may contain a severity, 
+ * and list of fields that it applies to (defined by a comma-separate string of field names)
+ * An error without a severity supplied is assumed to be {@link #SEVERITY_INVALID}, 
+ * and an error without any fields supplied is assumed to be associated with the entire form, 
+ * rather than a specific set of fields.
  * 
  * <p>Errors are inserted into an ErrorList by using one of the addError methods:
  * <ul>
@@ -33,18 +43,18 @@ import jakarta.servlet.http.HttpServletRequest;
  * <li> {@link #addError(String, String, String, int)} - add an invalid field error with a specific severity 
  * </ul>
  * 
- * <p>Code that uses an ErrorList to perform validation may attach an object to the
- * errorList instance to perform standard validations and to localise error messages.
- *
  * @author knoxg
  */
-public class ErrorList extends ArrayList<ErrorList.ErrorData>
-    implements java.io.Serializable
-{
+public class ErrorList implements List<ErrorList.ErrorData>, Serializable {
 
-    /** Generated serialVersionUID */
-	private static final long serialVersionUID = 9113362689694606840L;
-
+	/** Generated serialVersionUID */
+	private static final long serialVersionUID = 4246736116021572339L;
+	
+	// uses an ArrayList by default, but by calling makeThreadsafe(), will wrap the backing array 
+	// in a Collections.synchronizedList()
+	List<ErrorList.ErrorData> delegate;
+	boolean threadsafe = false;
+	
 	/** Severity level indicating 'not an error' (e.g. informational only). Used to indicate successful operations */
     public static final int SEVERITY_OK = 0; // Not an error
 
@@ -71,20 +81,10 @@ public class ErrorList extends ArrayList<ErrorList.ErrorData>
     public static final int SEVERITY_WARNING = 6;
 
     
-    // the thing we're validating
-    private transient Object attachedObject;
-
-    // contains error messages
-    private transient ResourceBundle attachedBundle;
-    private transient String bundleFormat;
-    private transient String attachedFieldFormat;
-    private transient Locale locale;
-
     /** ErrorInfo inner class - contains information related to
      *  a single error
      */
-    public static class ErrorData
-        extends HashMap<String, Object>
+    public static class ErrorData extends HashMap<String, Object>
     {
         /** Generated serialVersionUID */
 		private static final long serialVersionUID = -176737615399095851L;
@@ -108,12 +108,22 @@ public class ErrorList extends ArrayList<ErrorList.ErrorData>
             put("severity", Integer.valueOf(severity));
         }
 
-        /** Retrieves the type for this error
+        @Override
+		public int hashCode() {
+			return super.hashCode();
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			return super.equals(obj);
+		}
+
+		/** Retrieves the type for this error
          *  @return   the type for this error
          */
         public String getShortText()
         {
-            return (String)get("shortText");
+            return (String) get("shortText");
         }
 
         /** Retrieves the description for this error
@@ -121,29 +131,15 @@ public class ErrorList extends ArrayList<ErrorList.ErrorData>
          */
         public String getLongText()
         {
-            return (String)get("longText");
+            return (String) get("longText");
         }
 
-        /** Retrieves the description for this error, with newlines converted to &lt;br/&gt;s. 
-         *   When displaying with &lt;c:out&gt;, set the escapeXml attribute to false
-         *   
-         *  @return   the description for this error
-         */
-        public String getLongTextWithNewlines()
-        {
-        	String longText = (String) get("longText");
-        	longText=Text.escapeHtml(longText);
-        	longText=Text.replaceString(longText, "\n", "<br/>");
-            return longText;
-        }
-
-        
         /** Retrieves a comma-separated list of fields that caused this error
          *  @return   a comma-separated list of fields that caused this error
          */
         public String getField()
         {
-            return (String)get("field");
+            return (String) get("field");
         }
 
         /** Retrieves the severity of this error
@@ -151,7 +147,7 @@ public class ErrorList extends ArrayList<ErrorList.ErrorData>
          */
         public int getSeverity()
         {
-            return ((Integer)get("severity")).intValue();
+            return ((Integer) get("severity")).intValue();
         }
 
         /** Retrieves a string representation of this error
@@ -169,7 +165,33 @@ public class ErrorList extends ArrayList<ErrorList.ErrorData>
      */
     public ErrorList()
     {
-        super();
+        delegate = new ArrayList<>();
+    }
+    
+    
+    /** Convert the backing store for this ErrorList to a Collections.synchronizedList, suitable for use in multithreaded applications.
+     * Note that iterations on this collection must still be synchronised.
+     */
+    public synchronized void makeThreadsafe() {
+    	if (!threadsafe) {
+    		delegate = Collections.synchronizedList(delegate);
+    		threadsafe = true;
+    	}
+    }
+    
+    /** Removes any duplicate errors in this ErrorList */
+    public void removeDuplicates() {
+        Set<ErrorList.ErrorData> uniqueData = new HashSet<>();
+        synchronized(delegate) {
+	        for (Iterator<ErrorList.ErrorData> i = this.iterator(); i.hasNext(); ) {
+	        	ErrorList.ErrorData ed = i.next();
+	            if (uniqueData.contains(ed)) {
+	            	i.remove();
+	            } else {
+	                uniqueData.add(ed);
+	            }
+	        }
+        }
     }
 
     /**
@@ -187,22 +209,7 @@ public class ErrorList extends ArrayList<ErrorList.ErrorData>
     public void addError(String errorField, String shortText, String longText,
         int severity)
     {
-        // if we have an attachedFieldFormat, then format each field to this format
-        if (attachedFieldFormat != null && errorField != null) {
-            try {
-                List<String> fields = Text.parseCsv(errorField);
-                errorField = "";
-                for (Iterator<String> i = fields.iterator(); i.hasNext();) {
-                    String field = i.next();
-                    errorField = errorField + getFieldName(field) +
-                        (i.hasNext() ? "," : "");
-                }
-            } catch (ParseException pe) {
-                throw (IllegalArgumentException)new IllegalArgumentException(
-                    "Invalid errorField list '" + errorField + "'").initCause(pe);
-            }
-        }
-        super.add(new ErrorData(shortText, longText, errorField, severity));
+        delegate.add(new ErrorData(shortText, longText, errorField, severity));
     }
 
     /**
@@ -251,7 +258,7 @@ public class ErrorList extends ArrayList<ErrorList.ErrorData>
      */
     public void clearErrors()
     {
-        super.clear();
+        delegate.clear();
     }
 
     /**
@@ -290,7 +297,7 @@ public class ErrorList extends ArrayList<ErrorList.ErrorData>
     }
 
     /**
-     * Returns true if an error has occured on the CGI field
+     * Returns true if an error has occured on the field
      * passed as a parameter to this method
      *
      * @return true if an error occured, false if not.
@@ -299,16 +306,18 @@ public class ErrorList extends ArrayList<ErrorList.ErrorData>
     {
         ErrorData errorInfo;
 
-        for (Iterator<ErrorData> i = super.iterator(); i.hasNext(); ) {
-            errorInfo = i.next();
-            if (errorInfo.getField()!=null) {
-	            String[] errorFields = errorInfo.getField().split(",");
-	            for (int j = 0; j < errorFields.length; j++) {
-	                if (errorFields[j].equals(field)) {
-	                    return true;
-	                }
+        synchronized(delegate) {
+	        for (Iterator<ErrorData> i = delegate.iterator(); i.hasNext(); ) {
+	            errorInfo = i.next();
+	            if (errorInfo.getField()!=null) {
+		            String[] errorFields = errorInfo.getField().split(",");
+		            for (int j = 0; j < errorFields.length; j++) {
+		                if (errorFields[j].equals(field)) {
+		                    return true;
+		                }
+		            }
 	            }
-            }
+	        }
         }
         return false;
     }
@@ -325,39 +334,47 @@ public class ErrorList extends ArrayList<ErrorList.ErrorData>
 
     /**
      * Returns true if there are any errors of the specified severity or higher
+     * Note that our severities aren't in increasing severity order any more so this method is now deprecated
      *
      * @param severity a SEVERITY_* constant
      *
      * @return True if the number of errors at the specified severity or higher &gt; 0
+     * @deprecated
      */
     public boolean hasErrors(int severity)
     {
-        for (Iterator<ErrorData> i = this.iterator(); i.hasNext(); ){
-            ErrorData errorData = (ErrorData) i.next();
-            if (errorData.getSeverity() >= severity ) { 
-                return true;
-            }
-        }
+    	synchronized(delegate) {
+	        for (Iterator<ErrorData> i = this.iterator(); i.hasNext(); ){
+	            ErrorData errorData = (ErrorData) i.next();
+	            if (errorData.getSeverity() >= severity ) { 
+	                return true;
+	            }
+	        }
+    	}
         return false;
     }
 
 
     /**
      * Returns the maximum severity of all current errors.
+     * Note that our severities aren't in increasing severity order any more so this method is now deprecated
      *
      * @return the severity ranking of the most severe error, or -1 if
      *   there are no errors contained within this ErrorData object.
+     * @deprecated  
      */
     public int maxErrorSeverity()
     {
         int maxSeverity = -1;
         int curSeverity;
 
-        for (int i = 0; i < size(); i++) {
-            curSeverity = getSeverityAt(i);
-            if (curSeverity > maxSeverity) {
-                maxSeverity = curSeverity;
-            }
+        synchronized(delegate) {
+	        for (int i = 0; i < size(); i++) {
+	            curSeverity = getSeverityAt(i);
+	            if (curSeverity > maxSeverity) {
+	                maxSeverity = curSeverity;
+	            }
+	        }
         }
         return maxSeverity;
     }
@@ -368,7 +385,7 @@ public class ErrorList extends ArrayList<ErrorList.ErrorData>
      * @return The number of errors in this object
      */
     public int size() {
-        return super.size();
+        return delegate.size();
     }
 
     /**
@@ -384,28 +401,28 @@ public class ErrorList extends ArrayList<ErrorList.ErrorData>
      * Returns the shortText string of the pos'th error
      */
     public String getShortTextAt(int pos) {
-        return ((ErrorData)super.get(pos)).getShortText();
+        return ((ErrorData) delegate.get(pos)).getShortText();
     }
 
     /**
      * Returns the longText of the pos'th error
      */
     public String getLongTextAt(int pos) {
-        return ((ErrorData)super.get(pos)).getLongText();
+        return ((ErrorData) delegate.get(pos)).getLongText();
     }
 
     /**
      * Returns the field of the pos'th error
      */
     public String getFieldAt(int pos) {
-        return ((ErrorData)super.get(pos)).getField();
+        return ((ErrorData) delegate.get(pos)).getField();
     }
 
     /**
      * Returns the severity of the pos'th error
      */
     public int getSeverityAt(int pos) {
-        return ((ErrorData)super.get(pos)).getSeverity();
+        return ((ErrorData) delegate.get(pos)).getSeverity();
     }
 
     /**
@@ -417,145 +434,20 @@ public class ErrorList extends ArrayList<ErrorList.ErrorData>
     public String toString() {
         StringBuffer sb = new StringBuffer();
         ErrorData errorData;
-        for (Iterator<ErrorData> i = super.iterator(); i.hasNext(); ) {
-            errorData = (ErrorData)i.next();
-
-            sb.append("#");
-            sb.append(errorData.getShortText() + " - ");
-            sb.append(errorData.getLongText());
-            if (!Text.isBlank(errorData.getField())) {
-            	sb.append(" [" + errorData.getField() + "]\n");
-            }
+        synchronized(delegate) {
+	        for (Iterator<ErrorData> i = delegate.iterator(); i.hasNext(); ) {
+	            errorData = (ErrorData)i.next();
+	
+	            sb.append("#");
+	            sb.append(errorData.getShortText() + " - ");
+	            sb.append(errorData.getLongText());
+	            if (!Text.isBlank(errorData.getField())) {
+	            	sb.append(" [" + errorData.getField() + "]\n");
+	            }
+	        }
         }
         return sb.toString();
     }
-
-    /** Attaches an object to be validated to this ErrorList.
-     *
-     * @param attachedObject a POJO, a HttpServletRequest, or a Map
-     *   (e.g. request.getParameterMap()). It identifies  where the validated data
-     *   is coming from.
-     * @param attachedBundle a bundle where the field names for this object are
-     *   to be retrieved from.
-     * @param bundleFormat a MessageFormat used to to retrieve field names from
-     *   attachedBundle. The "{0}" placeholder in this String is replaced with
-     *   the name of the field being validated.
-     */
-
-    // first parameter of this method can be 
-    // second method 
-    public void setValidatedObject(Object attachedObject, String attachedFieldFormat,
-        ResourceBundle attachedBundle, String bundleFormat, Locale locale)
-    {
-        if (attachedObject==null) { throw new NullPointerException("null attachedObject"); }
-        if (attachedFieldFormat==null) { throw new NullPointerException("null fieldFormat"); }
-        if (attachedBundle==null) { throw new NullPointerException("null attachedBundle"); } 
-        if (bundleFormat==null) { throw new NullPointerException("null bundleFormat"); }
-        if (locale==null) { throw new NullPointerException("null locale"); }
-
-        this.attachedObject = attachedObject;
-        this.attachedFieldFormat = attachedFieldFormat;
-        this.attachedBundle = attachedBundle;
-        this.bundleFormat = bundleFormat;
-        this.locale = locale;
-    }
-
-    public void resetValidatedObject()
-    {
-        this.attachedObject = null;
-        this.attachedFieldFormat = null;
-        this.attachedBundle = null;
-        this.bundleFormat = null;
-    }
-
-    /**
-     * The object containing the data being validated
-     *
-     * @return the object containing the data being validated
-     */
-    public Object getObject()
-    {
-        return attachedObject;
-    }
-    
-    /**
-     * The locale in which validation messages will be localised
-     *  
-     * @return The locale in which validation messages will be localised
-     */
-    public Locale getLocale()
-    {
-        return locale;
-    }
-
-    /** Returns the value of a field from the attached object
-     * 
-     * @param name field name
-     * 
-     * @return field value
-     */
-    public String getFieldValue(String name) {
-    	// use reflection
-        if (attachedObject instanceof HttpServletRequest) {
-            return ((HttpServletRequest)attachedObject).getParameter(name);
-        }
-
-        Object obj = Struct.getValue(attachedObject, name);
-        if (obj == null) {
-            return null;
-        } else if (obj instanceof String[]) {
-            return ((String[])obj)[0];
-        } else if (obj instanceof String) {
-            return (String)obj;
-        } else {
-            throw new IllegalStateException("Cannot retrieve non-string value '" + name +
-                "' (found class " + obj.getClass().getName() + ")");
-        }
-    }
-
-    /**
-     * Returns the bundle used for localising validation messages 
-     *
-     * @return the bundle used for localising validation messages
-     */
-    public ResourceBundle getBundle()
-    {
-        return attachedBundle;
-    }
-
-    /**
-     * Returns a localised form of the supplied field name, to be used within
-     * generic validation messages
-     *
-     * @param field field name
-     *
-     * @return localised form of field name
-     */
-    public String getLocalisedFieldName(String field)
-    {
-        return attachedBundle.getString(Text.replaceString(bundleFormat, "{0}", field));
-    }
-
-    public String getFieldName(String field)
-    {
-        if (attachedFieldFormat == null) {
-            return field;
-        } else {
-            return Text.replaceString(attachedFieldFormat, "{0}", field);
-        }
-    }
-
-    /** Removes validation metadata from this object 
-     * (i.e. attached objects, bundles, bundleFormats)
-     *  
-     */
-    public void unattach()
-    {
-        this.attachedObject = null;
-        this.attachedBundle = null;
-        this.bundleFormat = null;
-    }
-
     
     /** Return the JSON representation of this object
      *  
@@ -578,4 +470,132 @@ public class ErrorList extends ArrayList<ErrorList.ErrorData>
         return sb.toString();
     }
 
+    /** Delegate methods */
+    
+
+    public void forEach(Consumer<? super ErrorData> action) {
+		delegate.forEach(action);
+	}
+
+	public boolean isEmpty() {
+		return delegate.isEmpty();
+	}
+
+	public boolean contains(Object o) {
+		return delegate.contains(o);
+	}
+
+	public Iterator<ErrorData> iterator() {
+		return delegate.iterator();
+	}
+
+	public Object[] toArray() {
+		return delegate.toArray();
+	}
+
+	public <T> T[] toArray(T[] a) {
+		return delegate.toArray(a);
+	}
+
+	public boolean add(ErrorData e) {
+		return delegate.add(e);
+	}
+
+	public boolean remove(Object o) {
+		return delegate.remove(o);
+	}
+
+	public boolean containsAll(Collection<?> c) {
+		return delegate.containsAll(c);
+	}
+
+	public boolean addAll(Collection<? extends ErrorData> c) {
+		return delegate.addAll(c);
+	}
+
+	public boolean addAll(int index, Collection<? extends ErrorData> c) {
+		return delegate.addAll(index, c);
+	}
+
+	public boolean removeAll(Collection<?> c) {
+		return delegate.removeAll(c);
+	}
+
+	public boolean retainAll(Collection<?> c) {
+		return delegate.retainAll(c);
+	}
+
+	public void replaceAll(UnaryOperator<ErrorData> operator) {
+		delegate.replaceAll(operator);
+	}
+
+	public boolean removeIf(Predicate<? super ErrorData> filter) {
+		return delegate.removeIf(filter);
+	}
+
+	public void sort(Comparator<? super ErrorData> c) {
+		delegate.sort(c);
+	}
+
+	public void clear() {
+		delegate.clear();
+	}
+
+	public boolean equals(Object o) {
+		return delegate.equals(o);
+	}
+
+	public int hashCode() {
+		return delegate.hashCode();
+	}
+
+	public ErrorData get(int index) {
+		return delegate.get(index);
+	}
+
+	public ErrorData set(int index, ErrorData element) {
+		return delegate.set(index, element);
+	}
+
+	public void add(int index, ErrorData element) {
+		delegate.add(index, element);
+	}
+
+	public Stream<ErrorData> stream() {
+		return delegate.stream();
+	}
+
+	public ErrorData remove(int index) {
+		return delegate.remove(index);
+	}
+
+	public Stream<ErrorData> parallelStream() {
+		return delegate.parallelStream();
+	}
+
+	public int indexOf(Object o) {
+		return delegate.indexOf(o);
+	}
+
+	public int lastIndexOf(Object o) {
+		return delegate.lastIndexOf(o);
+	}
+
+	public ListIterator<ErrorData> listIterator() {
+		return delegate.listIterator();
+	}
+
+	public ListIterator<ErrorData> listIterator(int index) {
+		return delegate.listIterator(index);
+	}
+
+	public List<ErrorData> subList(int fromIndex, int toIndex) {
+		return delegate.subList(fromIndex, toIndex);
+	}
+
+	public Spliterator<ErrorData> spliterator() {
+		return delegate.spliterator();
+	}
+    
+    
 }
