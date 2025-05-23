@@ -1,3 +1,3 @@
 ## Updates
 
-* Update pom.xml and imports to use jakarta dependencies (Jakarta EE)
+* ErrorList can be made threadsafe via ErrorList.makeThreadsafe()
