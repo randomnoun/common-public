@@ -1,3 +1,3 @@
 ## Updates
 
-* Updated parent pom, and sub-dependencies raising CVEs
+* Resolved log4j build issues

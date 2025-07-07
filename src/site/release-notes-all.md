@@ -1,8 +1,15 @@
-# 1.0.30
+# 1.0.32
+
+## Updates
+
+* Resolved log4j build issues
+
+# 1.0.31
 
 ## Updates
 
 * Updated parent pom, and sub-dependencies raising CVEs
+* Unreleased (log4j build issues)
 
 # 1.0.30
 
