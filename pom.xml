@@ -4,7 +4,7 @@
     <parent>
         <artifactId>parent-pom</artifactId>
         <groupId>com.randomnoun.build</groupId>
-        <version>1.35</version>
+        <version>1.36</version>
     </parent>
 	
 	<groupId>com.randomnoun.common</groupId>
@@ -86,13 +86,13 @@
 		<dependency>
 			<groupId>commons-beanutils</groupId>
   			<artifactId>commons-beanutils</artifactId>
-  			<version>1.9.4</version>
+  			<version>1.11.0</version>
   		</dependency>
   
 		<dependency>
 			<groupId>org.json</groupId>
 			<artifactId>json</artifactId>
-			<version>20240303</version>
+			<version>20250517</version>
 			<scope>compile</scope>
 			<optional>true</optional>
 		</dependency>
