@@ -2,6 +2,12 @@
 
 ## Updates
 
+* Updated parent pom, and sub-dependencies raising CVEs
+
+# 1.0.30
+
+## Updates
+
 * ErrorList can be made threadsafe via ErrorList.makeThreadsafe()
 
 # 1.0.29
