@@ -134,6 +134,49 @@
 	<build>
 		<plugins>
             
+            <plugin>
+		
+		<!-- this is yet another reason why log4j 2 was such a terrible idea -->
+		<!-- see https://logging.apache.org/log4j/2.x/manual/plugins.html -->
+		
+			  <groupId>org.apache.maven.plugins</groupId>
+			  <artifactId>maven-compiler-plugin</artifactId>
+			  <version>3.13.0</version>
+			  <executions>
+			    <execution>
+			      <id>generate-log4j-plugin-descriptor</id>
+			      <goals>
+			        <goal>compile</goal>
+			      </goals>
+			      <phase>process-classes</phase>
+			      <configuration>
+			        <proc>only</proc>
+			        <annotationProcessorPaths>
+			          <!-- Include `log4j-core` providing
+			               1. `org.apache.logging.log4j.core.config.plugins.processor.PluginProcessor` that generates `Log4j2Plugins.dat`
+			               2. `org.apache.logging.log4j.core.config.plugins.processor.GraalVmProcessor` that generates the GraalVM reachability metadata file -->
+			          <path>
+			            <groupId>org.apache.logging.log4j</groupId>
+			            <artifactId>log4j-core</artifactId>
+			            <version>2.25.0</version>
+			          </path>
+			        </annotationProcessorPaths>
+			        <annotationProcessors>
+			          <!-- Process sources using `PluginProcessor` to generate `Log4j2Plugins.dat` -->
+			          <processor>org.apache.logging.log4j.core.config.plugins.processor.PluginProcessor</processor>
+			          <!-- Process sources using `GraalVmProcessor` to generate a GraalVM reachability metadata file -->
+			          <processor>org.apache.logging.log4j.core.config.plugins.processor.GraalVmProcessor</processor>
+			        </annotationProcessors>
+			        <compilerArgs>
+			          <!-- Provide the project coordinates to `GraalVmProcessor`: -->
+			          <arg>-Alog4j.graalvm.groupId=${project.groupId}</arg>
+			          <arg>-Alog4j.graalvm.artifactId=${project.artifactId}</arg>
+			        </compilerArgs>
+			      </configuration>
+			    </execution>
+			  </executions>
+			</plugin>
+
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>javacc-maven-plugin</artifactId>
