@@ -383,291 +383,298 @@
 <span class="source-line-no">370</span><span id="line-370">        if (className.indexOf('$')!=-1) {</span>
 <span class="source-line-no">371</span><span id="line-371">            className = className.substring(0, className.indexOf('$'));</span>
 <span class="source-line-no">372</span><span id="line-372">        }</span>
-<span class="source-line-no">373</span><span id="line-373">        </span>
-<span class="source-line-no">374</span><span id="line-374">        Class&lt;?&gt; clazz = Class.forName(className, true, loader);</span>
-<span class="source-line-no">375</span><span id="line-375">        </span>
-<span class="source-line-no">376</span><span id="line-376">        // this is stored in the build.properties file, which we'll have to get from the JAR containing the class</span>
-<span class="source-line-no">377</span><span id="line-377">        // see http://stackoverflow.com/questions/1983839/determine-which-jar-file-a-class-is-from</span>
-<span class="source-line-no">378</span><span id="line-378">        int revisionMethod = 0;</span>
-<span class="source-line-no">379</span><span id="line-379">        </span>
-<span class="source-line-no">380</span><span id="line-380">        String uri = clazz.getResource('/' + clazz.getName().replace('.', '/') + ".class").toString();</span>
-<span class="source-line-no">381</span><span id="line-381">        if (uri.startsWith("file:")) {</span>
-<span class="source-line-no">382</span><span id="line-382">                // this happens in eclipse; e.g. </span>
-<span class="source-line-no">383</span><span id="line-383">                //   uri=file:/C:/Users/knoxg/workspace-4.4.1-sts-3.6.2/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/jacobi-web/WEB-INF/classes/com/jacobistrategies/web/struts/Struts1Shim.class</span>
-<span class="source-line-no">384</span><span id="line-384">                // use the current class loader's build.properties if available</span>
-<span class="source-line-no">385</span><span id="line-385">                revisionMethod = 1;</span>
-<span class="source-line-no">386</span><span id="line-386">        } else if (uri.startsWith("jar:file:")) {</span>
-<span class="source-line-no">387</span><span id="line-387">                revisionMethod = 2;</span>
-<span class="source-line-no">388</span><span id="line-388">        } else {</span>
-<span class="source-line-no">389</span><span id="line-389">            // int idx = uri.indexOf(':');</span>
-<span class="source-line-no">390</span><span id="line-390">            // String protocol = idx == -1 ? "(unknown)" : uri.substring(0, idx);</span>
-<span class="source-line-no">391</span><span id="line-391">            // logger.warn("unknown protocol " + protocol + " in classpath uri '" + uri + "'");</span>
-<span class="source-line-no">392</span><span id="line-392">            revisionMethod = -1;</span>
-<span class="source-line-no">393</span><span id="line-393">        }</span>
-<span class="source-line-no">394</span><span id="line-394"></span>
-<span class="source-line-no">395</span><span id="line-395">        JarMetadata md = null;</span>
-<span class="source-line-no">396</span><span id="line-396">        if (revisionMethod == 1) {</span>
-<span class="source-line-no">397</span><span id="line-397">                // get the revision from the supplied class loader's build.properties, if there is one</span>
-<span class="source-line-no">398</span><span id="line-398">                md = new JarMetadata();</span>
-<span class="source-line-no">399</span><span id="line-399">                InputStream is = loader.getResourceAsStream("/build.properties");</span>
-<span class="source-line-no">400</span><span id="line-400">                if (is==null) {</span>
-<span class="source-line-no">401</span><span id="line-401">                        // logger.warn("missing build.properties");</span>
-<span class="source-line-no">402</span><span id="line-402">                        return null;</span>
-<span class="source-line-no">403</span><span id="line-403">                } else {</span>
-<span class="source-line-no">404</span><span id="line-404">                        Properties props = new Properties();</span>
-<span class="source-line-no">405</span><span id="line-405">                        try {</span>
-<span class="source-line-no">406</span><span id="line-406">                                props.load(is);</span>
-<span class="source-line-no">407</span><span id="line-407">                                md.gitRevision = props.getProperty("git.buildNumber");</span>
-<span class="source-line-no">408</span><span id="line-408">                                if ("${buildNumber}".equals(md.gitRevision)) { md.gitRevision = null; }</span>
-<span class="source-line-no">409</span><span id="line-409">                        } catch (IOException ioe) {</span>
-<span class="source-line-no">410</span><span id="line-410">                                // ignore;</span>
-<span class="source-line-no">411</span><span id="line-411">                        }</span>
-<span class="source-line-no">412</span><span id="line-412">                }</span>
-<span class="source-line-no">413</span><span id="line-413">                </span>
-<span class="source-line-no">414</span><span id="line-414">        } else if (revisionMethod == 2) {</span>
-<span class="source-line-no">415</span><span id="line-415">                // get the revision from the containing JAR</span>
-<span class="source-line-no">416</span><span id="line-416">                </span>
-<span class="source-line-no">417</span><span id="line-417">                int idx = uri.indexOf('!');</span>
-<span class="source-line-no">418</span><span id="line-418">                //As far as I know, the if statement below can't ever trigger, so it's more of a sanity check thing.</span>
-<span class="source-line-no">419</span><span id="line-419">                if (idx == -1) {</span>
-<span class="source-line-no">420</span><span id="line-420">                        // logger.warn("unparseable classpath uri '" + uri + "'");</span>
-<span class="source-line-no">421</span><span id="line-421">                        return null;</span>
-<span class="source-line-no">422</span><span id="line-422">                }</span>
-<span class="source-line-no">423</span><span id="line-423">                String fileName;</span>
-<span class="source-line-no">424</span><span id="line-424">                try {</span>
-<span class="source-line-no">425</span><span id="line-425">                    fileName = URLDecoder.decode(uri.substring("jar:file:".length(), idx), Charset.defaultCharset().name());</span>
-<span class="source-line-no">426</span><span id="line-426">                } catch (UnsupportedEncodingException e) {</span>
-<span class="source-line-no">427</span><span id="line-427">                    throw new IllegalStateException("default charset doesn't exist. Your VM is borked.");</span>
-<span class="source-line-no">428</span><span id="line-428">                }</span>
-<span class="source-line-no">429</span><span id="line-429">                </span>
-<span class="source-line-no">430</span><span id="line-430">                // use the cache if it exists</span>
-<span class="source-line-no">431</span><span id="line-431">                if (jarMetadataCache!=null) {</span>
-<span class="source-line-no">432</span><span id="line-432">                        md = jarMetadataCache.get(fileName);</span>
-<span class="source-line-no">433</span><span id="line-433">                }</span>
-<span class="source-line-no">434</span><span id="line-434">                if (md==null) {</span>
-<span class="source-line-no">435</span><span id="line-435">                        md = new JarMetadata();</span>
-<span class="source-line-no">436</span><span id="line-436">                        jarMetadataCache.put(fileName, md);</span>
-<span class="source-line-no">437</span><span id="line-437">                        File f = new File(fileName); // .getAbsolutePath();</span>
-<span class="source-line-no">438</span><span id="line-438">                        </span>
-<span class="source-line-no">439</span><span id="line-439">                        // get the build.properties from this JAR</span>
-<span class="source-line-no">440</span><span id="line-440">                        // logger.debug("Getting build.properties for " + className + " from " + f.getPath());</span>
-<span class="source-line-no">441</span><span id="line-441">                        try {</span>
-<span class="source-line-no">442</span><span id="line-442">                                ZipInputStream zis = new ZipInputStream(new FileInputStream(f));</span>
-<span class="source-line-no">443</span><span id="line-443">                                try {</span>
-<span class="source-line-no">444</span><span id="line-444">                                        ZipEntry ze = zis.getNextEntry();</span>
-<span class="source-line-no">445</span><span id="line-445">                                        while (ze!=null &amp;&amp; (md.gitRevision==null || md.version==null)) {</span>
-<span class="source-line-no">446</span><span id="line-446">                                                // logger.debug(ze.getName());</span>
-<span class="source-line-no">447</span><span id="line-447">                                                if (ze.getName().equals("build.properties") || ze.getName().equals("/build.properties")) {</span>
-<span class="source-line-no">448</span><span id="line-448">                                                        // logger.debug(ze.getName());</span>
-<span class="source-line-no">449</span><span id="line-449">                                                        Properties props = new Properties();</span>
-<span class="source-line-no">450</span><span id="line-450">                                                        props.load(zis);</span>
-<span class="source-line-no">451</span><span id="line-451">                                                        md.gitRevision = props.getProperty("git.buildNumber");</span>
-<span class="source-line-no">452</span><span id="line-452">                                                }</span>
-<span class="source-line-no">453</span><span id="line-453">                                                if (ze.getName().endsWith("/pom.properties")) { </span>
-<span class="source-line-no">454</span><span id="line-454">                                                        // e.g. META-INF/maven/edu.ucla.cs.compilers/jtb/pom.xml, pom.properties</span>
-<span class="source-line-no">455</span><span id="line-455">                                                        // should probably check full path to prevent false positives</span>
+<span class="source-line-no">373</span><span id="line-373">        // this can also throw java.lang.Errors e.g. </span>
+<span class="source-line-no">374</span><span id="line-374">        // "Caused by: java.lang.Error: Trampoline must not be defined by the bootstrap classloader</span>
+<span class="source-line-no">375</span><span id="line-375">        // at java.base/sun.reflect.misc.Trampoline.&lt;clinit&gt;(MethodUtil.java:43)"</span>
+<span class="source-line-no">376</span><span id="line-376">        Class&lt;?&gt; clazz;</span>
+<span class="source-line-no">377</span><span id="line-377">        try {</span>
+<span class="source-line-no">378</span><span id="line-378">                clazz = Class.forName(className, true, loader);</span>
+<span class="source-line-no">379</span><span id="line-379">        } catch (Throwable t) {</span>
+<span class="source-line-no">380</span><span id="line-380">                return null;</span>
+<span class="source-line-no">381</span><span id="line-381">        }</span>
+<span class="source-line-no">382</span><span id="line-382">        </span>
+<span class="source-line-no">383</span><span id="line-383">        // this is stored in the build.properties file, which we'll have to get from the JAR containing the class</span>
+<span class="source-line-no">384</span><span id="line-384">        // see http://stackoverflow.com/questions/1983839/determine-which-jar-file-a-class-is-from</span>
+<span class="source-line-no">385</span><span id="line-385">        int revisionMethod = 0;</span>
+<span class="source-line-no">386</span><span id="line-386">        </span>
+<span class="source-line-no">387</span><span id="line-387">        String uri = clazz.getResource('/' + clazz.getName().replace('.', '/') + ".class").toString();</span>
+<span class="source-line-no">388</span><span id="line-388">        if (uri.startsWith("file:")) {</span>
+<span class="source-line-no">389</span><span id="line-389">                // this happens in eclipse; e.g. </span>
+<span class="source-line-no">390</span><span id="line-390">                //   uri=file:/C:/Users/knoxg/workspace-4.4.1-sts-3.6.2/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/jacobi-web/WEB-INF/classes/com/jacobistrategies/web/struts/Struts1Shim.class</span>
+<span class="source-line-no">391</span><span id="line-391">                // use the current class loader's build.properties if available</span>
+<span class="source-line-no">392</span><span id="line-392">                revisionMethod = 1;</span>
+<span class="source-line-no">393</span><span id="line-393">        } else if (uri.startsWith("jar:file:")) {</span>
+<span class="source-line-no">394</span><span id="line-394">                revisionMethod = 2;</span>
+<span class="source-line-no">395</span><span id="line-395">        } else {</span>
+<span class="source-line-no">396</span><span id="line-396">            // int idx = uri.indexOf(':');</span>
+<span class="source-line-no">397</span><span id="line-397">            // String protocol = idx == -1 ? "(unknown)" : uri.substring(0, idx);</span>
+<span class="source-line-no">398</span><span id="line-398">            // logger.warn("unknown protocol " + protocol + " in classpath uri '" + uri + "'");</span>
+<span class="source-line-no">399</span><span id="line-399">            revisionMethod = -1;</span>
+<span class="source-line-no">400</span><span id="line-400">        }</span>
+<span class="source-line-no">401</span><span id="line-401"></span>
+<span class="source-line-no">402</span><span id="line-402">        JarMetadata md = null;</span>
+<span class="source-line-no">403</span><span id="line-403">        if (revisionMethod == 1) {</span>
+<span class="source-line-no">404</span><span id="line-404">                // get the revision from the supplied class loader's build.properties, if there is one</span>
+<span class="source-line-no">405</span><span id="line-405">                md = new JarMetadata();</span>
+<span class="source-line-no">406</span><span id="line-406">                InputStream is = loader.getResourceAsStream("/build.properties");</span>
+<span class="source-line-no">407</span><span id="line-407">                if (is==null) {</span>
+<span class="source-line-no">408</span><span id="line-408">                        // logger.warn("missing build.properties");</span>
+<span class="source-line-no">409</span><span id="line-409">                        return null;</span>
+<span class="source-line-no">410</span><span id="line-410">                } else {</span>
+<span class="source-line-no">411</span><span id="line-411">                        Properties props = new Properties();</span>
+<span class="source-line-no">412</span><span id="line-412">                        try {</span>
+<span class="source-line-no">413</span><span id="line-413">                                props.load(is);</span>
+<span class="source-line-no">414</span><span id="line-414">                                md.gitRevision = props.getProperty("git.buildNumber");</span>
+<span class="source-line-no">415</span><span id="line-415">                                if ("${buildNumber}".equals(md.gitRevision)) { md.gitRevision = null; }</span>
+<span class="source-line-no">416</span><span id="line-416">                        } catch (IOException ioe) {</span>
+<span class="source-line-no">417</span><span id="line-417">                                // ignore;</span>
+<span class="source-line-no">418</span><span id="line-418">                        }</span>
+<span class="source-line-no">419</span><span id="line-419">                }</span>
+<span class="source-line-no">420</span><span id="line-420">                </span>
+<span class="source-line-no">421</span><span id="line-421">        } else if (revisionMethod == 2) {</span>
+<span class="source-line-no">422</span><span id="line-422">                // get the revision from the containing JAR</span>
+<span class="source-line-no">423</span><span id="line-423">                </span>
+<span class="source-line-no">424</span><span id="line-424">                int idx = uri.indexOf('!');</span>
+<span class="source-line-no">425</span><span id="line-425">                //As far as I know, the if statement below can't ever trigger, so it's more of a sanity check thing.</span>
+<span class="source-line-no">426</span><span id="line-426">                if (idx == -1) {</span>
+<span class="source-line-no">427</span><span id="line-427">                        // logger.warn("unparseable classpath uri '" + uri + "'");</span>
+<span class="source-line-no">428</span><span id="line-428">                        return null;</span>
+<span class="source-line-no">429</span><span id="line-429">                }</span>
+<span class="source-line-no">430</span><span id="line-430">                String fileName;</span>
+<span class="source-line-no">431</span><span id="line-431">                try {</span>
+<span class="source-line-no">432</span><span id="line-432">                    fileName = URLDecoder.decode(uri.substring("jar:file:".length(), idx), Charset.defaultCharset().name());</span>
+<span class="source-line-no">433</span><span id="line-433">                } catch (UnsupportedEncodingException e) {</span>
+<span class="source-line-no">434</span><span id="line-434">                    throw new IllegalStateException("default charset doesn't exist. Your VM is borked.");</span>
+<span class="source-line-no">435</span><span id="line-435">                }</span>
+<span class="source-line-no">436</span><span id="line-436">                </span>
+<span class="source-line-no">437</span><span id="line-437">                // use the cache if it exists</span>
+<span class="source-line-no">438</span><span id="line-438">                if (jarMetadataCache!=null) {</span>
+<span class="source-line-no">439</span><span id="line-439">                        md = jarMetadataCache.get(fileName);</span>
+<span class="source-line-no">440</span><span id="line-440">                }</span>
+<span class="source-line-no">441</span><span id="line-441">                if (md==null) {</span>
+<span class="source-line-no">442</span><span id="line-442">                        md = new JarMetadata();</span>
+<span class="source-line-no">443</span><span id="line-443">                        jarMetadataCache.put(fileName, md);</span>
+<span class="source-line-no">444</span><span id="line-444">                        File f = new File(fileName); // .getAbsolutePath();</span>
+<span class="source-line-no">445</span><span id="line-445">                        </span>
+<span class="source-line-no">446</span><span id="line-446">                        // get the build.properties from this JAR</span>
+<span class="source-line-no">447</span><span id="line-447">                        // logger.debug("Getting build.properties for " + className + " from " + f.getPath());</span>
+<span class="source-line-no">448</span><span id="line-448">                        try {</span>
+<span class="source-line-no">449</span><span id="line-449">                                ZipInputStream zis = new ZipInputStream(new FileInputStream(f));</span>
+<span class="source-line-no">450</span><span id="line-450">                                try {</span>
+<span class="source-line-no">451</span><span id="line-451">                                        ZipEntry ze = zis.getNextEntry();</span>
+<span class="source-line-no">452</span><span id="line-452">                                        while (ze!=null &amp;&amp; (md.gitRevision==null || md.version==null)) {</span>
+<span class="source-line-no">453</span><span id="line-453">                                                // logger.debug(ze.getName());</span>
+<span class="source-line-no">454</span><span id="line-454">                                                if (ze.getName().equals("build.properties") || ze.getName().equals("/build.properties")) {</span>
+<span class="source-line-no">455</span><span id="line-455">                                                        // logger.debug(ze.getName());</span>
 <span class="source-line-no">456</span><span id="line-456">                                                        Properties props = new Properties();</span>
 <span class="source-line-no">457</span><span id="line-457">                                                        props.load(zis);</span>
-<span class="source-line-no">458</span><span id="line-458">                                                        md.groupId = props.getProperty("groupId");</span>
-<span class="source-line-no">459</span><span id="line-459">                                                        md.artifactId = props.getProperty("artifactId");</span>
-<span class="source-line-no">460</span><span id="line-460">                                                        md.version = props.getProperty("version");</span>
-<span class="source-line-no">461</span><span id="line-461">                                                }</span>
-<span class="source-line-no">462</span><span id="line-462">                                                ze = zis.getNextEntry();</span>
-<span class="source-line-no">463</span><span id="line-463">                                        }</span>
-<span class="source-line-no">464</span><span id="line-464">                                } finally {</span>
-<span class="source-line-no">465</span><span id="line-465">                                        zis.close();</span>
-<span class="source-line-no">466</span><span id="line-466">                                }</span>
-<span class="source-line-no">467</span><span id="line-467">                        } catch (IOException ioe) {</span>
-<span class="source-line-no">468</span><span id="line-468">                                // ignore;</span>
-<span class="source-line-no">469</span><span id="line-469">                        }</span>
-<span class="source-line-no">470</span><span id="line-470">                }</span>
-<span class="source-line-no">471</span><span id="line-471">        }</span>
-<span class="source-line-no">472</span><span id="line-472">        return md;</span>
-<span class="source-line-no">473</span><span id="line-473">    }</span>
-<span class="source-line-no">474</span><span id="line-474">    </span>
-<span class="source-line-no">475</span><span id="line-475">    /** Returns a string describing the CVS revision number of a class. </span>
-<span class="source-line-no">476</span><span id="line-476">     * </span>
-<span class="source-line-no">477</span><span id="line-477">     * &lt;p&gt;The class is initialised as part of this process, which may cause a number of </span>
-<span class="source-line-no">478</span><span id="line-478">     * exceptions to be thrown. </span>
-<span class="source-line-no">479</span><span id="line-479">     * </span>
-<span class="source-line-no">480</span><span id="line-480">     * @param loader The classLoader to use</span>
-<span class="source-line-no">481</span><span id="line-481">     * @param className The class we wish to retrieve</span>
-<span class="source-line-no">482</span><span id="line-482">     * </span>
-<span class="source-line-no">483</span><span id="line-483">     * @return The CVS revision string, in the form "ver 1.234"</span>
-<span class="source-line-no">484</span><span id="line-484">     * </span>
-<span class="source-line-no">485</span><span id="line-485">     * @throws ClassNotFoundException</span>
-<span class="source-line-no">486</span><span id="line-486">     * @throws SecurityException</span>
-<span class="source-line-no">487</span><span id="line-487">     * @throws NoSuchFieldException</span>
-<span class="source-line-no">488</span><span id="line-488">     * @throws IllegalArgumentException</span>
-<span class="source-line-no">489</span><span id="line-489">     * @throws IllegalAccessException</span>
-<span class="source-line-no">490</span><span id="line-490">     */    </span>
-<span class="source-line-no">491</span><span id="line-491">    private static String getClassRevision(ClassLoader loader, String className) </span>
-<span class="source-line-no">492</span><span id="line-492">                throws ClassNotFoundException, SecurityException, NoSuchFieldException, </span>
-<span class="source-line-no">493</span><span id="line-493">                IllegalArgumentException, IllegalAccessException </span>
-<span class="source-line-no">494</span><span id="line-494">    {</span>
-<span class="source-line-no">495</span><span id="line-495">        if (className.indexOf('$')!=-1) {</span>
-<span class="source-line-no">496</span><span id="line-496">            className = className.substring(0, className.indexOf('$'));</span>
-<span class="source-line-no">497</span><span id="line-497">        }</span>
-<span class="source-line-no">498</span><span id="line-498">        </span>
-<span class="source-line-no">499</span><span id="line-499">        // if this is in a CVS repository, each class has it's own _revision public final static String variable</span>
-<span class="source-line-no">500</span><span id="line-500">        Class&lt;?&gt; clazz = Class.forName(className, true, loader);</span>
-<span class="source-line-no">501</span><span id="line-501">        Field field = null;</span>
-<span class="source-line-no">502</span><span id="line-502">        try {</span>
-<span class="source-line-no">503</span><span id="line-503">                field = clazz.getField("_revision");</span>
-<span class="source-line-no">504</span><span id="line-504">        } catch (NoSuchFieldException nsfe) {</span>
-<span class="source-line-no">505</span><span id="line-505">                </span>
-<span class="source-line-no">506</span><span id="line-506">        }</span>
-<span class="source-line-no">507</span><span id="line-507">        String classRevision = null;</span>
-<span class="source-line-no">508</span><span id="line-508">        if (field!=null) {</span>
-<span class="source-line-no">509</span><span id="line-509">                classRevision = (String) field.get(null);</span>
-<span class="source-line-no">510</span><span id="line-510">            </span>
-<span class="source-line-no">511</span><span id="line-511">                // remove rest of $Id$ text </span>
-<span class="source-line-no">512</span><span id="line-512">                int pos = classRevision.indexOf(",v ");</span>
-<span class="source-line-no">513</span><span id="line-513">                if (pos != -1) {</span>
-<span class="source-line-no">514</span><span id="line-514">                    classRevision = classRevision.substring(pos + 3);</span>
-<span class="source-line-no">515</span><span id="line-515">                    pos = classRevision.indexOf(' ');</span>
-<span class="source-line-no">516</span><span id="line-516">                    classRevision = "ver " + classRevision.substring(0, pos);</span>
-<span class="source-line-no">517</span><span id="line-517">                }</span>
-<span class="source-line-no">518</span><span id="line-518">        }</span>
-<span class="source-line-no">519</span><span id="line-519">        return classRevision;</span>
-<span class="source-line-no">520</span><span id="line-520">    }</span>
-<span class="source-line-no">521</span><span id="line-521"></span>
-<span class="source-line-no">522</span><span id="line-522"></span>
-<span class="source-line-no">523</span><span id="line-523">    /** An alternate implementation of {@link #getClassRevision(ClassLoader, String)},</span>
-<span class="source-line-no">524</span><span id="line-524">     * which searches the raw bytecode of the class, rather than using Java reflection.</span>
-<span class="source-line-no">525</span><span id="line-525">     * May be a bit more robust.</span>
-<span class="source-line-no">526</span><span id="line-526">     * </span>
-<span class="source-line-no">527</span><span id="line-527">     * @param loader Classloader to use</span>
-<span class="source-line-no">528</span><span id="line-528">     * @param className Class to load</span>
-<span class="source-line-no">529</span><span id="line-529">     * </span>
-<span class="source-line-no">530</span><span id="line-530">     * @return The CVS revision string, in the form "ver 1.234".</span>
-<span class="source-line-no">531</span><span id="line-531">     * </span>
-<span class="source-line-no">532</span><span id="line-532">     * @throws ClassNotFoundException</span>
-<span class="source-line-no">533</span><span id="line-533">     * @throws SecurityException</span>
-<span class="source-line-no">534</span><span id="line-534">     * @throws NoSuchFieldException</span>
-<span class="source-line-no">535</span><span id="line-535">     * @throws IllegalArgumentException</span>
-<span class="source-line-no">536</span><span id="line-536">     * @throws IllegalAccessException</span>
-<span class="source-line-no">537</span><span id="line-537">     */</span>
-<span class="source-line-no">538</span><span id="line-538">    /* TODO implement */</span>
-<span class="source-line-no">539</span><span id="line-539">    public static String getClassRevision2(ClassLoader loader, String className) </span>
-<span class="source-line-no">540</span><span id="line-540">        throws ClassNotFoundException, SecurityException, NoSuchFieldException, </span>
-<span class="source-line-no">541</span><span id="line-541">        IllegalArgumentException, IllegalAccessException </span>
-<span class="source-line-no">542</span><span id="line-542">    {</span>
-<span class="source-line-no">543</span><span id="line-543">        if (className.indexOf('$')!=-1) {</span>
-<span class="source-line-no">544</span><span id="line-544">            className = className.substring(0, className.indexOf('$'));</span>
-<span class="source-line-no">545</span><span id="line-545">        }</span>
-<span class="source-line-no">546</span><span id="line-546">        // String file = className.replace('.',  '/') + ".class";</span>
-<span class="source-line-no">547</span><span id="line-547">        // InputStream is = loader.getResourceAsStream(file);</span>
-<span class="source-line-no">548</span><span id="line-548">        </span>
-<span class="source-line-no">549</span><span id="line-549">        // read up to '$Id:' text</span>
-<span class="source-line-no">550</span><span id="line-550">        </span>
-<span class="source-line-no">551</span><span id="line-551">        throw new UnsupportedOperationException("Not implemented");</span>
-<span class="source-line-no">552</span><span id="line-552">    }</span>
-<span class="source-line-no">553</span><span id="line-553">    </span>
-<span class="source-line-no">554</span><span id="line-554">    </span>
-<span class="source-line-no">555</span><span id="line-555">    </span>
-<span class="source-line-no">556</span><span id="line-556">    /** Returns a list of all the messages contained within a exception (following the causal</span>
-<span class="source-line-no">557</span><span id="line-557">     * chain of the supplied exception). This may be more useful to and end-user, since it</span>
-<span class="source-line-no">558</span><span id="line-558">     * should not contain any references to Java class names.</span>
-<span class="source-line-no">559</span><span id="line-559">     * </span>
-<span class="source-line-no">560</span><span id="line-560">     * @param throwable an exception</span>
-<span class="source-line-no">561</span><span id="line-561">     * </span>
-<span class="source-line-no">562</span><span id="line-562">     * @return a List of Strings</span>
-<span class="source-line-no">563</span><span id="line-563">     */</span>
-<span class="source-line-no">564</span><span id="line-564">    public static List&lt;String&gt; getStackTraceSummary(Throwable throwable) {</span>
-<span class="source-line-no">565</span><span id="line-565">        List&lt;String&gt; result = new ArrayList&lt;String&gt;();</span>
-<span class="source-line-no">566</span><span id="line-566">        while (throwable!=null) {</span>
-<span class="source-line-no">567</span><span id="line-567">                result.add(throwable.getMessage());</span>
-<span class="source-line-no">568</span><span id="line-568">                throwable = getCause(throwable);</span>
-<span class="source-line-no">569</span><span id="line-569">                // I think some RemoteExceptions have non-standard caused-by chains as well...</span>
-<span class="source-line-no">570</span><span id="line-570">                if (throwable==null) {</span>
-<span class="source-line-no">571</span><span id="line-571">                        if (throwable instanceof java.sql.SQLException) {</span>
-<span class="source-line-no">572</span><span id="line-572">                                throwable = ((java.sql.SQLException) throwable).getNextException();</span>
-<span class="source-line-no">573</span><span id="line-573">                        } </span>
-<span class="source-line-no">574</span><span id="line-574">                }</span>
-<span class="source-line-no">575</span><span id="line-575">        }</span>
-<span class="source-line-no">576</span><span id="line-576">        return result;</span>
-<span class="source-line-no">577</span><span id="line-577">    }</span>
-<span class="source-line-no">578</span><span id="line-578"></span>
-<span class="source-line-no">579</span><span id="line-579">    /** Returns the cause of an exception, or null if not known.</span>
-<span class="source-line-no">580</span><span id="line-580">     * If the exception is a a &lt;code&gt;bsh.TargetError&lt;/code&gt;, then the cause is determined</span>
-<span class="source-line-no">581</span><span id="line-581">     * by calling the &lt;code&gt;getTarget()&lt;/code&gt; method, otherwise this method will</span>
-<span class="source-line-no">582</span><span id="line-582">     * return the same value returned by the standard Exception </span>
-<span class="source-line-no">583</span><span id="line-583">     * &lt;code&gt;getCause()&lt;/code&gt; method.</span>
-<span class="source-line-no">584</span><span id="line-584">     * </span>
-<span class="source-line-no">585</span><span id="line-585">     * @param e the cause of an exception, or null if not known.</span>
-<span class="source-line-no">586</span><span id="line-586">     * </span>
-<span class="source-line-no">587</span><span id="line-587">     * @return the cause of an exception, or null if not known.</span>
-<span class="source-line-no">588</span><span id="line-588">     */</span>
-<span class="source-line-no">589</span><span id="line-589">    private static Throwable getCause(Throwable e) {</span>
-<span class="source-line-no">590</span><span id="line-590">        Throwable cause = null;</span>
-<span class="source-line-no">591</span><span id="line-591">        if (e.getClass().getName().equals("bsh.TargetError")) {</span>
-<span class="source-line-no">592</span><span id="line-592">            try {</span>
-<span class="source-line-no">593</span><span id="line-593">                if (e.getClass().getName().equals("bsh.TargetError")) {</span>
-<span class="source-line-no">594</span><span id="line-594">                        Method m;</span>
-<span class="source-line-no">595</span><span id="line-595">                                m = e.getClass().getMethod("getTarget");</span>
-<span class="source-line-no">596</span><span id="line-596">                                cause = (Throwable) m.invoke(e);</span>
-<span class="source-line-no">597</span><span id="line-597">                }</span>
-<span class="source-line-no">598</span><span id="line-598">                } catch (SecurityException e1) {</span>
-<span class="source-line-no">599</span><span id="line-599">                        // ignore - just use original exception</span>
-<span class="source-line-no">600</span><span id="line-600">                } catch (NoSuchMethodException e1) {</span>
-<span class="source-line-no">601</span><span id="line-601">                        // ignore - just use original exception</span>
-<span class="source-line-no">602</span><span id="line-602">                } catch (IllegalArgumentException e1) {</span>
-<span class="source-line-no">603</span><span id="line-603">                        // ignore - just use original exception</span>
-<span class="source-line-no">604</span><span id="line-604">                } catch (IllegalAccessException e1) {</span>
-<span class="source-line-no">605</span><span id="line-605">                        // ignore - just use original exception</span>
-<span class="source-line-no">606</span><span id="line-606">                } catch (InvocationTargetException e1) {</span>
-<span class="source-line-no">607</span><span id="line-607">                        // ignore - just use original exception</span>
-<span class="source-line-no">608</span><span id="line-608">                }</span>
-<span class="source-line-no">609</span><span id="line-609">        } else {</span>
-<span class="source-line-no">610</span><span id="line-610">                cause = e.getCause();</span>
-<span class="source-line-no">611</span><span id="line-611">        }</span>
-<span class="source-line-no">612</span><span id="line-612">        return cause;</span>
-<span class="source-line-no">613</span><span id="line-613">    }</span>
-<span class="source-line-no">614</span><span id="line-614"></span>
-<span class="source-line-no">615</span><span id="line-615">    /**</span>
-<span class="source-line-no">616</span><span id="line-616">     * Returns the HTML-escaped form of a string. Any &lt;code&gt;&amp;amp;&lt;/code&gt;,</span>
-<span class="source-line-no">617</span><span id="line-617">     * &lt;code&gt;&amp;lt;&lt;/code&gt;, &lt;code&gt;&amp;gt;&lt;/code&gt;, and &lt;code&gt;"&lt;/code&gt; characters are converted to</span>
-<span class="source-line-no">618</span><span id="line-618">     * &lt;code&gt;&amp;amp;amp;&lt;/code&gt;, &lt;code&gt;&amp;amp;lt;&lt;/code&gt;, &lt;code&gt;&amp;amp;gt;&lt;/code&gt;, and</span>
-<span class="source-line-no">619</span><span id="line-619">     * &lt;code&gt;&amp;amp;quot;&lt;/code&gt; respectively.</span>
-<span class="source-line-no">620</span><span id="line-620">     *</span>
-<span class="source-line-no">621</span><span id="line-621">     * @param string the string to convert</span>
-<span class="source-line-no">622</span><span id="line-622">     *</span>
-<span class="source-line-no">623</span><span id="line-623">     * @return the HTML-escaped form of the string</span>
-<span class="source-line-no">624</span><span id="line-624">     */</span>
-<span class="source-line-no">625</span><span id="line-625">    static public String escapeHtml(String string) {</span>
-<span class="source-line-no">626</span><span id="line-626">        if (string == null) {</span>
-<span class="source-line-no">627</span><span id="line-627">            return "";</span>
-<span class="source-line-no">628</span><span id="line-628">        }</span>
-<span class="source-line-no">629</span><span id="line-629"></span>
-<span class="source-line-no">630</span><span id="line-630">        char c;</span>
-<span class="source-line-no">631</span><span id="line-631">        StringBuffer sb = new StringBuffer(string.length());</span>
-<span class="source-line-no">632</span><span id="line-632"></span>
-<span class="source-line-no">633</span><span id="line-633">        for (int i = 0; i &lt; string.length(); i++) {</span>
-<span class="source-line-no">634</span><span id="line-634">            c = string.charAt(i);</span>
-<span class="source-line-no">635</span><span id="line-635"></span>
-<span class="source-line-no">636</span><span id="line-636">            switch (c) {</span>
-<span class="source-line-no">637</span><span id="line-637">                case '&amp;':</span>
-<span class="source-line-no">638</span><span id="line-638">                    sb.append("&amp;amp;");</span>
-<span class="source-line-no">639</span><span id="line-639">                    break;</span>
-<span class="source-line-no">640</span><span id="line-640">                case '&lt;':</span>
-<span class="source-line-no">641</span><span id="line-641">                    sb.append("&amp;lt;");</span>
-<span class="source-line-no">642</span><span id="line-642">                    break;</span>
-<span class="source-line-no">643</span><span id="line-643">                case '&gt;':</span>
-<span class="source-line-no">644</span><span id="line-644">                    sb.append("&amp;gt;");</span>
-<span class="source-line-no">645</span><span id="line-645">                    break;</span>
-<span class="source-line-no">646</span><span id="line-646">                case '\"':</span>
-<span class="source-line-no">647</span><span id="line-647">                    sb.append("&amp;quot;");</span>
-<span class="source-line-no">648</span><span id="line-648">                    break;</span>
-<span class="source-line-no">649</span><span id="line-649">                default:</span>
-<span class="source-line-no">650</span><span id="line-650">                    sb.append(c);</span>
-<span class="source-line-no">651</span><span id="line-651">            }</span>
-<span class="source-line-no">652</span><span id="line-652">        }</span>
-<span class="source-line-no">653</span><span id="line-653"></span>
-<span class="source-line-no">654</span><span id="line-654">        return sb.toString();</span>
-<span class="source-line-no">655</span><span id="line-655">    }</span>
-<span class="source-line-no">656</span><span id="line-656">    </span>
-<span class="source-line-no">657</span><span id="line-657">}</span>
+<span class="source-line-no">458</span><span id="line-458">                                                        md.gitRevision = props.getProperty("git.buildNumber");</span>
+<span class="source-line-no">459</span><span id="line-459">                                                }</span>
+<span class="source-line-no">460</span><span id="line-460">                                                if (ze.getName().endsWith("/pom.properties")) { </span>
+<span class="source-line-no">461</span><span id="line-461">                                                        // e.g. META-INF/maven/edu.ucla.cs.compilers/jtb/pom.xml, pom.properties</span>
+<span class="source-line-no">462</span><span id="line-462">                                                        // should probably check full path to prevent false positives</span>
+<span class="source-line-no">463</span><span id="line-463">                                                        Properties props = new Properties();</span>
+<span class="source-line-no">464</span><span id="line-464">                                                        props.load(zis);</span>
+<span class="source-line-no">465</span><span id="line-465">                                                        md.groupId = props.getProperty("groupId");</span>
+<span class="source-line-no">466</span><span id="line-466">                                                        md.artifactId = props.getProperty("artifactId");</span>
+<span class="source-line-no">467</span><span id="line-467">                                                        md.version = props.getProperty("version");</span>
+<span class="source-line-no">468</span><span id="line-468">                                                }</span>
+<span class="source-line-no">469</span><span id="line-469">                                                ze = zis.getNextEntry();</span>
+<span class="source-line-no">470</span><span id="line-470">                                        }</span>
+<span class="source-line-no">471</span><span id="line-471">                                } finally {</span>
+<span class="source-line-no">472</span><span id="line-472">                                        zis.close();</span>
+<span class="source-line-no">473</span><span id="line-473">                                }</span>
+<span class="source-line-no">474</span><span id="line-474">                        } catch (IOException ioe) {</span>
+<span class="source-line-no">475</span><span id="line-475">                                // ignore;</span>
+<span class="source-line-no">476</span><span id="line-476">                        }</span>
+<span class="source-line-no">477</span><span id="line-477">                }</span>
+<span class="source-line-no">478</span><span id="line-478">        }</span>
+<span class="source-line-no">479</span><span id="line-479">        return md;</span>
+<span class="source-line-no">480</span><span id="line-480">    }</span>
+<span class="source-line-no">481</span><span id="line-481">    </span>
+<span class="source-line-no">482</span><span id="line-482">    /** Returns a string describing the CVS revision number of a class. </span>
+<span class="source-line-no">483</span><span id="line-483">     * </span>
+<span class="source-line-no">484</span><span id="line-484">     * &lt;p&gt;The class is initialised as part of this process, which may cause a number of </span>
+<span class="source-line-no">485</span><span id="line-485">     * exceptions to be thrown. </span>
+<span class="source-line-no">486</span><span id="line-486">     * </span>
+<span class="source-line-no">487</span><span id="line-487">     * @param loader The classLoader to use</span>
+<span class="source-line-no">488</span><span id="line-488">     * @param className The class we wish to retrieve</span>
+<span class="source-line-no">489</span><span id="line-489">     * </span>
+<span class="source-line-no">490</span><span id="line-490">     * @return The CVS revision string, in the form "ver 1.234"</span>
+<span class="source-line-no">491</span><span id="line-491">     * </span>
+<span class="source-line-no">492</span><span id="line-492">     * @throws ClassNotFoundException</span>
+<span class="source-line-no">493</span><span id="line-493">     * @throws SecurityException</span>
+<span class="source-line-no">494</span><span id="line-494">     * @throws NoSuchFieldException</span>
+<span class="source-line-no">495</span><span id="line-495">     * @throws IllegalArgumentException</span>
+<span class="source-line-no">496</span><span id="line-496">     * @throws IllegalAccessException</span>
+<span class="source-line-no">497</span><span id="line-497">     */    </span>
+<span class="source-line-no">498</span><span id="line-498">    private static String getClassRevision(ClassLoader loader, String className) </span>
+<span class="source-line-no">499</span><span id="line-499">                throws ClassNotFoundException, SecurityException, NoSuchFieldException, </span>
+<span class="source-line-no">500</span><span id="line-500">                IllegalArgumentException, IllegalAccessException </span>
+<span class="source-line-no">501</span><span id="line-501">    {</span>
+<span class="source-line-no">502</span><span id="line-502">        if (className.indexOf('$')!=-1) {</span>
+<span class="source-line-no">503</span><span id="line-503">            className = className.substring(0, className.indexOf('$'));</span>
+<span class="source-line-no">504</span><span id="line-504">        }</span>
+<span class="source-line-no">505</span><span id="line-505">        </span>
+<span class="source-line-no">506</span><span id="line-506">        // if this is in a CVS repository, each class has it's own _revision public final static String variable</span>
+<span class="source-line-no">507</span><span id="line-507">        Class&lt;?&gt; clazz = Class.forName(className, true, loader);</span>
+<span class="source-line-no">508</span><span id="line-508">        Field field = null;</span>
+<span class="source-line-no">509</span><span id="line-509">        try {</span>
+<span class="source-line-no">510</span><span id="line-510">                field = clazz.getField("_revision");</span>
+<span class="source-line-no">511</span><span id="line-511">        } catch (NoSuchFieldException nsfe) {</span>
+<span class="source-line-no">512</span><span id="line-512">                </span>
+<span class="source-line-no">513</span><span id="line-513">        }</span>
+<span class="source-line-no">514</span><span id="line-514">        String classRevision = null;</span>
+<span class="source-line-no">515</span><span id="line-515">        if (field!=null) {</span>
+<span class="source-line-no">516</span><span id="line-516">                classRevision = (String) field.get(null);</span>
+<span class="source-line-no">517</span><span id="line-517">            </span>
+<span class="source-line-no">518</span><span id="line-518">                // remove rest of $Id$ text </span>
+<span class="source-line-no">519</span><span id="line-519">                int pos = classRevision.indexOf(",v ");</span>
+<span class="source-line-no">520</span><span id="line-520">                if (pos != -1) {</span>
+<span class="source-line-no">521</span><span id="line-521">                    classRevision = classRevision.substring(pos + 3);</span>
+<span class="source-line-no">522</span><span id="line-522">                    pos = classRevision.indexOf(' ');</span>
+<span class="source-line-no">523</span><span id="line-523">                    classRevision = "ver " + classRevision.substring(0, pos);</span>
+<span class="source-line-no">524</span><span id="line-524">                }</span>
+<span class="source-line-no">525</span><span id="line-525">        }</span>
+<span class="source-line-no">526</span><span id="line-526">        return classRevision;</span>
+<span class="source-line-no">527</span><span id="line-527">    }</span>
+<span class="source-line-no">528</span><span id="line-528"></span>
+<span class="source-line-no">529</span><span id="line-529"></span>
+<span class="source-line-no">530</span><span id="line-530">    /** An alternate implementation of {@link #getClassRevision(ClassLoader, String)},</span>
+<span class="source-line-no">531</span><span id="line-531">     * which searches the raw bytecode of the class, rather than using Java reflection.</span>
+<span class="source-line-no">532</span><span id="line-532">     * May be a bit more robust.</span>
+<span class="source-line-no">533</span><span id="line-533">     * </span>
+<span class="source-line-no">534</span><span id="line-534">     * @param loader Classloader to use</span>
+<span class="source-line-no">535</span><span id="line-535">     * @param className Class to load</span>
+<span class="source-line-no">536</span><span id="line-536">     * </span>
+<span class="source-line-no">537</span><span id="line-537">     * @return The CVS revision string, in the form "ver 1.234".</span>
+<span class="source-line-no">538</span><span id="line-538">     * </span>
+<span class="source-line-no">539</span><span id="line-539">     * @throws ClassNotFoundException</span>
+<span class="source-line-no">540</span><span id="line-540">     * @throws SecurityException</span>
+<span class="source-line-no">541</span><span id="line-541">     * @throws NoSuchFieldException</span>
+<span class="source-line-no">542</span><span id="line-542">     * @throws IllegalArgumentException</span>
+<span class="source-line-no">543</span><span id="line-543">     * @throws IllegalAccessException</span>
+<span class="source-line-no">544</span><span id="line-544">     */</span>
+<span class="source-line-no">545</span><span id="line-545">    /* TODO implement */</span>
+<span class="source-line-no">546</span><span id="line-546">    public static String getClassRevision2(ClassLoader loader, String className) </span>
+<span class="source-line-no">547</span><span id="line-547">        throws ClassNotFoundException, SecurityException, NoSuchFieldException, </span>
+<span class="source-line-no">548</span><span id="line-548">        IllegalArgumentException, IllegalAccessException </span>
+<span class="source-line-no">549</span><span id="line-549">    {</span>
+<span class="source-line-no">550</span><span id="line-550">        if (className.indexOf('$')!=-1) {</span>
+<span class="source-line-no">551</span><span id="line-551">            className = className.substring(0, className.indexOf('$'));</span>
+<span class="source-line-no">552</span><span id="line-552">        }</span>
+<span class="source-line-no">553</span><span id="line-553">        // String file = className.replace('.',  '/') + ".class";</span>
+<span class="source-line-no">554</span><span id="line-554">        // InputStream is = loader.getResourceAsStream(file);</span>
+<span class="source-line-no">555</span><span id="line-555">        </span>
+<span class="source-line-no">556</span><span id="line-556">        // read up to '$Id:' text</span>
+<span class="source-line-no">557</span><span id="line-557">        </span>
+<span class="source-line-no">558</span><span id="line-558">        throw new UnsupportedOperationException("Not implemented");</span>
+<span class="source-line-no">559</span><span id="line-559">    }</span>
+<span class="source-line-no">560</span><span id="line-560">    </span>
+<span class="source-line-no">561</span><span id="line-561">    </span>
+<span class="source-line-no">562</span><span id="line-562">    </span>
+<span class="source-line-no">563</span><span id="line-563">    /** Returns a list of all the messages contained within a exception (following the causal</span>
+<span class="source-line-no">564</span><span id="line-564">     * chain of the supplied exception). This may be more useful to and end-user, since it</span>
+<span class="source-line-no">565</span><span id="line-565">     * should not contain any references to Java class names.</span>
+<span class="source-line-no">566</span><span id="line-566">     * </span>
+<span class="source-line-no">567</span><span id="line-567">     * @param throwable an exception</span>
+<span class="source-line-no">568</span><span id="line-568">     * </span>
+<span class="source-line-no">569</span><span id="line-569">     * @return a List of Strings</span>
+<span class="source-line-no">570</span><span id="line-570">     */</span>
+<span class="source-line-no">571</span><span id="line-571">    public static List&lt;String&gt; getStackTraceSummary(Throwable throwable) {</span>
+<span class="source-line-no">572</span><span id="line-572">        List&lt;String&gt; result = new ArrayList&lt;String&gt;();</span>
+<span class="source-line-no">573</span><span id="line-573">        while (throwable!=null) {</span>
+<span class="source-line-no">574</span><span id="line-574">                result.add(throwable.getMessage());</span>
+<span class="source-line-no">575</span><span id="line-575">                throwable = getCause(throwable);</span>
+<span class="source-line-no">576</span><span id="line-576">                // I think some RemoteExceptions have non-standard caused-by chains as well...</span>
+<span class="source-line-no">577</span><span id="line-577">                if (throwable==null) {</span>
+<span class="source-line-no">578</span><span id="line-578">                        if (throwable instanceof java.sql.SQLException) {</span>
+<span class="source-line-no">579</span><span id="line-579">                                throwable = ((java.sql.SQLException) throwable).getNextException();</span>
+<span class="source-line-no">580</span><span id="line-580">                        } </span>
+<span class="source-line-no">581</span><span id="line-581">                }</span>
+<span class="source-line-no">582</span><span id="line-582">        }</span>
+<span class="source-line-no">583</span><span id="line-583">        return result;</span>
+<span class="source-line-no">584</span><span id="line-584">    }</span>
+<span class="source-line-no">585</span><span id="line-585"></span>
+<span class="source-line-no">586</span><span id="line-586">    /** Returns the cause of an exception, or null if not known.</span>
+<span class="source-line-no">587</span><span id="line-587">     * If the exception is a a &lt;code&gt;bsh.TargetError&lt;/code&gt;, then the cause is determined</span>
+<span class="source-line-no">588</span><span id="line-588">     * by calling the &lt;code&gt;getTarget()&lt;/code&gt; method, otherwise this method will</span>
+<span class="source-line-no">589</span><span id="line-589">     * return the same value returned by the standard Exception </span>
+<span class="source-line-no">590</span><span id="line-590">     * &lt;code&gt;getCause()&lt;/code&gt; method.</span>
+<span class="source-line-no">591</span><span id="line-591">     * </span>
+<span class="source-line-no">592</span><span id="line-592">     * @param e the cause of an exception, or null if not known.</span>
+<span class="source-line-no">593</span><span id="line-593">     * </span>
+<span class="source-line-no">594</span><span id="line-594">     * @return the cause of an exception, or null if not known.</span>
+<span class="source-line-no">595</span><span id="line-595">     */</span>
+<span class="source-line-no">596</span><span id="line-596">    private static Throwable getCause(Throwable e) {</span>
+<span class="source-line-no">597</span><span id="line-597">        Throwable cause = null;</span>
+<span class="source-line-no">598</span><span id="line-598">        if (e.getClass().getName().equals("bsh.TargetError")) {</span>
+<span class="source-line-no">599</span><span id="line-599">            try {</span>
+<span class="source-line-no">600</span><span id="line-600">                if (e.getClass().getName().equals("bsh.TargetError")) {</span>
+<span class="source-line-no">601</span><span id="line-601">                        Method m;</span>
+<span class="source-line-no">602</span><span id="line-602">                                m = e.getClass().getMethod("getTarget");</span>
+<span class="source-line-no">603</span><span id="line-603">                                cause = (Throwable) m.invoke(e);</span>
+<span class="source-line-no">604</span><span id="line-604">                }</span>
+<span class="source-line-no">605</span><span id="line-605">                } catch (SecurityException e1) {</span>
+<span class="source-line-no">606</span><span id="line-606">                        // ignore - just use original exception</span>
+<span class="source-line-no">607</span><span id="line-607">                } catch (NoSuchMethodException e1) {</span>
+<span class="source-line-no">608</span><span id="line-608">                        // ignore - just use original exception</span>
+<span class="source-line-no">609</span><span id="line-609">                } catch (IllegalArgumentException e1) {</span>
+<span class="source-line-no">610</span><span id="line-610">                        // ignore - just use original exception</span>
+<span class="source-line-no">611</span><span id="line-611">                } catch (IllegalAccessException e1) {</span>
+<span class="source-line-no">612</span><span id="line-612">                        // ignore - just use original exception</span>
+<span class="source-line-no">613</span><span id="line-613">                } catch (InvocationTargetException e1) {</span>
+<span class="source-line-no">614</span><span id="line-614">                        // ignore - just use original exception</span>
+<span class="source-line-no">615</span><span id="line-615">                }</span>
+<span class="source-line-no">616</span><span id="line-616">        } else {</span>
+<span class="source-line-no">617</span><span id="line-617">                cause = e.getCause();</span>
+<span class="source-line-no">618</span><span id="line-618">        }</span>
+<span class="source-line-no">619</span><span id="line-619">        return cause;</span>
+<span class="source-line-no">620</span><span id="line-620">    }</span>
+<span class="source-line-no">621</span><span id="line-621"></span>
+<span class="source-line-no">622</span><span id="line-622">    /**</span>
+<span class="source-line-no">623</span><span id="line-623">     * Returns the HTML-escaped form of a string. Any &lt;code&gt;&amp;amp;&lt;/code&gt;,</span>
+<span class="source-line-no">624</span><span id="line-624">     * &lt;code&gt;&amp;lt;&lt;/code&gt;, &lt;code&gt;&amp;gt;&lt;/code&gt;, and &lt;code&gt;"&lt;/code&gt; characters are converted to</span>
+<span class="source-line-no">625</span><span id="line-625">     * &lt;code&gt;&amp;amp;amp;&lt;/code&gt;, &lt;code&gt;&amp;amp;lt;&lt;/code&gt;, &lt;code&gt;&amp;amp;gt;&lt;/code&gt;, and</span>
+<span class="source-line-no">626</span><span id="line-626">     * &lt;code&gt;&amp;amp;quot;&lt;/code&gt; respectively.</span>
+<span class="source-line-no">627</span><span id="line-627">     *</span>
+<span class="source-line-no">628</span><span id="line-628">     * @param string the string to convert</span>
+<span class="source-line-no">629</span><span id="line-629">     *</span>
+<span class="source-line-no">630</span><span id="line-630">     * @return the HTML-escaped form of the string</span>
+<span class="source-line-no">631</span><span id="line-631">     */</span>
+<span class="source-line-no">632</span><span id="line-632">    static public String escapeHtml(String string) {</span>
+<span class="source-line-no">633</span><span id="line-633">        if (string == null) {</span>
+<span class="source-line-no">634</span><span id="line-634">            return "";</span>
+<span class="source-line-no">635</span><span id="line-635">        }</span>
+<span class="source-line-no">636</span><span id="line-636"></span>
+<span class="source-line-no">637</span><span id="line-637">        char c;</span>
+<span class="source-line-no">638</span><span id="line-638">        StringBuffer sb = new StringBuffer(string.length());</span>
+<span class="source-line-no">639</span><span id="line-639"></span>
+<span class="source-line-no">640</span><span id="line-640">        for (int i = 0; i &lt; string.length(); i++) {</span>
+<span class="source-line-no">641</span><span id="line-641">            c = string.charAt(i);</span>
+<span class="source-line-no">642</span><span id="line-642"></span>
+<span class="source-line-no">643</span><span id="line-643">            switch (c) {</span>
+<span class="source-line-no">644</span><span id="line-644">                case '&amp;':</span>
+<span class="source-line-no">645</span><span id="line-645">                    sb.append("&amp;amp;");</span>
+<span class="source-line-no">646</span><span id="line-646">                    break;</span>
+<span class="source-line-no">647</span><span id="line-647">                case '&lt;':</span>
+<span class="source-line-no">648</span><span id="line-648">                    sb.append("&amp;lt;");</span>
+<span class="source-line-no">649</span><span id="line-649">                    break;</span>
+<span class="source-line-no">650</span><span id="line-650">                case '&gt;':</span>
+<span class="source-line-no">651</span><span id="line-651">                    sb.append("&amp;gt;");</span>
+<span class="source-line-no">652</span><span id="line-652">                    break;</span>
+<span class="source-line-no">653</span><span id="line-653">                case '\"':</span>
+<span class="source-line-no">654</span><span id="line-654">                    sb.append("&amp;quot;");</span>
+<span class="source-line-no">655</span><span id="line-655">                    break;</span>
+<span class="source-line-no">656</span><span id="line-656">                default:</span>
+<span class="source-line-no">657</span><span id="line-657">                    sb.append(c);</span>
+<span class="source-line-no">658</span><span id="line-658">            }</span>
+<span class="source-line-no">659</span><span id="line-659">        }</span>
+<span class="source-line-no">660</span><span id="line-660"></span>
+<span class="source-line-no">661</span><span id="line-661">        return sb.toString();</span>
+<span class="source-line-no">662</span><span id="line-662">    }</span>
+<span class="source-line-no">663</span><span id="line-663">    </span>
+<span class="source-line-no">664</span><span id="line-664">}</span>
 
 
 
