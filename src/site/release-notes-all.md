@@ -1,3 +1,9 @@
+# 1.0.33
+
+## Updates
+
+* Ignore getClass() exceptions in getStackTraceElementWithRevision()
+
 # 1.0.32
 
 ## Updates

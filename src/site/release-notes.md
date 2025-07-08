@@ -1,3 +1,3 @@
 ## Updates
 
-* Resolved log4j build issues
+* Ignore getClass() exceptions in getStackTraceElementWithRevision()

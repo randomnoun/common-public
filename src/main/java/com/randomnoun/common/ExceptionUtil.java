@@ -370,8 +370,15 @@ public class ExceptionUtil {
         if (className.indexOf('$')!=-1) {
             className = className.substring(0, className.indexOf('$'));
         }
-        
-        Class<?> clazz = Class.forName(className, true, loader);
+        // this can also throw java.lang.Errors e.g. 
+        // "Caused by: java.lang.Error: Trampoline must not be defined by the bootstrap classloader
+        // at java.base/sun.reflect.misc.Trampoline.<clinit>(MethodUtil.java:43)"
+        Class<?> clazz;
+        try {
+        	clazz = Class.forName(className, true, loader);
+        } catch (Throwable t) {
+        	return null;
+        }
         
         // this is stored in the build.properties file, which we'll have to get from the JAR containing the class
         // see http://stackoverflow.com/questions/1983839/determine-which-jar-file-a-class-is-from
