@@ -219,7 +219,7 @@ public class SqlGenerator
 	public static final String DATABASE_JET = "JET";
 
 	
-    // these MUST be non-printable to reduce the chance of conflicts within strings.
+    // these are non-printable to reduce the chance of conflicts within strings.
 
     /** Used to internally delimit positional paramaeters in generated SQL */
     private static final String POS_MARKER_LEFT = "\uF0000";
@@ -567,7 +567,7 @@ public class SqlGenerator
         // replace {positionalNames} with '?' markers and remember what we've hit so far ... 
         int pos = sql.indexOf(POS_MARKER_LEFT);
         int pos2;
-        List paramList = new ArrayList();
+        List<String> paramList = new ArrayList<>();
 
         while (pos != -1) {
             pos2 = sql.indexOf(POS_MARKER_RIGHT, pos + POS_MARKER_LEFT.length());
@@ -605,7 +605,7 @@ public class SqlGenerator
 
         lhs = n.conditionalAndExpression.accept(this, context);
 
-        for (Enumeration e = n.nodeListOptional.elements(); e.hasMoreElements();) {
+        for (Enumeration<?> e = n.nodeListOptional.elements(); e.hasMoreElements();) {
             seq = (NodeSequence) e.nextElement();
             rhs = seq.elementAt(1).accept(this, context);
             lhs = new SqlText("(" + toSql(evalContext, lhs) + " OR " + toSql(evalContext, rhs) + ")");
@@ -629,7 +629,7 @@ public class SqlGenerator
 
         lhs = n.equalityExpression.accept(this, context);
 
-        for (Enumeration e = n.nodeListOptional.elements(); e.hasMoreElements();) {
+        for (Enumeration<?> e = n.nodeListOptional.elements(); e.hasMoreElements();) {
             seq = (NodeSequence) e.nextElement();
             rhs = seq.elementAt(1).accept(this, context);
             lhs = new SqlText("(" + toSql(evalContext, lhs) + " AND " + toSql(evalContext, rhs) + ")");
@@ -654,7 +654,7 @@ public class SqlGenerator
 
         lhs = n.relationalExpression.accept(this, context);
 
-        for (Enumeration e = n.nodeListOptional.elements(); e.hasMoreElements();) {
+        for (Enumeration<?> e = n.nodeListOptional.elements(); e.hasMoreElements();) {
             seq = (NodeSequence) e.nextElement();
             rhs = seq.elementAt(1).accept(this, context);
 
@@ -694,7 +694,7 @@ public class SqlGenerator
 
         lhs = n.additiveExpression.accept(this, context);
 
-        for (Enumeration e = n.nodeListOptional.elements(); e.hasMoreElements();) {
+        for (Enumeration<?> e = n.nodeListOptional.elements(); e.hasMoreElements();) {
             seq = (NodeSequence) e.nextElement();
             rhs = seq.elementAt(1).accept(this, context);
 
@@ -739,7 +739,7 @@ public class SqlGenerator
 
         lhs = n.multiplicativeExpression.accept(this, context);
 
-        for (Enumeration e = n.nodeListOptional.elements(); e.hasMoreElements();) {
+        for (Enumeration<?> e = n.nodeListOptional.elements(); e.hasMoreElements();) {
             seq = (NodeSequence) e.nextElement();
             rhs = seq.elementAt(1).accept(this, context);
 
@@ -779,7 +779,7 @@ public class SqlGenerator
 
         EvalContext evalContext = (EvalContext) context;
 
-        for (Enumeration e = n.nodeListOptional.elements(); e.hasMoreElements();) {
+        for (Enumeration<?> e = n.nodeListOptional.elements(); e.hasMoreElements();) {
             seq = (NodeSequence) e.nextElement();
             rhs = seq.elementAt(1).accept(this, context);
 
@@ -862,8 +862,6 @@ public class SqlGenerator
                 seq = (NodeSequence) n.nodeChoice.choice;
                 Object obj = seq.elementAt(1).accept(this, context);
 
-                ;
-
                 return obj;
             default:
                 throw new EvalException("Internal parser error (PrimaryExpression)");
@@ -897,7 +895,7 @@ public class SqlGenerator
                 logger.debug(" = " + value.getClass().getName() + " with value '" + value + "'");
            }
          */
-        for (Enumeration e = n.nodeListOptional.elements(); e.hasMoreElements();) {
+        for (Enumeration<?> e = n.nodeListOptional.elements(); e.hasMoreElements();) {
             seq = (NodeSequence) e.nextElement();
             varComponentName = ((NodeToken) seq.elementAt(1)).tokenImage;
 
@@ -953,9 +951,9 @@ public class SqlGenerator
             } catch (EvalFallbackException ee) {
                 // I think this only occurs in replaced promptable values
                 
-                System.out.println("evaluating fallback for '" + functionName + "'");
+                logger.info("evaluating fallback for '" + functionName + "'");
                 argumentList = (List) evaluator.visit((Arguments) n.arguments, context);
-                ((EvalFunction) sqlFunction).evaluate(functionName, evalContext, argumentList);
+                return ((EvalFunction) sqlFunction).evaluate(functionName, evalContext, argumentList);
             }
 
         } else if (function instanceof EvalFunction) {
@@ -981,7 +979,7 @@ public class SqlGenerator
         if (n.nodeOptional.present()) {
             return n.nodeOptional.accept(this, context);
         } else {
-            return new ArrayList(0);
+            return new ArrayList<>(0);
         }
     }
 
@@ -997,11 +995,11 @@ public class SqlGenerator
      */
     public Object visit(ArgumentList n, EvalContext context) {
         NodeSequence seq;
-        List arguments = new ArrayList();
+        List<Object> arguments = new ArrayList<>();
 
         arguments.add(n.expression.accept(this, context));
 
-        for (Enumeration e = n.nodeListOptional.elements(); e.hasMoreElements();) {
+        for (Enumeration<?> e = n.nodeListOptional.elements(); e.hasMoreElements();) {
             seq = (NodeSequence) e.nextElement();
             arguments.add(seq.elementAt(1).accept(this, context));
         }
@@ -1030,11 +1028,11 @@ public class SqlGenerator
 
         switch (n.nodeChoice.which) {
             case 0:
-                return new Long(token);
+                return Long.valueOf(token);
             case 1:
-                return new Double(token);
+                return Double.valueOf(token);
             case 2:
-                return new Character(token.charAt(1));
+                return Character.valueOf(token.charAt(1));
             case 3:
                 return Text.unescapeJava(token.substring(1, token.length() - 1));
         }
