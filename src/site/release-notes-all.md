@@ -1,3 +1,10 @@
+# 1.0.35
+
+## Updates
+
+* XmlUtil.ContentHandlerTraverser
+* c3p0 properties
+
 # 1.0.33
 
 ## Updates

@@ -1,3 +1,4 @@
 ## Updates
 
-* Ignore getClass() exceptions in getStackTraceElementWithRevision()
+* XmlUtil.ContentHandlerTraverser
+* c3p0 properties
