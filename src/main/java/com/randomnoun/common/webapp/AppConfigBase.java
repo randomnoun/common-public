@@ -324,12 +324,14 @@ public abstract class AppConfigBase extends Properties {
 					} catch (PropertyVetoException e) {
 						throw new IllegalStateException("Could not set driverClass '" + driver + "' for c3p0 datasource", e);
 					}
+		        	// builtin props
 		        	@SuppressWarnings("unchecked")
 					Map<String,String> c3poProps = (Map<String, String>) PropertyParser.restrict(this, prefix + "c3p0", true);
-		        	// remove extensions from props
+		        	// remove extensions and non-builtins from props
 		        	for (Iterator<Map.Entry<String,String>> i = c3poProps.entrySet().iterator(); i.hasNext(); ) { 
 		        		Map.Entry<String,String> e=i.next(); 
 		        		if (e.getKey().startsWith("extensions.")) { i.remove(); }
+		        		if (e.getKey().startsWith("props.")) { i.remove(); }
 		        	}
 		        	Struct.setFromMap(cpds, c3poProps, false, true, false);
 		        	
@@ -337,6 +339,13 @@ public abstract class AppConfigBase extends Properties {
 		        	@SuppressWarnings("unchecked")
 					Map<String,String> c3poExtensionProps = (Map<String, String>) PropertyParser.restrict(this, prefix + "c3p0.extensions", true);
 		        	cpds.setExtensions(c3poExtensionProps);
+		        	
+		        	@SuppressWarnings("unchecked")
+		        	Map<String,String> c3poDatasourceProps = (Map<String, String>) PropertyParser.restrict(this, prefix + "c3p0.props", true);
+		        	Properties p = new Properties();
+		        	p.putAll(c3poDatasourceProps);
+		        	cpds.setProperties(p);
+		        	
 		        	cpds.setJdbcUrl(url);
 		        	if (!Text.isBlank(username)) {
 		        		cpds.setUser(username);
