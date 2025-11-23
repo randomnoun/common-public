@@ -113,20 +113,24 @@ public class SqlGeneratorTest {
 		
 		List<String> paramsList = new ArrayList<>(); // output params 
 		String result = expressionToSql(stringToExpression("a == 1"), paramsList, vars);
-		System.out.println(result); // ('something' = 1)
+		assertEquals("('something' = 1)", result);
+		System.out.println(result);
 		
 		result = expressionToSql(stringToExpression("id == 1"), paramsList, vars);
-		System.out.println(result); // (SOMETABLE.lngId = 1)
+		System.out.println(result);
+		assertEquals("(SOMETABLE.lngId = 1)", result);
 		
 		result = expressionToSql(stringToExpression("id == 1 && val > 2"), paramsList, vars);
-		System.out.println(result); // ((SOMETABLE.lngId = 1) AND (SOMETABLE.lngVal > 2))
+		System.out.println(result);
+		assertEquals("((SOMETABLE.lngId = 1) AND (SOMETABLE.lngVal > 2))", result);
 		
 		result = expressionToSql(stringToExpression("(id == 1 && val > 2) || textVal != \"USD\""), paramsList, vars);
-		System.out.println(result); // (((SOMETABLE.lngId = 1) AND (SOMETABLE.lngVal > 2)) OR (SOMETABLE.txtVal <> 'USD'))
-
+		System.out.println(result);
+		assertEquals("(((SOMETABLE.lngId = 1) AND (SOMETABLE.lngVal > 2)) OR (SOMETABLE.txtVal <> 'USD'))", result);
 		
 		result = expressionToSql(stringToExpression("id == userId"), paramsList, vars);
-		System.out.println(result); // (SOMETABLE.lngId = ?), paramList contains ["userId"]
+		System.out.println(result);
+		assertEquals("(SOMETABLE.lngId = ?)", result);
 		
 		// @TODO some function tests
 	}
