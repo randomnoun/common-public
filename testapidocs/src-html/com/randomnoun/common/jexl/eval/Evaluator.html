@@ -82,7 +82,7 @@
 <span class="source-line-no">069</span><span id="line-69">        public Object op(Object a, Object b) {</span>
 <span class="source-line-no">070</span><span id="line-70">            long longA = ((Long) a).longValue();</span>
 <span class="source-line-no">071</span><span id="line-71">            long longB = (b == null ? 0 : ((Long) b).longValue());</span>
-<span class="source-line-no">072</span><span id="line-72">            return new Long(longOp(longA, longB));</span>
+<span class="source-line-no">072</span><span id="line-72">            return Long.valueOf(longOp(longA, longB));</span>
 <span class="source-line-no">073</span><span id="line-73">        }</span>
 <span class="source-line-no">074</span><span id="line-74">        abstract long longOp(long a, long b);</span>
 <span class="source-line-no">075</span><span id="line-75">    }</span>
@@ -92,7 +92,7 @@
 <span class="source-line-no">079</span><span id="line-79">        public Object op(Object a, Object b) {</span>
 <span class="source-line-no">080</span><span id="line-80">            double doubleA = ((Double) a).doubleValue();</span>
 <span class="source-line-no">081</span><span id="line-81">            double doubleB = (b == null ? 0 : ((Double) b).doubleValue());</span>
-<span class="source-line-no">082</span><span id="line-82">            return new Double(doubleOp(doubleA, doubleB));</span>
+<span class="source-line-no">082</span><span id="line-82">            return Double.valueOf(doubleOp(doubleA, doubleB));</span>
 <span class="source-line-no">083</span><span id="line-83">        }</span>
 <span class="source-line-no">084</span><span id="line-84">        abstract double doubleOp(double a, double b);</span>
 <span class="source-line-no">085</span><span id="line-85">    }</span>
@@ -125,13 +125,13 @@
 <span class="source-line-no">112</span><span id="line-112"></span>
 <span class="source-line-no">113</span><span id="line-113">        if (a instanceof Double) {</span>
 <span class="source-line-no">114</span><span id="line-114">            if (b instanceof Number) {</span>
-<span class="source-line-no">115</span><span id="line-115">                return new Double(((Number) b).doubleValue());</span>
+<span class="source-line-no">115</span><span id="line-115">                return Double.valueOf(((Number) b).doubleValue());</span>
 <span class="source-line-no">116</span><span id="line-116">            }</span>
 <span class="source-line-no">117</span><span id="line-117">        }</span>
 <span class="source-line-no">118</span><span id="line-118"></span>
 <span class="source-line-no">119</span><span id="line-119">        if (a instanceof Long) {</span>
 <span class="source-line-no">120</span><span id="line-120">            if (b instanceof Number) {</span>
-<span class="source-line-no">121</span><span id="line-121">                return new Long(((Number) b).longValue());</span>
+<span class="source-line-no">121</span><span id="line-121">                return Long.valueOf(((Number) b).longValue());</span>
 <span class="source-line-no">122</span><span id="line-122">            }</span>
 <span class="source-line-no">123</span><span id="line-123">        }</span>
 <span class="source-line-no">124</span><span id="line-124"></span>
@@ -316,8 +316,8 @@
 <span class="source-line-no">303</span><span id="line-303"></span>
 <span class="source-line-no">304</span><span id="line-304">            // logger.debug("Running op '" + ops[which] + "' on lhs:" + lhs + ", rhs:" + rhs);</span>
 <span class="source-line-no">305</span><span id="line-305">            switch (which) {</span>
-<span class="source-line-no">306</span><span id="line-306">                case 0: lhs = new Boolean(result == 0); break;</span>
-<span class="source-line-no">307</span><span id="line-307">                case 1: lhs = new Boolean(result != 0); break;</span>
+<span class="source-line-no">306</span><span id="line-306">                case 0: lhs = Boolean.valueOf(result == 0); break;</span>
+<span class="source-line-no">307</span><span id="line-307">                case 1: lhs = Boolean.valueOf(result != 0); break;</span>
 <span class="source-line-no">308</span><span id="line-308">                default:</span>
 <span class="source-line-no">309</span><span id="line-309">                    throw new EvalException("Internal error - unexpected relational operation");</span>
 <span class="source-line-no">310</span><span id="line-310">            }</span>
@@ -366,10 +366,10 @@
 <span class="source-line-no">353</span><span id="line-353"></span>
 <span class="source-line-no">354</span><span id="line-354">            // logger.debug("Running op '" + ops[which] + "' on lhs:" + lhs + ", rhs:" + rhs);</span>
 <span class="source-line-no">355</span><span id="line-355">            switch (which) {</span>
-<span class="source-line-no">356</span><span id="line-356">                case 0: lhs = new Boolean(result &lt; 0); break;</span>
-<span class="source-line-no">357</span><span id="line-357">                case 1: lhs = new Boolean(result &gt; 0); break;</span>
-<span class="source-line-no">358</span><span id="line-358">                case 2: lhs = new Boolean(result &lt;= 0); break;</span>
-<span class="source-line-no">359</span><span id="line-359">                case 3: lhs = new Boolean(result &gt;= 0); break;</span>
+<span class="source-line-no">356</span><span id="line-356">                case 0: lhs = Boolean.valueOf(result &lt; 0); break;</span>
+<span class="source-line-no">357</span><span id="line-357">                case 1: lhs = Boolean.valueOf(result &gt; 0); break;</span>
+<span class="source-line-no">358</span><span id="line-358">                case 2: lhs = Boolean.valueOf(result &lt;= 0); break;</span>
+<span class="source-line-no">359</span><span id="line-359">                case 3: lhs = Boolean.valueOf(result &gt;= 0); break;</span>
 <span class="source-line-no">360</span><span id="line-360">                default:</span>
 <span class="source-line-no">361</span><span id="line-361">                    throw new EvalException("Internal error - unexpected relational operation");</span>
 <span class="source-line-no">362</span><span id="line-362">            }</span>
@@ -491,7 +491,7 @@
 <span class="source-line-no">478</span><span id="line-478">            switch (which) {</span>
 <span class="source-line-no">479</span><span id="line-479">                case 0:</span>
 <span class="source-line-no">480</span><span id="line-480">                    // long rhs =  makeNumeric ( ((Node) nl.nodes.get(0)).accept(this, context) ); </span>
-<span class="source-line-no">481</span><span id="line-481">                    // return new Long(~rhs); </span>
+<span class="source-line-no">481</span><span id="line-481">                    // return Long.valueOf(~rhs); </span>
 <span class="source-line-no">482</span><span id="line-482">                    throw new EvalException("~ not supported");</span>
 <span class="source-line-no">483</span><span id="line-483">                case 1:</span>
 <span class="source-line-no">484</span><span id="line-484">                    lhs = seq.elementAt(1).accept(this, context);</span>
@@ -674,11 +674,11 @@
 <span class="source-line-no">661</span><span id="line-661"></span>
 <span class="source-line-no">662</span><span id="line-662">        switch (n.nodeChoice.which) {</span>
 <span class="source-line-no">663</span><span id="line-663">            case 0:</span>
-<span class="source-line-no">664</span><span id="line-664">                return new Long(token);</span>
+<span class="source-line-no">664</span><span id="line-664">                return Long.valueOf(token);</span>
 <span class="source-line-no">665</span><span id="line-665">            case 1:</span>
-<span class="source-line-no">666</span><span id="line-666">                return new Double(token);</span>
+<span class="source-line-no">666</span><span id="line-666">                return Double.valueOf(token);</span>
 <span class="source-line-no">667</span><span id="line-667">            case 2:</span>
-<span class="source-line-no">668</span><span id="line-668">                return new Character(token.charAt(1));</span>
+<span class="source-line-no">668</span><span id="line-668">                return Character.valueOf(token.charAt(1));</span>
 <span class="source-line-no">669</span><span id="line-669">            case 3:</span>
 <span class="source-line-no">670</span><span id="line-670">                return Text.unescapeJava(token.substring(1, token.length() - 1));</span>
 <span class="source-line-no">671</span><span id="line-671">        }</span>

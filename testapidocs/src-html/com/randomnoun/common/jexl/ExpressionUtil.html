@@ -36,7 +36,7 @@
 <span class="source-line-no">023</span><span id="line-23">{</span>
 <span class="source-line-no">024</span><span id="line-24"></span>
 <span class="source-line-no">025</span><span id="line-25">    /** Convert Java expression String to a TopLevelExpression */</span>
-<span class="source-line-no">026</span><span id="line-26">    public static TopLevelExpression stringToExpression(String expressionString)</span>
+<span class="source-line-no">026</span><span id="line-26">    public TopLevelExpression stringToExpression(String expressionString)</span>
 <span class="source-line-no">027</span><span id="line-27">        throws java.text.ParseException</span>
 <span class="source-line-no">028</span><span id="line-28">    {</span>
 <span class="source-line-no">029</span><span id="line-29">        StringReader reader = new StringReader(expressionString);</span>
@@ -55,7 +55,7 @@
 <span class="source-line-no">042</span><span id="line-42">    }</span>
 <span class="source-line-no">043</span><span id="line-43"></span>
 <span class="source-line-no">044</span><span id="line-44">    /** Convert TopLevelExpression to a Java expression String */</span>
-<span class="source-line-no">045</span><span id="line-45">    public static String expressionToString(TopLevelExpression expression) {</span>
+<span class="source-line-no">045</span><span id="line-45">    public String expressionToString(TopLevelExpression expression) {</span>
 <span class="source-line-no">046</span><span id="line-46">        ByteArrayOutputStream baos = new ByteArrayOutputStream();</span>
 <span class="source-line-no">047</span><span id="line-47">        PrintWriter out = new PrintWriter(baos);</span>
 <span class="source-line-no">048</span><span id="line-48">        TreeDumper dumper = new TreeDumper(out);</span>

@@ -337,133 +337,142 @@
 <span class="source-line-no">324</span><span id="line-324">                                        } catch (PropertyVetoException e) {</span>
 <span class="source-line-no">325</span><span id="line-325">                                                throw new IllegalStateException("Could not set driverClass '" + driver + "' for c3p0 datasource", e);</span>
 <span class="source-line-no">326</span><span id="line-326">                                        }</span>
-<span class="source-line-no">327</span><span id="line-327">                                @SuppressWarnings("unchecked")</span>
-<span class="source-line-no">328</span><span id="line-328">                                        Map&lt;String,String&gt; c3poProps = (Map&lt;String, String&gt;) PropertyParser.restrict(this, prefix + "c3p0", true);</span>
-<span class="source-line-no">329</span><span id="line-329">                                // remove extensions from props</span>
-<span class="source-line-no">330</span><span id="line-330">                                for (Iterator&lt;Map.Entry&lt;String,String&gt;&gt; i = c3poProps.entrySet().iterator(); i.hasNext(); ) { </span>
-<span class="source-line-no">331</span><span id="line-331">                                        Map.Entry&lt;String,String&gt; e=i.next(); </span>
-<span class="source-line-no">332</span><span id="line-332">                                        if (e.getKey().startsWith("extensions.")) { i.remove(); }</span>
-<span class="source-line-no">333</span><span id="line-333">                                }</span>
-<span class="source-line-no">334</span><span id="line-334">                                Struct.setFromMap(cpds, c3poProps, false, true, false);</span>
-<span class="source-line-no">335</span><span id="line-335">                                </span>
-<span class="source-line-no">336</span><span id="line-336">                                // set extensions separately</span>
-<span class="source-line-no">337</span><span id="line-337">                                @SuppressWarnings("unchecked")</span>
-<span class="source-line-no">338</span><span id="line-338">                                        Map&lt;String,String&gt; c3poExtensionProps = (Map&lt;String, String&gt;) PropertyParser.restrict(this, prefix + "c3p0.extensions", true);</span>
-<span class="source-line-no">339</span><span id="line-339">                                cpds.setExtensions(c3poExtensionProps);</span>
-<span class="source-line-no">340</span><span id="line-340">                                cpds.setJdbcUrl(url);</span>
-<span class="source-line-no">341</span><span id="line-341">                                if (!Text.isBlank(username)) {</span>
-<span class="source-line-no">342</span><span id="line-342">                                        cpds.setUser(username);</span>
-<span class="source-line-no">343</span><span id="line-343">                                        cpds.setPassword(password);</span>
-<span class="source-line-no">344</span><span id="line-344">                                }</span>
-<span class="source-line-no">345</span><span id="line-345">                                ds = cpds;</span>
-<span class="source-line-no">346</span><span id="line-346">                                </span>
-<span class="source-line-no">347</span><span id="line-347">                        } else if (connectionType.equals("jndi")) {</span>
-<span class="source-line-no">348</span><span id="line-348">                                String jndiName = getProperty(prefix + "jndiName");</span>
-<span class="source-line-no">349</span><span id="line-349">                                        try {</span>
-<span class="source-line-no">350</span><span id="line-350">                                                InitialContext ctx = new InitialContext();</span>
-<span class="source-line-no">351</span><span id="line-351">                                                Context envContext  = (Context) ctx.lookup("java:/comp/env");</span>
-<span class="source-line-no">352</span><span id="line-352">                                                ds = (DataSource) envContext.lookup(jndiName);</span>
-<span class="source-line-no">353</span><span id="line-353">                                                // could fallback to global datasource if comp/env is not here</span>
-<span class="source-line-no">354</span><span id="line-354">                                        } catch (NamingException e) {</span>
-<span class="source-line-no">355</span><span id="line-355">                                                throw new IllegalStateException("Could not retrieve datasource '" + jndiName + "' from JNDI", e);</span>
-<span class="source-line-no">356</span><span id="line-356">                                        }</span>
-<span class="source-line-no">357</span><span id="line-357">                        } else {</span>
-<span class="source-line-no">358</span><span id="line-358">                                throw new IllegalStateException("Unknown " + prefix + "connectionType property '" + connectionType + "')");</span>
-<span class="source-line-no">359</span><span id="line-359">                        }</span>
-<span class="source-line-no">360</span><span id="line-360">                        </span>
-<span class="source-line-no">361</span><span id="line-361">                        jt = new JdbcTemplate(ds);</span>
-<span class="source-line-no">362</span><span id="line-362">                        dataSources.put(connectionName, ds);</span>
-<span class="source-line-no">363</span><span id="line-363">                        jdbcTemplates.put(connectionName, jt);</span>
-<span class="source-line-no">364</span><span id="line-364">                }</span>
-<span class="source-line-no">365</span><span id="line-365">        }</span>
-<span class="source-line-no">366</span><span id="line-366">        return jt;</span>
-<span class="source-line-no">367</span><span id="line-367">    }</span>
-<span class="source-line-no">368</span><span id="line-368">    </span>
-<span class="source-line-no">369</span><span id="line-369">    </span>
-<span class="source-line-no">370</span><span id="line-370">        /** Return the security context for this application</span>
-<span class="source-line-no">371</span><span id="line-371">         * </span>
-<span class="source-line-no">372</span><span id="line-372">         * @return the security context for this application</span>
-<span class="source-line-no">373</span><span id="line-373">         */</span>
-<span class="source-line-no">374</span><span id="line-374">    public SecurityContext getSecurityContext() {</span>
-<span class="source-line-no">375</span><span id="line-375">        if (securityContext==null) {</span>
-<span class="source-line-no">376</span><span id="line-376">                throw new IllegalStateException("Security context not initialised");</span>
-<span class="source-line-no">377</span><span id="line-377">        }</span>
-<span class="source-line-no">378</span><span id="line-378">        return securityContext;</span>
-<span class="source-line-no">379</span><span id="line-379">    }</span>
-<span class="source-line-no">380</span><span id="line-380">    </span>
-<span class="source-line-no">381</span><span id="line-381"></span>
-<span class="source-line-no">382</span><span id="line-382">        /** Determines whether a user 'may have' a permission on the application. </span>
-<span class="source-line-no">383</span><span id="line-383">         * See the hasPermission method in SecurityContext for more details.</span>
-<span class="source-line-no">384</span><span id="line-384">         *</span>
-<span class="source-line-no">385</span><span id="line-385">         * @param user The user we are checking permissions for. </span>
-<span class="source-line-no">386</span><span id="line-386">         * @param permission The permission we are checking.</span>
-<span class="source-line-no">387</span><span id="line-387">         * @return 'true' if the user may be authorised to perform the permission,</span>
-<span class="source-line-no">388</span><span id="line-388">         *   false otherwise</span>
-<span class="source-line-no">389</span><span id="line-389">         */</span>
-<span class="source-line-no">390</span><span id="line-390">        public boolean hasPermission(User user, String permission)</span>
-<span class="source-line-no">391</span><span id="line-391">        {</span>
-<span class="source-line-no">392</span><span id="line-392">                if ("false".equals(getProperty("auth.enableSecurityContext"))) { return true; }</span>
-<span class="source-line-no">393</span><span id="line-393">                SecurityContext securityContext = getSecurityContext();</span>
-<span class="source-line-no">394</span><span id="line-394">                return securityContext.hasPermission(user, permission);</span>
-<span class="source-line-no">395</span><span id="line-395">        }</span>
-<span class="source-line-no">396</span><span id="line-396"></span>
-<span class="source-line-no">397</span><span id="line-397">        /** Determines whether a user 'may have' a permission on the application. </span>
-<span class="source-line-no">398</span><span id="line-398">         * See the hasPermission method in SecurityContext for more details. If the user</span>
-<span class="source-line-no">399</span><span id="line-399">         * does not have the permission, then a SecurityException is thrown</span>
-<span class="source-line-no">400</span><span id="line-400">         *</span>
-<span class="source-line-no">401</span><span id="line-401">         * @see SecurityContext#hasPermission(com.randomnoun.common.security.User, String)</span>
-<span class="source-line-no">402</span><span id="line-402">         *</span>
-<span class="source-line-no">403</span><span id="line-403">         * @param user The user we are checking permissions for. </span>
-<span class="source-line-no">404</span><span id="line-404">         * @param permission The permission we are checking.</span>
-<span class="source-line-no">405</span><span id="line-405">         * </span>
-<span class="source-line-no">406</span><span id="line-406">         * @throws SecurityException if the user does not have the supplied permission </span>
-<span class="source-line-no">407</span><span id="line-407">         */</span>
-<span class="source-line-no">408</span><span id="line-408">        public void checkPermission(User user, String permission) throws SecurityException {</span>
-<span class="source-line-no">409</span><span id="line-409">                if (!hasPermission(user,  permission)) {</span>
-<span class="source-line-no">410</span><span id="line-410">                        throw new SecurityException("User does not have '" + permission + "' permission");</span>
-<span class="source-line-no">411</span><span id="line-411">                }</span>
-<span class="source-line-no">412</span><span id="line-412">    }</span>
-<span class="source-line-no">413</span><span id="line-413"></span>
-<span class="source-line-no">414</span><span id="line-414">        /** Determines whether a user has a permission on the application. </span>
-<span class="source-line-no">415</span><span id="line-415">         * See the hasPermission method in SecurityContext for more details.</span>
-<span class="source-line-no">416</span><span id="line-416">         *</span>
-<span class="source-line-no">417</span><span id="line-417">         * @param user The user we are checking permissions for.</span>
-<span class="source-line-no">418</span><span id="line-418">         * @param permission The permission we are checking.</span>
-<span class="source-line-no">419</span><span id="line-419">         * @param resourceContext Fine-grained resource context</span>
-<span class="source-line-no">420</span><span id="line-420">         * @return 'true' if the user is authorised to perform the permission,</span>
-<span class="source-line-no">421</span><span id="line-421">         *   false otherwise</span>
-<span class="source-line-no">422</span><span id="line-422">         */</span>
-<span class="source-line-no">423</span><span id="line-423">        public boolean hasPermission(User user, String permission, Map&lt;String, Object&gt; resourceContext)</span>
-<span class="source-line-no">424</span><span id="line-424">        {</span>
-<span class="source-line-no">425</span><span id="line-425">                if ("false".equals(getProperty("auth.enableSecurityContext"))) { return true; }</span>
-<span class="source-line-no">426</span><span id="line-426">                SecurityContext securityContext = getSecurityContext();</span>
-<span class="source-line-no">427</span><span id="line-427">                return securityContext.hasPermission(user, permission, resourceContext);</span>
-<span class="source-line-no">428</span><span id="line-428">        }</span>
-<span class="source-line-no">429</span><span id="line-429"></span>
-<span class="source-line-no">430</span><span id="line-430"></span>
-<span class="source-line-no">431</span><span id="line-431">        /** Provides direct access to the datasource for this application. Most applications should use the </span>
-<span class="source-line-no">432</span><span id="line-432">         * {@link #getJdbcTemplate()} method instead.</span>
-<span class="source-line-no">433</span><span id="line-433">         * </span>
-<span class="source-line-no">434</span><span id="line-434">         * @return the dataSource underlying the jdbcTemplate to the database</span>
-<span class="source-line-no">435</span><span id="line-435">         */</span>
-<span class="source-line-no">436</span><span id="line-436">        public DataSource getDataSource() {</span>
-<span class="source-line-no">437</span><span id="line-437">                getJdbcTemplate(); // make sure default dataSource is initialised</span>
-<span class="source-line-no">438</span><span id="line-438">                return dataSources.get(null);</span>
-<span class="source-line-no">439</span><span id="line-439">        }</span>
-<span class="source-line-no">440</span><span id="line-440"></span>
-<span class="source-line-no">441</span><span id="line-441">        /** Provides direct access to a named datasource for this application. Most applications should use the </span>
-<span class="source-line-no">442</span><span id="line-442">         * {@link #getJdbcTemplate(String)} method instead.</span>
-<span class="source-line-no">443</span><span id="line-443">         * </span>
-<span class="source-line-no">444</span><span id="line-444">         * @param connectionName the name of the connection</span>
-<span class="source-line-no">445</span><span id="line-445">         * </span>
-<span class="source-line-no">446</span><span id="line-446">         * @return the dataSource underlying the named jdbcTemplate to the database </span>
-<span class="source-line-no">447</span><span id="line-447">         */</span>
-<span class="source-line-no">448</span><span id="line-448">        public DataSource getDataSource(String connectionName) {</span>
-<span class="source-line-no">449</span><span id="line-449">                getJdbcTemplate(connectionName); // make sure default dataSource is initialised</span>
-<span class="source-line-no">450</span><span id="line-450">                return dataSources.get(connectionName);</span>
-<span class="source-line-no">451</span><span id="line-451">        }</span>
-<span class="source-line-no">452</span><span id="line-452"></span>
-<span class="source-line-no">453</span><span id="line-453">}</span>
+<span class="source-line-no">327</span><span id="line-327">                                // builtin props</span>
+<span class="source-line-no">328</span><span id="line-328">                                @SuppressWarnings("unchecked")</span>
+<span class="source-line-no">329</span><span id="line-329">                                        Map&lt;String,String&gt; c3poProps = (Map&lt;String, String&gt;) PropertyParser.restrict(this, prefix + "c3p0", true);</span>
+<span class="source-line-no">330</span><span id="line-330">                                // remove extensions and non-builtins from props</span>
+<span class="source-line-no">331</span><span id="line-331">                                for (Iterator&lt;Map.Entry&lt;String,String&gt;&gt; i = c3poProps.entrySet().iterator(); i.hasNext(); ) { </span>
+<span class="source-line-no">332</span><span id="line-332">                                        Map.Entry&lt;String,String&gt; e=i.next(); </span>
+<span class="source-line-no">333</span><span id="line-333">                                        if (e.getKey().startsWith("extensions.")) { i.remove(); }</span>
+<span class="source-line-no">334</span><span id="line-334">                                        if (e.getKey().startsWith("props.")) { i.remove(); }</span>
+<span class="source-line-no">335</span><span id="line-335">                                }</span>
+<span class="source-line-no">336</span><span id="line-336">                                Struct.setFromMap(cpds, c3poProps, false, true, false);</span>
+<span class="source-line-no">337</span><span id="line-337">                                </span>
+<span class="source-line-no">338</span><span id="line-338">                                // set extensions separately</span>
+<span class="source-line-no">339</span><span id="line-339">                                @SuppressWarnings("unchecked")</span>
+<span class="source-line-no">340</span><span id="line-340">                                        Map&lt;String,String&gt; c3poExtensionProps = (Map&lt;String, String&gt;) PropertyParser.restrict(this, prefix + "c3p0.extensions", true);</span>
+<span class="source-line-no">341</span><span id="line-341">                                cpds.setExtensions(c3poExtensionProps);</span>
+<span class="source-line-no">342</span><span id="line-342">                                </span>
+<span class="source-line-no">343</span><span id="line-343">                                @SuppressWarnings("unchecked")</span>
+<span class="source-line-no">344</span><span id="line-344">                                Map&lt;String,String&gt; c3poDatasourceProps = (Map&lt;String, String&gt;) PropertyParser.restrict(this, prefix + "c3p0.props", true);</span>
+<span class="source-line-no">345</span><span id="line-345">                                Properties p = new Properties();</span>
+<span class="source-line-no">346</span><span id="line-346">                                p.putAll(c3poDatasourceProps);</span>
+<span class="source-line-no">347</span><span id="line-347">                                cpds.setProperties(p);</span>
+<span class="source-line-no">348</span><span id="line-348">                                </span>
+<span class="source-line-no">349</span><span id="line-349">                                cpds.setJdbcUrl(url);</span>
+<span class="source-line-no">350</span><span id="line-350">                                if (!Text.isBlank(username)) {</span>
+<span class="source-line-no">351</span><span id="line-351">                                        cpds.setUser(username);</span>
+<span class="source-line-no">352</span><span id="line-352">                                        cpds.setPassword(password);</span>
+<span class="source-line-no">353</span><span id="line-353">                                }</span>
+<span class="source-line-no">354</span><span id="line-354">                                ds = cpds;</span>
+<span class="source-line-no">355</span><span id="line-355">                                </span>
+<span class="source-line-no">356</span><span id="line-356">                        } else if (connectionType.equals("jndi")) {</span>
+<span class="source-line-no">357</span><span id="line-357">                                String jndiName = getProperty(prefix + "jndiName");</span>
+<span class="source-line-no">358</span><span id="line-358">                                        try {</span>
+<span class="source-line-no">359</span><span id="line-359">                                                InitialContext ctx = new InitialContext();</span>
+<span class="source-line-no">360</span><span id="line-360">                                                Context envContext  = (Context) ctx.lookup("java:/comp/env");</span>
+<span class="source-line-no">361</span><span id="line-361">                                                ds = (DataSource) envContext.lookup(jndiName);</span>
+<span class="source-line-no">362</span><span id="line-362">                                                // could fallback to global datasource if comp/env is not here</span>
+<span class="source-line-no">363</span><span id="line-363">                                        } catch (NamingException e) {</span>
+<span class="source-line-no">364</span><span id="line-364">                                                throw new IllegalStateException("Could not retrieve datasource '" + jndiName + "' from JNDI", e);</span>
+<span class="source-line-no">365</span><span id="line-365">                                        }</span>
+<span class="source-line-no">366</span><span id="line-366">                        } else {</span>
+<span class="source-line-no">367</span><span id="line-367">                                throw new IllegalStateException("Unknown " + prefix + "connectionType property '" + connectionType + "')");</span>
+<span class="source-line-no">368</span><span id="line-368">                        }</span>
+<span class="source-line-no">369</span><span id="line-369">                        </span>
+<span class="source-line-no">370</span><span id="line-370">                        jt = new JdbcTemplate(ds);</span>
+<span class="source-line-no">371</span><span id="line-371">                        dataSources.put(connectionName, ds);</span>
+<span class="source-line-no">372</span><span id="line-372">                        jdbcTemplates.put(connectionName, jt);</span>
+<span class="source-line-no">373</span><span id="line-373">                }</span>
+<span class="source-line-no">374</span><span id="line-374">        }</span>
+<span class="source-line-no">375</span><span id="line-375">        return jt;</span>
+<span class="source-line-no">376</span><span id="line-376">    }</span>
+<span class="source-line-no">377</span><span id="line-377">    </span>
+<span class="source-line-no">378</span><span id="line-378">    </span>
+<span class="source-line-no">379</span><span id="line-379">        /** Return the security context for this application</span>
+<span class="source-line-no">380</span><span id="line-380">         * </span>
+<span class="source-line-no">381</span><span id="line-381">         * @return the security context for this application</span>
+<span class="source-line-no">382</span><span id="line-382">         */</span>
+<span class="source-line-no">383</span><span id="line-383">    public SecurityContext getSecurityContext() {</span>
+<span class="source-line-no">384</span><span id="line-384">        if (securityContext==null) {</span>
+<span class="source-line-no">385</span><span id="line-385">                throw new IllegalStateException("Security context not initialised");</span>
+<span class="source-line-no">386</span><span id="line-386">        }</span>
+<span class="source-line-no">387</span><span id="line-387">        return securityContext;</span>
+<span class="source-line-no">388</span><span id="line-388">    }</span>
+<span class="source-line-no">389</span><span id="line-389">    </span>
+<span class="source-line-no">390</span><span id="line-390"></span>
+<span class="source-line-no">391</span><span id="line-391">        /** Determines whether a user 'may have' a permission on the application. </span>
+<span class="source-line-no">392</span><span id="line-392">         * See the hasPermission method in SecurityContext for more details.</span>
+<span class="source-line-no">393</span><span id="line-393">         *</span>
+<span class="source-line-no">394</span><span id="line-394">         * @param user The user we are checking permissions for. </span>
+<span class="source-line-no">395</span><span id="line-395">         * @param permission The permission we are checking.</span>
+<span class="source-line-no">396</span><span id="line-396">         * @return 'true' if the user may be authorised to perform the permission,</span>
+<span class="source-line-no">397</span><span id="line-397">         *   false otherwise</span>
+<span class="source-line-no">398</span><span id="line-398">         */</span>
+<span class="source-line-no">399</span><span id="line-399">        public boolean hasPermission(User user, String permission)</span>
+<span class="source-line-no">400</span><span id="line-400">        {</span>
+<span class="source-line-no">401</span><span id="line-401">                if ("false".equals(getProperty("auth.enableSecurityContext"))) { return true; }</span>
+<span class="source-line-no">402</span><span id="line-402">                SecurityContext securityContext = getSecurityContext();</span>
+<span class="source-line-no">403</span><span id="line-403">                return securityContext.hasPermission(user, permission);</span>
+<span class="source-line-no">404</span><span id="line-404">        }</span>
+<span class="source-line-no">405</span><span id="line-405"></span>
+<span class="source-line-no">406</span><span id="line-406">        /** Determines whether a user 'may have' a permission on the application. </span>
+<span class="source-line-no">407</span><span id="line-407">         * See the hasPermission method in SecurityContext for more details. If the user</span>
+<span class="source-line-no">408</span><span id="line-408">         * does not have the permission, then a SecurityException is thrown</span>
+<span class="source-line-no">409</span><span id="line-409">         *</span>
+<span class="source-line-no">410</span><span id="line-410">         * @see SecurityContext#hasPermission(com.randomnoun.common.security.User, String)</span>
+<span class="source-line-no">411</span><span id="line-411">         *</span>
+<span class="source-line-no">412</span><span id="line-412">         * @param user The user we are checking permissions for. </span>
+<span class="source-line-no">413</span><span id="line-413">         * @param permission The permission we are checking.</span>
+<span class="source-line-no">414</span><span id="line-414">         * </span>
+<span class="source-line-no">415</span><span id="line-415">         * @throws SecurityException if the user does not have the supplied permission </span>
+<span class="source-line-no">416</span><span id="line-416">         */</span>
+<span class="source-line-no">417</span><span id="line-417">        public void checkPermission(User user, String permission) throws SecurityException {</span>
+<span class="source-line-no">418</span><span id="line-418">                if (!hasPermission(user,  permission)) {</span>
+<span class="source-line-no">419</span><span id="line-419">                        throw new SecurityException("User does not have '" + permission + "' permission");</span>
+<span class="source-line-no">420</span><span id="line-420">                }</span>
+<span class="source-line-no">421</span><span id="line-421">    }</span>
+<span class="source-line-no">422</span><span id="line-422"></span>
+<span class="source-line-no">423</span><span id="line-423">        /** Determines whether a user has a permission on the application. </span>
+<span class="source-line-no">424</span><span id="line-424">         * See the hasPermission method in SecurityContext for more details.</span>
+<span class="source-line-no">425</span><span id="line-425">         *</span>
+<span class="source-line-no">426</span><span id="line-426">         * @param user The user we are checking permissions for.</span>
+<span class="source-line-no">427</span><span id="line-427">         * @param permission The permission we are checking.</span>
+<span class="source-line-no">428</span><span id="line-428">         * @param resourceContext Fine-grained resource context</span>
+<span class="source-line-no">429</span><span id="line-429">         * @return 'true' if the user is authorised to perform the permission,</span>
+<span class="source-line-no">430</span><span id="line-430">         *   false otherwise</span>
+<span class="source-line-no">431</span><span id="line-431">         */</span>
+<span class="source-line-no">432</span><span id="line-432">        public boolean hasPermission(User user, String permission, Map&lt;String, Object&gt; resourceContext)</span>
+<span class="source-line-no">433</span><span id="line-433">        {</span>
+<span class="source-line-no">434</span><span id="line-434">                if ("false".equals(getProperty("auth.enableSecurityContext"))) { return true; }</span>
+<span class="source-line-no">435</span><span id="line-435">                SecurityContext securityContext = getSecurityContext();</span>
+<span class="source-line-no">436</span><span id="line-436">                return securityContext.hasPermission(user, permission, resourceContext);</span>
+<span class="source-line-no">437</span><span id="line-437">        }</span>
+<span class="source-line-no">438</span><span id="line-438"></span>
+<span class="source-line-no">439</span><span id="line-439"></span>
+<span class="source-line-no">440</span><span id="line-440">        /** Provides direct access to the datasource for this application. Most applications should use the </span>
+<span class="source-line-no">441</span><span id="line-441">         * {@link #getJdbcTemplate()} method instead.</span>
+<span class="source-line-no">442</span><span id="line-442">         * </span>
+<span class="source-line-no">443</span><span id="line-443">         * @return the dataSource underlying the jdbcTemplate to the database</span>
+<span class="source-line-no">444</span><span id="line-444">         */</span>
+<span class="source-line-no">445</span><span id="line-445">        public DataSource getDataSource() {</span>
+<span class="source-line-no">446</span><span id="line-446">                getJdbcTemplate(); // make sure default dataSource is initialised</span>
+<span class="source-line-no">447</span><span id="line-447">                return dataSources.get(null);</span>
+<span class="source-line-no">448</span><span id="line-448">        }</span>
+<span class="source-line-no">449</span><span id="line-449"></span>
+<span class="source-line-no">450</span><span id="line-450">        /** Provides direct access to a named datasource for this application. Most applications should use the </span>
+<span class="source-line-no">451</span><span id="line-451">         * {@link #getJdbcTemplate(String)} method instead.</span>
+<span class="source-line-no">452</span><span id="line-452">         * </span>
+<span class="source-line-no">453</span><span id="line-453">         * @param connectionName the name of the connection</span>
+<span class="source-line-no">454</span><span id="line-454">         * </span>
+<span class="source-line-no">455</span><span id="line-455">         * @return the dataSource underlying the named jdbcTemplate to the database </span>
+<span class="source-line-no">456</span><span id="line-456">         */</span>
+<span class="source-line-no">457</span><span id="line-457">        public DataSource getDataSource(String connectionName) {</span>
+<span class="source-line-no">458</span><span id="line-458">                getJdbcTemplate(connectionName); // make sure default dataSource is initialised</span>
+<span class="source-line-no">459</span><span id="line-459">                return dataSources.get(connectionName);</span>
+<span class="source-line-no">460</span><span id="line-460">        }</span>
+<span class="source-line-no">461</span><span id="line-461"></span>
+<span class="source-line-no">462</span><span id="line-462">}</span>
 
 
 

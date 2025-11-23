@@ -232,7 +232,7 @@
 <span class="source-line-no">219</span><span id="line-219">        public static final String DATABASE_JET = "JET";</span>
 <span class="source-line-no">220</span><span id="line-220"></span>
 <span class="source-line-no">221</span><span id="line-221">        </span>
-<span class="source-line-no">222</span><span id="line-222">    // these MUST be non-printable to reduce the chance of conflicts within strings.</span>
+<span class="source-line-no">222</span><span id="line-222">    // these are non-printable to reduce the chance of conflicts within strings.</span>
 <span class="source-line-no">223</span><span id="line-223"></span>
 <span class="source-line-no">224</span><span id="line-224">    /** Used to internally delimit positional paramaeters in generated SQL */</span>
 <span class="source-line-no">225</span><span id="line-225">    private static final String POS_MARKER_LEFT = "\uF0000";</span>
@@ -580,7 +580,7 @@
 <span class="source-line-no">567</span><span id="line-567">        // replace {positionalNames} with '?' markers and remember what we've hit so far ... </span>
 <span class="source-line-no">568</span><span id="line-568">        int pos = sql.indexOf(POS_MARKER_LEFT);</span>
 <span class="source-line-no">569</span><span id="line-569">        int pos2;</span>
-<span class="source-line-no">570</span><span id="line-570">        List paramList = new ArrayList();</span>
+<span class="source-line-no">570</span><span id="line-570">        List&lt;String&gt; paramList = new ArrayList&lt;&gt;();</span>
 <span class="source-line-no">571</span><span id="line-571"></span>
 <span class="source-line-no">572</span><span id="line-572">        while (pos != -1) {</span>
 <span class="source-line-no">573</span><span id="line-573">            pos2 = sql.indexOf(POS_MARKER_RIGHT, pos + POS_MARKER_LEFT.length());</span>
@@ -618,7 +618,7 @@
 <span class="source-line-no">605</span><span id="line-605"></span>
 <span class="source-line-no">606</span><span id="line-606">        lhs = n.conditionalAndExpression.accept(this, context);</span>
 <span class="source-line-no">607</span><span id="line-607"></span>
-<span class="source-line-no">608</span><span id="line-608">        for (Enumeration e = n.nodeListOptional.elements(); e.hasMoreElements();) {</span>
+<span class="source-line-no">608</span><span id="line-608">        for (Enumeration&lt;?&gt; e = n.nodeListOptional.elements(); e.hasMoreElements();) {</span>
 <span class="source-line-no">609</span><span id="line-609">            seq = (NodeSequence) e.nextElement();</span>
 <span class="source-line-no">610</span><span id="line-610">            rhs = seq.elementAt(1).accept(this, context);</span>
 <span class="source-line-no">611</span><span id="line-611">            lhs = new SqlText("(" + toSql(evalContext, lhs) + " OR " + toSql(evalContext, rhs) + ")");</span>
@@ -642,7 +642,7 @@
 <span class="source-line-no">629</span><span id="line-629"></span>
 <span class="source-line-no">630</span><span id="line-630">        lhs = n.equalityExpression.accept(this, context);</span>
 <span class="source-line-no">631</span><span id="line-631"></span>
-<span class="source-line-no">632</span><span id="line-632">        for (Enumeration e = n.nodeListOptional.elements(); e.hasMoreElements();) {</span>
+<span class="source-line-no">632</span><span id="line-632">        for (Enumeration&lt;?&gt; e = n.nodeListOptional.elements(); e.hasMoreElements();) {</span>
 <span class="source-line-no">633</span><span id="line-633">            seq = (NodeSequence) e.nextElement();</span>
 <span class="source-line-no">634</span><span id="line-634">            rhs = seq.elementAt(1).accept(this, context);</span>
 <span class="source-line-no">635</span><span id="line-635">            lhs = new SqlText("(" + toSql(evalContext, lhs) + " AND " + toSql(evalContext, rhs) + ")");</span>
@@ -667,7 +667,7 @@
 <span class="source-line-no">654</span><span id="line-654"></span>
 <span class="source-line-no">655</span><span id="line-655">        lhs = n.relationalExpression.accept(this, context);</span>
 <span class="source-line-no">656</span><span id="line-656"></span>
-<span class="source-line-no">657</span><span id="line-657">        for (Enumeration e = n.nodeListOptional.elements(); e.hasMoreElements();) {</span>
+<span class="source-line-no">657</span><span id="line-657">        for (Enumeration&lt;?&gt; e = n.nodeListOptional.elements(); e.hasMoreElements();) {</span>
 <span class="source-line-no">658</span><span id="line-658">            seq = (NodeSequence) e.nextElement();</span>
 <span class="source-line-no">659</span><span id="line-659">            rhs = seq.elementAt(1).accept(this, context);</span>
 <span class="source-line-no">660</span><span id="line-660"></span>
@@ -707,7 +707,7 @@
 <span class="source-line-no">694</span><span id="line-694"></span>
 <span class="source-line-no">695</span><span id="line-695">        lhs = n.additiveExpression.accept(this, context);</span>
 <span class="source-line-no">696</span><span id="line-696"></span>
-<span class="source-line-no">697</span><span id="line-697">        for (Enumeration e = n.nodeListOptional.elements(); e.hasMoreElements();) {</span>
+<span class="source-line-no">697</span><span id="line-697">        for (Enumeration&lt;?&gt; e = n.nodeListOptional.elements(); e.hasMoreElements();) {</span>
 <span class="source-line-no">698</span><span id="line-698">            seq = (NodeSequence) e.nextElement();</span>
 <span class="source-line-no">699</span><span id="line-699">            rhs = seq.elementAt(1).accept(this, context);</span>
 <span class="source-line-no">700</span><span id="line-700"></span>
@@ -752,7 +752,7 @@
 <span class="source-line-no">739</span><span id="line-739"></span>
 <span class="source-line-no">740</span><span id="line-740">        lhs = n.multiplicativeExpression.accept(this, context);</span>
 <span class="source-line-no">741</span><span id="line-741"></span>
-<span class="source-line-no">742</span><span id="line-742">        for (Enumeration e = n.nodeListOptional.elements(); e.hasMoreElements();) {</span>
+<span class="source-line-no">742</span><span id="line-742">        for (Enumeration&lt;?&gt; e = n.nodeListOptional.elements(); e.hasMoreElements();) {</span>
 <span class="source-line-no">743</span><span id="line-743">            seq = (NodeSequence) e.nextElement();</span>
 <span class="source-line-no">744</span><span id="line-744">            rhs = seq.elementAt(1).accept(this, context);</span>
 <span class="source-line-no">745</span><span id="line-745"></span>
@@ -792,7 +792,7 @@
 <span class="source-line-no">779</span><span id="line-779"></span>
 <span class="source-line-no">780</span><span id="line-780">        EvalContext evalContext = (EvalContext) context;</span>
 <span class="source-line-no">781</span><span id="line-781"></span>
-<span class="source-line-no">782</span><span id="line-782">        for (Enumeration e = n.nodeListOptional.elements(); e.hasMoreElements();) {</span>
+<span class="source-line-no">782</span><span id="line-782">        for (Enumeration&lt;?&gt; e = n.nodeListOptional.elements(); e.hasMoreElements();) {</span>
 <span class="source-line-no">783</span><span id="line-783">            seq = (NodeSequence) e.nextElement();</span>
 <span class="source-line-no">784</span><span id="line-784">            rhs = seq.elementAt(1).accept(this, context);</span>
 <span class="source-line-no">785</span><span id="line-785"></span>
@@ -875,217 +875,215 @@
 <span class="source-line-no">862</span><span id="line-862">                seq = (NodeSequence) n.nodeChoice.choice;</span>
 <span class="source-line-no">863</span><span id="line-863">                Object obj = seq.elementAt(1).accept(this, context);</span>
 <span class="source-line-no">864</span><span id="line-864"></span>
-<span class="source-line-no">865</span><span id="line-865">                ;</span>
-<span class="source-line-no">866</span><span id="line-866"></span>
-<span class="source-line-no">867</span><span id="line-867">                return obj;</span>
-<span class="source-line-no">868</span><span id="line-868">            default:</span>
-<span class="source-line-no">869</span><span id="line-869">                throw new EvalException("Internal parser error (PrimaryExpression)");</span>
-<span class="source-line-no">870</span><span id="line-870">        }</span>
-<span class="source-line-no">871</span><span id="line-871">    }</span>
-<span class="source-line-no">872</span><span id="line-872"></span>
-<span class="source-line-no">873</span><span id="line-873">    /** Generate the SQL for a Name node.</span>
-<span class="source-line-no">874</span><span id="line-874">     *</span>
-<span class="source-line-no">875</span><span id="line-875">     * &lt;PRE&gt;</span>
-<span class="source-line-no">876</span><span id="line-876">     * nodeToken -&gt; &amp;lt;IDENTIFIER&amp;gt;</span>
-<span class="source-line-no">877</span><span id="line-877">     * nodeListOptional -&gt; ( "." &amp;lt;IDENTIFIER&amp;gt; )*</span>
-<span class="source-line-no">878</span><span id="line-878">     * &lt;/PRE&gt;</span>
-<span class="source-line-no">879</span><span id="line-879">     */</span>
-<span class="source-line-no">880</span><span id="line-880">    public Object visit(Name n, EvalContext context) {</span>
-<span class="source-line-no">881</span><span id="line-881">        EvalContext evalContext = (EvalContext) context;</span>
-<span class="source-line-no">882</span><span id="line-882">        String varComponentName;</span>
-<span class="source-line-no">883</span><span id="line-883">        String varBaseName = n.nodeToken.tokenImage;</span>
-<span class="source-line-no">884</span><span id="line-884"></span>
-<span class="source-line-no">885</span><span id="line-885">        // logger.debug("Fetching var '" + varBaseName + "'");</span>
-<span class="source-line-no">886</span><span id="line-886">        if (!evalContext.hasVariable(varBaseName)) {</span>
-<span class="source-line-no">887</span><span id="line-887">            throw new EvalException("Unknown variable '" + varBaseName + "'");</span>
-<span class="source-line-no">888</span><span id="line-888">        }</span>
-<span class="source-line-no">889</span><span id="line-889"></span>
-<span class="source-line-no">890</span><span id="line-890">        Object value = evalContext.getVariable(varBaseName);</span>
-<span class="source-line-no">891</span><span id="line-891">        NodeSequence seq;</span>
-<span class="source-line-no">892</span><span id="line-892"></span>
-<span class="source-line-no">893</span><span id="line-893">        /*</span>
-<span class="source-line-no">894</span><span id="line-894">           if (value == null) {</span>
-<span class="source-line-no">895</span><span id="line-895">                logger.debug(" = null");</span>
-<span class="source-line-no">896</span><span id="line-896">           } else {</span>
-<span class="source-line-no">897</span><span id="line-897">                logger.debug(" = " + value.getClass().getName() + " with value '" + value + "'");</span>
-<span class="source-line-no">898</span><span id="line-898">           }</span>
-<span class="source-line-no">899</span><span id="line-899">         */</span>
-<span class="source-line-no">900</span><span id="line-900">        for (Enumeration e = n.nodeListOptional.elements(); e.hasMoreElements();) {</span>
-<span class="source-line-no">901</span><span id="line-901">            seq = (NodeSequence) e.nextElement();</span>
-<span class="source-line-no">902</span><span id="line-902">            varComponentName = ((NodeToken) seq.elementAt(1)).tokenImage;</span>
-<span class="source-line-no">903</span><span id="line-903"></span>
-<span class="source-line-no">904</span><span id="line-904">            // logger.debug("Fetching component '" + varComponentName + "' from var '" + varBaseName + "'");</span>
-<span class="source-line-no">905</span><span id="line-905">            if (evalContext.hasVariableComponent(value, varBaseName, varComponentName)) {</span>
-<span class="source-line-no">906</span><span id="line-906">                throw new EvalException("Unknown variable component '" + varComponentName + "' in variable '" + varBaseName + "'");</span>
-<span class="source-line-no">907</span><span id="line-907">            }</span>
-<span class="source-line-no">908</span><span id="line-908"></span>
-<span class="source-line-no">909</span><span id="line-909">            value = evalContext.getVariableComponent(value, varBaseName, varComponentName);</span>
-<span class="source-line-no">910</span><span id="line-910">            varBaseName = varBaseName + "." + varComponentName;</span>
-<span class="source-line-no">911</span><span id="line-911">        }</span>
+<span class="source-line-no">865</span><span id="line-865">                return obj;</span>
+<span class="source-line-no">866</span><span id="line-866">            default:</span>
+<span class="source-line-no">867</span><span id="line-867">                throw new EvalException("Internal parser error (PrimaryExpression)");</span>
+<span class="source-line-no">868</span><span id="line-868">        }</span>
+<span class="source-line-no">869</span><span id="line-869">    }</span>
+<span class="source-line-no">870</span><span id="line-870"></span>
+<span class="source-line-no">871</span><span id="line-871">    /** Generate the SQL for a Name node.</span>
+<span class="source-line-no">872</span><span id="line-872">     *</span>
+<span class="source-line-no">873</span><span id="line-873">     * &lt;PRE&gt;</span>
+<span class="source-line-no">874</span><span id="line-874">     * nodeToken -&gt; &amp;lt;IDENTIFIER&amp;gt;</span>
+<span class="source-line-no">875</span><span id="line-875">     * nodeListOptional -&gt; ( "." &amp;lt;IDENTIFIER&amp;gt; )*</span>
+<span class="source-line-no">876</span><span id="line-876">     * &lt;/PRE&gt;</span>
+<span class="source-line-no">877</span><span id="line-877">     */</span>
+<span class="source-line-no">878</span><span id="line-878">    public Object visit(Name n, EvalContext context) {</span>
+<span class="source-line-no">879</span><span id="line-879">        EvalContext evalContext = (EvalContext) context;</span>
+<span class="source-line-no">880</span><span id="line-880">        String varComponentName;</span>
+<span class="source-line-no">881</span><span id="line-881">        String varBaseName = n.nodeToken.tokenImage;</span>
+<span class="source-line-no">882</span><span id="line-882"></span>
+<span class="source-line-no">883</span><span id="line-883">        // logger.debug("Fetching var '" + varBaseName + "'");</span>
+<span class="source-line-no">884</span><span id="line-884">        if (!evalContext.hasVariable(varBaseName)) {</span>
+<span class="source-line-no">885</span><span id="line-885">            throw new EvalException("Unknown variable '" + varBaseName + "'");</span>
+<span class="source-line-no">886</span><span id="line-886">        }</span>
+<span class="source-line-no">887</span><span id="line-887"></span>
+<span class="source-line-no">888</span><span id="line-888">        Object value = evalContext.getVariable(varBaseName);</span>
+<span class="source-line-no">889</span><span id="line-889">        NodeSequence seq;</span>
+<span class="source-line-no">890</span><span id="line-890"></span>
+<span class="source-line-no">891</span><span id="line-891">        /*</span>
+<span class="source-line-no">892</span><span id="line-892">           if (value == null) {</span>
+<span class="source-line-no">893</span><span id="line-893">                logger.debug(" = null");</span>
+<span class="source-line-no">894</span><span id="line-894">           } else {</span>
+<span class="source-line-no">895</span><span id="line-895">                logger.debug(" = " + value.getClass().getName() + " with value '" + value + "'");</span>
+<span class="source-line-no">896</span><span id="line-896">           }</span>
+<span class="source-line-no">897</span><span id="line-897">         */</span>
+<span class="source-line-no">898</span><span id="line-898">        for (Enumeration&lt;?&gt; e = n.nodeListOptional.elements(); e.hasMoreElements();) {</span>
+<span class="source-line-no">899</span><span id="line-899">            seq = (NodeSequence) e.nextElement();</span>
+<span class="source-line-no">900</span><span id="line-900">            varComponentName = ((NodeToken) seq.elementAt(1)).tokenImage;</span>
+<span class="source-line-no">901</span><span id="line-901"></span>
+<span class="source-line-no">902</span><span id="line-902">            // logger.debug("Fetching component '" + varComponentName + "' from var '" + varBaseName + "'");</span>
+<span class="source-line-no">903</span><span id="line-903">            if (evalContext.hasVariableComponent(value, varBaseName, varComponentName)) {</span>
+<span class="source-line-no">904</span><span id="line-904">                throw new EvalException("Unknown variable component '" + varComponentName + "' in variable '" + varBaseName + "'");</span>
+<span class="source-line-no">905</span><span id="line-905">            }</span>
+<span class="source-line-no">906</span><span id="line-906"></span>
+<span class="source-line-no">907</span><span id="line-907">            value = evalContext.getVariableComponent(value, varBaseName, varComponentName);</span>
+<span class="source-line-no">908</span><span id="line-908">            varBaseName = varBaseName + "." + varComponentName;</span>
+<span class="source-line-no">909</span><span id="line-909">        }</span>
+<span class="source-line-no">910</span><span id="line-910"></span>
+<span class="source-line-no">911</span><span id="line-911"></span>
 <span class="source-line-no">912</span><span id="line-912"></span>
 <span class="source-line-no">913</span><span id="line-913"></span>
-<span class="source-line-no">914</span><span id="line-914"></span>
-<span class="source-line-no">915</span><span id="line-915"></span>
-<span class="source-line-no">916</span><span id="line-916">        // insert positional parameters into the generated SQL as </span>
-<span class="source-line-no">917</span><span id="line-917">        //    {paramName}</span>
-<span class="source-line-no">918</span><span id="line-918">        //  ... these will get substituted with '?' just before </span>
-<span class="source-line-no">919</span><span id="line-919">        // visit(TopLevelExpression) returns the result to the caller.</span>
-<span class="source-line-no">920</span><span id="line-920">        if (value instanceof PositionalParameter) {</span>
-<span class="source-line-no">921</span><span id="line-921">            PositionalParameter posParameter = (PositionalParameter) value;</span>
-<span class="source-line-no">922</span><span id="line-922"></span>
-<span class="source-line-no">923</span><span id="line-923">            return new SqlText(POS_MARKER_LEFT + posParameter.getName() + POS_MARKER_RIGHT);</span>
-<span class="source-line-no">924</span><span id="line-924">        }</span>
-<span class="source-line-no">925</span><span id="line-925"></span>
-<span class="source-line-no">926</span><span id="line-926"></span>
-<span class="source-line-no">927</span><span id="line-927">        // otherwise just get the value itself (this will be converted into SqlText</span>
-<span class="source-line-no">928</span><span id="line-928">        // by other visit() methods)</span>
-<span class="source-line-no">929</span><span id="line-929">        return value;</span>
-<span class="source-line-no">930</span><span id="line-930">    }</span>
-<span class="source-line-no">931</span><span id="line-931"></span>
-<span class="source-line-no">932</span><span id="line-932">    /** Generate the SQL for a FunctionCall node.</span>
-<span class="source-line-no">933</span><span id="line-933">     *</span>
-<span class="source-line-no">934</span><span id="line-934">     * &lt;PRE&gt;</span>
-<span class="source-line-no">935</span><span id="line-935">     * nodeToken -&gt; &amp;lt;IDENTIFIER&amp;gt;</span>
-<span class="source-line-no">936</span><span id="line-936">     * arguments -&gt; Arguments()</span>
-<span class="source-line-no">937</span><span id="line-937">     * &lt;/PRE&gt;</span>
-<span class="source-line-no">938</span><span id="line-938">     */</span>
-<span class="source-line-no">939</span><span id="line-939">    public Object visit(FunctionCall n, EvalContext context) {</span>
-<span class="source-line-no">940</span><span id="line-940">        List argumentList = (List) n.arguments.accept(this, context);</span>
-<span class="source-line-no">941</span><span id="line-941">        String functionName = n.nodeToken.tokenImage;</span>
-<span class="source-line-no">942</span><span id="line-942">        EvalContext evalContext = (EvalContext) context;</span>
-<span class="source-line-no">943</span><span id="line-943">        Object function = evalContext.getFunction(functionName);</span>
-<span class="source-line-no">944</span><span id="line-944">        Evaluator evaluator = new Evaluator();</span>
-<span class="source-line-no">945</span><span id="line-945"></span>
-<span class="source-line-no">946</span><span id="line-946">        if (function == null) {</span>
-<span class="source-line-no">947</span><span id="line-947">            throw new EvalException("Unknown function '" + functionName + "'");</span>
-<span class="source-line-no">948</span><span id="line-948"></span>
-<span class="source-line-no">949</span><span id="line-949">        } else if (function instanceof SqlFunction) {</span>
-<span class="source-line-no">950</span><span id="line-950">            SqlFunction sqlFunction = (SqlFunction) function;</span>
-<span class="source-line-no">951</span><span id="line-951">            try {</span>
-<span class="source-line-no">952</span><span id="line-952">                return new SqlText(sqlFunction.toSql(functionName, evalContext, argumentList));</span>
-<span class="source-line-no">953</span><span id="line-953">            } catch (EvalFallbackException ee) {</span>
-<span class="source-line-no">954</span><span id="line-954">                // I think this only occurs in replaced promptable values</span>
-<span class="source-line-no">955</span><span id="line-955">                </span>
-<span class="source-line-no">956</span><span id="line-956">                System.out.println("evaluating fallback for '" + functionName + "'");</span>
-<span class="source-line-no">957</span><span id="line-957">                argumentList = (List) evaluator.visit((Arguments) n.arguments, context);</span>
-<span class="source-line-no">958</span><span id="line-958">                ((EvalFunction) sqlFunction).evaluate(functionName, evalContext, argumentList);</span>
-<span class="source-line-no">959</span><span id="line-959">            }</span>
-<span class="source-line-no">960</span><span id="line-960"></span>
-<span class="source-line-no">961</span><span id="line-961">        } else if (function instanceof EvalFunction) {</span>
-<span class="source-line-no">962</span><span id="line-962">            EvalFunction evalFunction = (EvalFunction) function;</span>
-<span class="source-line-no">963</span><span id="line-963">            // evaluate the argument list (pass in the context to allow TZ_* references)</span>
-<span class="source-line-no">964</span><span id="line-964">            argumentList = (List) evaluator.visit((Arguments) n.arguments, context);</span>
-<span class="source-line-no">965</span><span id="line-965">            return evalFunction.evaluate(functionName, evalContext, argumentList);</span>
+<span class="source-line-no">914</span><span id="line-914">        // insert positional parameters into the generated SQL as </span>
+<span class="source-line-no">915</span><span id="line-915">        //    {paramName}</span>
+<span class="source-line-no">916</span><span id="line-916">        //  ... these will get substituted with '?' just before </span>
+<span class="source-line-no">917</span><span id="line-917">        // visit(TopLevelExpression) returns the result to the caller.</span>
+<span class="source-line-no">918</span><span id="line-918">        if (value instanceof PositionalParameter) {</span>
+<span class="source-line-no">919</span><span id="line-919">            PositionalParameter posParameter = (PositionalParameter) value;</span>
+<span class="source-line-no">920</span><span id="line-920"></span>
+<span class="source-line-no">921</span><span id="line-921">            return new SqlText(POS_MARKER_LEFT + posParameter.getName() + POS_MARKER_RIGHT);</span>
+<span class="source-line-no">922</span><span id="line-922">        }</span>
+<span class="source-line-no">923</span><span id="line-923"></span>
+<span class="source-line-no">924</span><span id="line-924"></span>
+<span class="source-line-no">925</span><span id="line-925">        // otherwise just get the value itself (this will be converted into SqlText</span>
+<span class="source-line-no">926</span><span id="line-926">        // by other visit() methods)</span>
+<span class="source-line-no">927</span><span id="line-927">        return value;</span>
+<span class="source-line-no">928</span><span id="line-928">    }</span>
+<span class="source-line-no">929</span><span id="line-929"></span>
+<span class="source-line-no">930</span><span id="line-930">    /** Generate the SQL for a FunctionCall node.</span>
+<span class="source-line-no">931</span><span id="line-931">     *</span>
+<span class="source-line-no">932</span><span id="line-932">     * &lt;PRE&gt;</span>
+<span class="source-line-no">933</span><span id="line-933">     * nodeToken -&gt; &amp;lt;IDENTIFIER&amp;gt;</span>
+<span class="source-line-no">934</span><span id="line-934">     * arguments -&gt; Arguments()</span>
+<span class="source-line-no">935</span><span id="line-935">     * &lt;/PRE&gt;</span>
+<span class="source-line-no">936</span><span id="line-936">     */</span>
+<span class="source-line-no">937</span><span id="line-937">    public Object visit(FunctionCall n, EvalContext context) {</span>
+<span class="source-line-no">938</span><span id="line-938">        List argumentList = (List) n.arguments.accept(this, context);</span>
+<span class="source-line-no">939</span><span id="line-939">        String functionName = n.nodeToken.tokenImage;</span>
+<span class="source-line-no">940</span><span id="line-940">        EvalContext evalContext = (EvalContext) context;</span>
+<span class="source-line-no">941</span><span id="line-941">        Object function = evalContext.getFunction(functionName);</span>
+<span class="source-line-no">942</span><span id="line-942">        Evaluator evaluator = new Evaluator();</span>
+<span class="source-line-no">943</span><span id="line-943"></span>
+<span class="source-line-no">944</span><span id="line-944">        if (function == null) {</span>
+<span class="source-line-no">945</span><span id="line-945">            throw new EvalException("Unknown function '" + functionName + "'");</span>
+<span class="source-line-no">946</span><span id="line-946"></span>
+<span class="source-line-no">947</span><span id="line-947">        } else if (function instanceof SqlFunction) {</span>
+<span class="source-line-no">948</span><span id="line-948">            SqlFunction sqlFunction = (SqlFunction) function;</span>
+<span class="source-line-no">949</span><span id="line-949">            try {</span>
+<span class="source-line-no">950</span><span id="line-950">                return new SqlText(sqlFunction.toSql(functionName, evalContext, argumentList));</span>
+<span class="source-line-no">951</span><span id="line-951">            } catch (EvalFallbackException ee) {</span>
+<span class="source-line-no">952</span><span id="line-952">                // I think this only occurs in replaced promptable values</span>
+<span class="source-line-no">953</span><span id="line-953">                </span>
+<span class="source-line-no">954</span><span id="line-954">                logger.info("evaluating fallback for '" + functionName + "'");</span>
+<span class="source-line-no">955</span><span id="line-955">                argumentList = (List) evaluator.visit((Arguments) n.arguments, context);</span>
+<span class="source-line-no">956</span><span id="line-956">                return ((EvalFunction) sqlFunction).evaluate(functionName, evalContext, argumentList);</span>
+<span class="source-line-no">957</span><span id="line-957">            }</span>
+<span class="source-line-no">958</span><span id="line-958"></span>
+<span class="source-line-no">959</span><span id="line-959">        } else if (function instanceof EvalFunction) {</span>
+<span class="source-line-no">960</span><span id="line-960">            EvalFunction evalFunction = (EvalFunction) function;</span>
+<span class="source-line-no">961</span><span id="line-961">            // evaluate the argument list (pass in the context to allow TZ_* references)</span>
+<span class="source-line-no">962</span><span id="line-962">            argumentList = (List) evaluator.visit((Arguments) n.arguments, context);</span>
+<span class="source-line-no">963</span><span id="line-963">            return evalFunction.evaluate(functionName, evalContext, argumentList);</span>
+<span class="source-line-no">964</span><span id="line-964"></span>
+<span class="source-line-no">965</span><span id="line-965">        }</span>
 <span class="source-line-no">966</span><span id="line-966"></span>
-<span class="source-line-no">967</span><span id="line-967">        }</span>
-<span class="source-line-no">968</span><span id="line-968"></span>
-<span class="source-line-no">969</span><span id="line-969">        throw new EvalException("Cannot translate or evaluate function '" + function + "'");</span>
-<span class="source-line-no">970</span><span id="line-970">    }</span>
-<span class="source-line-no">971</span><span id="line-971"></span>
-<span class="source-line-no">972</span><span id="line-972">    /** Generate the SQL for an Arguments node</span>
-<span class="source-line-no">973</span><span id="line-973">     *</span>
-<span class="source-line-no">974</span><span id="line-974">     * &lt;PRE&gt;</span>
-<span class="source-line-no">975</span><span id="line-975">     * nodeToken -&gt; "("</span>
-<span class="source-line-no">976</span><span id="line-976">     * nodeOptional -&gt; [ ArgumentList() ]</span>
-<span class="source-line-no">977</span><span id="line-977">     * nodeToken1 -&gt; ")"</span>
-<span class="source-line-no">978</span><span id="line-978">     * &lt;/PRE&gt;</span>
-<span class="source-line-no">979</span><span id="line-979">     */</span>
-<span class="source-line-no">980</span><span id="line-980">    public Object visit(Arguments n, EvalContext context) {</span>
-<span class="source-line-no">981</span><span id="line-981">        if (n.nodeOptional.present()) {</span>
-<span class="source-line-no">982</span><span id="line-982">            return n.nodeOptional.accept(this, context);</span>
-<span class="source-line-no">983</span><span id="line-983">        } else {</span>
-<span class="source-line-no">984</span><span id="line-984">            return new ArrayList(0);</span>
-<span class="source-line-no">985</span><span id="line-985">        }</span>
-<span class="source-line-no">986</span><span id="line-986">    }</span>
-<span class="source-line-no">987</span><span id="line-987"></span>
-<span class="source-line-no">988</span><span id="line-988">    /** Generate the SQL for a ArgumentList node.</span>
-<span class="source-line-no">989</span><span id="line-989">     *</span>
-<span class="source-line-no">990</span><span id="line-990">     *  &lt;p&gt;(Since an ArgumentList is fed directly into the EvalFunction to generate SQL,</span>
-<span class="source-line-no">991</span><span id="line-991">     *  we just return a List of arguments)</span>
-<span class="source-line-no">992</span><span id="line-992">     *</span>
-<span class="source-line-no">993</span><span id="line-993">     * &lt;PRE&gt;</span>
-<span class="source-line-no">994</span><span id="line-994">     * expression -&gt; Expression()</span>
-<span class="source-line-no">995</span><span id="line-995">     * nodeListOptional -&gt; ( "," Expression() )*</span>
-<span class="source-line-no">996</span><span id="line-996">     * &lt;/PRE&gt;</span>
-<span class="source-line-no">997</span><span id="line-997">     */</span>
-<span class="source-line-no">998</span><span id="line-998">    public Object visit(ArgumentList n, EvalContext context) {</span>
-<span class="source-line-no">999</span><span id="line-999">        NodeSequence seq;</span>
-<span class="source-line-no">1000</span><span id="line-1000">        List arguments = new ArrayList();</span>
+<span class="source-line-no">967</span><span id="line-967">        throw new EvalException("Cannot translate or evaluate function '" + function + "'");</span>
+<span class="source-line-no">968</span><span id="line-968">    }</span>
+<span class="source-line-no">969</span><span id="line-969"></span>
+<span class="source-line-no">970</span><span id="line-970">    /** Generate the SQL for an Arguments node</span>
+<span class="source-line-no">971</span><span id="line-971">     *</span>
+<span class="source-line-no">972</span><span id="line-972">     * &lt;PRE&gt;</span>
+<span class="source-line-no">973</span><span id="line-973">     * nodeToken -&gt; "("</span>
+<span class="source-line-no">974</span><span id="line-974">     * nodeOptional -&gt; [ ArgumentList() ]</span>
+<span class="source-line-no">975</span><span id="line-975">     * nodeToken1 -&gt; ")"</span>
+<span class="source-line-no">976</span><span id="line-976">     * &lt;/PRE&gt;</span>
+<span class="source-line-no">977</span><span id="line-977">     */</span>
+<span class="source-line-no">978</span><span id="line-978">    public Object visit(Arguments n, EvalContext context) {</span>
+<span class="source-line-no">979</span><span id="line-979">        if (n.nodeOptional.present()) {</span>
+<span class="source-line-no">980</span><span id="line-980">            return n.nodeOptional.accept(this, context);</span>
+<span class="source-line-no">981</span><span id="line-981">        } else {</span>
+<span class="source-line-no">982</span><span id="line-982">            return new ArrayList&lt;&gt;(0);</span>
+<span class="source-line-no">983</span><span id="line-983">        }</span>
+<span class="source-line-no">984</span><span id="line-984">    }</span>
+<span class="source-line-no">985</span><span id="line-985"></span>
+<span class="source-line-no">986</span><span id="line-986">    /** Generate the SQL for a ArgumentList node.</span>
+<span class="source-line-no">987</span><span id="line-987">     *</span>
+<span class="source-line-no">988</span><span id="line-988">     *  &lt;p&gt;(Since an ArgumentList is fed directly into the EvalFunction to generate SQL,</span>
+<span class="source-line-no">989</span><span id="line-989">     *  we just return a List of arguments)</span>
+<span class="source-line-no">990</span><span id="line-990">     *</span>
+<span class="source-line-no">991</span><span id="line-991">     * &lt;PRE&gt;</span>
+<span class="source-line-no">992</span><span id="line-992">     * expression -&gt; Expression()</span>
+<span class="source-line-no">993</span><span id="line-993">     * nodeListOptional -&gt; ( "," Expression() )*</span>
+<span class="source-line-no">994</span><span id="line-994">     * &lt;/PRE&gt;</span>
+<span class="source-line-no">995</span><span id="line-995">     */</span>
+<span class="source-line-no">996</span><span id="line-996">    public Object visit(ArgumentList n, EvalContext context) {</span>
+<span class="source-line-no">997</span><span id="line-997">        NodeSequence seq;</span>
+<span class="source-line-no">998</span><span id="line-998">        List&lt;Object&gt; arguments = new ArrayList&lt;&gt;();</span>
+<span class="source-line-no">999</span><span id="line-999"></span>
+<span class="source-line-no">1000</span><span id="line-1000">        arguments.add(n.expression.accept(this, context));</span>
 <span class="source-line-no">1001</span><span id="line-1001"></span>
-<span class="source-line-no">1002</span><span id="line-1002">        arguments.add(n.expression.accept(this, context));</span>
-<span class="source-line-no">1003</span><span id="line-1003"></span>
-<span class="source-line-no">1004</span><span id="line-1004">        for (Enumeration e = n.nodeListOptional.elements(); e.hasMoreElements();) {</span>
-<span class="source-line-no">1005</span><span id="line-1005">            seq = (NodeSequence) e.nextElement();</span>
-<span class="source-line-no">1006</span><span id="line-1006">            arguments.add(seq.elementAt(1).accept(this, context));</span>
-<span class="source-line-no">1007</span><span id="line-1007">        }</span>
-<span class="source-line-no">1008</span><span id="line-1008"></span>
-<span class="source-line-no">1009</span><span id="line-1009">        return arguments;</span>
-<span class="source-line-no">1010</span><span id="line-1010">    }</span>
-<span class="source-line-no">1011</span><span id="line-1011"></span>
-<span class="source-line-no">1012</span><span id="line-1012">    /** Generate the SQL for a Literal node.</span>
-<span class="source-line-no">1013</span><span id="line-1013">     *</span>
-<span class="source-line-no">1014</span><span id="line-1014">     * &lt;PRE&gt;</span>
-<span class="source-line-no">1015</span><span id="line-1015">     * nodeChoice -&gt; &amp;lt;INTEGER_LITERAL&amp;gt;</span>
-<span class="source-line-no">1016</span><span id="line-1016">     *       | &amp;lt;FLOATING_POINT_LITERAL&amp;gt;</span>
-<span class="source-line-no">1017</span><span id="line-1017">     *       | &amp;lt;CHARACTER_LITERAL&amp;gt;</span>
-<span class="source-line-no">1018</span><span id="line-1018">     *       | &amp;lt;STRING_LITERAL&amp;gt;</span>
-<span class="source-line-no">1019</span><span id="line-1019">     *       | BooleanLiteral()</span>
-<span class="source-line-no">1020</span><span id="line-1020">     *       | NullLiteral()</span>
-<span class="source-line-no">1021</span><span id="line-1021">     * &lt;/PRE&gt;</span>
-<span class="source-line-no">1022</span><span id="line-1022">     *</span>
-<span class="source-line-no">1023</span><span id="line-1023">     */</span>
-<span class="source-line-no">1024</span><span id="line-1024">    public Object visit(Literal n, EvalContext context) {</span>
-<span class="source-line-no">1025</span><span id="line-1025">        String token = null;</span>
-<span class="source-line-no">1026</span><span id="line-1026"></span>
-<span class="source-line-no">1027</span><span id="line-1027">        if (n.nodeChoice.choice instanceof NodeToken) {</span>
-<span class="source-line-no">1028</span><span id="line-1028">            token = ((NodeToken) n.nodeChoice.choice).tokenImage;</span>
-<span class="source-line-no">1029</span><span id="line-1029">        }</span>
-<span class="source-line-no">1030</span><span id="line-1030"></span>
-<span class="source-line-no">1031</span><span id="line-1031">        switch (n.nodeChoice.which) {</span>
-<span class="source-line-no">1032</span><span id="line-1032">            case 0:</span>
-<span class="source-line-no">1033</span><span id="line-1033">                return new Long(token);</span>
-<span class="source-line-no">1034</span><span id="line-1034">            case 1:</span>
-<span class="source-line-no">1035</span><span id="line-1035">                return new Double(token);</span>
-<span class="source-line-no">1036</span><span id="line-1036">            case 2:</span>
-<span class="source-line-no">1037</span><span id="line-1037">                return new Character(token.charAt(1));</span>
-<span class="source-line-no">1038</span><span id="line-1038">            case 3:</span>
-<span class="source-line-no">1039</span><span id="line-1039">                return Text.unescapeJava(token.substring(1, token.length() - 1));</span>
-<span class="source-line-no">1040</span><span id="line-1040">        }</span>
-<span class="source-line-no">1041</span><span id="line-1041"></span>
-<span class="source-line-no">1042</span><span id="line-1042">        // must be 'true', 'false', or 'null'</span>
-<span class="source-line-no">1043</span><span id="line-1043">        return n.nodeChoice.accept(this, context);</span>
-<span class="source-line-no">1044</span><span id="line-1044">    }</span>
-<span class="source-line-no">1045</span><span id="line-1045"></span>
-<span class="source-line-no">1046</span><span id="line-1046">    /** Generate the SQL for a BooleanLiteral node.</span>
-<span class="source-line-no">1047</span><span id="line-1047">     *</span>
-<span class="source-line-no">1048</span><span id="line-1048">     * &lt;PRE&gt;</span>
-<span class="source-line-no">1049</span><span id="line-1049">     * nodeChoice -&gt; "true"</span>
-<span class="source-line-no">1050</span><span id="line-1050">     *       | "false"</span>
-<span class="source-line-no">1051</span><span id="line-1051">     * &lt;/PRE&gt;</span>
-<span class="source-line-no">1052</span><span id="line-1052">     */</span>
-<span class="source-line-no">1053</span><span id="line-1053">    public Object visit(BooleanLiteral n, EvalContext context) {</span>
-<span class="source-line-no">1054</span><span id="line-1054">        if (n.nodeChoice.which == 0) {</span>
-<span class="source-line-no">1055</span><span id="line-1055">            return Boolean.valueOf(true);</span>
-<span class="source-line-no">1056</span><span id="line-1056">        } else {</span>
-<span class="source-line-no">1057</span><span id="line-1057">            return Boolean.valueOf(false);</span>
-<span class="source-line-no">1058</span><span id="line-1058">        }</span>
-<span class="source-line-no">1059</span><span id="line-1059">    }</span>
-<span class="source-line-no">1060</span><span id="line-1060"></span>
-<span class="source-line-no">1061</span><span id="line-1061">    /** Generate the SQL for a NullLiteral node.</span>
-<span class="source-line-no">1062</span><span id="line-1062">     *</span>
-<span class="source-line-no">1063</span><span id="line-1063">     * &lt;PRE&gt;</span>
-<span class="source-line-no">1064</span><span id="line-1064">     * nodeToken -&gt; "null"</span>
-<span class="source-line-no">1065</span><span id="line-1065">     * &lt;/PRE&gt;</span>
-<span class="source-line-no">1066</span><span id="line-1066">     */</span>
-<span class="source-line-no">1067</span><span id="line-1067">    public Object visit(NullLiteral n, EvalContext context) {</span>
-<span class="source-line-no">1068</span><span id="line-1068">        return null;</span>
-<span class="source-line-no">1069</span><span id="line-1069">    }</span>
-<span class="source-line-no">1070</span><span id="line-1070"></span>
-<span class="source-line-no">1071</span><span id="line-1071">    /** This is never executed (we do not evaluate tokens) */</span>
-<span class="source-line-no">1072</span><span id="line-1072">    public Object visit(NodeToken n, EvalContext context) {</span>
-<span class="source-line-no">1073</span><span id="line-1073">        return n.tokenImage;</span>
-<span class="source-line-no">1074</span><span id="line-1074">    }</span>
-<span class="source-line-no">1075</span><span id="line-1075">}</span>
+<span class="source-line-no">1002</span><span id="line-1002">        for (Enumeration&lt;?&gt; e = n.nodeListOptional.elements(); e.hasMoreElements();) {</span>
+<span class="source-line-no">1003</span><span id="line-1003">            seq = (NodeSequence) e.nextElement();</span>
+<span class="source-line-no">1004</span><span id="line-1004">            arguments.add(seq.elementAt(1).accept(this, context));</span>
+<span class="source-line-no">1005</span><span id="line-1005">        }</span>
+<span class="source-line-no">1006</span><span id="line-1006"></span>
+<span class="source-line-no">1007</span><span id="line-1007">        return arguments;</span>
+<span class="source-line-no">1008</span><span id="line-1008">    }</span>
+<span class="source-line-no">1009</span><span id="line-1009"></span>
+<span class="source-line-no">1010</span><span id="line-1010">    /** Generate the SQL for a Literal node.</span>
+<span class="source-line-no">1011</span><span id="line-1011">     *</span>
+<span class="source-line-no">1012</span><span id="line-1012">     * &lt;PRE&gt;</span>
+<span class="source-line-no">1013</span><span id="line-1013">     * nodeChoice -&gt; &amp;lt;INTEGER_LITERAL&amp;gt;</span>
+<span class="source-line-no">1014</span><span id="line-1014">     *       | &amp;lt;FLOATING_POINT_LITERAL&amp;gt;</span>
+<span class="source-line-no">1015</span><span id="line-1015">     *       | &amp;lt;CHARACTER_LITERAL&amp;gt;</span>
+<span class="source-line-no">1016</span><span id="line-1016">     *       | &amp;lt;STRING_LITERAL&amp;gt;</span>
+<span class="source-line-no">1017</span><span id="line-1017">     *       | BooleanLiteral()</span>
+<span class="source-line-no">1018</span><span id="line-1018">     *       | NullLiteral()</span>
+<span class="source-line-no">1019</span><span id="line-1019">     * &lt;/PRE&gt;</span>
+<span class="source-line-no">1020</span><span id="line-1020">     *</span>
+<span class="source-line-no">1021</span><span id="line-1021">     */</span>
+<span class="source-line-no">1022</span><span id="line-1022">    public Object visit(Literal n, EvalContext context) {</span>
+<span class="source-line-no">1023</span><span id="line-1023">        String token = null;</span>
+<span class="source-line-no">1024</span><span id="line-1024"></span>
+<span class="source-line-no">1025</span><span id="line-1025">        if (n.nodeChoice.choice instanceof NodeToken) {</span>
+<span class="source-line-no">1026</span><span id="line-1026">            token = ((NodeToken) n.nodeChoice.choice).tokenImage;</span>
+<span class="source-line-no">1027</span><span id="line-1027">        }</span>
+<span class="source-line-no">1028</span><span id="line-1028"></span>
+<span class="source-line-no">1029</span><span id="line-1029">        switch (n.nodeChoice.which) {</span>
+<span class="source-line-no">1030</span><span id="line-1030">            case 0:</span>
+<span class="source-line-no">1031</span><span id="line-1031">                return Long.valueOf(token);</span>
+<span class="source-line-no">1032</span><span id="line-1032">            case 1:</span>
+<span class="source-line-no">1033</span><span id="line-1033">                return Double.valueOf(token);</span>
+<span class="source-line-no">1034</span><span id="line-1034">            case 2:</span>
+<span class="source-line-no">1035</span><span id="line-1035">                return Character.valueOf(token.charAt(1));</span>
+<span class="source-line-no">1036</span><span id="line-1036">            case 3:</span>
+<span class="source-line-no">1037</span><span id="line-1037">                return Text.unescapeJava(token.substring(1, token.length() - 1));</span>
+<span class="source-line-no">1038</span><span id="line-1038">        }</span>
+<span class="source-line-no">1039</span><span id="line-1039"></span>
+<span class="source-line-no">1040</span><span id="line-1040">        // must be 'true', 'false', or 'null'</span>
+<span class="source-line-no">1041</span><span id="line-1041">        return n.nodeChoice.accept(this, context);</span>
+<span class="source-line-no">1042</span><span id="line-1042">    }</span>
+<span class="source-line-no">1043</span><span id="line-1043"></span>
+<span class="source-line-no">1044</span><span id="line-1044">    /** Generate the SQL for a BooleanLiteral node.</span>
+<span class="source-line-no">1045</span><span id="line-1045">     *</span>
+<span class="source-line-no">1046</span><span id="line-1046">     * &lt;PRE&gt;</span>
+<span class="source-line-no">1047</span><span id="line-1047">     * nodeChoice -&gt; "true"</span>
+<span class="source-line-no">1048</span><span id="line-1048">     *       | "false"</span>
+<span class="source-line-no">1049</span><span id="line-1049">     * &lt;/PRE&gt;</span>
+<span class="source-line-no">1050</span><span id="line-1050">     */</span>
+<span class="source-line-no">1051</span><span id="line-1051">    public Object visit(BooleanLiteral n, EvalContext context) {</span>
+<span class="source-line-no">1052</span><span id="line-1052">        if (n.nodeChoice.which == 0) {</span>
+<span class="source-line-no">1053</span><span id="line-1053">            return Boolean.valueOf(true);</span>
+<span class="source-line-no">1054</span><span id="line-1054">        } else {</span>
+<span class="source-line-no">1055</span><span id="line-1055">            return Boolean.valueOf(false);</span>
+<span class="source-line-no">1056</span><span id="line-1056">        }</span>
+<span class="source-line-no">1057</span><span id="line-1057">    }</span>
+<span class="source-line-no">1058</span><span id="line-1058"></span>
+<span class="source-line-no">1059</span><span id="line-1059">    /** Generate the SQL for a NullLiteral node.</span>
+<span class="source-line-no">1060</span><span id="line-1060">     *</span>
+<span class="source-line-no">1061</span><span id="line-1061">     * &lt;PRE&gt;</span>
+<span class="source-line-no">1062</span><span id="line-1062">     * nodeToken -&gt; "null"</span>
+<span class="source-line-no">1063</span><span id="line-1063">     * &lt;/PRE&gt;</span>
+<span class="source-line-no">1064</span><span id="line-1064">     */</span>
+<span class="source-line-no">1065</span><span id="line-1065">    public Object visit(NullLiteral n, EvalContext context) {</span>
+<span class="source-line-no">1066</span><span id="line-1066">        return null;</span>
+<span class="source-line-no">1067</span><span id="line-1067">    }</span>
+<span class="source-line-no">1068</span><span id="line-1068"></span>
+<span class="source-line-no">1069</span><span id="line-1069">    /** This is never executed (we do not evaluate tokens) */</span>
+<span class="source-line-no">1070</span><span id="line-1070">    public Object visit(NodeToken n, EvalContext context) {</span>
+<span class="source-line-no">1071</span><span id="line-1071">        return n.tokenImage;</span>
+<span class="source-line-no">1072</span><span id="line-1072">    }</span>
+<span class="source-line-no">1073</span><span id="line-1073">}</span>
 
 
 
