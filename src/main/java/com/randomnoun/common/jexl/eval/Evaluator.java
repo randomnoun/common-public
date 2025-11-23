@@ -69,7 +69,7 @@ public class Evaluator
         public Object op(Object a, Object b) {
             long longA = ((Long) a).longValue();
             long longB = (b == null ? 0 : ((Long) b).longValue());
-            return new Long(longOp(longA, longB));
+            return Long.valueOf(longOp(longA, longB));
         }
         abstract long longOp(long a, long b);
     }
@@ -79,7 +79,7 @@ public class Evaluator
         public Object op(Object a, Object b) {
             double doubleA = ((Double) a).doubleValue();
             double doubleB = (b == null ? 0 : ((Double) b).doubleValue());
-            return new Double(doubleOp(doubleA, doubleB));
+            return Double.valueOf(doubleOp(doubleA, doubleB));
         }
         abstract double doubleOp(double a, double b);
     }
@@ -112,13 +112,13 @@ public class Evaluator
 
         if (a instanceof Double) {
             if (b instanceof Number) {
-                return new Double(((Number) b).doubleValue());
+                return Double.valueOf(((Number) b).doubleValue());
             }
         }
 
         if (a instanceof Long) {
             if (b instanceof Number) {
-                return new Long(((Number) b).longValue());
+                return Long.valueOf(((Number) b).longValue());
             }
         }
 
@@ -303,8 +303,8 @@ public class Evaluator
 
             // logger.debug("Running op '" + ops[which] + "' on lhs:" + lhs + ", rhs:" + rhs);
             switch (which) {
-                case 0: lhs = new Boolean(result == 0); break;
-                case 1: lhs = new Boolean(result != 0); break;
+                case 0: lhs = Boolean.valueOf(result == 0); break;
+                case 1: lhs = Boolean.valueOf(result != 0); break;
                 default:
                     throw new EvalException("Internal error - unexpected relational operation");
             }
@@ -353,10 +353,10 @@ public class Evaluator
 
             // logger.debug("Running op '" + ops[which] + "' on lhs:" + lhs + ", rhs:" + rhs);
             switch (which) {
-                case 0: lhs = new Boolean(result < 0); break;
-                case 1: lhs = new Boolean(result > 0); break;
-                case 2: lhs = new Boolean(result <= 0); break;
-                case 3: lhs = new Boolean(result >= 0); break;
+                case 0: lhs = Boolean.valueOf(result < 0); break;
+                case 1: lhs = Boolean.valueOf(result > 0); break;
+                case 2: lhs = Boolean.valueOf(result <= 0); break;
+                case 3: lhs = Boolean.valueOf(result >= 0); break;
                 default:
                     throw new EvalException("Internal error - unexpected relational operation");
             }
@@ -478,7 +478,7 @@ public class Evaluator
             switch (which) {
                 case 0:
                     // long rhs =  makeNumeric ( ((Node) nl.nodes.get(0)).accept(this, context) ); 
-                    // return new Long(~rhs); 
+                    // return Long.valueOf(~rhs); 
                     throw new EvalException("~ not supported");
                 case 1:
                     lhs = seq.elementAt(1).accept(this, context);
@@ -661,11 +661,11 @@ public class Evaluator
 
         switch (n.nodeChoice.which) {
             case 0:
-                return new Long(token);
+                return Long.valueOf(token);
             case 1:
-                return new Double(token);
+                return Double.valueOf(token);
             case 2:
-                return new Character(token.charAt(1));
+                return Character.valueOf(token.charAt(1));
             case 3:
                 return Text.unescapeJava(token.substring(1, token.length() - 1));
         }
