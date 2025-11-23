@@ -491,6 +491,79 @@ public class XmlUtil {
 			};
 		}
 	}
+	
+	/** Class to evaluate a SAX ContentHandler by traversing an XML DOM */
+	public static class ContentHandlerTraverser {
+
+        public void traverse(Node node, ContentHandler handler) throws SAXException {
+            handler.startDocument();
+            traverseNode(node, handler);
+            handler.endDocument();
+        }
+
+        private void traverseNode(Node node, ContentHandler handler) throws SAXException {
+            switch (node.getNodeType()) {
+                case Node.DOCUMENT_NODE:
+                    Document doc = (Document) node;
+                    traverseChildren(doc.getDocumentElement(), handler);
+                    break;
+
+                case Node.ELEMENT_NODE:
+                    Element elem = (Element) node;
+                    AttributesImpl attrs = new AttributesImpl();
+                    NamedNodeMap map = elem.getAttributes();
+                    for (int i = 0; i < map.getLength(); i++) {
+                        Attr a = (Attr) map.item(i);
+                        attrs.addAttribute(
+                            a.getNamespaceURI() == null ? "" : a.getNamespaceURI(),
+                            a.getLocalName() == null ? a.getName() : a.getLocalName(),
+                            a.getName(),
+                            "CDATA",
+                            a.getValue()
+                        );
+                    }
+                    handler.startElement(
+                        elem.getNamespaceURI() == null ? "" : elem.getNamespaceURI(),
+                        elem.getLocalName() == null ? elem.getNodeName() : elem.getLocalName(),
+                        elem.getNodeName(),
+                        attrs
+                    );
+
+                    traverseChildren(elem, handler);
+
+                    handler.endElement(
+                        elem.getNamespaceURI() == null ? "" : elem.getNamespaceURI(),
+                        elem.getLocalName() == null ? elem.getNodeName() : elem.getLocalName(),
+                        elem.getNodeName()
+                    );
+                    break;
+
+                case Node.TEXT_NODE:
+                    String text = ((org.w3c.dom.Text) node).getData();
+                    char[] chars = text.toCharArray();
+                    handler.characters(chars, 0, chars.length);
+                    break;
+
+                case Node.CDATA_SECTION_NODE:
+                    String cdata = ((CDATASection) node).getData();
+                    char[] cchars = cdata.toCharArray();
+                    handler.characters(cchars, 0, cchars.length);
+                    break;
+
+                case Node.COMMENT_NODE:
+                    // comments are ignored by ContentHandler
+                    break;
+            }
+        }
+
+        private void traverseChildren(Node parent, ContentHandler handler) throws SAXException {
+            Node child = parent.getFirstChild();
+            while (child != null) {
+                traverseNode(child, handler);
+                child = child.getNextSibling();
+            }
+        }
+    }
 
 	
 	
