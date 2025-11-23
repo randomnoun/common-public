@@ -23,7 +23,7 @@ public class ExpressionUtil
 {
 
     /** Convert Java expression String to a TopLevelExpression */
-    public static TopLevelExpression stringToExpression(String expressionString)
+    public TopLevelExpression stringToExpression(String expressionString)
         throws java.text.ParseException
     {
         StringReader reader = new StringReader(expressionString);
@@ -42,7 +42,7 @@ public class ExpressionUtil
     }
 
     /** Convert TopLevelExpression to a Java expression String */
-    public static String expressionToString(TopLevelExpression expression) {
+    public String expressionToString(TopLevelExpression expression) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         PrintWriter out = new PrintWriter(baos);
         TreeDumper dumper = new TreeDumper(out);
