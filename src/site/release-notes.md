@@ -1,4 +1,4 @@
 ## Updates
 
-* XmlUtil.ContentHandlerTraverser
-* c3p0 properties
+* more primitive types in json converter
+* booleans in SqlGenerator

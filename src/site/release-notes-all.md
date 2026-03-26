@@ -1,3 +1,10 @@
+# 1.0.36
+
+## Updates
+
+* more primitive types in json converter
+* booleans in SqlGenerator
+
 # 1.0.35
 
 ## Updates
