@@ -1743,6 +1743,25 @@ public class Struct {
            		  w.append(keyJson);
            		  w.append(": ");
            		  structuredListToJson(w, (List)arrayList, jsonFormat);
+           	  } else if (value instanceof long[]) {
+           		  long[] daSrc = (long[]) value;
+           		  Long[] daTgt = new Long[daSrc.length];
+           		  for (int j=0; j<daSrc.length; j++) { daTgt[j]=daSrc[j]; }
+           		  List arrayList = Arrays.asList((Object[])daTgt);
+           		  if (!isFirst) { w.append(","); }
+           		  w.append(keyJson);
+           		  w.append(": ");
+           		  structuredListToJson(w, (List)arrayList, jsonFormat);
+           	  } else if (value instanceof byte[]) {
+           		  byte[] daSrc = (byte[]) value;
+           		  Byte[] daTgt = new Byte[daSrc.length];
+           		  for (int j=0; j<daSrc.length; j++) { daTgt[j]=daSrc[j]; }
+           		  List arrayList = Arrays.asList((Object[])daTgt);
+           		  if (!isFirst) { w.append(","); }
+           		  w.append(keyJson);
+           		  w.append(": ");
+           		  structuredListToJson(w, (List)arrayList, jsonFormat);
+           		  
            	  } else {
            		  throw new UnsupportedOperationException("Cannot convert primitive array to JSON");
            	  }
