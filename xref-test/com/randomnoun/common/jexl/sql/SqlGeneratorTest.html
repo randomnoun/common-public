@@ -116,36 +116,47 @@
 <a class="jxr_linenumber" name="L108" href="#L108">108</a> 		vars.put(<span class="jxr_string">"id"</span>, <strong class="jxr_keyword">new</strong> SqlColumn(<span class="jxr_string">"lngId"</span>, <span class="jxr_string">"SOMETABLE"</span>, SqlColumn.NUMERIC));
 <a class="jxr_linenumber" name="L109" href="#L109">109</a> 		vars.put(<span class="jxr_string">"val"</span>, <strong class="jxr_keyword">new</strong> SqlColumn(<span class="jxr_string">"lngVal"</span>, <span class="jxr_string">"SOMETABLE"</span>, SqlColumn.NUMERIC));
 <a class="jxr_linenumber" name="L110" href="#L110">110</a> 		vars.put(<span class="jxr_string">"textVal"</span>, <strong class="jxr_keyword">new</strong> SqlColumn(<span class="jxr_string">"txtVal"</span>, <span class="jxr_string">"SOMETABLE"</span>, SqlColumn.VARCHAR));
-<a class="jxr_linenumber" name="L111" href="#L111">111</a> 		
-<a class="jxr_linenumber" name="L112" href="#L112">112</a> 		vars.put(<span class="jxr_string">"userId"</span>, <strong class="jxr_keyword">new</strong> PositionalParameter(<span class="jxr_string">"userId"</span>));
-<a class="jxr_linenumber" name="L113" href="#L113">113</a> 		
-<a class="jxr_linenumber" name="L114" href="#L114">114</a> 		List&lt;String&gt; paramsList = <strong class="jxr_keyword">new</strong> ArrayList&lt;&gt;(); <em class="jxr_comment">// output params </em>
-<a class="jxr_linenumber" name="L115" href="#L115">115</a> 		String result = expressionToSql(stringToExpression(<span class="jxr_string">"a == 1"</span>), paramsList, vars);
-<a class="jxr_linenumber" name="L116" href="#L116">116</a> 		assertEquals(<span class="jxr_string">"('something' = 1)"</span>, result);
-<a class="jxr_linenumber" name="L117" href="#L117">117</a> 		System.out.println(result);
-<a class="jxr_linenumber" name="L118" href="#L118">118</a> 		
-<a class="jxr_linenumber" name="L119" href="#L119">119</a> 		result = expressionToSql(stringToExpression(<span class="jxr_string">"id == 1"</span>), paramsList, vars);
-<a class="jxr_linenumber" name="L120" href="#L120">120</a> 		System.out.println(result);
-<a class="jxr_linenumber" name="L121" href="#L121">121</a> 		assertEquals(<span class="jxr_string">"(SOMETABLE.lngId = 1)"</span>, result);
-<a class="jxr_linenumber" name="L122" href="#L122">122</a> 		
-<a class="jxr_linenumber" name="L123" href="#L123">123</a> 		result = expressionToSql(stringToExpression(<span class="jxr_string">"id == 1 &amp;&amp; val &gt; 2"</span>), paramsList, vars);
-<a class="jxr_linenumber" name="L124" href="#L124">124</a> 		System.out.println(result);
-<a class="jxr_linenumber" name="L125" href="#L125">125</a> 		assertEquals(<span class="jxr_string">"((SOMETABLE.lngId = 1) AND (SOMETABLE.lngVal &gt; 2))"</span>, result);
-<a class="jxr_linenumber" name="L126" href="#L126">126</a> 		
-<a class="jxr_linenumber" name="L127" href="#L127">127</a> 		result = expressionToSql(stringToExpression(<span class="jxr_string">"(id == 1 &amp;&amp; val &gt; 2) || textVal != \&quot;USD\&quot;"</span>), paramsList, vars);
-<a class="jxr_linenumber" name="L128" href="#L128">128</a> 		System.out.println(result);
-<a class="jxr_linenumber" name="L129" href="#L129">129</a> 		assertEquals(<span class="jxr_string">"(((SOMETABLE.lngId = 1) AND (SOMETABLE.lngVal &gt; 2)) OR (SOMETABLE.txtVal &lt;&gt; 'USD'))"</span>, result);
-<a class="jxr_linenumber" name="L130" href="#L130">130</a> 		
-<a class="jxr_linenumber" name="L131" href="#L131">131</a> 		result = expressionToSql(stringToExpression(<span class="jxr_string">"id == userId"</span>), paramsList, vars);
-<a class="jxr_linenumber" name="L132" href="#L132">132</a> 		System.out.println(result);
-<a class="jxr_linenumber" name="L133" href="#L133">133</a> 		assertEquals(<span class="jxr_string">"(SOMETABLE.lngId = ?)"</span>, result);
-<a class="jxr_linenumber" name="L134" href="#L134">134</a> 		
-<a class="jxr_linenumber" name="L135" href="#L135">135</a> 		<em class="jxr_comment">// @TODO some function tests</em>
-<a class="jxr_linenumber" name="L136" href="#L136">136</a> 	}
-<a class="jxr_linenumber" name="L137" href="#L137">137</a> 
-<a class="jxr_linenumber" name="L138" href="#L138">138</a> }
+<a class="jxr_linenumber" name="L111" href="#L111">111</a> 		vars.put(<span class="jxr_string">"boolVal"</span>, <strong class="jxr_keyword">new</strong> SqlColumn(<span class="jxr_string">"boolVal"</span>, <span class="jxr_string">"SOMETABLE"</span>, SqlColumn.BOOLEAN));
+<a class="jxr_linenumber" name="L112" href="#L112">112</a> 		
+<a class="jxr_linenumber" name="L113" href="#L113">113</a> 		vars.put(<span class="jxr_string">"userId"</span>, <strong class="jxr_keyword">new</strong> PositionalParameter(<span class="jxr_string">"userId"</span>));
+<a class="jxr_linenumber" name="L114" href="#L114">114</a> 		
+<a class="jxr_linenumber" name="L115" href="#L115">115</a> 		List&lt;String&gt; paramsList = <strong class="jxr_keyword">new</strong> ArrayList&lt;&gt;(); <em class="jxr_comment">// output params </em>
+<a class="jxr_linenumber" name="L116" href="#L116">116</a> 		String result = expressionToSql(stringToExpression(<span class="jxr_string">"a == 1"</span>), paramsList, vars);
+<a class="jxr_linenumber" name="L117" href="#L117">117</a> 		assertEquals(<span class="jxr_string">"('something' = 1)"</span>, result);
+<a class="jxr_linenumber" name="L118" href="#L118">118</a> 		System.out.println(result);
+<a class="jxr_linenumber" name="L119" href="#L119">119</a> 		
+<a class="jxr_linenumber" name="L120" href="#L120">120</a> 		result = expressionToSql(stringToExpression(<span class="jxr_string">"id == 1"</span>), paramsList, vars);
+<a class="jxr_linenumber" name="L121" href="#L121">121</a> 		System.out.println(result);
+<a class="jxr_linenumber" name="L122" href="#L122">122</a> 		assertEquals(<span class="jxr_string">"(SOMETABLE.lngId = 1)"</span>, result);
+<a class="jxr_linenumber" name="L123" href="#L123">123</a> 		
+<a class="jxr_linenumber" name="L124" href="#L124">124</a> 		result = expressionToSql(stringToExpression(<span class="jxr_string">"id == 1 &amp;&amp; val &gt; 2"</span>), paramsList, vars);
+<a class="jxr_linenumber" name="L125" href="#L125">125</a> 		System.out.println(result);
+<a class="jxr_linenumber" name="L126" href="#L126">126</a> 		assertEquals(<span class="jxr_string">"((SOMETABLE.lngId = 1) AND (SOMETABLE.lngVal &gt; 2))"</span>, result);
+<a class="jxr_linenumber" name="L127" href="#L127">127</a> 		
+<a class="jxr_linenumber" name="L128" href="#L128">128</a> 		result = expressionToSql(stringToExpression(<span class="jxr_string">"(id == 1 &amp;&amp; val &gt; 2) || textVal != \&quot;USD\&quot;"</span>), paramsList, vars);
+<a class="jxr_linenumber" name="L129" href="#L129">129</a> 		System.out.println(result);
+<a class="jxr_linenumber" name="L130" href="#L130">130</a> 		assertEquals(<span class="jxr_string">"(((SOMETABLE.lngId = 1) AND (SOMETABLE.lngVal &gt; 2)) OR (SOMETABLE.txtVal &lt;&gt; 'USD'))"</span>, result);
+<a class="jxr_linenumber" name="L131" href="#L131">131</a> 		
+<a class="jxr_linenumber" name="L132" href="#L132">132</a> 		result = expressionToSql(stringToExpression(<span class="jxr_string">"id == userId"</span>), paramsList, vars);
+<a class="jxr_linenumber" name="L133" href="#L133">133</a> 		System.out.println(result);
+<a class="jxr_linenumber" name="L134" href="#L134">134</a> 		assertEquals(<span class="jxr_string">"(SOMETABLE.lngId = ?)"</span>, result);
+<a class="jxr_linenumber" name="L135" href="#L135">135</a> 		
+<a class="jxr_linenumber" name="L136" href="#L136">136</a> 		result = expressionToSql(stringToExpression(<span class="jxr_string">"!boolVal"</span>), paramsList, vars);
+<a class="jxr_linenumber" name="L137" href="#L137">137</a> 		System.out.println(result);
+<a class="jxr_linenumber" name="L138" href="#L138">138</a> 		assertEquals(<span class="jxr_string">"(NOT SOMETABLE.boolVal)"</span>, result);
+<a class="jxr_linenumber" name="L139" href="#L139">139</a> 
+<a class="jxr_linenumber" name="L140" href="#L140">140</a> 		result = expressionToSql(stringToExpression(<span class="jxr_string">"boolVal == true"</span>), paramsList, vars);
+<a class="jxr_linenumber" name="L141" href="#L141">141</a> 		System.out.println(result);
+<a class="jxr_linenumber" name="L142" href="#L142">142</a> 		assertEquals(<span class="jxr_string">"(SOMETABLE.boolVal = TRUE)"</span>, result);
+<a class="jxr_linenumber" name="L143" href="#L143">143</a> 
+<a class="jxr_linenumber" name="L144" href="#L144">144</a> 		
+<a class="jxr_linenumber" name="L145" href="#L145">145</a> 		
+<a class="jxr_linenumber" name="L146" href="#L146">146</a> 		<em class="jxr_comment">// @TODO some function tests</em>
+<a class="jxr_linenumber" name="L147" href="#L147">147</a> 	}
+<a class="jxr_linenumber" name="L148" href="#L148">148</a> 
+<a class="jxr_linenumber" name="L149" href="#L149">149</a> }
 </pre>
 <hr/>
-<div id="footer">Copyright &#169; 2013&#x2013;2025 <a href="http://www.randomnoun.com">randomnoun</a>. All rights reserved.</div>
+<div id="footer">Copyright &#169; 2013&#x2013;2026 <a href="http://www.randomnoun.com">randomnoun</a>. All rights reserved.</div>
 </body>
 </html>

@@ -1756,330 +1756,349 @@
 <span class="source-line-no">1743</span><span id="line-1743">                          w.append(keyJson);</span>
 <span class="source-line-no">1744</span><span id="line-1744">                          w.append(": ");</span>
 <span class="source-line-no">1745</span><span id="line-1745">                          structuredListToJson(w, (List)arrayList, jsonFormat);</span>
-<span class="source-line-no">1746</span><span id="line-1746">                  } else {</span>
-<span class="source-line-no">1747</span><span id="line-1747">                          throw new UnsupportedOperationException("Cannot convert primitive array to JSON");</span>
-<span class="source-line-no">1748</span><span id="line-1748">                  }</span>
-<span class="source-line-no">1749</span><span id="line-1749">           } else {</span>
-<span class="source-line-no">1750</span><span id="line-1750">               throw new RuntimeException("Cannot translate Java object " + value.getClass().getName() + " to javascript value");</span>
-<span class="source-line-no">1751</span><span id="line-1751">           }</span>
-<span class="source-line-no">1752</span><span id="line-1752">           isFirst = false;</span>
-<span class="source-line-no">1753</span><span id="line-1753">       }</span>
-<span class="source-line-no">1754</span><span id="line-1754"></span>
-<span class="source-line-no">1755</span><span id="line-1755">       w.append("}\n");</span>
-<span class="source-line-no">1756</span><span id="line-1756">       // return s;</span>
-<span class="source-line-no">1757</span><span id="line-1757">   }</span>
-<span class="source-line-no">1758</span><span id="line-1758">        </span>
-<span class="source-line-no">1759</span><span id="line-1759">        </span>
-<span class="source-line-no">1760</span><span id="line-1760">        /**</span>
-<span class="source-line-no">1761</span><span id="line-1761">     * Converts a java List into javascript, whilst filtering the keys of any Maps to only those in validKeys</span>
-<span class="source-line-no">1762</span><span id="line-1762">     *</span>
-<span class="source-line-no">1763</span><span id="line-1763">     * @param list the list to convert into javascript</span>
-<span class="source-line-no">1764</span><span id="line-1764">     * @param jsonFormat the jsonFormat</span>
-<span class="source-line-no">1765</span><span id="line-1765">     * @param validKeys </span>
-<span class="source-line-no">1766</span><span id="line-1766">     *</span>
-<span class="source-line-no">1767</span><span id="line-1767">     * @return the javascript version of this list.</span>
-<span class="source-line-no">1768</span><span id="line-1768">     */</span>
-<span class="source-line-no">1769</span><span id="line-1769">    public static String structuredListToFilteredJson(List list, String jsonFormat, String...validKeys) {</span>
-<span class="source-line-no">1770</span><span id="line-1770">        StringBuilderWriter w = new StringBuilderWriter(list.size() * 2);</span>
-<span class="source-line-no">1771</span><span id="line-1771">        try {</span>
-<span class="source-line-no">1772</span><span id="line-1772">                structuredListToFilteredJson(w, list, jsonFormat, validKeys);</span>
-<span class="source-line-no">1773</span><span id="line-1773">                } catch (IOException e) {</span>
-<span class="source-line-no">1774</span><span id="line-1774">                        throw new IllegalStateException("IOException in StringBuilderWriter", e);</span>
-<span class="source-line-no">1775</span><span id="line-1775">                }</span>
-<span class="source-line-no">1776</span><span id="line-1776">        return w.toString();</span>
-<span class="source-line-no">1777</span><span id="line-1777">    }</span>
-<span class="source-line-no">1778</span><span id="line-1778"></span>
+<span class="source-line-no">1746</span><span id="line-1746">                  } else if (value instanceof long[]) {</span>
+<span class="source-line-no">1747</span><span id="line-1747">                          long[] daSrc = (long[]) value;</span>
+<span class="source-line-no">1748</span><span id="line-1748">                          Long[] daTgt = new Long[daSrc.length];</span>
+<span class="source-line-no">1749</span><span id="line-1749">                          for (int j=0; j&lt;daSrc.length; j++) { daTgt[j]=daSrc[j]; }</span>
+<span class="source-line-no">1750</span><span id="line-1750">                          List arrayList = Arrays.asList((Object[])daTgt);</span>
+<span class="source-line-no">1751</span><span id="line-1751">                          if (!isFirst) { w.append(","); }</span>
+<span class="source-line-no">1752</span><span id="line-1752">                          w.append(keyJson);</span>
+<span class="source-line-no">1753</span><span id="line-1753">                          w.append(": ");</span>
+<span class="source-line-no">1754</span><span id="line-1754">                          structuredListToJson(w, (List)arrayList, jsonFormat);</span>
+<span class="source-line-no">1755</span><span id="line-1755">                  } else if (value instanceof byte[]) {</span>
+<span class="source-line-no">1756</span><span id="line-1756">                          byte[] daSrc = (byte[]) value;</span>
+<span class="source-line-no">1757</span><span id="line-1757">                          Byte[] daTgt = new Byte[daSrc.length];</span>
+<span class="source-line-no">1758</span><span id="line-1758">                          for (int j=0; j&lt;daSrc.length; j++) { daTgt[j]=daSrc[j]; }</span>
+<span class="source-line-no">1759</span><span id="line-1759">                          List arrayList = Arrays.asList((Object[])daTgt);</span>
+<span class="source-line-no">1760</span><span id="line-1760">                          if (!isFirst) { w.append(","); }</span>
+<span class="source-line-no">1761</span><span id="line-1761">                          w.append(keyJson);</span>
+<span class="source-line-no">1762</span><span id="line-1762">                          w.append(": ");</span>
+<span class="source-line-no">1763</span><span id="line-1763">                          structuredListToJson(w, (List)arrayList, jsonFormat);</span>
+<span class="source-line-no">1764</span><span id="line-1764">                          </span>
+<span class="source-line-no">1765</span><span id="line-1765">                  } else {</span>
+<span class="source-line-no">1766</span><span id="line-1766">                          throw new UnsupportedOperationException("Cannot convert primitive array to JSON");</span>
+<span class="source-line-no">1767</span><span id="line-1767">                  }</span>
+<span class="source-line-no">1768</span><span id="line-1768">           } else {</span>
+<span class="source-line-no">1769</span><span id="line-1769">               throw new RuntimeException("Cannot translate Java object " + value.getClass().getName() + " to javascript value");</span>
+<span class="source-line-no">1770</span><span id="line-1770">           }</span>
+<span class="source-line-no">1771</span><span id="line-1771">           isFirst = false;</span>
+<span class="source-line-no">1772</span><span id="line-1772">       }</span>
+<span class="source-line-no">1773</span><span id="line-1773"></span>
+<span class="source-line-no">1774</span><span id="line-1774">       w.append("}\n");</span>
+<span class="source-line-no">1775</span><span id="line-1775">       // return s;</span>
+<span class="source-line-no">1776</span><span id="line-1776">   }</span>
+<span class="source-line-no">1777</span><span id="line-1777">        </span>
+<span class="source-line-no">1778</span><span id="line-1778">        </span>
 <span class="source-line-no">1779</span><span id="line-1779">        /**</span>
-<span class="source-line-no">1780</span><span id="line-1780">     * Converts a java Map into javascript, whilst filtering the keys of any Maps to only those in validKeys</span>
+<span class="source-line-no">1780</span><span id="line-1780">     * Converts a java List into javascript, whilst filtering the keys of any Maps to only those in validKeys</span>
 <span class="source-line-no">1781</span><span id="line-1781">     *</span>
-<span class="source-line-no">1782</span><span id="line-1782">     * @param map the map to convert into javascript</span>
+<span class="source-line-no">1782</span><span id="line-1782">     * @param list the list to convert into javascript</span>
 <span class="source-line-no">1783</span><span id="line-1783">     * @param jsonFormat the jsonFormat</span>
 <span class="source-line-no">1784</span><span id="line-1784">     * @param validKeys </span>
 <span class="source-line-no">1785</span><span id="line-1785">     *</span>
 <span class="source-line-no">1786</span><span id="line-1786">     * @return the javascript version of this list.</span>
 <span class="source-line-no">1787</span><span id="line-1787">     */</span>
-<span class="source-line-no">1788</span><span id="line-1788">    public static String structuredMapToFilteredJson(Map map, String jsonFormat, String...validKeys) {</span>
-<span class="source-line-no">1789</span><span id="line-1789">        StringBuilderWriter w = new StringBuilderWriter();</span>
+<span class="source-line-no">1788</span><span id="line-1788">    public static String structuredListToFilteredJson(List list, String jsonFormat, String...validKeys) {</span>
+<span class="source-line-no">1789</span><span id="line-1789">        StringBuilderWriter w = new StringBuilderWriter(list.size() * 2);</span>
 <span class="source-line-no">1790</span><span id="line-1790">        try {</span>
-<span class="source-line-no">1791</span><span id="line-1791">                structuredMapToFilteredJson(w, map, jsonFormat, validKeys);</span>
+<span class="source-line-no">1791</span><span id="line-1791">                structuredListToFilteredJson(w, list, jsonFormat, validKeys);</span>
 <span class="source-line-no">1792</span><span id="line-1792">                } catch (IOException e) {</span>
 <span class="source-line-no">1793</span><span id="line-1793">                        throw new IllegalStateException("IOException in StringBuilderWriter", e);</span>
 <span class="source-line-no">1794</span><span id="line-1794">                }</span>
 <span class="source-line-no">1795</span><span id="line-1795">        return w.toString();</span>
 <span class="source-line-no">1796</span><span id="line-1796">    }</span>
 <span class="source-line-no">1797</span><span id="line-1797"></span>
-<span class="source-line-no">1798</span><span id="line-1798">    </span>
-<span class="source-line-no">1799</span><span id="line-1799">    public static void structuredListToFilteredJson(Writer w, List list, String jsonFormat, String... validKeys) throws IOException {</span>
-<span class="source-line-no">1800</span><span id="line-1800">        Object value;</span>
-<span class="source-line-no">1801</span><span id="line-1801">        int index = 0;</span>
-<span class="source-line-no">1802</span><span id="line-1802">        w.append('[');</span>
-<span class="source-line-no">1803</span><span id="line-1803">        for (Iterator i = list.iterator(); i.hasNext(); ) {</span>
-<span class="source-line-no">1804</span><span id="line-1804">            value = i.next();</span>
-<span class="source-line-no">1805</span><span id="line-1805">            if (value == null) {</span>
-<span class="source-line-no">1806</span><span id="line-1806">                w.append("null");</span>
-<span class="source-line-no">1807</span><span id="line-1807">            } else if (value instanceof String) {</span>
-<span class="source-line-no">1808</span><span id="line-1808">                w.append('\"').append(Text.escapeJavascript((String) value)).append('\"'); </span>
-<span class="source-line-no">1809</span><span id="line-1809">            } else if (value instanceof ToJsonFormat) {</span>
-<span class="source-line-no">1810</span><span id="line-1810">                w.append(((ToJsonFormat) value).toJson(jsonFormat));</span>
-<span class="source-line-no">1811</span><span id="line-1811">            } else if (value instanceof ToJson) {</span>
-<span class="source-line-no">1812</span><span id="line-1812">                w.append(((ToJson) value).toJson());</span>
-<span class="source-line-no">1813</span><span id="line-1813">            } else if (value instanceof ToStringReturnsJson) {</span>
-<span class="source-line-no">1814</span><span id="line-1814">                w.append(value.toString());</span>
-<span class="source-line-no">1815</span><span id="line-1815">            } else if (value instanceof Map) {</span>
-<span class="source-line-no">1816</span><span id="line-1816">                structuredMapToFilteredJson(w, (Map) value, jsonFormat, validKeys); // @TODO pass in stringbuffer to pvt method</span>
-<span class="source-line-no">1817</span><span id="line-1817">            } else if (value instanceof List) {</span>
-<span class="source-line-no">1818</span><span id="line-1818">                structuredListToFilteredJson(w, (List) value, jsonFormat, validKeys);</span>
-<span class="source-line-no">1819</span><span id="line-1819">            } else if (value instanceof Number) {</span>
-<span class="source-line-no">1820</span><span id="line-1820">                w.append(value.toString());</span>
-<span class="source-line-no">1821</span><span id="line-1821">            } else if (value instanceof Boolean) {</span>
-<span class="source-line-no">1822</span><span id="line-1822">                w.append(value.toString());</span>
-<span class="source-line-no">1823</span><span id="line-1823">            } else if (value instanceof java.util.Date) {</span>
-<span class="source-line-no">1824</span><span id="line-1824">                // MS-compatible JSON encoding of Dates:</span>
-<span class="source-line-no">1825</span><span id="line-1825">                // see http://weblogs.asp.net/bleroy/archive/2008/01/18/dates-and-json.aspx</span>
-<span class="source-line-no">1826</span><span id="line-1826">                w.append(Struct.toDate((java.util.Date)value, jsonFormat));</span>
-<span class="source-line-no">1827</span><span id="line-1827">            } else if (value.getClass().isArray()) {</span>
-<span class="source-line-no">1828</span><span id="line-1828">                        if (value instanceof Object[]) {</span>
-<span class="source-line-no">1829</span><span id="line-1829">                                List arrayList = Arrays.asList((Object[])value);</span>
-<span class="source-line-no">1830</span><span id="line-1830">                                structuredListToFilteredJson(w, (List)arrayList, jsonFormat, validKeys);</span>
-<span class="source-line-no">1831</span><span id="line-1831">                        } else if (value instanceof double[]) {</span>
-<span class="source-line-no">1832</span><span id="line-1832">                        // @TODO other primitive array types</span>
-<span class="source-line-no">1833</span><span id="line-1833">                                // @TODO convert directly probably</span>
-<span class="source-line-no">1834</span><span id="line-1834">                                double[] daSrc = (double[]) value;</span>
-<span class="source-line-no">1835</span><span id="line-1835">                                Double[] daTgt = new Double[daSrc.length];</span>
-<span class="source-line-no">1836</span><span id="line-1836">                                for (int j=0; j&lt;daSrc.length; j++) { daTgt[j]=daSrc[j]; }</span>
-<span class="source-line-no">1837</span><span id="line-1837">                                List arrayList = Arrays.asList((Object[])daTgt);</span>
-<span class="source-line-no">1838</span><span id="line-1838">                                structuredListToFilteredJson(w, (List) arrayList, jsonFormat, validKeys);</span>
-<span class="source-line-no">1839</span><span id="line-1839">                        } else if (value instanceof int[]) {</span>
-<span class="source-line-no">1840</span><span id="line-1840">                                int[] daSrc = (int[]) value;</span>
-<span class="source-line-no">1841</span><span id="line-1841">                                Integer[] daTgt = new Integer[daSrc.length];</span>
-<span class="source-line-no">1842</span><span id="line-1842">                                for (int j=0; j&lt;daSrc.length; j++) { daTgt[j]=daSrc[j]; }</span>
-<span class="source-line-no">1843</span><span id="line-1843">                                List arrayList = Arrays.asList((Object[])daTgt);</span>
-<span class="source-line-no">1844</span><span id="line-1844">                                structuredListToFilteredJson(w, (List) arrayList, jsonFormat, validKeys);</span>
-<span class="source-line-no">1845</span><span id="line-1845">                        } else {</span>
-<span class="source-line-no">1846</span><span id="line-1846">                                throw new UnsupportedOperationException("Cannot convert primitive array to JSON");</span>
-<span class="source-line-no">1847</span><span id="line-1847">                        }</span>
-<span class="source-line-no">1848</span><span id="line-1848">            } else {</span>
-<span class="source-line-no">1849</span><span id="line-1849">                throw new RuntimeException("Cannot translate Java object " +</span>
-<span class="source-line-no">1850</span><span id="line-1850">                    value.getClass().getName() + " to javascript value");</span>
-<span class="source-line-no">1851</span><span id="line-1851">            }</span>
-<span class="source-line-no">1852</span><span id="line-1852">            index = index + 1;</span>
-<span class="source-line-no">1853</span><span id="line-1853">            if (i.hasNext()) {</span>
-<span class="source-line-no">1854</span><span id="line-1854">                w.append(',');</span>
-<span class="source-line-no">1855</span><span id="line-1855">            }</span>
-<span class="source-line-no">1856</span><span id="line-1856">        }</span>
-<span class="source-line-no">1857</span><span id="line-1857">        w.append("]");  // removed \n</span>
-<span class="source-line-no">1858</span><span id="line-1858">    }</span>
-<span class="source-line-no">1859</span><span id="line-1859"></span>
-<span class="source-line-no">1860</span><span id="line-1860">   public static void structuredMapToFilteredJson(Writer w, Map map, String jsonFormat, String... validKeys) throws IOException {</span>
-<span class="source-line-no">1861</span><span id="line-1861">       // String s;</span>
-<span class="source-line-no">1862</span><span id="line-1862">       String keyJson = null;</span>
-<span class="source-line-no">1863</span><span id="line-1863">       Object value;</span>
-<span class="source-line-no">1864</span><span id="line-1864">       </span>
-<span class="source-line-no">1865</span><span id="line-1865">       /* List list = new ArrayList(map.keySet());</span>
-<span class="source-line-no">1866</span><span id="line-1866">       Collections.sort(list, new ListComparator());</span>
-<span class="source-line-no">1867</span><span id="line-1867">       */</span>
-<span class="source-line-no">1868</span><span id="line-1868">       </span>
-<span class="source-line-no">1869</span><span id="line-1869">       boolean isFirst = true;</span>
-<span class="source-line-no">1870</span><span id="line-1870"></span>
-<span class="source-line-no">1871</span><span id="line-1871">       w.append("{");</span>
-<span class="source-line-no">1872</span><span id="line-1872"></span>
-<span class="source-line-no">1873</span><span id="line-1873">       for (String key : validKeys) {</span>
-<span class="source-line-no">1874</span><span id="line-1874">           // key = (Object) i.next();</span>
-<span class="source-line-no">1875</span><span id="line-1875">           value = map.get(key);</span>
-<span class="source-line-no">1876</span><span id="line-1876">           if (value != null) {</span>
-<span class="source-line-no">1877</span><span id="line-1877">                   if (key instanceof String) {</span>
-<span class="source-line-no">1878</span><span id="line-1878">                           keyJson = "\"" + key + "\"";</span>
-<span class="source-line-no">1879</span><span id="line-1879">                   } else {</span>
-<span class="source-line-no">1880</span><span id="line-1880">                           throw new IllegalArgumentException("Cannot convert key type " + key.getClass().getName() + " to javascript value");</span>
-<span class="source-line-no">1881</span><span id="line-1881">                   }</span>
-<span class="source-line-no">1882</span><span id="line-1882">           }</span>
-<span class="source-line-no">1883</span><span id="line-1883">           if (key == null || key.equals("")) {</span>
-<span class="source-line-no">1884</span><span id="line-1884">               continue; // don't allow null or empty keys, </span>
-<span class="source-line-no">1885</span><span id="line-1885">           } else if (value == null) {</span>
-<span class="source-line-no">1886</span><span id="line-1886">               continue; // don't bother transferring null values to javascript</span>
-<span class="source-line-no">1887</span><span id="line-1887">           } else if (value instanceof String) {</span>
-<span class="source-line-no">1888</span><span id="line-1888">                   if (!isFirst) { w.append(","); }</span>
-<span class="source-line-no">1889</span><span id="line-1889">                   w.append(keyJson);</span>
-<span class="source-line-no">1890</span><span id="line-1890">                   w.append( ": \"");</span>
-<span class="source-line-no">1891</span><span id="line-1891">                   w.append(Text.escapeJavascript((String) value));</span>
-<span class="source-line-no">1892</span><span id="line-1892">                   w.append("\"");</span>
-<span class="source-line-no">1893</span><span id="line-1893">           } else if (value instanceof ToJsonFormat) {</span>
-<span class="source-line-no">1894</span><span id="line-1894">                   if (!isFirst) { w.append(","); }</span>
-<span class="source-line-no">1895</span><span id="line-1895">                   w.append(keyJson);</span>
-<span class="source-line-no">1896</span><span id="line-1896">                   w.append(": ");</span>
-<span class="source-line-no">1897</span><span id="line-1897">                   w.append(((ToJsonFormat) value).toJson(jsonFormat));</span>
-<span class="source-line-no">1898</span><span id="line-1898">           } else if (value instanceof ToJson) {</span>
-<span class="source-line-no">1899</span><span id="line-1899">                   if (!isFirst) { w.append(","); }</span>
-<span class="source-line-no">1900</span><span id="line-1900">                   w.append(keyJson);</span>
-<span class="source-line-no">1901</span><span id="line-1901">                   w.append(": ");</span>
-<span class="source-line-no">1902</span><span id="line-1902">                   w.append(((ToJson) value).toJson());</span>
-<span class="source-line-no">1903</span><span id="line-1903">           } else if (value instanceof ToStringReturnsJson) {</span>
-<span class="source-line-no">1904</span><span id="line-1904">                   if (!isFirst) { w.append(","); }</span>
-<span class="source-line-no">1905</span><span id="line-1905">                   w.append(keyJson);</span>
-<span class="source-line-no">1906</span><span id="line-1906">                   w.append(": ");</span>
-<span class="source-line-no">1907</span><span id="line-1907">                   w.append(value.toString());</span>
-<span class="source-line-no">1908</span><span id="line-1908">           } else if (value instanceof Map) {</span>
-<span class="source-line-no">1909</span><span id="line-1909">                   if (!isFirst) { w.append(","); }</span>
-<span class="source-line-no">1910</span><span id="line-1910">               w.append(keyJson);</span>
-<span class="source-line-no">1911</span><span id="line-1911">               w.append(": ");</span>
-<span class="source-line-no">1912</span><span id="line-1912">               structuredMapToFilteredJson(w, (Map) value, jsonFormat, validKeys);</span>
-<span class="source-line-no">1913</span><span id="line-1913">           } else if (value instanceof List) {</span>
-<span class="source-line-no">1914</span><span id="line-1914">                   if (!isFirst) { w.append(","); }</span>
-<span class="source-line-no">1915</span><span id="line-1915">                   w.append(keyJson);</span>
-<span class="source-line-no">1916</span><span id="line-1916">                   w.append(": ");</span>
-<span class="source-line-no">1917</span><span id="line-1917">                   structuredListToFilteredJson(w, (List) value, jsonFormat, validKeys);</span>
-<span class="source-line-no">1918</span><span id="line-1918">           } else if (value instanceof Number) {</span>
-<span class="source-line-no">1919</span><span id="line-1919">                   if (!isFirst) { w.append(","); }</span>
-<span class="source-line-no">1920</span><span id="line-1920">               w.append(keyJson);</span>
-<span class="source-line-no">1921</span><span id="line-1921">               w.append(": ");</span>
-<span class="source-line-no">1922</span><span id="line-1922">               w.append(value.toString());</span>
-<span class="source-line-no">1923</span><span id="line-1923">           } else if (value instanceof Boolean) {</span>
-<span class="source-line-no">1924</span><span id="line-1924">                   if (!isFirst) { w.append(","); }</span>
-<span class="source-line-no">1925</span><span id="line-1925">                   w.append(keyJson);</span>
-<span class="source-line-no">1926</span><span id="line-1926">                   w.append(": ");</span>
-<span class="source-line-no">1927</span><span id="line-1927">                   w.append(value.toString());</span>
-<span class="source-line-no">1928</span><span id="line-1928">           } else if (value instanceof java.util.Date) {</span>
-<span class="source-line-no">1929</span><span id="line-1929">                // MS-compatible JSON encoding of Dates:</span>
-<span class="source-line-no">1930</span><span id="line-1930">                // see http://weblogs.asp.net/bleroy/archive/2008/01/18/dates-and-json.aspx</span>
-<span class="source-line-no">1931</span><span id="line-1931">                   if (!isFirst) { w.append(","); }</span>
-<span class="source-line-no">1932</span><span id="line-1932">               w.append(keyJson);</span>
-<span class="source-line-no">1933</span><span id="line-1933">               w.append(": ");</span>
-<span class="source-line-no">1934</span><span id="line-1934">               w.append(Struct.toDate((java.util.Date)value, jsonFormat));</span>
-<span class="source-line-no">1935</span><span id="line-1935">           } else if (value.getClass().isArray()) {</span>
-<span class="source-line-no">1936</span><span id="line-1936">                   </span>
-<span class="source-line-no">1937</span><span id="line-1937">                  if (value instanceof Object[]) {</span>
-<span class="source-line-no">1938</span><span id="line-1938">                      List arrayList = Arrays.asList((Object[])value);</span>
-<span class="source-line-no">1939</span><span id="line-1939">                      if (!isFirst) { w.append(","); }</span>
-<span class="source-line-no">1940</span><span id="line-1940">                      w.append(keyJson);</span>
-<span class="source-line-no">1941</span><span id="line-1941">                      w.append(": ");</span>
-<span class="source-line-no">1942</span><span id="line-1942">                      structuredListToFilteredJson(w, (List)arrayList, jsonFormat, validKeys);</span>
-<span class="source-line-no">1943</span><span id="line-1943">                  } else if (value instanceof double[]) {</span>
-<span class="source-line-no">1944</span><span id="line-1944">                  // @TODO other primitive array types</span>
-<span class="source-line-no">1945</span><span id="line-1945">                  // @TODO convert directly probably</span>
-<span class="source-line-no">1946</span><span id="line-1946">                          double[] daSrc = (double[]) value;</span>
-<span class="source-line-no">1947</span><span id="line-1947">                          Double[] daTgt = new Double[daSrc.length];</span>
-<span class="source-line-no">1948</span><span id="line-1948">                          for (int j=0; j&lt;daSrc.length; j++) { daTgt[j]=daSrc[j]; }</span>
-<span class="source-line-no">1949</span><span id="line-1949">                          List arrayList = Arrays.asList((Object[])daTgt);</span>
-<span class="source-line-no">1950</span><span id="line-1950">                          if (!isFirst) { w.append(","); }</span>
-<span class="source-line-no">1951</span><span id="line-1951">                          w.append(keyJson);</span>
-<span class="source-line-no">1952</span><span id="line-1952">                          w.append(": ");</span>
-<span class="source-line-no">1953</span><span id="line-1953">                          structuredListToFilteredJson(w, (List)arrayList, jsonFormat, validKeys);</span>
-<span class="source-line-no">1954</span><span id="line-1954">                  } else if (value instanceof int[]) {</span>
-<span class="source-line-no">1955</span><span id="line-1955">                  // @TODO other primitive array types</span>
-<span class="source-line-no">1956</span><span id="line-1956">                  // @TODO convert directly probably</span>
-<span class="source-line-no">1957</span><span id="line-1957">                          int[] daSrc = (int[]) value;</span>
-<span class="source-line-no">1958</span><span id="line-1958">                          Integer[] daTgt = new Integer[daSrc.length];</span>
-<span class="source-line-no">1959</span><span id="line-1959">                          for (int j=0; j&lt;daSrc.length; j++) { daTgt[j]=daSrc[j]; }</span>
-<span class="source-line-no">1960</span><span id="line-1960">                          List arrayList = Arrays.asList((Object[])daTgt);</span>
-<span class="source-line-no">1961</span><span id="line-1961">                          if (!isFirst) { w.append(","); }</span>
-<span class="source-line-no">1962</span><span id="line-1962">                          w.append(keyJson);</span>
-<span class="source-line-no">1963</span><span id="line-1963">                          w.append(": ");</span>
-<span class="source-line-no">1964</span><span id="line-1964">                          structuredListToFilteredJson(w, (List)arrayList, jsonFormat, validKeys);</span>
-<span class="source-line-no">1965</span><span id="line-1965">                  } else {</span>
-<span class="source-line-no">1966</span><span id="line-1966">                          throw new UnsupportedOperationException("Cannot convert primitive array to JSON");</span>
-<span class="source-line-no">1967</span><span id="line-1967">                  }</span>
-<span class="source-line-no">1968</span><span id="line-1968">           } else {</span>
-<span class="source-line-no">1969</span><span id="line-1969">               throw new RuntimeException("Cannot translate Java object " + value.getClass().getName() + " to javascript value");</span>
-<span class="source-line-no">1970</span><span id="line-1970">           }</span>
-<span class="source-line-no">1971</span><span id="line-1971">           isFirst = false;</span>
-<span class="source-line-no">1972</span><span id="line-1972">       }</span>
-<span class="source-line-no">1973</span><span id="line-1973"></span>
-<span class="source-line-no">1974</span><span id="line-1974">       w.append("}");  // removed \n</span>
-<span class="source-line-no">1975</span><span id="line-1975">   }</span>
-<span class="source-line-no">1976</span><span id="line-1976"></span>
-<span class="source-line-no">1977</span><span id="line-1977">   </span>
-<span class="source-line-no">1978</span><span id="line-1978">    </span>
-<span class="source-line-no">1979</span><span id="line-1979">    /** Convert a date object to it's JSON representation.</span>
-<span class="source-line-no">1980</span><span id="line-1980">     * </span>
-<span class="source-line-no">1981</span><span id="line-1981">     * &lt;p&gt;As there's no real standard for this, a type format is used to define what kind of Dates your </span>
-<span class="source-line-no">1982</span><span id="line-1982">     * going to get on the Json side.</span>
-<span class="source-line-no">1983</span><span id="line-1983">     * </span>
-<span class="source-line-no">1984</span><span id="line-1984">     * @param d a Date object</span>
-<span class="source-line-no">1985</span><span id="line-1985">     * @param jsonFormat either "microsoft" or "numeric"</span>
-<span class="source-line-no">1986</span><span id="line-1986">     * </span>
-<span class="source-line-no">1987</span><span id="line-1987">     * @return A date in json representation.</span>
-<span class="source-line-no">1988</span><span id="line-1988">     * </span>
-<span class="source-line-no">1989</span><span id="line-1989">     * @see &lt;a href="http://weblogs.asp.net/bleroy/archive/2008/01/18/dates-and-json.aspx"&gt;http://weblogs.asp.net/bleroy/archive/2008/01/18/dates-and-json.aspx&lt;/a&gt;</span>
-<span class="source-line-no">1990</span><span id="line-1990">     */</span>
-<span class="source-line-no">1991</span><span id="line-1991">    static public String toDate(Date d, String jsonFormat) {</span>
-<span class="source-line-no">1992</span><span id="line-1992">                if (jsonFormat==null || jsonFormat.equals("microsoft")) {</span>
-<span class="source-line-no">1993</span><span id="line-1993">                        return "\"\\/Date(" + d.getTime() +  ")\\/\"";  </span>
-<span class="source-line-no">1994</span><span id="line-1994">                } else {</span>
-<span class="source-line-no">1995</span><span id="line-1995">                        return String.valueOf(d.getTime());</span>
-<span class="source-line-no">1996</span><span id="line-1996">                }</span>
-<span class="source-line-no">1997</span><span id="line-1997">    }</span>
-<span class="source-line-no">1998</span><span id="line-1998"></span>
-<span class="source-line-no">1999</span><span id="line-1999"></span>
-<span class="source-line-no">2000</span><span id="line-2000"></span>
-<span class="source-line-no">2001</span><span id="line-2001"></span>
-<span class="source-line-no">2002</span><span id="line-2002">    </span>
-<span class="source-line-no">2003</span><span id="line-2003">    /** Create a structured Map out of key / value pairs. Keys must be Strings.</span>
-<span class="source-line-no">2004</span><span id="line-2004">     * </span>
-<span class="source-line-no">2005</span><span id="line-2005">     * &lt;p&gt;So the value of &lt;code&gt;Struct.newStructuredMap("thing", 1L, "otherThing", "value");&lt;/code&gt; is a map</span>
-<span class="source-line-no">2006</span><span id="line-2006">     * with two entries:</span>
-<span class="source-line-no">2007</span><span id="line-2007">     * &lt;ul&gt;&lt;li&gt;an entry with key "thing" and value new Long(1), and </span>
-<span class="source-line-no">2008</span><span id="line-2008">     * &lt;li&gt;an entry  with key "otherThing" and value "value".</span>
-<span class="source-line-no">2009</span><span id="line-2009">     * &lt;/ul&gt; </span>
-<span class="source-line-no">2010</span><span id="line-2010">     * </span>
-<span class="source-line-no">2011</span><span id="line-2011">     * @param keyValuePairs a list of key / value pairs </span>
-<span class="source-line-no">2012</span><span id="line-2012">     * </span>
-<span class="source-line-no">2013</span><span id="line-2013">     * @return a Map as described above</span>
-<span class="source-line-no">2014</span><span id="line-2014">     * </span>
-<span class="source-line-no">2015</span><span id="line-2015">     * @throws ClassCastException if any of the supplied keys is not a String</span>
-<span class="source-line-no">2016</span><span id="line-2016">     */</span>
-<span class="source-line-no">2017</span><span id="line-2017">    // looking forward to when statically defined Maps become a Java language construct</span>
-<span class="source-line-no">2018</span><span id="line-2018">    static public Map&lt;String, Object&gt; newStructuredMap(Object... keyValuePairs) {</span>
-<span class="source-line-no">2019</span><span id="line-2019">        if (keyValuePairs.length%2==1) { throw new IllegalArgumentException("keyValuePairs must have even number of elements"); }</span>
-<span class="source-line-no">2020</span><span id="line-2020">        Map&lt;String, Object&gt; map = new HashMap();</span>
-<span class="source-line-no">2021</span><span id="line-2021">        for (int i=0; i&lt;keyValuePairs.length; i+=2) {</span>
-<span class="source-line-no">2022</span><span id="line-2022">                String key = (String) keyValuePairs[i];</span>
-<span class="source-line-no">2023</span><span id="line-2023">                map.put(key, keyValuePairs[i + 1]);</span>
-<span class="source-line-no">2024</span><span id="line-2024">        }</span>
-<span class="source-line-no">2025</span><span id="line-2025">        return map;</span>
-<span class="source-line-no">2026</span><span id="line-2026">    }</span>
-<span class="source-line-no">2027</span><span id="line-2027"></span>
-<span class="source-line-no">2028</span><span id="line-2028">        /** Rename a structured column, as returned from a Spring JdbcTemplate query. This method will iterate</span>
-<span class="source-line-no">2029</span><span id="line-2029">         * throw all rows of a table, replacing any srcColumnName keys with destColumnName</span>
-<span class="source-line-no">2030</span><span id="line-2030">         * </span>
-<span class="source-line-no">2031</span><span id="line-2031">         * @param rows the table being modified</span>
-<span class="source-line-no">2032</span><span id="line-2032">         * @param srcColumnName the name of the row key (column) being replaced</span>
-<span class="source-line-no">2033</span><span id="line-2033">         * @param destColumnName the new name of the row key (column)</span>
-<span class="source-line-no">2034</span><span id="line-2034">         */</span>
-<span class="source-line-no">2035</span><span id="line-2035">        public static void renameStructuredListColumn(List&lt;Map&lt;String, Object&gt;&gt; rows, String srcColumnName, String destColumnName) {</span>
-<span class="source-line-no">2036</span><span id="line-2036">                if (srcColumnName == null) { throw new NullPointerException("null srcColumnName"); }</span>
-<span class="source-line-no">2037</span><span id="line-2037">                if (destColumnName == null) { throw new NullPointerException("null destColumnName"); }</span>
-<span class="source-line-no">2038</span><span id="line-2038">                if (srcColumnName.equals(destColumnName)) { return; }</span>
-<span class="source-line-no">2039</span><span id="line-2039">                </span>
-<span class="source-line-no">2040</span><span id="line-2040">                for (int i=0; i&lt;rows.size(); i++) {</span>
-<span class="source-line-no">2041</span><span id="line-2041">                        Map&lt;String,Object&gt; row = rows.get(i);</span>
-<span class="source-line-no">2042</span><span id="line-2042">                        if (row.containsKey(srcColumnName)) {</span>
-<span class="source-line-no">2043</span><span id="line-2043">                                row.put(destColumnName, row.get(srcColumnName));</span>
-<span class="source-line-no">2044</span><span id="line-2044">                                row.remove(srcColumnName);</span>
-<span class="source-line-no">2045</span><span id="line-2045">                        }</span>
-<span class="source-line-no">2046</span><span id="line-2046">                }</span>
-<span class="source-line-no">2047</span><span id="line-2047">        }</span>
-<span class="source-line-no">2048</span><span id="line-2048"></span>
-<span class="source-line-no">2049</span><span id="line-2049">        /** Add a structured column containing a constant value. This method will iterate through all </span>
-<span class="source-line-no">2050</span><span id="line-2050">         * rows of a table, adding a new newColumnName key with the supplied value.</span>
-<span class="source-line-no">2051</span><span id="line-2051">         * </span>
-<span class="source-line-no">2052</span><span id="line-2052">         * @param rows the table being modified</span>
-<span class="source-line-no">2053</span><span id="line-2053">         * @param newColumnName the name of the row key (column) being added</span>
-<span class="source-line-no">2054</span><span id="line-2054">         * @param value the value to add to the row</span>
-<span class="source-line-no">2055</span><span id="line-2055">         */</span>
-<span class="source-line-no">2056</span><span id="line-2056">        public static void addStructuredListColumn(List&lt;Map&lt;String, Object&gt;&gt; rows, String newColumnName, Object value) {</span>
-<span class="source-line-no">2057</span><span id="line-2057">                for (int i=0; i&lt;rows.size(); i++) {</span>
-<span class="source-line-no">2058</span><span id="line-2058">                        Map&lt;String,Object&gt; row = rows.get(i);</span>
-<span class="source-line-no">2059</span><span id="line-2059">                        row.put(newColumnName, value);</span>
-<span class="source-line-no">2060</span><span id="line-2060">                }</span>
-<span class="source-line-no">2061</span><span id="line-2061">        }</span>
-<span class="source-line-no">2062</span><span id="line-2062"></span>
-<span class="source-line-no">2063</span><span id="line-2063">    static {</span>
-<span class="source-line-no">2064</span><span id="line-2064">        // NB: these used to be ConcurrentReaderHashMaps, but I didn't want to</span>
-<span class="source-line-no">2065</span><span id="line-2065">        // bring concurrent.jar into the classpath.</span>
-<span class="source-line-no">2066</span><span id="line-2066">        gettersCache = new ConcurrentHashMap();</span>
-<span class="source-line-no">2067</span><span id="line-2067">        settersCache = new ConcurrentHashMap();</span>
-<span class="source-line-no">2068</span><span id="line-2068">    }</span>
-<span class="source-line-no">2069</span><span id="line-2069">}</span>
+<span class="source-line-no">1798</span><span id="line-1798">        /**</span>
+<span class="source-line-no">1799</span><span id="line-1799">     * Converts a java Map into javascript, whilst filtering the keys of any Maps to only those in validKeys</span>
+<span class="source-line-no">1800</span><span id="line-1800">     *</span>
+<span class="source-line-no">1801</span><span id="line-1801">     * @param map the map to convert into javascript</span>
+<span class="source-line-no">1802</span><span id="line-1802">     * @param jsonFormat the jsonFormat</span>
+<span class="source-line-no">1803</span><span id="line-1803">     * @param validKeys </span>
+<span class="source-line-no">1804</span><span id="line-1804">     *</span>
+<span class="source-line-no">1805</span><span id="line-1805">     * @return the javascript version of this list.</span>
+<span class="source-line-no">1806</span><span id="line-1806">     */</span>
+<span class="source-line-no">1807</span><span id="line-1807">    public static String structuredMapToFilteredJson(Map map, String jsonFormat, String...validKeys) {</span>
+<span class="source-line-no">1808</span><span id="line-1808">        StringBuilderWriter w = new StringBuilderWriter();</span>
+<span class="source-line-no">1809</span><span id="line-1809">        try {</span>
+<span class="source-line-no">1810</span><span id="line-1810">                structuredMapToFilteredJson(w, map, jsonFormat, validKeys);</span>
+<span class="source-line-no">1811</span><span id="line-1811">                } catch (IOException e) {</span>
+<span class="source-line-no">1812</span><span id="line-1812">                        throw new IllegalStateException("IOException in StringBuilderWriter", e);</span>
+<span class="source-line-no">1813</span><span id="line-1813">                }</span>
+<span class="source-line-no">1814</span><span id="line-1814">        return w.toString();</span>
+<span class="source-line-no">1815</span><span id="line-1815">    }</span>
+<span class="source-line-no">1816</span><span id="line-1816"></span>
+<span class="source-line-no">1817</span><span id="line-1817">    </span>
+<span class="source-line-no">1818</span><span id="line-1818">    public static void structuredListToFilteredJson(Writer w, List list, String jsonFormat, String... validKeys) throws IOException {</span>
+<span class="source-line-no">1819</span><span id="line-1819">        Object value;</span>
+<span class="source-line-no">1820</span><span id="line-1820">        int index = 0;</span>
+<span class="source-line-no">1821</span><span id="line-1821">        w.append('[');</span>
+<span class="source-line-no">1822</span><span id="line-1822">        for (Iterator i = list.iterator(); i.hasNext(); ) {</span>
+<span class="source-line-no">1823</span><span id="line-1823">            value = i.next();</span>
+<span class="source-line-no">1824</span><span id="line-1824">            if (value == null) {</span>
+<span class="source-line-no">1825</span><span id="line-1825">                w.append("null");</span>
+<span class="source-line-no">1826</span><span id="line-1826">            } else if (value instanceof String) {</span>
+<span class="source-line-no">1827</span><span id="line-1827">                w.append('\"').append(Text.escapeJavascript((String) value)).append('\"'); </span>
+<span class="source-line-no">1828</span><span id="line-1828">            } else if (value instanceof ToJsonFormat) {</span>
+<span class="source-line-no">1829</span><span id="line-1829">                w.append(((ToJsonFormat) value).toJson(jsonFormat));</span>
+<span class="source-line-no">1830</span><span id="line-1830">            } else if (value instanceof ToJson) {</span>
+<span class="source-line-no">1831</span><span id="line-1831">                w.append(((ToJson) value).toJson());</span>
+<span class="source-line-no">1832</span><span id="line-1832">            } else if (value instanceof ToStringReturnsJson) {</span>
+<span class="source-line-no">1833</span><span id="line-1833">                w.append(value.toString());</span>
+<span class="source-line-no">1834</span><span id="line-1834">            } else if (value instanceof Map) {</span>
+<span class="source-line-no">1835</span><span id="line-1835">                structuredMapToFilteredJson(w, (Map) value, jsonFormat, validKeys); // @TODO pass in stringbuffer to pvt method</span>
+<span class="source-line-no">1836</span><span id="line-1836">            } else if (value instanceof List) {</span>
+<span class="source-line-no">1837</span><span id="line-1837">                structuredListToFilteredJson(w, (List) value, jsonFormat, validKeys);</span>
+<span class="source-line-no">1838</span><span id="line-1838">            } else if (value instanceof Number) {</span>
+<span class="source-line-no">1839</span><span id="line-1839">                w.append(value.toString());</span>
+<span class="source-line-no">1840</span><span id="line-1840">            } else if (value instanceof Boolean) {</span>
+<span class="source-line-no">1841</span><span id="line-1841">                w.append(value.toString());</span>
+<span class="source-line-no">1842</span><span id="line-1842">            } else if (value instanceof java.util.Date) {</span>
+<span class="source-line-no">1843</span><span id="line-1843">                // MS-compatible JSON encoding of Dates:</span>
+<span class="source-line-no">1844</span><span id="line-1844">                // see http://weblogs.asp.net/bleroy/archive/2008/01/18/dates-and-json.aspx</span>
+<span class="source-line-no">1845</span><span id="line-1845">                w.append(Struct.toDate((java.util.Date)value, jsonFormat));</span>
+<span class="source-line-no">1846</span><span id="line-1846">            } else if (value.getClass().isArray()) {</span>
+<span class="source-line-no">1847</span><span id="line-1847">                        if (value instanceof Object[]) {</span>
+<span class="source-line-no">1848</span><span id="line-1848">                                List arrayList = Arrays.asList((Object[])value);</span>
+<span class="source-line-no">1849</span><span id="line-1849">                                structuredListToFilteredJson(w, (List)arrayList, jsonFormat, validKeys);</span>
+<span class="source-line-no">1850</span><span id="line-1850">                        } else if (value instanceof double[]) {</span>
+<span class="source-line-no">1851</span><span id="line-1851">                        // @TODO other primitive array types</span>
+<span class="source-line-no">1852</span><span id="line-1852">                                // @TODO convert directly probably</span>
+<span class="source-line-no">1853</span><span id="line-1853">                                double[] daSrc = (double[]) value;</span>
+<span class="source-line-no">1854</span><span id="line-1854">                                Double[] daTgt = new Double[daSrc.length];</span>
+<span class="source-line-no">1855</span><span id="line-1855">                                for (int j=0; j&lt;daSrc.length; j++) { daTgt[j]=daSrc[j]; }</span>
+<span class="source-line-no">1856</span><span id="line-1856">                                List arrayList = Arrays.asList((Object[])daTgt);</span>
+<span class="source-line-no">1857</span><span id="line-1857">                                structuredListToFilteredJson(w, (List) arrayList, jsonFormat, validKeys);</span>
+<span class="source-line-no">1858</span><span id="line-1858">                        } else if (value instanceof int[]) {</span>
+<span class="source-line-no">1859</span><span id="line-1859">                                int[] daSrc = (int[]) value;</span>
+<span class="source-line-no">1860</span><span id="line-1860">                                Integer[] daTgt = new Integer[daSrc.length];</span>
+<span class="source-line-no">1861</span><span id="line-1861">                                for (int j=0; j&lt;daSrc.length; j++) { daTgt[j]=daSrc[j]; }</span>
+<span class="source-line-no">1862</span><span id="line-1862">                                List arrayList = Arrays.asList((Object[])daTgt);</span>
+<span class="source-line-no">1863</span><span id="line-1863">                                structuredListToFilteredJson(w, (List) arrayList, jsonFormat, validKeys);</span>
+<span class="source-line-no">1864</span><span id="line-1864">                        } else {</span>
+<span class="source-line-no">1865</span><span id="line-1865">                                throw new UnsupportedOperationException("Cannot convert primitive array to JSON");</span>
+<span class="source-line-no">1866</span><span id="line-1866">                        }</span>
+<span class="source-line-no">1867</span><span id="line-1867">            } else {</span>
+<span class="source-line-no">1868</span><span id="line-1868">                throw new RuntimeException("Cannot translate Java object " +</span>
+<span class="source-line-no">1869</span><span id="line-1869">                    value.getClass().getName() + " to javascript value");</span>
+<span class="source-line-no">1870</span><span id="line-1870">            }</span>
+<span class="source-line-no">1871</span><span id="line-1871">            index = index + 1;</span>
+<span class="source-line-no">1872</span><span id="line-1872">            if (i.hasNext()) {</span>
+<span class="source-line-no">1873</span><span id="line-1873">                w.append(',');</span>
+<span class="source-line-no">1874</span><span id="line-1874">            }</span>
+<span class="source-line-no">1875</span><span id="line-1875">        }</span>
+<span class="source-line-no">1876</span><span id="line-1876">        w.append("]");  // removed \n</span>
+<span class="source-line-no">1877</span><span id="line-1877">    }</span>
+<span class="source-line-no">1878</span><span id="line-1878"></span>
+<span class="source-line-no">1879</span><span id="line-1879">   public static void structuredMapToFilteredJson(Writer w, Map map, String jsonFormat, String... validKeys) throws IOException {</span>
+<span class="source-line-no">1880</span><span id="line-1880">       // String s;</span>
+<span class="source-line-no">1881</span><span id="line-1881">       String keyJson = null;</span>
+<span class="source-line-no">1882</span><span id="line-1882">       Object value;</span>
+<span class="source-line-no">1883</span><span id="line-1883">       </span>
+<span class="source-line-no">1884</span><span id="line-1884">       /* List list = new ArrayList(map.keySet());</span>
+<span class="source-line-no">1885</span><span id="line-1885">       Collections.sort(list, new ListComparator());</span>
+<span class="source-line-no">1886</span><span id="line-1886">       */</span>
+<span class="source-line-no">1887</span><span id="line-1887">       </span>
+<span class="source-line-no">1888</span><span id="line-1888">       boolean isFirst = true;</span>
+<span class="source-line-no">1889</span><span id="line-1889"></span>
+<span class="source-line-no">1890</span><span id="line-1890">       w.append("{");</span>
+<span class="source-line-no">1891</span><span id="line-1891"></span>
+<span class="source-line-no">1892</span><span id="line-1892">       for (String key : validKeys) {</span>
+<span class="source-line-no">1893</span><span id="line-1893">           // key = (Object) i.next();</span>
+<span class="source-line-no">1894</span><span id="line-1894">           value = map.get(key);</span>
+<span class="source-line-no">1895</span><span id="line-1895">           if (value != null) {</span>
+<span class="source-line-no">1896</span><span id="line-1896">                   if (key instanceof String) {</span>
+<span class="source-line-no">1897</span><span id="line-1897">                           keyJson = "\"" + key + "\"";</span>
+<span class="source-line-no">1898</span><span id="line-1898">                   } else {</span>
+<span class="source-line-no">1899</span><span id="line-1899">                           throw new IllegalArgumentException("Cannot convert key type " + key.getClass().getName() + " to javascript value");</span>
+<span class="source-line-no">1900</span><span id="line-1900">                   }</span>
+<span class="source-line-no">1901</span><span id="line-1901">           }</span>
+<span class="source-line-no">1902</span><span id="line-1902">           if (key == null || key.equals("")) {</span>
+<span class="source-line-no">1903</span><span id="line-1903">               continue; // don't allow null or empty keys, </span>
+<span class="source-line-no">1904</span><span id="line-1904">           } else if (value == null) {</span>
+<span class="source-line-no">1905</span><span id="line-1905">               continue; // don't bother transferring null values to javascript</span>
+<span class="source-line-no">1906</span><span id="line-1906">           } else if (value instanceof String) {</span>
+<span class="source-line-no">1907</span><span id="line-1907">                   if (!isFirst) { w.append(","); }</span>
+<span class="source-line-no">1908</span><span id="line-1908">                   w.append(keyJson);</span>
+<span class="source-line-no">1909</span><span id="line-1909">                   w.append( ": \"");</span>
+<span class="source-line-no">1910</span><span id="line-1910">                   w.append(Text.escapeJavascript((String) value));</span>
+<span class="source-line-no">1911</span><span id="line-1911">                   w.append("\"");</span>
+<span class="source-line-no">1912</span><span id="line-1912">           } else if (value instanceof ToJsonFormat) {</span>
+<span class="source-line-no">1913</span><span id="line-1913">                   if (!isFirst) { w.append(","); }</span>
+<span class="source-line-no">1914</span><span id="line-1914">                   w.append(keyJson);</span>
+<span class="source-line-no">1915</span><span id="line-1915">                   w.append(": ");</span>
+<span class="source-line-no">1916</span><span id="line-1916">                   w.append(((ToJsonFormat) value).toJson(jsonFormat));</span>
+<span class="source-line-no">1917</span><span id="line-1917">           } else if (value instanceof ToJson) {</span>
+<span class="source-line-no">1918</span><span id="line-1918">                   if (!isFirst) { w.append(","); }</span>
+<span class="source-line-no">1919</span><span id="line-1919">                   w.append(keyJson);</span>
+<span class="source-line-no">1920</span><span id="line-1920">                   w.append(": ");</span>
+<span class="source-line-no">1921</span><span id="line-1921">                   w.append(((ToJson) value).toJson());</span>
+<span class="source-line-no">1922</span><span id="line-1922">           } else if (value instanceof ToStringReturnsJson) {</span>
+<span class="source-line-no">1923</span><span id="line-1923">                   if (!isFirst) { w.append(","); }</span>
+<span class="source-line-no">1924</span><span id="line-1924">                   w.append(keyJson);</span>
+<span class="source-line-no">1925</span><span id="line-1925">                   w.append(": ");</span>
+<span class="source-line-no">1926</span><span id="line-1926">                   w.append(value.toString());</span>
+<span class="source-line-no">1927</span><span id="line-1927">           } else if (value instanceof Map) {</span>
+<span class="source-line-no">1928</span><span id="line-1928">                   if (!isFirst) { w.append(","); }</span>
+<span class="source-line-no">1929</span><span id="line-1929">               w.append(keyJson);</span>
+<span class="source-line-no">1930</span><span id="line-1930">               w.append(": ");</span>
+<span class="source-line-no">1931</span><span id="line-1931">               structuredMapToFilteredJson(w, (Map) value, jsonFormat, validKeys);</span>
+<span class="source-line-no">1932</span><span id="line-1932">           } else if (value instanceof List) {</span>
+<span class="source-line-no">1933</span><span id="line-1933">                   if (!isFirst) { w.append(","); }</span>
+<span class="source-line-no">1934</span><span id="line-1934">                   w.append(keyJson);</span>
+<span class="source-line-no">1935</span><span id="line-1935">                   w.append(": ");</span>
+<span class="source-line-no">1936</span><span id="line-1936">                   structuredListToFilteredJson(w, (List) value, jsonFormat, validKeys);</span>
+<span class="source-line-no">1937</span><span id="line-1937">           } else if (value instanceof Number) {</span>
+<span class="source-line-no">1938</span><span id="line-1938">                   if (!isFirst) { w.append(","); }</span>
+<span class="source-line-no">1939</span><span id="line-1939">               w.append(keyJson);</span>
+<span class="source-line-no">1940</span><span id="line-1940">               w.append(": ");</span>
+<span class="source-line-no">1941</span><span id="line-1941">               w.append(value.toString());</span>
+<span class="source-line-no">1942</span><span id="line-1942">           } else if (value instanceof Boolean) {</span>
+<span class="source-line-no">1943</span><span id="line-1943">                   if (!isFirst) { w.append(","); }</span>
+<span class="source-line-no">1944</span><span id="line-1944">                   w.append(keyJson);</span>
+<span class="source-line-no">1945</span><span id="line-1945">                   w.append(": ");</span>
+<span class="source-line-no">1946</span><span id="line-1946">                   w.append(value.toString());</span>
+<span class="source-line-no">1947</span><span id="line-1947">           } else if (value instanceof java.util.Date) {</span>
+<span class="source-line-no">1948</span><span id="line-1948">                // MS-compatible JSON encoding of Dates:</span>
+<span class="source-line-no">1949</span><span id="line-1949">                // see http://weblogs.asp.net/bleroy/archive/2008/01/18/dates-and-json.aspx</span>
+<span class="source-line-no">1950</span><span id="line-1950">                   if (!isFirst) { w.append(","); }</span>
+<span class="source-line-no">1951</span><span id="line-1951">               w.append(keyJson);</span>
+<span class="source-line-no">1952</span><span id="line-1952">               w.append(": ");</span>
+<span class="source-line-no">1953</span><span id="line-1953">               w.append(Struct.toDate((java.util.Date)value, jsonFormat));</span>
+<span class="source-line-no">1954</span><span id="line-1954">           } else if (value.getClass().isArray()) {</span>
+<span class="source-line-no">1955</span><span id="line-1955">                   </span>
+<span class="source-line-no">1956</span><span id="line-1956">                  if (value instanceof Object[]) {</span>
+<span class="source-line-no">1957</span><span id="line-1957">                      List arrayList = Arrays.asList((Object[])value);</span>
+<span class="source-line-no">1958</span><span id="line-1958">                      if (!isFirst) { w.append(","); }</span>
+<span class="source-line-no">1959</span><span id="line-1959">                      w.append(keyJson);</span>
+<span class="source-line-no">1960</span><span id="line-1960">                      w.append(": ");</span>
+<span class="source-line-no">1961</span><span id="line-1961">                      structuredListToFilteredJson(w, (List)arrayList, jsonFormat, validKeys);</span>
+<span class="source-line-no">1962</span><span id="line-1962">                  } else if (value instanceof double[]) {</span>
+<span class="source-line-no">1963</span><span id="line-1963">                  // @TODO other primitive array types</span>
+<span class="source-line-no">1964</span><span id="line-1964">                  // @TODO convert directly probably</span>
+<span class="source-line-no">1965</span><span id="line-1965">                          double[] daSrc = (double[]) value;</span>
+<span class="source-line-no">1966</span><span id="line-1966">                          Double[] daTgt = new Double[daSrc.length];</span>
+<span class="source-line-no">1967</span><span id="line-1967">                          for (int j=0; j&lt;daSrc.length; j++) { daTgt[j]=daSrc[j]; }</span>
+<span class="source-line-no">1968</span><span id="line-1968">                          List arrayList = Arrays.asList((Object[])daTgt);</span>
+<span class="source-line-no">1969</span><span id="line-1969">                          if (!isFirst) { w.append(","); }</span>
+<span class="source-line-no">1970</span><span id="line-1970">                          w.append(keyJson);</span>
+<span class="source-line-no">1971</span><span id="line-1971">                          w.append(": ");</span>
+<span class="source-line-no">1972</span><span id="line-1972">                          structuredListToFilteredJson(w, (List)arrayList, jsonFormat, validKeys);</span>
+<span class="source-line-no">1973</span><span id="line-1973">                  } else if (value instanceof int[]) {</span>
+<span class="source-line-no">1974</span><span id="line-1974">                  // @TODO other primitive array types</span>
+<span class="source-line-no">1975</span><span id="line-1975">                  // @TODO convert directly probably</span>
+<span class="source-line-no">1976</span><span id="line-1976">                          int[] daSrc = (int[]) value;</span>
+<span class="source-line-no">1977</span><span id="line-1977">                          Integer[] daTgt = new Integer[daSrc.length];</span>
+<span class="source-line-no">1978</span><span id="line-1978">                          for (int j=0; j&lt;daSrc.length; j++) { daTgt[j]=daSrc[j]; }</span>
+<span class="source-line-no">1979</span><span id="line-1979">                          List arrayList = Arrays.asList((Object[])daTgt);</span>
+<span class="source-line-no">1980</span><span id="line-1980">                          if (!isFirst) { w.append(","); }</span>
+<span class="source-line-no">1981</span><span id="line-1981">                          w.append(keyJson);</span>
+<span class="source-line-no">1982</span><span id="line-1982">                          w.append(": ");</span>
+<span class="source-line-no">1983</span><span id="line-1983">                          structuredListToFilteredJson(w, (List)arrayList, jsonFormat, validKeys);</span>
+<span class="source-line-no">1984</span><span id="line-1984">                  } else {</span>
+<span class="source-line-no">1985</span><span id="line-1985">                          throw new UnsupportedOperationException("Cannot convert primitive array to JSON");</span>
+<span class="source-line-no">1986</span><span id="line-1986">                  }</span>
+<span class="source-line-no">1987</span><span id="line-1987">           } else {</span>
+<span class="source-line-no">1988</span><span id="line-1988">               throw new RuntimeException("Cannot translate Java object " + value.getClass().getName() + " to javascript value");</span>
+<span class="source-line-no">1989</span><span id="line-1989">           }</span>
+<span class="source-line-no">1990</span><span id="line-1990">           isFirst = false;</span>
+<span class="source-line-no">1991</span><span id="line-1991">       }</span>
+<span class="source-line-no">1992</span><span id="line-1992"></span>
+<span class="source-line-no">1993</span><span id="line-1993">       w.append("}");  // removed \n</span>
+<span class="source-line-no">1994</span><span id="line-1994">   }</span>
+<span class="source-line-no">1995</span><span id="line-1995"></span>
+<span class="source-line-no">1996</span><span id="line-1996">   </span>
+<span class="source-line-no">1997</span><span id="line-1997">    </span>
+<span class="source-line-no">1998</span><span id="line-1998">    /** Convert a date object to it's JSON representation.</span>
+<span class="source-line-no">1999</span><span id="line-1999">     * </span>
+<span class="source-line-no">2000</span><span id="line-2000">     * &lt;p&gt;As there's no real standard for this, a type format is used to define what kind of Dates your </span>
+<span class="source-line-no">2001</span><span id="line-2001">     * going to get on the Json side.</span>
+<span class="source-line-no">2002</span><span id="line-2002">     * </span>
+<span class="source-line-no">2003</span><span id="line-2003">     * @param d a Date object</span>
+<span class="source-line-no">2004</span><span id="line-2004">     * @param jsonFormat either "microsoft" or "numeric"</span>
+<span class="source-line-no">2005</span><span id="line-2005">     * </span>
+<span class="source-line-no">2006</span><span id="line-2006">     * @return A date in json representation.</span>
+<span class="source-line-no">2007</span><span id="line-2007">     * </span>
+<span class="source-line-no">2008</span><span id="line-2008">     * @see &lt;a href="http://weblogs.asp.net/bleroy/archive/2008/01/18/dates-and-json.aspx"&gt;http://weblogs.asp.net/bleroy/archive/2008/01/18/dates-and-json.aspx&lt;/a&gt;</span>
+<span class="source-line-no">2009</span><span id="line-2009">     */</span>
+<span class="source-line-no">2010</span><span id="line-2010">    static public String toDate(Date d, String jsonFormat) {</span>
+<span class="source-line-no">2011</span><span id="line-2011">                if (jsonFormat==null || jsonFormat.equals("microsoft")) {</span>
+<span class="source-line-no">2012</span><span id="line-2012">                        return "\"\\/Date(" + d.getTime() +  ")\\/\"";  </span>
+<span class="source-line-no">2013</span><span id="line-2013">                } else {</span>
+<span class="source-line-no">2014</span><span id="line-2014">                        return String.valueOf(d.getTime());</span>
+<span class="source-line-no">2015</span><span id="line-2015">                }</span>
+<span class="source-line-no">2016</span><span id="line-2016">    }</span>
+<span class="source-line-no">2017</span><span id="line-2017"></span>
+<span class="source-line-no">2018</span><span id="line-2018"></span>
+<span class="source-line-no">2019</span><span id="line-2019"></span>
+<span class="source-line-no">2020</span><span id="line-2020"></span>
+<span class="source-line-no">2021</span><span id="line-2021">    </span>
+<span class="source-line-no">2022</span><span id="line-2022">    /** Create a structured Map out of key / value pairs. Keys must be Strings.</span>
+<span class="source-line-no">2023</span><span id="line-2023">     * </span>
+<span class="source-line-no">2024</span><span id="line-2024">     * &lt;p&gt;So the value of &lt;code&gt;Struct.newStructuredMap("thing", 1L, "otherThing", "value");&lt;/code&gt; is a map</span>
+<span class="source-line-no">2025</span><span id="line-2025">     * with two entries:</span>
+<span class="source-line-no">2026</span><span id="line-2026">     * &lt;ul&gt;&lt;li&gt;an entry with key "thing" and value new Long(1), and </span>
+<span class="source-line-no">2027</span><span id="line-2027">     * &lt;li&gt;an entry  with key "otherThing" and value "value".</span>
+<span class="source-line-no">2028</span><span id="line-2028">     * &lt;/ul&gt; </span>
+<span class="source-line-no">2029</span><span id="line-2029">     * </span>
+<span class="source-line-no">2030</span><span id="line-2030">     * @param keyValuePairs a list of key / value pairs </span>
+<span class="source-line-no">2031</span><span id="line-2031">     * </span>
+<span class="source-line-no">2032</span><span id="line-2032">     * @return a Map as described above</span>
+<span class="source-line-no">2033</span><span id="line-2033">     * </span>
+<span class="source-line-no">2034</span><span id="line-2034">     * @throws ClassCastException if any of the supplied keys is not a String</span>
+<span class="source-line-no">2035</span><span id="line-2035">     */</span>
+<span class="source-line-no">2036</span><span id="line-2036">    // looking forward to when statically defined Maps become a Java language construct</span>
+<span class="source-line-no">2037</span><span id="line-2037">    static public Map&lt;String, Object&gt; newStructuredMap(Object... keyValuePairs) {</span>
+<span class="source-line-no">2038</span><span id="line-2038">        if (keyValuePairs.length%2==1) { throw new IllegalArgumentException("keyValuePairs must have even number of elements"); }</span>
+<span class="source-line-no">2039</span><span id="line-2039">        Map&lt;String, Object&gt; map = new HashMap();</span>
+<span class="source-line-no">2040</span><span id="line-2040">        for (int i=0; i&lt;keyValuePairs.length; i+=2) {</span>
+<span class="source-line-no">2041</span><span id="line-2041">                String key = (String) keyValuePairs[i];</span>
+<span class="source-line-no">2042</span><span id="line-2042">                map.put(key, keyValuePairs[i + 1]);</span>
+<span class="source-line-no">2043</span><span id="line-2043">        }</span>
+<span class="source-line-no">2044</span><span id="line-2044">        return map;</span>
+<span class="source-line-no">2045</span><span id="line-2045">    }</span>
+<span class="source-line-no">2046</span><span id="line-2046"></span>
+<span class="source-line-no">2047</span><span id="line-2047">        /** Rename a structured column, as returned from a Spring JdbcTemplate query. This method will iterate</span>
+<span class="source-line-no">2048</span><span id="line-2048">         * throw all rows of a table, replacing any srcColumnName keys with destColumnName</span>
+<span class="source-line-no">2049</span><span id="line-2049">         * </span>
+<span class="source-line-no">2050</span><span id="line-2050">         * @param rows the table being modified</span>
+<span class="source-line-no">2051</span><span id="line-2051">         * @param srcColumnName the name of the row key (column) being replaced</span>
+<span class="source-line-no">2052</span><span id="line-2052">         * @param destColumnName the new name of the row key (column)</span>
+<span class="source-line-no">2053</span><span id="line-2053">         */</span>
+<span class="source-line-no">2054</span><span id="line-2054">        public static void renameStructuredListColumn(List&lt;Map&lt;String, Object&gt;&gt; rows, String srcColumnName, String destColumnName) {</span>
+<span class="source-line-no">2055</span><span id="line-2055">                if (srcColumnName == null) { throw new NullPointerException("null srcColumnName"); }</span>
+<span class="source-line-no">2056</span><span id="line-2056">                if (destColumnName == null) { throw new NullPointerException("null destColumnName"); }</span>
+<span class="source-line-no">2057</span><span id="line-2057">                if (srcColumnName.equals(destColumnName)) { return; }</span>
+<span class="source-line-no">2058</span><span id="line-2058">                </span>
+<span class="source-line-no">2059</span><span id="line-2059">                for (int i=0; i&lt;rows.size(); i++) {</span>
+<span class="source-line-no">2060</span><span id="line-2060">                        Map&lt;String,Object&gt; row = rows.get(i);</span>
+<span class="source-line-no">2061</span><span id="line-2061">                        if (row.containsKey(srcColumnName)) {</span>
+<span class="source-line-no">2062</span><span id="line-2062">                                row.put(destColumnName, row.get(srcColumnName));</span>
+<span class="source-line-no">2063</span><span id="line-2063">                                row.remove(srcColumnName);</span>
+<span class="source-line-no">2064</span><span id="line-2064">                        }</span>
+<span class="source-line-no">2065</span><span id="line-2065">                }</span>
+<span class="source-line-no">2066</span><span id="line-2066">        }</span>
+<span class="source-line-no">2067</span><span id="line-2067"></span>
+<span class="source-line-no">2068</span><span id="line-2068">        /** Add a structured column containing a constant value. This method will iterate through all </span>
+<span class="source-line-no">2069</span><span id="line-2069">         * rows of a table, adding a new newColumnName key with the supplied value.</span>
+<span class="source-line-no">2070</span><span id="line-2070">         * </span>
+<span class="source-line-no">2071</span><span id="line-2071">         * @param rows the table being modified</span>
+<span class="source-line-no">2072</span><span id="line-2072">         * @param newColumnName the name of the row key (column) being added</span>
+<span class="source-line-no">2073</span><span id="line-2073">         * @param value the value to add to the row</span>
+<span class="source-line-no">2074</span><span id="line-2074">         */</span>
+<span class="source-line-no">2075</span><span id="line-2075">        public static void addStructuredListColumn(List&lt;Map&lt;String, Object&gt;&gt; rows, String newColumnName, Object value) {</span>
+<span class="source-line-no">2076</span><span id="line-2076">                for (int i=0; i&lt;rows.size(); i++) {</span>
+<span class="source-line-no">2077</span><span id="line-2077">                        Map&lt;String,Object&gt; row = rows.get(i);</span>
+<span class="source-line-no">2078</span><span id="line-2078">                        row.put(newColumnName, value);</span>
+<span class="source-line-no">2079</span><span id="line-2079">                }</span>
+<span class="source-line-no">2080</span><span id="line-2080">        }</span>
+<span class="source-line-no">2081</span><span id="line-2081"></span>
+<span class="source-line-no">2082</span><span id="line-2082">    static {</span>
+<span class="source-line-no">2083</span><span id="line-2083">        // NB: these used to be ConcurrentReaderHashMaps, but I didn't want to</span>
+<span class="source-line-no">2084</span><span id="line-2084">        // bring concurrent.jar into the classpath.</span>
+<span class="source-line-no">2085</span><span id="line-2085">        gettersCache = new ConcurrentHashMap();</span>
+<span class="source-line-no">2086</span><span id="line-2086">        settersCache = new ConcurrentHashMap();</span>
+<span class="source-line-no">2087</span><span id="line-2087">    }</span>
+<span class="source-line-no">2088</span><span id="line-2088">}</span>
 
 
 
