@@ -3,17 +3,40 @@ package com.randomnoun.common.jexl.sql;
 /* (c) 2013 randomnoun. All Rights Reserved. This work is licensed under a
  * BSD Simplified License. (http://www.randomnoun.com/bsd-simplified.html)
  */
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Enumeration;
+import java.util.List;
 
-import java.text.*;
-import java.util.*;
-
-import org.apache.log4j.*;
+import org.apache.log4j.Logger;
 
 import com.randomnoun.common.Text;
 import com.randomnoun.common.jexl.DateSpan;
 import com.randomnoun.common.jexl.EvalFallbackException;
-import com.randomnoun.common.jexl.ast.*;
-import com.randomnoun.common.jexl.eval.*;
+import com.randomnoun.common.jexl.ast.AdditiveExpression;
+import com.randomnoun.common.jexl.ast.ArgumentList;
+import com.randomnoun.common.jexl.ast.Arguments;
+import com.randomnoun.common.jexl.ast.BooleanLiteral;
+import com.randomnoun.common.jexl.ast.ConditionalAndExpression;
+import com.randomnoun.common.jexl.ast.EqualityExpression;
+import com.randomnoun.common.jexl.ast.Expression;
+import com.randomnoun.common.jexl.ast.FunctionCall;
+import com.randomnoun.common.jexl.ast.Literal;
+import com.randomnoun.common.jexl.ast.MultiplicativeExpression;
+import com.randomnoun.common.jexl.ast.Name;
+import com.randomnoun.common.jexl.ast.NodeChoice;
+import com.randomnoun.common.jexl.ast.NodeSequence;
+import com.randomnoun.common.jexl.ast.NodeToken;
+import com.randomnoun.common.jexl.ast.NullLiteral;
+import com.randomnoun.common.jexl.ast.PrimaryExpression;
+import com.randomnoun.common.jexl.ast.RelationalExpression;
+import com.randomnoun.common.jexl.ast.TopLevelExpression;
+import com.randomnoun.common.jexl.ast.UnaryExpression;
+import com.randomnoun.common.jexl.eval.EvalContext;
+import com.randomnoun.common.jexl.eval.EvalException;
+import com.randomnoun.common.jexl.eval.EvalFunction;
+import com.randomnoun.common.jexl.eval.Evaluator;
 
 
 /**
@@ -424,21 +447,20 @@ public class SqlGenerator
             } else if (databaseType.equals(DATABASE_MYSQL)) {
                 date = (Date) obj;
                 sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                return new SqlText("'" + sdf.format(date) + "'"); // weird
+                return new SqlText("'" + sdf.format(date) + "'");
 
             } else if (databaseType.equals(DATABASE_JET)) {
                 date = (Date) obj;
                 sdf = new SimpleDateFormat("#dd/MM/yyyy HH:mm:ss#"); // american date ordering in JET SQL. ODBC might reverse this though. let's see.
-                return new SqlText("'" + sdf.format(date) + "'"); // weird
+                return new SqlText("'" + sdf.format(date) + "'");
 
                 
             } else {
-                throw new EvalException("Do not know how to express date constants in database type '" + databaseType + "'");
+                throw new EvalException("Date constants unsupported for database type '" + databaseType + "'");
             }
 
-        } else if (obj instanceof Boolean) {
-            // ?
-            throw new EvalException("Boolean values not supported");
+        } else if (obj instanceof Boolean b) {
+            return b ? new SqlText("TRUE") : new SqlText("FALSE");
 
         } else {
             throw new EvalException("Cannot convert class '" + obj.getClass().getName() + "' to SQL");

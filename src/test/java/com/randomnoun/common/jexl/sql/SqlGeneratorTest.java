@@ -108,6 +108,7 @@ public class SqlGeneratorTest {
 		vars.put("id", new SqlColumn("lngId", "SOMETABLE", SqlColumn.NUMERIC));
 		vars.put("val", new SqlColumn("lngVal", "SOMETABLE", SqlColumn.NUMERIC));
 		vars.put("textVal", new SqlColumn("txtVal", "SOMETABLE", SqlColumn.VARCHAR));
+		vars.put("boolVal", new SqlColumn("boolVal", "SOMETABLE", SqlColumn.BOOLEAN));
 		
 		vars.put("userId", new PositionalParameter("userId"));
 		
@@ -131,6 +132,16 @@ public class SqlGeneratorTest {
 		result = expressionToSql(stringToExpression("id == userId"), paramsList, vars);
 		System.out.println(result);
 		assertEquals("(SOMETABLE.lngId = ?)", result);
+		
+		result = expressionToSql(stringToExpression("!boolVal"), paramsList, vars);
+		System.out.println(result);
+		assertEquals("(NOT SOMETABLE.boolVal)", result);
+
+		result = expressionToSql(stringToExpression("boolVal == true"), paramsList, vars);
+		System.out.println(result);
+		assertEquals("(SOMETABLE.boolVal = TRUE)", result);
+
+		
 		
 		// @TODO some function tests
 	}
