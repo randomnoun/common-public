@@ -2,12 +2,13 @@
      the project.groupId strings below
 -->
 #set( $repos = "http://central.maven.org/maven2/" )
-#set( $jarBasename = ${project.artifactId} + "-" + ${project.version} + ".jar" )
-#set( $srcBasename = ${project.artifactId} + "-" + ${project.version} + "-sources.jar" )
-#set( $url = ${project.groupId} )
-#set( $url = $url.replace(".", "/") )
-#set( $jarUrl = $repos + $url + "/" + ${project.artifactId} + "/" + ${project.version} + "/" + $jarBasename )
-#set( $srcUrl = $repos + $url + "/" + ${project.artifactId} + "/" + ${project.version} + "/" + $srcBasename )
+#set( $jarBasename = "${project.artifactId}-${project.version}.jar" )
+#set( $srcBasename = "${project.artifactId}-${project.version}-sources.jar" )
+#set( $distBasename = "${project.artifactId}-${project.version}-dist.zip" )
+#set( $groupIdPath = $project.groupId.replace(".", "/") )
+#set( $jarUrl = "${repos}${groupIdPath}/${project.version}/${jarBasename}" )
+#set( $srcUrl = "${repos}${groupIdPath}/${project.version}/${srcBasename}" )
+#set( $distUrl = "${repos}${groupIdPath}/${project.version}/${distBasename}" )
 
 <h2>Usage</h2>
 
@@ -29,14 +30,11 @@
 &lt;/project&gt;
 </pre>
 
+<!-- 
 <h2>Download</h2>
 
 <p>If you're not using maven, you can download the binary and source JARs using these links:</p>
 
-<!-- 
-  Using P element's here because doxia doesn't work well with DIVs. 
-  Can't nest P elements, unfortunately, hence the weird sup/sub element formatting here. 
--->
 <p class="download-button"><a href="${jarUrl}"><img width="41" height="40" style="margin: 5px; float:left;" src="images/download-arrow.png"></img></a>
 <sup class="big"><a href="${jarUrl}">Download compiled JAR</a></sup>
 <sub class="small"><a href="${jarUrl}">${jarBasename}</a></sub>
@@ -46,6 +44,7 @@
 <sup class="big"><a href="${srcUrl}">Download source JAR</a></sup>
 <sub class="small"><a href="${srcUrl}">${srcBasename}</a></sub>
 </p>
+-->
 
 <hr/>
 
@@ -58,15 +57,13 @@ The classes in this project have descriptions of their usage in both the
 These are:
 <table>
 <tr><th>Class</th><th>Blog URL</th></tr>
-<tr><td><a href="apidocs/com/randomnoun/common/ExceptionUtils">ExceptionUtils</a></td><td><a href="http://www.randomnoun.com/wp/2012/12/17/marginally-better-stack-traces/">Marginally better stack traces</a></td></tr>
-<tr><td><a href="apidocs/com/randomnoun/common/Keyboard">Keyboard</a></td><td></td></tr>
-<tr><td><a href="apidocs/com/randomnoun/common/ResourceFinder">ResourceFinder</a></td><td><a href="http://www.randomnoun.com/wp/2015/01/11/resourcefinder/">ResourceFinder ( rn-find )</a></td></tr>
-<tr><td><a href="apidocs/com/randomnoun/common/SourceforgeStats">SourceforgeStats</a></td><td><a href="http://www.randomnoun.com/wp/2012/09/23/sourceforge-omphaloskepsis/">Sourceforge Omphalskepsis</a></td></tr>
-<tr><td><a href="apidocs/com/randomnoun/common/XmlUtil">XmlUtil</a></td><td><a href="http://www.randomnoun.com/wp/2013/01/25/exciting-things-with-xml/">Exciting things with XML</a></td></tr>
-<tr><td><a href="apidocs/com/randomnoun/common/jna/WindowTreeDom">WindowTreeDom</a></td><td><a href="http://www.randomnoun.com/wp/2012/12/26/automating-windows-from-java-and-windowtreedom/">Automating Windows from Java and WindowTreeDom</a></td></tr>
-<tr><td><a href="apidocs/com/randomnoun/common/log4j/Log4jCliConfiguration">Log4jCliConfiguration</a></td><td><a href="http://www.randomnoun.com/wp/2013/01/13/logging/">Logging</a></td></tr>
-<tr><td><a href="apidocs/com/randomnoun/common/log4j/MemoryAppender">MemoryAppender</a></td><td><a href="http://www.randomnoun.com/wp/2013/01/13/logging/">Logging</a></td></tr>
-<tr><td><a href="apidocs/com/randomnoun/common/servlet/VersionServlet">VersionServlet</a></td><td><a href="http://www.randomnoun.com/wp/2013/09/24/webapp-versions-v1-0/">Webapp versions v1.0</a></td></tr>
+<tr><td><a href="apidocs/com/randomnoun/common/ExceptionUtil.html">ExceptionUtils</a></td><td><a href="http://www.randomnoun.com/wp/2012/12/17/marginally-better-stack-traces/">Marginally better stack traces</a></td></tr>
+<tr><td><a href="apidocs/com/randomnoun/common/Keyboard.html">Keyboard</a></td><td></td></tr>
+<tr><td><a href="apidocs/com/randomnoun/common/ResourceFinder.html">ResourceFinder</a></td><td><a href="http://www.randomnoun.com/wp/2015/01/11/resourcefinder/">ResourceFinder ( rn-find )</a></td></tr>
+<tr><td><a href="apidocs/com/randomnoun/common/XmlUtil.html">XmlUtil</a></td><td><a href="http://www.randomnoun.com/wp/2013/01/25/exciting-things-with-xml/">Exciting things with XML</a></td></tr>
+<tr><td><a href="apidocs/com/randomnoun/common/log4j/Log4jCliConfiguration.html">Log4jCliConfiguration</a></td><td><a href="http://www.randomnoun.com/wp/2013/01/13/logging/">Logging</a></td></tr>
+<tr><td><a href="apidocs/com/randomnoun/common/log4j/MemoryAppender.html">MemoryAppender</a></td><td><a href="http://www.randomnoun.com/wp/2013/01/13/logging/">Logging</a></td></tr>
+<tr><td><a href="apidocs/com/randomnoun/common/servlet/VersionServlet.html">VersionServlet</a></td><td><a href="http://www.randomnoun.com/wp/2013/09/24/webapp-versions-v1-0/">Webapp versions v1.0</a></td></tr>
 </table>
 
 
