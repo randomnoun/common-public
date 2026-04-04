@@ -1,3 +1,10 @@
+# 1.0.37
+
+## Updates
+
+* upgrade to jdk 25
+* bump jessop
+
 # 1.0.36
 
 ## Updates

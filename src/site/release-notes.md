@@ -1,4 +1,4 @@
 ## Updates
 
-* more primitive types in json converter
-* booleans in SqlGenerator
+* upgrade to jdk 25
+* bump jessop
