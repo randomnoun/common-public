@@ -1,6 +1,6 @@
 package com.randomnoun.common.jexl.sql;
 
-/** The TransformedSqlColumn.reverseLiteral() method can throw a CannotReverseLiteralException to indicate that
+/** The TransformedSqlColumn.reverseTransformLiteral() method can throw a CannotReverseLiteralException to indicate that
  * it cannot reverse a transformation on the supplied literal. 
  * 
  * @author knoxg
