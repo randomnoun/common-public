@@ -8,10 +8,8 @@ import java.util.*;
 
 
 /**
- * Can probably do all this with ThreadLocals these days.
- * 
- * <p>Manages a set of hashmaps used by EJB/servlet containers to hold <b>thread-global</b> data.
- * 
+ * Manages a set of hashmaps used by EJB/servlet containers to hold <b>thread-global</b> data.
+ *
  * <p>For example, calling <code>ThreadContext.get("asd")</code> from two different threads may
  * return two different values.
  *
@@ -35,23 +33,23 @@ import java.util.*;
  * EJB container (or terminating). Every thread MUST be removed using .pop(), otherwise
  * memory leaks will occur.
  *
- * <p>Implementation note: this class relies on different thread's returning unique
- * strings for their Thread.getName() method. It will break if this is not the
- * case in a particular VM implementation. 
+ * <p>This implementation uses ThreadLocal storage internally, which works correctly
+ * with both platform threads and virtual threads.
  *
- * <p><b>NB:</b> Don't use this method to pass state between EJBs. 
+ * <p><b>NB:</b> Don't use this method to pass state between EJBs.
  * Where an EJB invokes a second EJB, it should be
  * assumed that the invoked EJB exists on another VM. Since this data
  * structure will not be populated correctly on the second VM, it should not
  * be relied upon to pass state information between EJBs.
  *
  * @author knoxg
- * 
+ *
  */
 public class ThreadContext
 {
-    /** Backing map of threads-IDs to thread-specific Lists, containing maps */
-    private static Map<String, List<Map<Object, Object>>> globalMap;
+    /** ThreadLocal holding the per-thread stack of context maps */
+    private static final ThreadLocal<List<Map<Object, Object>>> threadLocalStack =
+        new ThreadLocal<List<Map<Object, Object>>>();
 
     /**
      * Creates a new ThreadContext object.
@@ -71,21 +69,15 @@ public class ThreadContext
      **/
     public static Map<Object, Object> push()
     {
-        List<Map<Object,Object>> list;
-        Map<Object, Object> map;
-        String currentThreadName = Thread.currentThread().getName();
+        List<Map<Object,Object>> list = threadLocalStack.get();
 
-        synchronized (globalMap) {
-            list = (List<Map<Object,Object>>) globalMap.get(currentThreadName);
-
-            if (list == null) {
-                list = new ArrayList<Map<Object,Object>>();
-                globalMap.put(currentThreadName, list);
-            }
-
-            map = new HashMap<Object, Object>();
-            list.add(map);
+        if (list == null) {
+            list = new ArrayList<Map<Object,Object>>();
+            threadLocalStack.set(list);
         }
+
+        Map<Object, Object> map = new HashMap<Object, Object>();
+        list.add(map);
 
         return map;
     }
@@ -97,30 +89,16 @@ public class ThreadContext
      */
     public static void pop()
     {
-        // NB: Lists are never removed from the global hashmap, as we presume
-        // that threads are reused by the server container. This may prevent
-        // this class from being used in a more general-purpose (non-EJB-container)
-        // solution.
-        List<Map<Object,Object>> list;
-        String currentThreadName = Thread.currentThread().getName();
+        List<Map<Object,Object>> list = threadLocalStack.get();
 
-        synchronized (globalMap)
-        {
-            list = globalMap.get(currentThreadName);
+        if (list == null || list.size() == 0) {
+            throw new IllegalStateException("No context exists for this thread.");
+        }
 
-            if (list == null) {
-                throw new IllegalStateException("No context exists for this thread.");
-            }
+        list.remove(list.size() - 1);
 
-            if (list.size() == 0) {
-                throw new IllegalStateException("No context exists for this thread.");
-            }
-
-            list.remove(list.size() - 1);
-
-            if (list.size() == 0) {
-                globalMap.remove(currentThreadName);
-            }
+        if (list.size() == 0) {
+            threadLocalStack.remove();
         }
     }
 
@@ -135,18 +113,9 @@ public class ThreadContext
      */
     public static Map<Object, Object> getMap()
     {
-        List<Map<Object,Object>> list;
-        String currentThreadName = Thread.currentThread().getName();
+        List<Map<Object,Object>> list = threadLocalStack.get();
 
-        list = globalMap.get(currentThreadName);
-
-        if (list == null) {
-            list = new ArrayList<Map<Object,Object>>();
-            globalMap.put(currentThreadName, list);
-        }
-
-        // create an exception if one does not exist
-        if (list.size() == 0)         {
+        if (list == null || list.size() == 0) {
             throw new IllegalStateException(
                 "ThreadContext has not yet been created (push() must be invoked before getMap())");
         }
@@ -161,10 +130,7 @@ public class ThreadContext
      */
     public static boolean contextExists()
     {
-        List<Map<Object,Object>> list;
-        String currentThreadName = Thread.currentThread().getName();
-
-        list = globalMap.get(currentThreadName);
+        List<Map<Object,Object>> list = threadLocalStack.get();
 
         return (list != null) && (list.size() > 0);
     }
@@ -184,7 +150,7 @@ public class ThreadContext
     }
 
     /** As per {@link java.util.Map#containsKey(java.lang.Object)} for the current thread's context
-     * 
+     *
      * @return true if this map contains a mapping for the specified key
      *
      * @throws IllegalStateException This exception is thrown if a per-thread
@@ -196,8 +162,8 @@ public class ThreadContext
     }
 
     /** As per {@link java.util.Map#containsValue(java.lang.Object)} for the current thread's context
-     *  
-     * @return true if this map maps one or more keys to the specified value. 
+     *
+     * @return true if this map maps one or more keys to the specified value.
      *
      * @throws IllegalStateException This exception is thrown if a per-thread
      *   context has not yet been created by calling push().
@@ -223,10 +189,10 @@ public class ThreadContext
     /**
      * As per {@link java.util.Map#get(java.lang.Object)} for the current thread's context
      *
-     * @param key key whose associated value is to be returned. 
+     * @param key key whose associated value is to be returned.
 
      *
-     * @return the value to which this map maps the specified key, or null if the map contains 
+     * @return the value to which this map maps the specified key, or null if the map contains
      *   no mapping for this key
      *
      * @throws IllegalStateException This exception is thrown if a per-thread
@@ -264,13 +230,13 @@ public class ThreadContext
     }
 
     /**
-     * As per {@link java.util.Map#put(java.lang.Object, java.lang.Object)} for the current thread's 
+     * As per {@link java.util.Map#put(java.lang.Object, java.lang.Object)} for the current thread's
      * context
      *
      * @param key key with which the specified value is to be associated
      * @param value value to be associated with the specified key
      *
-     * @return previous value associated with specified key, or null if there was no mapping for key. A null return can also indicate that the map previously associated null 
+     * @return previous value associated with specified key, or null if there was no mapping for key. A null return can also indicate that the map previously associated null
      *   with the specified key, if the implementation supports null values
      *
      * @throws IllegalStateException This exception is thrown if a per-thread
@@ -333,11 +299,5 @@ public class ThreadContext
     public static Collection<Object> values()
     {
         return getMap().values();
-    }
-
-    static
-    {
-        // set up the globalMap containing all ThreadContexts
-        globalMap = Collections.synchronizedMap(new HashMap<String, List<Map<Object, Object>>>());
     }
 }
