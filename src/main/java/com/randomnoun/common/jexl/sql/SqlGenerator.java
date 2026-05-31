@@ -106,19 +106,19 @@ import com.randomnoun.common.jexl.eval.Evaluator;
  *
  * The result here being <code>externalMessageType = ?</code> instead. The value of the
  * '<code>?</code>' in the result is supplied
- * by the program at execution time, using standard JDBC positional parameters. But, you're
- * probably thinking, how do I know <i>which</i> positional parameter to use? After all,
- * I could have had more than one PositionalParameter's in the context, and they may
- * appear in any order or any number of times in the result String. To determine how to
- * supply these values to JDBC, the context variable VAR_PARAMETERS is set to a List of
- * Strings, each being the name of the positional parameter above. In the example above,
- * if we then executed
+ * by the program at execution time, using standard JDBC positional parameters. 
+ * 
+ * <p>To determine what values to provide for each positional parameter, 
+ * retrieve the context variable VAR_PARAMETERS, which will be set to a List of
+ * Strings, each being the name of a positional parameter variable. 
+ *
+ * <p>In this example,
  *
  * <pre style="code">
  *   List parameList = (List) context.getVariable(SqlGenerator.VAR_PARAMETERS);
  * </pre>
  *
- * this will set paramList to a one-element list, containing the String "messageVar"
+ * will set paramList to a one-element list, containing the String "messageVar"
  * (corresponding to the single '<code>?</code>' in the result String). We can
  * iterate over this list to create the actual parameters to pass into JDBC when running
  * the query.
@@ -165,31 +165,6 @@ import com.randomnoun.common.jexl.eval.Evaluator;
  *   SqlColumn tableA_id = new SqlColumn("id", "tableA");
  *   SqlColumn tableB_id = new SqlColumn("id", "tableB");
  * </pre>
- *
- * <!-- 
- * <h4>Money values</h4>
- * <p>If we wish to do monetary comparisons and the 'money value' spans two columns (currency and
- * amount), we can use the custom 'MONEYVALUE' type:
- *
- * <pre style="code">
- *   SqlColumn moneyColumn = new SqlColumn("amount", SqlColumn.MONEYVALUE);
- *   moneyColumn.setCurrencyCodeName("currency");
- * </pre>
- *
- * <p>this sets up a column which retrieves it's amount from the 'amount' value, and
- * the currency the 'currency' column of the table. MONEYVALUE columns can only be
- * compared against other MONEYVALUE columns or MoneyValue objects, e.g.:
- *
- * <pre style="code">
- *    String exprString = "amount &gt; toMoneyValue('USD', 10000)";
- *    ...
- *    context.setFunction("toMoneyValue", new EvalFunction.MoneyValueFunction() );
- *    context.setVariable("amount", moneyColumn);
- * </pre
- *
- * which will generate SQL of the form <code>currency = "USD" AND amount &gt; 10000</code>.
- * (MoneyValueFunction is an EvalFunction which returns a MoneyValue object).
- * -->
  *
  * <h4>FixedDate values</h4>
  * <p>Another custom data type is the 'fixed date', which is a date represented as a
@@ -253,7 +228,7 @@ public class SqlGenerator
     /** Logger instance for this class */
     Logger logger = Logger.getLogger(SqlGenerator.class);
 
-    /** Generates code for comparisons of MoneyValue and Date types. Other data types
+    /** Generates code for comparisons of Date types. Other data types
      * fall back to "(" + lhs + " " + sqlOp + " " + rhs + ")".
      *
      * @param sqlOp The operation we wish to insert into the SQL.
@@ -273,10 +248,6 @@ public class SqlGenerator
         int dataType = (sqlColumn == null) ? -1 : sqlColumn.getDataType();
         DateSpan dateSpan;
 
-        // Expression formats
-        // DateFormat isoDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        // DateFormat isoDateTimeFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-
         if (rhs instanceof Date) {
             throw new EvalException("Date objects not supported (use DateSpan instead)");
         }
@@ -287,18 +258,6 @@ public class SqlGenerator
                 // lhs is not an SqlColumn; treat normally
                 break;
 
-            /*
-            case SqlColumn.MONEYVALUE:
-                if (!(rhs instanceof MoneyValue)) {
-                    throw new EvalException("The lhs of this comparison is a MONEYVALUE SqlColumn; " + 
-                      "rhs can only be a MoneyValue literal (found " + rhs.getClass().getName() + "')");
-                }
-                MoneyValue money = (MoneyValue) rhs;
-                return new SqlText("((" + sqlColumn.getFullCurrencyCodeName() + " = '" + 
-                  money.getCurrency().getCurrencyCode() + "') AND (" + 
-                  sqlColumn.getFullName() + " " + sqlOp + " " + money.getAmount() + "))");
-			*/
-                
             case SqlColumn.TIMEVALUE: // used to represent ConditionTO.DATATYPE_DATETIME columns
                 if (!(rhs instanceof DateSpan)) {
                     throw new EvalException("The lhs of this comparison is a TIMEVALUE SqlColumn; " + 
@@ -348,6 +307,15 @@ public class SqlGenerator
         if (rhs instanceof SqlColumn) {
             // query builder doesn't allow these types of expressions, and throwing an exception just keeps the code simpler.
             throw new EvalException("rhs SqlColumn not implemented");
+        }
+        if (lhs instanceof TransformedSqlColumn tsc) {
+        	try {
+        		Object newRhs = tsc.reverseLiteral(rhs);
+        		lhs = tsc.getSourceSqlColumn();
+        		rhs = newRhs;
+        	} catch (EvalFallbackException e) {
+        		// cannot reverse transformation, use regular toSql()
+        	}
         }
 
         boolean emptyStringIncludesNull = Boolean.TRUE.equals(evalContext.getVariable(VAR_EMPTY_STRING_COMPARISON_INCLUDES_NULL)); 
@@ -405,8 +373,8 @@ public class SqlGenerator
      */
     public static SqlText toSql(EvalContext evalContext, Object obj) {
         if (obj == null) {
-            // ?
             throw new EvalException("Null values not supported");
+        	// return new SqlText("NULL");
 
         } else if (obj instanceof SqlColumn) {
             return new SqlText(((SqlColumn) obj).getFullName());
@@ -498,9 +466,6 @@ public class SqlGenerator
         	// but most other escapes, and unknown escapes are converted to single characters; e.g. 
         	//           \x is treated by mysql as "x" outside of a like expression
         	// but again this is up to the user to grok.
-        	
-        	// if I start using this class across databases again may want to come up with some 
-        	// crossvendor escaping rules which will have a myriad of tiny bugs in it 
         	
             string = "'" + Text.replaceString(string, "'", "\\'") + "'";
         } else if (databaseType.equals(DATABASE_JET)) {

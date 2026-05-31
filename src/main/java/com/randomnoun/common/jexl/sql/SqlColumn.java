@@ -20,7 +20,7 @@ public class SqlColumn
 {
 
     /** These constants are copied directly from the java.sql.Types class;
-     *  note that we also add the new types MONEYVALUE, DATEVALUE, TIMEVALUE, FIXEDDATEVALUE and FIXEDTIMEVALUE */
+     *  note that we also add the new types DATEVALUE, TIMEVALUE, FIXEDDATEVALUE and FIXEDTIMEVALUE */
     public static final int ARRAY = Types.ARRAY;
     public static final int BIGINT = Types.BIGINT;
     public static final int BINARY = Types.BINARY;
@@ -58,25 +58,20 @@ public class SqlColumn
      * when converting to SQL.
      *
      */
-    public static final int MONEYVALUE = 5000; // perform currency matching
     public static final int DATEVALUE = 5001; // perform conditional date ranges
     public static final int TIMEVALUE = 5002; // perform conditional date ranges
     public static final int FIXEDDATEVALUE = 5003; // as per DATEVALUE, stored as String (no TZ)
     public static final int FIXEDTIMEVALUE = 5004; // as per TIMEVALUE, stored as String (no TZ)
 
     /** The name of this database column */
-    private String name = null;
-
-    /** If this object describes a MONEYVALUE column, this field contains the name of the
-     *  currency code column (this.name contains the amount). */
-    private String currencyCodeName = null;
+    protected String name = null;
 
     /** The name of the table this fields belongs to (or null if not specifying tables) */
-    private String table = null;
+    protected String table = null;
 
     /** The type of this column. Corresponds to one of the public static final int constants
      *  defined in this class. */
-    private int dataType = VARCHAR;
+    protected int dataType = VARCHAR;
 
     /** Create a new column, of type VARCHAR
      *
@@ -124,25 +119,6 @@ public class SqlColumn
         this.dataType = dataType;
     }
 
-    /** Sets the column name that contains the currency code, for a MONEYVALUE SqlColumn.
-     * If a table has been specified for this column, then the currency is <b>always</b>
-     * sourced from the same table.
-     *
-     * @param currencyCodeName the column name that contains the currency code
-     *
-     * @throws IllegalStateException if this method is called for a non-MONEYVALUE SqlColumn
-     */
-    public void setCurrencyCodeName(String currencyCodeName)
-    {
-        if (this.dataType != MONEYVALUE)
-        {
-            throw new IllegalStateException(
-                "A currencyColumnName may only be set for a MONEYVALUE type");
-        }
-
-        this.currencyCodeName = currencyCodeName;
-    }
-
     /** Retrieves the name of this SqlColumn, as set by the constructor */
     public String getName()
     {
@@ -153,12 +129,6 @@ public class SqlColumn
     public String getTable()
     {
         return table;
-    }
-
-    /** Retrieves the currency column of this SqlColumn, as supplied by setCurrencyCodeName */
-    public String getCurrencyCodeName()
-    {
-        return currencyCodeName;
     }
 
     /** Retrieves the data type of this SqlColumn */
@@ -177,20 +147,6 @@ public class SqlColumn
         else
         {
             return table + "." + name;
-        }
-    }
-
-    /** Either returns the name of the currency column, or table + "." + currency name, if a table
-     *  has been set */
-    public String getFullCurrencyCodeName()
-    {
-        if (table == null)
-        {
-            return currencyCodeName;
-        }
-        else
-        {
-            return table + "." + currencyCodeName;
         }
     }
 
