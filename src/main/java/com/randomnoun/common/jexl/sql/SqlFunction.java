@@ -2,7 +2,6 @@ package com.randomnoun.common.jexl.sql;
 
 import java.util.*;
 
-import com.randomnoun.common.jexl.EvalFallbackException;
 import com.randomnoun.common.jexl.eval.*;
 
 /**

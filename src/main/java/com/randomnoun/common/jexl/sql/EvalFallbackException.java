@@ -1,4 +1,4 @@
-package com.randomnoun.common.jexl;
+package com.randomnoun.common.jexl.sql;
 
 /** An SqlFunction can throw this to indicate that it should be evaluated into an SQL literal, 
  * rather than being translated into an SQL expression.

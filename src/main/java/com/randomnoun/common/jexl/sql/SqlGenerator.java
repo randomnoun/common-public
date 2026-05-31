@@ -13,7 +13,6 @@ import org.apache.log4j.Logger;
 
 import com.randomnoun.common.Text;
 import com.randomnoun.common.jexl.DateSpan;
-import com.randomnoun.common.jexl.EvalFallbackException;
 import com.randomnoun.common.jexl.ast.AdditiveExpression;
 import com.randomnoun.common.jexl.ast.ArgumentList;
 import com.randomnoun.common.jexl.ast.Arguments;
@@ -310,10 +309,10 @@ public class SqlGenerator
         }
         if (lhs instanceof TransformedSqlColumn tsc) {
         	try {
-        		Object newRhs = tsc.reverseLiteral(rhs);
+        		Object newRhs = tsc.reverseTransformLiteral(rhs);
         		lhs = tsc.getSourceSqlColumn();
         		rhs = newRhs;
-        	} catch (EvalFallbackException e) {
+        	} catch (CannotReverseTransformationException e) {
         		// cannot reverse transformation, use regular toSql()
         	}
         }
