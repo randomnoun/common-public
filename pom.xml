@@ -154,7 +154,6 @@
 	<build>
 		<plugins>
             <plugin>
-		
 			  <groupId>org.apache.maven.plugins</groupId>
 			  <artifactId>maven-compiler-plugin</artifactId>
 		      <configuration>
@@ -183,6 +182,20 @@
 					</execution>
 				</executions>
 			</plugin>
+			
+			<plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.3.0</version>
+                <configuration>
+                  <archive>
+                    <manifestEntries>
+                      <!-- auto module name 'common.public' fails as public is a reserved keyword in java -->
+                      <Automatic-Module-Name>com.randomnoun.common.public_lib</Automatic-Module-Name>
+                    </manifestEntries>
+                  </archive>
+                </configuration>
+              </plugin>
 			
           	
 		</plugins>
