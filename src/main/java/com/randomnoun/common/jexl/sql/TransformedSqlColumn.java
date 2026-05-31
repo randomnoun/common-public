@@ -31,9 +31,10 @@ public abstract class TransformedSqlColumn extends SqlColumn {
 	/** The source column */
 	public abstract SqlColumn getSourceSqlColumn();    // name of column to use for reverse comparisons
 	
-	/** Reverse the transformation 
+	/** Reverse the transformation, i.e. convert a user-supplied value back into a database value.
+	 * The user-supplied value must be a literal (String, Boolean, Long etc), not an expression. 
 	 * 
-	 * @param value literal values in expression
+	 * @param value literal value in expression
 	 * 
 	 * @value the raw value stored in the database
 	 */
