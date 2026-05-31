@@ -15,37 +15,36 @@
 <span class="source-line-no">002</span><span id="line-2"></span>
 <span class="source-line-no">003</span><span id="line-3">import java.util.*;</span>
 <span class="source-line-no">004</span><span id="line-4"></span>
-<span class="source-line-no">005</span><span id="line-5">import com.randomnoun.common.jexl.EvalFallbackException;</span>
-<span class="source-line-no">006</span><span id="line-6">import com.randomnoun.common.jexl.eval.*;</span>
-<span class="source-line-no">007</span><span id="line-7"></span>
-<span class="source-line-no">008</span><span id="line-8">/**</span>
-<span class="source-line-no">009</span><span id="line-9"> * A function which can be translated into SQL. These functions should be</span>
-<span class="source-line-no">010</span><span id="line-10"> * set in an SqlGenerator's context to allow expressions to use those functions.</span>
-<span class="source-line-no">011</span><span id="line-11"> *</span>
-<span class="source-line-no">012</span><span id="line-12"> * &lt;p&gt;This class defines a number of 'standard' functions, which can be used;</span>
-<span class="source-line-no">013</span><span id="line-13"> * they subclass the functions in EvalFunction of the same name, so that they can work</span>
-<span class="source-line-no">014</span><span id="line-14"> * in both the Evaluator and SqlGenerator AST visitors.</span>
-<span class="source-line-no">015</span><span id="line-15"> *</span>
-<span class="source-line-no">016</span><span id="line-16"> * </span>
-<span class="source-line-no">017</span><span id="line-17"> * @author knoxg</span>
-<span class="source-line-no">018</span><span id="line-18"> */</span>
-<span class="source-line-no">019</span><span id="line-19">public interface SqlFunction {</span>
-<span class="source-line-no">020</span><span id="line-20"></span>
-<span class="source-line-no">021</span><span id="line-21">        /** All SQL functions must implement this method. It returns the SQL required for</span>
-<span class="source-line-no">022</span><span id="line-22">         *  the database to evaluate the function. evalContext can be used to get the</span>
-<span class="source-line-no">023</span><span id="line-23">         *  database type, if required.</span>
-<span class="source-line-no">024</span><span id="line-24">         *</span>
-<span class="source-line-no">025</span><span id="line-25">         * @param functionName The name of the function being translated</span>
-<span class="source-line-no">026</span><span id="line-26">         * @param evalContext  The evaluation context of the SqlGenerator doing the translation</span>
-<span class="source-line-no">027</span><span id="line-27">         * @param arguments    The arguments to the function</span>
-<span class="source-line-no">028</span><span id="line-28">         *</span>
-<span class="source-line-no">029</span><span id="line-29">         * @return the SQL representation of the function</span>
-<span class="source-line-no">030</span><span id="line-30">         * @throws EvalException If an exception occured during translation (e.g. missing arguments, arguments of wrong type, invalid arguments).</span>
-<span class="source-line-no">031</span><span id="line-31">         * @throws EvalFallbackException If this expression should be evaluated at runtime instead of being translated  </span>
-<span class="source-line-no">032</span><span id="line-32">         */</span>
-<span class="source-line-no">033</span><span id="line-33">        public abstract String toSql(String functionName, EvalContext evalContext, List&lt;Object&gt; arguments)</span>
-<span class="source-line-no">034</span><span id="line-34">                throws EvalException, EvalFallbackException;</span>
-<span class="source-line-no">035</span><span id="line-35">}</span>
+<span class="source-line-no">005</span><span id="line-5">import com.randomnoun.common.jexl.eval.*;</span>
+<span class="source-line-no">006</span><span id="line-6"></span>
+<span class="source-line-no">007</span><span id="line-7">/**</span>
+<span class="source-line-no">008</span><span id="line-8"> * A function which can be translated into SQL. These functions should be</span>
+<span class="source-line-no">009</span><span id="line-9"> * set in an SqlGenerator's context to allow expressions to use those functions.</span>
+<span class="source-line-no">010</span><span id="line-10"> *</span>
+<span class="source-line-no">011</span><span id="line-11"> * &lt;p&gt;This class defines a number of 'standard' functions, which can be used;</span>
+<span class="source-line-no">012</span><span id="line-12"> * they subclass the functions in EvalFunction of the same name, so that they can work</span>
+<span class="source-line-no">013</span><span id="line-13"> * in both the Evaluator and SqlGenerator AST visitors.</span>
+<span class="source-line-no">014</span><span id="line-14"> *</span>
+<span class="source-line-no">015</span><span id="line-15"> * </span>
+<span class="source-line-no">016</span><span id="line-16"> * @author knoxg</span>
+<span class="source-line-no">017</span><span id="line-17"> */</span>
+<span class="source-line-no">018</span><span id="line-18">public interface SqlFunction {</span>
+<span class="source-line-no">019</span><span id="line-19"></span>
+<span class="source-line-no">020</span><span id="line-20">        /** All SQL functions must implement this method. It returns the SQL required for</span>
+<span class="source-line-no">021</span><span id="line-21">         *  the database to evaluate the function. evalContext can be used to get the</span>
+<span class="source-line-no">022</span><span id="line-22">         *  database type, if required.</span>
+<span class="source-line-no">023</span><span id="line-23">         *</span>
+<span class="source-line-no">024</span><span id="line-24">         * @param functionName The name of the function being translated</span>
+<span class="source-line-no">025</span><span id="line-25">         * @param evalContext  The evaluation context of the SqlGenerator doing the translation</span>
+<span class="source-line-no">026</span><span id="line-26">         * @param arguments    The arguments to the function</span>
+<span class="source-line-no">027</span><span id="line-27">         *</span>
+<span class="source-line-no">028</span><span id="line-28">         * @return the SQL representation of the function</span>
+<span class="source-line-no">029</span><span id="line-29">         * @throws EvalException If an exception occured during translation (e.g. missing arguments, arguments of wrong type, invalid arguments).</span>
+<span class="source-line-no">030</span><span id="line-30">         * @throws EvalFallbackException If this expression should be evaluated at runtime instead of being translated  </span>
+<span class="source-line-no">031</span><span id="line-31">         */</span>
+<span class="source-line-no">032</span><span id="line-32">        public abstract String toSql(String functionName, EvalContext evalContext, List&lt;Object&gt; arguments)</span>
+<span class="source-line-no">033</span><span id="line-33">                throws EvalException, EvalFallbackException;</span>
+<span class="source-line-no">034</span><span id="line-34">}</span>
 
 
 
